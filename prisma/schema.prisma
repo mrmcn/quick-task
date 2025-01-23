@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model customers {
+  id        String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String @db.VarChar(255)
+  email     String @db.VarChar(255)
+  image_url String @db.VarChar(255)
+}
+
+model invoices {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  customer_id String   @db.Uuid
+  amount      Int
+  status      String   @db.VarChar(255)
+  date        DateTime @db.Date
+}
+
+model revenue {
+  month   String @unique @db.VarChar(4)
+  revenue Int
+}
+
+model users {
+  id       String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name     String @db.VarChar(255)
+  email    String @unique
+  password String
+  tasks    Task[]
+}
+
+model Task {
+  id       String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  summary  String   @db.VarChar(255)
+  details  String   @db.VarChar(255)
+  priority Priority @default(high)
+  status   Status   @default(in_progress)
+  date     DateTime @default(now())
+  author   users    @relation(fields: [authorId], references: [id])
+  authorId String
+}
+
+enum Priority {
+  high
+  low
+}
+
+enum Status {
+  completed
+  in_progress
+}
