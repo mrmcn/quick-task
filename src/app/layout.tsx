@@ -1,4 +1,5 @@
 import theme from '@/theme'
+import MainBox from '@/ui/root/root-layout/main-box'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'
@@ -25,7 +26,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>+{' '}
+          <ThemeProvider theme={theme}>
+            <MainBox>{children}</MainBox>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
