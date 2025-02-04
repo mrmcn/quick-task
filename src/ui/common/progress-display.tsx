@@ -5,7 +5,7 @@ export default function ProgressDisplay({
   value,
 }: {
   name: string
-  value: string
+  value: number
 }) {
   return (
     <Paper sx={{ width: { xs: '20vh', sm: '20vh' } }}>

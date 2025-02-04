@@ -1,6 +1,6 @@
 import TasksDisplay from '@/ui/common/accordion-tasks/tasks-display'
-import AddTaskBtn from '@/ui/common/add-btn'
-import SampleControlDisplay from '@/ui/root/root-page/control-display/sample-display'
+import AddTaskBtn from '@/ui/common/add-task-btn'
+import ControlDisplay from '@/ui/common/control-display'
 import { Box } from '@mui/material'
 
 const tasksSample = [
@@ -12,7 +12,11 @@ const tasksSample = [
 export default function RootPage() {
   return (
     <Box component='main'>
-      <SampleControlDisplay />
+      <ControlDisplay
+        completed={1}
+        pending={2}
+        progress={33}
+      />
       <AddTaskBtn />
       <TasksDisplay tasks={tasksSample} />
     </Box>

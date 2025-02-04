@@ -1,5 +1,5 @@
 import theme from '@/theme'
-import MainBox from '@/ui/root/root-layout/main-box'
+import MainBox from '@/ui/root/main-box'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'

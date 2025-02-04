@@ -9,7 +9,6 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 export default function AccordionTask({
-  id,
   summary,
   details,
 }: AccordionTaskProps) {
@@ -17,8 +16,8 @@ export default function AccordionTask({
     <Accordion elevation={5}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        aria-controls={`panel${id}-content`}
-        id={`panel${id}-header`}
+        aria-controls={`panel${summary}-content`}
+        id={`panel${summary}-header`}
       >
         <Typography component='span'>
           <Box sx={{ fontSize: 20 }}>{summary}</Box>
