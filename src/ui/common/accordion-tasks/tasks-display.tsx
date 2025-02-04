@@ -18,7 +18,7 @@ export default function TasksDisplay({
 }
 
 export interface AccordionTaskProps {
-  id: string
+  id?: string
   summary: string
   details: string
 }

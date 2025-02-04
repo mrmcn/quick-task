@@ -1,4 +1,3 @@
-import { AccordionTaskProps } from '@/lib/definitions'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/material'
 import Accordion from '@mui/material/Accordion'
@@ -7,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import { AccordionTaskProps } from './tasks-display'
 
 export default function AccordionTask({
   summary,
