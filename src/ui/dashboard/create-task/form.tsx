@@ -1,18 +1,29 @@
 'use client'
 
 import { createTask } from '@/lib/actions'
-import { Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  TextField,
+  Typography,
+} from '@mui/material'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+import Link from 'next/link'
+import { useActionState } from 'react'
 
-export default function AddForm() {
+export default function CreateForm() {
+  const [state, formAction, isPending] = useActionState(createTask, undefined)
+
   return (
     <Container
       component='form'
-      action={createTask}
+      action={formAction}
       maxWidth='xs'
       sx={{
         mt: '20vh',
@@ -44,6 +55,8 @@ export default function AddForm() {
         type='text'
         name='details'
         placeholder='Enter details'
+        multiline
+        rows={4}
         required
         margin='dense'
       />
@@ -66,18 +79,51 @@ export default function AddForm() {
           />
         </RadioGroup>
       </FormControl>
-      <input
-        type='hidden'
-        name='redirectTo'
-        value='/dashboard'
-      />
-      <Button
-        type='submit'
-        name='authorId'
-        value='35cc0da1-fc3b-47bc-867a-f4e887485a39'
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          '& > *': {
+            m: 1,
+          },
+        }}
       >
-        Create ...
-      </Button>
+        <ButtonGroup
+          variant='text'
+          aria-label='Button group'
+        >
+          <Button
+            type='submit'
+            name='authorId'
+            value='35cc0da1-fc3b-47bc-867a-f4e887485a39'
+            loading={isPending}
+            loadingPosition='center'
+            aria-disabled={isPending}
+          >
+            Create ...
+          </Button>
+          <Button
+            component={Link}
+            href='/dashboard'
+          >
+            Cancel
+          </Button>
+        </ButtonGroup>
+      </Box>
+      {state && (
+        <Typography
+          component='p'
+          variant='h5'
+          color='error'
+          align='center'
+          gutterBottom
+          aria-live='polite'
+          aria-atomic='true'
+        >
+          {state}
+        </Typography>
+      )}
     </Container>
   )
 }

@@ -1,5 +1,5 @@
 import TasksDisplay from '@/ui/common/accordion-tasks/tasks-display'
-import AddTaskBtn from '@/ui/common/add-task-btn'
+import AddTaskBtn from '@/ui/common/create-task-btn'
 import ControlDisplay from '@/ui/common/control-display'
 import { Box } from '@mui/material'
 

@@ -6,11 +6,13 @@ export default function TasksDisplay({
 }: {
   tasks: AccordionTaskProps[]
 }) {
-  const listItem = tasks.map(({ id, summary, details }) => (
+  const listItem = tasks.map(({ id, summary, details, priority }) => (
     <AccordionTask
       key={id}
+      id={id}
       summary={summary}
       details={details}
+      priority={priority}
     />
   ))
 
@@ -18,7 +20,8 @@ export default function TasksDisplay({
 }
 
 export interface AccordionTaskProps {
-  id?: string
+  id: string
   summary: string
   details: string
+  priority: 'high' | 'low'
 }

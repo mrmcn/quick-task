@@ -1,14 +1,27 @@
-import { z } from 'zod'
 import prisma from './prisma'
 
 export async function fetchTasksData() {
   try {
     const tasks = await prisma.task.findMany({
       where: { authorId: '35cc0da1-fc3b-47bc-867a-f4e887485a39' },
-      select: { id: true, summary: true, details: true },
+      select: { id: true, summary: true, details: true, priority: true },
     })
 
     return tasks
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch display data.')
+  }
+}
+
+export async function fetchTaskData(id: string) {
+  try {
+    const task = prisma.task.findUniqueOrThrow({
+      where: { id: id },
+      select: { summary: true, details: true, priority: true, status: true },
+    })
+
+    return task
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')
@@ -44,38 +57,4 @@ export async function fetchDisplayData() {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')
   }
-}
-
-const FormSchema = z.object({
-  id: z.string(),
-  summary: z.string(),
-  details: z.string(),
-  date: z.date(),
-  priority: z.enum(['high', 'low']),
-  status: z.enum(['completed', 'in_progress']),
-  authorId: z.string(),
-})
-
-const CreateTask = FormSchema.omit({
-  id: true,
-  date: true,
-  status: true,
-})
-
-export async function CreateNewTask(formData: FormData) {
-  const { summary, details, priority, authorId } = CreateTask.parse({
-    summary: formData.get('summary'),
-    details: formData.get('details'),
-    priority: formData.get('priority'),
-    authorId: formData.get('authorId'),
-  })
-
-  await prisma.task.create({
-    data: {
-      summary,
-      details,
-      priority,
-      authorId,
-    },
-  })
 }

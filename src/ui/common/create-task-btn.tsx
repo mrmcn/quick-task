@@ -10,7 +10,7 @@ export default function AddTaskBtn() {
     >
       <Button
         component={Link}
-        href='/dashboard/add-task'
+        href='/dashboard/create'
         startIcon={<AddIcon />}
       >
         ADD TASK

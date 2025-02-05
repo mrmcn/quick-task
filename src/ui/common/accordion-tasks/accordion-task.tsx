@@ -7,11 +7,16 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { AccordionTaskProps } from './tasks-display'
+import Link from 'next/link'
+import { deleteTask } from '@/lib/actions'
 
 export default function AccordionTask({
+  id,
   summary,
   details,
 }: AccordionTaskProps) {
+  // const deleteTaskWithId = deleteTask.bind(null, id)
+
   return (
     <Accordion elevation={5}>
       <AccordionSummary
@@ -27,8 +32,13 @@ export default function AccordionTask({
         <Typography sx={{ color: 'success.main', ml: 5 }}>{details}</Typography>
       </AccordionDetails>
       <AccordionActions>
-        <Button>Edit</Button>
-        <Button>Delete</Button>
+        <Button
+          component={Link}
+          href={`/dashboard/${id}/edit`}
+        >
+          Edit
+        </Button>
+        <Button onClick={deleteTask.bind(null, id)}>Delete</Button>
       </AccordionActions>
     </Accordion>
   )
