@@ -15,8 +15,6 @@ export default function AccordionTask({
   summary,
   details,
 }: AccordionTaskProps) {
-  // const deleteTaskWithId = deleteTask.bind(null, id)
-
   return (
     <Accordion elevation={5}>
       <AccordionSummary

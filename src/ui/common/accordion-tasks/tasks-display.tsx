@@ -1,5 +1,6 @@
 import AccordionTask from '@/ui/common/accordion-tasks/accordion-task'
 import { Box } from '@mui/material'
+import { $Enums } from '@prisma/client'
 
 export default function TasksDisplay({
   tasks,
@@ -23,5 +24,5 @@ export interface AccordionTaskProps {
   id: string
   summary: string
   details: string
-  priority: 'high' | 'low'
+  priority: $Enums.Priority
 }
