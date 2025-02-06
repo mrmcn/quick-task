@@ -1,20 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server'
 
+import prisma from '@/lib/prisma'
+import { AuthError } from 'next-auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
-import prisma from './prisma'
+import { signIn } from '../../auth'
+import { TaskFormSchema } from './zod'
 
-const TaskFormSchema = z.object({
-  id: z.string(),
-  summary: z.string(),
-  details: z.string(),
-  date: z.date(),
-  priority: z.enum(['high', 'low']),
-  status: z.enum(['completed', 'in_progress']),
-  authorId: z.string(),
-})
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData)
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.'
+        default:
+          return 'Something went wrong.'
+      }
+    }
+    throw error
+  }
+}
 
 const CreateTask = TaskFormSchema.omit({
   id: true,
