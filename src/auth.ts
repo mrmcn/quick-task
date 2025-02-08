@@ -38,7 +38,7 @@ async function getUser(email: string) {
     const user = await prisma.user.findUnique({
       where: { email: email },
     })
-    console.log('getUser1')
+    console.log('getUser2')
 
     return user
   } catch (error) {

@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { NextAuthConfig } from 'next-auth'
 import { type DefaultSession } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
+import 'next-auth/jwt'
 
 export const authConfig = {
   pages: {
