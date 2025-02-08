@@ -1,11 +1,11 @@
-// import { auth } from '@/auth'
+import { auth } from '@/auth'
 import { LogOut } from '@/ui/logout/form'
 import Link from 'next/link'
 
 export default async function Dashboard() {
   console.log('Dashboard')
 
-  // const session = await auth()
+  const session = await auth()
 
   return (
     <>
@@ -23,8 +23,8 @@ export default async function Dashboard() {
       </nav>
       <LogOut />
       <div>
-        {/* <h1>Hi, {session?.user.name}.</h1> */}
-        {/* <p>You id: {session?.user.id}</p> */}
+        <h1>Hi, {session?.user.name}.</h1>
+        <p>You id: {session?.user.id}</p>
       </div>
     </>
   )
