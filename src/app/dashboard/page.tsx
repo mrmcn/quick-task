@@ -3,6 +3,8 @@ import { LogOut } from '@/ui/logout/form'
 import Link from 'next/link'
 
 export default async function Dashboard() {
+  console.log('Dashboard')
+
   const session = await auth()
 
   return (

@@ -19,6 +19,8 @@ export const { auth, signIn, signOut } = NextAuth({
           if (!user) return null
 
           const passwordsMatch = await bcrypt.compare(password, user.password)
+          console.log('passwordsMatch')
+
           if (passwordsMatch) return user
         }
 
@@ -30,10 +32,13 @@ export const { auth, signIn, signOut } = NextAuth({
 })
 
 async function getUser(email: string) {
+  console.log('getUser1')
+
   try {
     const user = await prisma.user.findUnique({
       where: { email: email },
     })
+    console.log('getUser1')
 
     return user
   } catch (error) {
