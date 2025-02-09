@@ -3,6 +3,8 @@
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
 
+export async function deleteTask(id) {}
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,

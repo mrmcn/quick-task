@@ -1,8 +1,15 @@
 import { auth } from '@/auth'
+import { fetchStatusMonitoringData } from '@/lib/data'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default async function Dashboard() {
   const session = await auth()
+  if (session === null) return redirect('/signin')
+  const authorId = session.user.id
+  const { completed, pending, progress } = await fetchStatusMonitoringData(
+    authorId,
+  )
 
   return (
     <>
