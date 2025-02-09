@@ -28,6 +28,7 @@ export default async function Dashboard() {
       <div>
         <h1>Hi, {session?.user.name}.</h1>
         <p>You id: {session?.user.id}</p>
+        {completed} {pending} {progress}
       </div>
     </>
   )
