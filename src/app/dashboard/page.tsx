@@ -1,6 +1,9 @@
 import { auth } from '@/auth'
-import { fetchStatusMonitoringData } from '@/lib/data'
-import Link from 'next/link'
+import { fetchStatusMonitoringData, fetchTasksData } from '@/lib/data'
+import CreateTaskBtn from '@/ui/common/create-task-btn'
+import MonitoringScreen from '@/ui/common/monitoring-screen'
+import ViewTasks from '@/ui/common/view tasks/view-tasks'
+import Box from '@mui/material/Box'
 import { redirect } from 'next/navigation'
 
 export default async function Dashboard() {
@@ -10,26 +13,17 @@ export default async function Dashboard() {
   const { completed, pending, progress } = await fetchStatusMonitoringData(
     authorId,
   )
+  const tasks = await fetchTasksData(authorId)
 
   return (
-    <>
-      <h1>Dashboard page</h1>
-      <nav>
-        <div>
-          <Link href='/'>home</Link>
-        </div>
-        <div>
-          <Link href='/sample'>sample</Link>
-        </div>
-        <div>
-          <Link href='/signin'>login</Link>
-        </div>
-      </nav>
-      <div>
-        <h1>Hi, {session?.user.name}.</h1>
-        <p>You id: {session?.user.id}</p>
-        {completed} {pending} {progress}
-      </div>
-    </>
+    <Box component='main'>
+      <MonitoringScreen
+        completed={completed}
+        pending={pending}
+        progress={progress}
+      />
+      <CreateTaskBtn />
+      <ViewTasks tasks={tasks} />
+    </Box>
   )
 }

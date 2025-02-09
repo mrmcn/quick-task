@@ -1,5 +1,33 @@
 import prisma from './prisma'
 
+export async function fetchTasksData(authorId: string) {
+  try {
+    const tasks = await prisma.task.findMany({
+      where: { authorId: authorId },
+      select: { id: true, summary: true, details: true, priority: true },
+    })
+
+    return tasks
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch display data.')
+  }
+}
+
+export async function fetchTaskIdData(id: string) {
+  try {
+    const task = prisma.task.findUniqueOrThrow({
+      where: { id: id },
+      select: { summary: true, details: true, priority: true, status: true },
+    })
+
+    return task
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch display data.')
+  }
+}
+
 export async function fetchStatusMonitoringData(authorId: string) {
   try {
     const groupInProgress = await prisma.task.groupBy({

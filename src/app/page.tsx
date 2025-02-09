@@ -3,6 +3,7 @@ import MonitoringScreen from '@/ui/common/monitoring-screen'
 import ViewTasks, {
   AccordionTaskProps,
 } from '@/ui/common/view tasks/view-tasks'
+import Box from '@mui/material/Box'
 import Link from 'next/link'
 
 const tasksSample: AccordionTaskProps[] = [
@@ -13,7 +14,7 @@ const tasksSample: AccordionTaskProps[] = [
 
 export default async function Home() {
   return (
-    <>
+    <Box component='main'>
       <h1>Home page</h1>
       <nav>
         <div>
@@ -33,6 +34,6 @@ export default async function Home() {
       />
       <CreateTaskBtn />
       <ViewTasks tasks={tasksSample} />
-    </>
+    </Box>
   )
 }
