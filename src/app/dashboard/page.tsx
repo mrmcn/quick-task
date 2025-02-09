@@ -1,10 +1,7 @@
 import { auth } from '@/auth'
-import { LogOut } from '@/ui/logout/form'
 import Link from 'next/link'
 
 export default async function Dashboard() {
-  console.log('Dashboard')
-
   const session = await auth()
 
   return (
@@ -18,10 +15,9 @@ export default async function Dashboard() {
           <Link href='/sample'>sample</Link>
         </div>
         <div>
-          <Link href='/login'>login</Link>
+          <Link href='/signin'>login</Link>
         </div>
       </nav>
-      <LogOut />
       <div>
         <h1>Hi, {session?.user.name}.</h1>
         <p>You id: {session?.user.id}</p>

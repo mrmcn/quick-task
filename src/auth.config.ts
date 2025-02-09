@@ -4,7 +4,7 @@ import 'next-auth/jwt'
 
 export const authConfig = {
   pages: {
-    signIn: '/login',
+    signIn: '/signin',
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {

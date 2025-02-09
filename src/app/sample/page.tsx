@@ -9,7 +9,7 @@ export default function Sample() {
           <Link href='/'>home</Link>
         </div>
         <div>
-          <Link href='/login'>login</Link>
+          <Link href='/signin'>login</Link>
         </div>
         <div>
           <Link href='/dashboard'>dashboard</Link>
