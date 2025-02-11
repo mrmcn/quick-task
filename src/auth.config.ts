@@ -14,7 +14,10 @@ export const authConfig = {
       if (isOnDashboard || isOnUser) {
         if (isLoggedIn) return true
         return false
-      } else return true
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL('/dashboard', nextUrl))
+      }
+      return true
     },
     jwt({ token, user }) {
       if (user) {

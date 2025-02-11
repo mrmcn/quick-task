@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation'
 
 export default async function Dashboard() {
   const session = await auth()
-  if (session === null) return redirect('/signin')
+  if (!session) return redirect('/signin')
   const authorId = session.user.id
   const { completed, pending, progress } = await fetchStatusMonitoringData(
     authorId,
