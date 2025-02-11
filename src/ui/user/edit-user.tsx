@@ -1,12 +1,18 @@
-import { updateUserEmail, updateUserName } from '@/lib/actions'
+import { auth } from '@/auth'
+import { deleteUser, updateUserEmail, updateUserName } from '@/lib/actions'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { redirect } from 'next/navigation'
 import { SignOut } from '../signout/form'
 import EditForm from './edit-form'
 import PasswordForm from './password-form'
-import Box from '@mui/material/Box'
 
-export default function EditUser() {
+export default async function EditUser() {
+  const session = await auth()
+  if (!session) return redirect('/')
+
   return (
     <>
       <Box sx={{ mt: '3vh', mr: '2vw', textAlign: 'right' }}>
@@ -24,7 +30,7 @@ export default function EditUser() {
         direction={{ xs: 'column', sm: 'row' }}
         spacing={{ xs: 3, sm: 6 }}
         sx={{
-          mt: { xs: '10vh', sm: '20vh' },
+          mt: { xs: '5vh', sm: '10vh' },
           justifyContent: 'center',
         }}
       >
@@ -42,6 +48,20 @@ export default function EditUser() {
         />
         <PasswordForm />
       </Stack>
+      <Box
+        sx={{
+          mt: '20vw',
+          mr: '2vw',
+          textAlign: 'right',
+        }}
+      >
+        <Button
+          color='error'
+          onClick={deleteUser.bind(null, session.user.id)}
+        >
+          Delete account
+        </Button>
+      </Box>
     </>
   )
 }

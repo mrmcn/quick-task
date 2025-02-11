@@ -62,7 +62,9 @@ export async function fetchStatusMonitoringData(authorId: string) {
     }
 
     const progress =
-      pending === 0 ? 0 : Math.round((completed * 100) / (completed + pending))
+      completed + pending === 0
+        ? 0
+        : Math.round((completed * 100) / (completed + pending))
 
     return { completed, pending, progress }
   } catch (error) {

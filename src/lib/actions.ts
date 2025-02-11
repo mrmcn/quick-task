@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server'
 
-import { auth, signIn } from '@/auth'
+import { auth, signIn, signOut } from '@/auth'
 import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
 import { revalidatePath } from 'next/cache'
@@ -197,6 +197,18 @@ export async function deleteTask(id: string) {
   }
 
   revalidatePath('/dashboard')
+}
+
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({
+      where: { id: id },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  await signOut({ redirectTo: '/' })
 }
 
 export async function authenticate(
