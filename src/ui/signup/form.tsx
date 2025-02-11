@@ -1,20 +1,17 @@
 'use client'
 
-import { authenticate } from '@/lib/actions'
+import { createUser } from '@/lib/actions'
 import { useVisibility } from '@/lib/hooks'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { useActionState } from 'react'
 
-export default function SigninForm() {
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
+export default function SignupForm() {
   const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
+    createUser,
     undefined,
   )
   const { input, type } = useVisibility()
@@ -37,7 +34,7 @@ export default function SigninForm() {
         gutterBottom
         align='center'
       >
-        Please sign in to continue.
+        Please create account to continue.
       </Typography>
       <TextField
         label='email'
@@ -63,19 +60,16 @@ export default function SigninForm() {
       />
       <Button
         type='submit'
-        name='redirectTo'
-        value={callbackUrl}
         disabled={isPending}
         aria-disabled={isPending}
       >
-        Sign in ...
+        Sign up ...
       </Button>
-      <Typography align='center'>or</Typography>
       <Button
         component={Link}
-        href='/signup'
+        href='/'
       >
-        Sign up ...
+        Cancel
       </Button>
       {errorMessage && (
         <Typography

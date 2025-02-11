@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation'
 import prisma from './prisma'
 import {
   CreateTask,
+  SignUpSchema,
   UpdateTask,
   UserEmailSchema,
   UserNameSchema,
@@ -38,6 +39,34 @@ export async function createTask(prevState: any, formData: FormData) {
         details,
         priority,
         authorId,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  revalidatePath('/dashboard')
+  redirect('/dashboard')
+}
+
+export async function createUser(prevState: any, formData: FormData) {
+  const validatedFields = SignUpSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  })
+
+  if (!validatedFields.success) {
+    return 'Missing Fields. Failed to Create Task.'
+  }
+
+  const { email, password } = validatedFields.data
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  try {
+    await prisma.user.create({
+      data: {
+        email: email,
+        password: hashedPassword,
       },
     })
   } catch (error) {

@@ -46,3 +46,7 @@ export const UserPasswordSchema = UserSchema.omit({
 export const SignInSchema = UserSchema.omit({
   name: true,
 })
+
+export const SignUpSchema = UserSchema.omit({
+  name: true,
+})

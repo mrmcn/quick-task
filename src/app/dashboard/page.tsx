@@ -23,7 +23,7 @@ export default async function Dashboard() {
         progress={progress}
       />
       <CreateTaskBtn />
-      <ViewTasks tasks={tasks} />
+      {tasks.length !== 0 ? <ViewTasks tasks={tasks} /> : null}
     </Box>
   )
 }
