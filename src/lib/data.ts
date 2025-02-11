@@ -4,7 +4,13 @@ export async function fetchTasksData(authorId: string) {
   try {
     const tasks = await prisma.task.findMany({
       where: { authorId: authorId },
-      select: { id: true, summary: true, details: true, priority: true },
+      select: {
+        id: true,
+        summary: true,
+        details: true,
+        priority: true,
+        status: true,
+      },
     })
 
     return tasks
@@ -18,7 +24,13 @@ export async function fetchTaskIdData(id: string) {
   try {
     const task = prisma.task.findUniqueOrThrow({
       where: { id: id },
-      select: { summary: true, details: true, priority: true, status: true },
+      select: {
+        id: true,
+        summary: true,
+        details: true,
+        priority: true,
+        status: true,
+      },
     })
 
     return task
@@ -52,6 +64,22 @@ export async function fetchStatusMonitoringData(authorId: string) {
     const progress = Math.round((completed * 100) / (completed + pending))
 
     return { completed, pending, progress }
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch display data.')
+  }
+}
+
+export async function fetchUserName(userId: string) {
+  try {
+    const userName = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        name: true,
+      },
+    })
+
+    return userName
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')

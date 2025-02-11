@@ -16,13 +16,9 @@ import { $Enums } from '@prisma/client'
 import Link from 'next/link'
 import { useActionState } from 'react'
 
-export default function EditTaskForm({ task, id }: EditTaskFormProps) {
-  const updateTaskWithId = updateTask.bind(null, id)
-  const [state, formAction, isPending] = useActionState(
-    updateTaskWithId,
-    undefined,
-  )
-  const { details, priority, status, summary } = task
+export default function EditTaskForm({ task }: EditTaskFormProps) {
+  const [state, formAction, isPending] = useActionState(updateTask, undefined)
+  const { id, details, priority, status, summary } = task
 
   return (
     <Container
@@ -104,6 +100,11 @@ export default function EditTaskForm({ task, id }: EditTaskFormProps) {
           />
         </RadioGroup>
       </FormControl>
+      <input
+        type='hidden'
+        name='taskId'
+        value={id}
+      />
       <Box
         sx={{
           display: 'flex',
@@ -117,8 +118,6 @@ export default function EditTaskForm({ task, id }: EditTaskFormProps) {
         >
           <Button
             type='submit'
-            name='authorId'
-            value='35cc0da1-fc3b-47bc-867a-f4e887485a39'
             loading={isPending}
             loadingPosition='center'
             aria-disabled={isPending}
@@ -153,10 +152,10 @@ export default function EditTaskForm({ task, id }: EditTaskFormProps) {
 
 interface EditTaskFormProps {
   task: {
+    id: string
     summary: string
     details: string
     priority: $Enums.Priority
     status: $Enums.Status
   }
-  id: string
 }

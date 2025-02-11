@@ -90,8 +90,6 @@ export default function CreateForm() {
         >
           <Button
             type='submit'
-            name='authorId'
-            value='35cc0da1-fc3b-47bc-867a-f4e887485a39'
             loading={isPending}
             loadingPosition='center'
             aria-disabled={isPending}

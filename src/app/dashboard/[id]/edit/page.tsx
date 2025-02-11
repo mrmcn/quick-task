@@ -12,10 +12,5 @@ export default async function EditTaskPage(props: {
     notFound()
   }
 
-  return (
-    <EditTaskForm
-      task={task}
-      id={id}
-    />
-  )
+  return <EditTaskForm task={task} />
 }

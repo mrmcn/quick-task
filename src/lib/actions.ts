@@ -1,26 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server'
 
-import { signIn } from '@/auth'
+import { auth, signIn } from '@/auth'
+import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import prisma from './prisma'
-import { CreateTask, UpdateTask } from './zod'
+import {
+  CreateTask,
+  UpdateTask,
+  UserEmailSchema,
+  UserNameSchema,
+  UserPasswordSchema,
+} from './zod'
 
 export async function createTask(prevState: any, formData: FormData) {
+  const session = await auth()
+  if (!session) return redirect('/signin')
+  const authorId = session?.user.id
   const validatedFields = CreateTask.safeParse({
     summary: formData.get('summary'),
     details: formData.get('details'),
     priority: formData.get('priority'),
-    authorId: formData.get('authorId'),
   })
 
   if (!validatedFields.success) {
     return 'Missing Fields. Failed to Create Task.'
   }
 
-  const { summary, details, priority, authorId } = validatedFields.data
+  const { summary, details, priority } = validatedFields.data
 
   try {
     await prisma.task.create({
@@ -39,12 +48,88 @@ export async function createTask(prevState: any, formData: FormData) {
   redirect('/dashboard')
 }
 
-export async function updateTask(
-  id: string,
-  prevState: any,
-  formData: FormData,
-) {
+export async function updateUserName(prevState: any, formData: FormData) {
+  const session = await auth()
+  const id = session?.user.id
+  const validatedFields = UserNameSchema.safeParse({
+    name: formData.get('name'),
+  })
+
+  if (!validatedFields.success) {
+    return 'Missing Fields. Failed to update user.'
+  }
+  const { name } = validatedFields.data
+  try {
+    await prisma.user.update({
+      where: { id: id },
+      data: {
+        name: name,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  revalidatePath('/user')
+  redirect('/dashboard')
+}
+
+export async function updateUserEmail(prevState: any, formData: FormData) {
+  const session = await auth()
+  const id = session?.user.id
+  const validatedFields = UserEmailSchema.safeParse({
+    email: formData.get('email'),
+  })
+
+  if (!validatedFields.success) {
+    return 'Missing Fields. Failed to update user.'
+  }
+  const { email } = validatedFields.data
+  try {
+    await prisma.user.update({
+      where: { id: id },
+      data: {
+        email: email,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  revalidatePath('/user')
+  redirect('/dashboard')
+}
+
+export async function updateUserPassword(prevState: any, formData: FormData) {
+  const session = await auth()
+  const id = session?.user.id
+  const validatedFields = UserPasswordSchema.safeParse({
+    password: formData.get('password'),
+  })
+
+  if (!validatedFields.success) {
+    return 'Missing Fields. Failed to update user.'
+  }
+  const { password } = validatedFields.data
+  const hashedPassword = await bcrypt.hash(password, 10)
+  try {
+    await prisma.user.update({
+      where: { id: id },
+      data: {
+        password: hashedPassword,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  revalidatePath('/user')
+  redirect('/dashboard')
+}
+
+export async function updateTask(prevState: any, formData: FormData) {
   const validatedFields = UpdateTask.safeParse({
+    id: formData.get('taskId'),
     summary: formData.get('summary'),
     details: formData.get('details'),
     priority: formData.get('priority'),
@@ -52,9 +137,9 @@ export async function updateTask(
   })
 
   if (!validatedFields.success) {
-    return 'Missing Fields. Failed to Create Invoice.'
+    return 'Missing Fields. Failed to update task.'
   }
-  const { summary, details, priority, status } = validatedFields.data
+  const { id, summary, details, priority, status } = validatedFields.data
   try {
     await prisma.task.update({
       where: { id: id },

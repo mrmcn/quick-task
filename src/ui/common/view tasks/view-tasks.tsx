@@ -3,13 +3,14 @@ import { $Enums } from '@prisma/client'
 import AccordionTask from './accordion-task'
 
 export default function ViewTasks({ tasks }: { tasks: AccordionTaskProps[] }) {
-  const listItem = tasks.map(({ id, summary, details, priority }) => (
+  const listItem = tasks.map(({ id, summary, details, priority, status }) => (
     <AccordionTask
       key={id}
       id={id}
       summary={summary}
       details={details}
       priority={priority}
+      status={status}
     />
   ))
 
@@ -21,4 +22,5 @@ export interface AccordionTaskProps {
   summary: string
   details: string
   priority: $Enums.Priority
+  status: $Enums.Status
 }

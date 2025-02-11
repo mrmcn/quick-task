@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import { fetchUserName } from '@/lib/data'
 import PersonIcon from '@mui/icons-material/Person'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -9,7 +10,6 @@ import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
-import { SignOut } from '../signout/form'
 
 export default async function MenuAppBar({
   children,
@@ -17,6 +17,12 @@ export default async function MenuAppBar({
   children: React.ReactNode
 }) {
   const session = await auth()
+
+  // if (!session) return redirect('/signin')
+  const data = session && (await fetchUserName(session.user.id))
+
+  // if (!data) throw new Error('User not found')
+  // const userName = data.name ?? 'User'
 
   return (
     <>
@@ -33,13 +39,19 @@ export default async function MenuAppBar({
                 >
                   QUICK TASK
                 </Typography>
-                <IconButton
-                  color='inherit'
-                  aria-label='delete'
-                >
-                  <PersonIcon />
-                </IconButton>
-                {session && <SignOut />}
+                {data && (
+                  <>
+                    <IconButton
+                      component={Link}
+                      color='inherit'
+                      href='/user'
+                      aria-label='delete'
+                    >
+                      <PersonIcon />
+                      <Typography>{data.name ?? 'User'}</Typography>
+                    </IconButton>
+                  </>
+                )}
                 <Button
                   component={Link}
                   color='inherit'

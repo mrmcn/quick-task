@@ -11,7 +11,6 @@ export const TaskFormSchema = z.object({
 })
 
 export const UpdateTask = TaskFormSchema.omit({
-  id: true,
   date: true,
   authorId: true,
 })
@@ -20,9 +19,30 @@ export const CreateTask = TaskFormSchema.omit({
   id: true,
   date: true,
   status: true,
+  authorId: true,
 })
 
-export const signInSchema = z.object({
+export const UserSchema = z.object({
+  name: z.string().min(3),
   email: z.string().email(),
   password: z.string().min(6),
+})
+
+export const UserNameSchema = UserSchema.omit({
+  email: true,
+  password: true,
+})
+
+export const UserEmailSchema = UserSchema.omit({
+  name: true,
+  password: true,
+})
+
+export const UserPasswordSchema = UserSchema.omit({
+  email: true,
+  name: true,
+})
+
+export const SignInSchema = UserSchema.omit({
+  name: true,
 })

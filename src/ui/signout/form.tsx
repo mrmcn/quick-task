@@ -8,12 +8,12 @@ export function SignOut() {
       component='form'
       action={async () => {
         'use server'
-        await signOut()
+        await signOut({ redirectTo: '/' })
       }}
     >
       <Button
         type='submit'
-        color='inherit'
+        color='error'
       >
         Sign Out
       </Button>
