@@ -1,4 +1,4 @@
-import { auth } from '@/auth'
+import { auth, signOut } from '@/auth'
 import { fetchUserName } from '@/lib/data'
 import PersonIcon from '@mui/icons-material/Person'
 import AppBar from '@mui/material/AppBar'
@@ -18,6 +18,7 @@ export default async function MenuAppBar({
 }) {
   const session = await auth()
   const data = session && (await fetchUserName(session.user.id))
+  if (session && !data) return signOut()
 
   return (
     <>
@@ -51,7 +52,7 @@ export default async function MenuAppBar({
                   component={Link}
                   color='inherit'
                   href='/signin'
-                  sx={{ display: session && data ? 'none' : 'block' }}
+                  sx={{ display: session ? 'none' : 'block' }}
                 >
                   Sign in
                 </Button>
