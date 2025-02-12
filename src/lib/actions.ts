@@ -201,9 +201,15 @@ export async function deleteTask(id: string) {
 
 export async function deleteUser(id: string) {
   try {
-    await prisma.user.delete({
+    const deleteTasks = prisma.task.deleteMany({
+      where: { authorId: id },
+    })
+
+    const deleteUser = prisma.user.delete({
       where: { id: id },
     })
+
+    await prisma.$transaction([deleteTasks, deleteUser])
   } catch (error) {
     throw error
   }
