@@ -17,12 +17,7 @@ export default async function MenuAppBar({
   children: React.ReactNode
 }) {
   const session = await auth()
-
-  // if (!session) return redirect('/signin')
   const data = session && (await fetchUserName(session.user.id))
-
-  // if (!data) throw new Error('User not found')
-  // const userName = data.name ?? 'User'
 
   return (
     <>
@@ -56,7 +51,7 @@ export default async function MenuAppBar({
                   component={Link}
                   color='inherit'
                   href='/signin'
-                  sx={{ display: session ? 'none' : 'block' }}
+                  sx={{ display: session && data ? 'none' : 'block' }}
                 >
                   Sign in
                 </Button>
