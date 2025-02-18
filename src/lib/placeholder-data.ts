@@ -1,7 +1,7 @@
 import { MonitoringScreenProps } from '@/ui/common/monitoring-states/monitor'
-import { AccordionTaskProps } from '@/ui/common/view tasks/view-tasks'
+import { TasksListProps } from '@/ui/common/tasks-list/list'
 
-export const TasksSample: AccordionTaskProps[] = [
+export const TasksSample: TasksListProps[] = [
   {
     id: '1',
     summary: 'Sample 1',
