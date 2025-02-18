@@ -1,6 +1,6 @@
 'use client'
 
-import { updateTask } from '@/lib/actions'
+import { deleteTask, updateTask } from '@/lib/actions'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -128,6 +128,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
           {state}
         </Typography>
       )}
+      <Button onClick={() => deleteTask(id)}>Delete</Button>
     </Container>
   )
 }

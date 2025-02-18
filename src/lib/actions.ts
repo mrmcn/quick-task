@@ -57,7 +57,7 @@ export async function createUser(prevState: any, formData: FormData) {
   })
 
   if (!validatedFields.success) {
-    return 'Missing Fields. Failed to Create Task.'
+    return 'Missing Fields. Failed to Create User.'
   }
 
   const { email, password } = validatedFields.data
@@ -212,6 +212,7 @@ export async function deleteTask(taskId: string) {
   }
 
   revalidatePath('/dashboard')
+  redirect('/dashboard')
 }
 
 export async function deleteUser() {

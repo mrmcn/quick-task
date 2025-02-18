@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add'
+import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Link from 'next/link'
 
 export default function CreateTaskBtn() {
@@ -9,13 +9,15 @@ export default function CreateTaskBtn() {
       component='article'
       sx={{ display: 'flex', justifyContent: 'flex-end', mt: '5vh' }}
     >
-      <Button
+      <IconButton
         component={Link}
         href='/dashboard/create'
-        startIcon={<AddIcon />}
+        size='large'
+        color='success'
+        aria-label='delete'
       >
-        Add task
-      </Button>
+        <AddIcon fontSize='large' />
+      </IconButton>
     </Box>
   )
 }
