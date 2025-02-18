@@ -1,18 +1,13 @@
-import { auth } from '@/auth'
 import { deleteUser, updateUserEmail, updateUserName } from '@/lib/actions'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { redirect } from 'next/navigation'
 import { SignOut } from '../signout/form'
 import EditForm from './edit-form'
 import PasswordForm from './password-form'
 
 export default async function EditUser() {
-  const session = await auth()
-  if (!session) return redirect('/')
-
   return (
     <>
       <Box sx={{ mt: '3vh', mr: '2vw', textAlign: 'right' }}>
@@ -57,7 +52,7 @@ export default async function EditUser() {
       >
         <Button
           color='error'
-          onClick={deleteUser.bind(null, session.user.id)}
+          onClick={deleteUser}
         >
           Delete account
         </Button>

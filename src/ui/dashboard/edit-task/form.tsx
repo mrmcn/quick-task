@@ -18,7 +18,7 @@ import { useActionState } from 'react'
 
 export default function EditTaskForm({ task }: EditTaskFormProps) {
   const [state, formAction, isPending] = useActionState(updateTask, undefined)
-  const { id, details, priority, status, summary } = task
+  const { id, details, priority, summary } = task
 
   return (
     <Container
@@ -65,9 +65,10 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
       <FormControl>
         <FormLabel id='priority-radio-buttons-group-label'>Priority</FormLabel>
         <RadioGroup
-          aria-labelledby='priority-radio-buttons-group-label'
+          row
           defaultValue={priority}
           name='priority'
+          aria-labelledby='priority-radio-buttons-group-label'
         >
           <FormControlLabel
             value='low'
@@ -78,25 +79,6 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
             value='high'
             control={<Radio />}
             label='high'
-          />
-        </RadioGroup>
-      </FormControl>
-      <FormControl>
-        <FormLabel id='status-radio-buttons-group-label'>Status</FormLabel>
-        <RadioGroup
-          aria-labelledby='status-radio-buttons-group-label'
-          defaultValue={status}
-          name='status'
-        >
-          <FormControlLabel
-            value='completed'
-            control={<Radio />}
-            label='completed'
-          />
-          <FormControlLabel
-            value='in_progress'
-            control={<Radio />}
-            label='in_progress'
           />
         </RadioGroup>
       </FormControl>
@@ -156,6 +138,5 @@ interface EditTaskFormProps {
     summary: string
     details: string
     priority: $Enums.Priority
-    status: $Enums.Status
   }
 }

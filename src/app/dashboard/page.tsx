@@ -1,29 +1,21 @@
-import { auth } from '@/auth'
-import { fetchStatusMonitoringData, fetchTasksData } from '@/lib/data'
 import CreateTaskBtn from '@/ui/common/create-task-btn'
-import MonitoringScreen from '@/ui/common/monitoring-screen'
-import ViewTasks from '@/ui/common/view tasks/view-tasks'
+import MonitoringStates from '@/ui/dashboard/page/monitoring-states'
+import TasksMonitor from '@/ui/dashboard/page/tasks-monitor'
+import CircularIndeterminate from '@/ui/skeletons/circular-indeterminate'
+import MonitoringScreenSkeleton from '@/ui/skeletons/monitoring-states'
 import Box from '@mui/material/Box'
-import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default async function Dashboard() {
-  const session = await auth()
-  if (!session) return redirect('/signin')
-  const authorId = session.user.id
-  const { completed, pending, progress } = await fetchStatusMonitoringData(
-    authorId,
-  )
-  const tasks = await fetchTasksData(authorId)
-
   return (
     <Box component='main'>
-      <MonitoringScreen
-        completed={completed}
-        pending={pending}
-        progress={progress}
-      />
+      <Suspense fallback={<MonitoringScreenSkeleton />}>
+        <MonitoringStates />
+      </Suspense>
       <CreateTaskBtn />
-      {tasks.length !== 0 ? <ViewTasks tasks={tasks} /> : null}
+      <Suspense fallback={<CircularIndeterminate />}>
+        <TasksMonitor />
+      </Suspense>
     </Box>
   )
 }

@@ -1,3 +1,4 @@
+import { MonitoringScreenProps } from '@/ui/common/monitoring-states/monitor'
 import { AccordionTaskProps } from '@/ui/common/view tasks/view-tasks'
 
 export const TasksSample: AccordionTaskProps[] = [
@@ -22,4 +23,16 @@ export const TasksSample: AccordionTaskProps[] = [
     priority: 'high',
     status: 'in_progress',
   },
+]
+
+export const MonitoringDataSample: MonitoringScreenProps = [
+  { name: 'Completed tasks', value: 2 },
+  { name: 'Pending tasks', value: 1 },
+  { name: 'Progress, %', value: 67 },
+]
+
+export const MonitoringDataSkeleton: MonitoringScreenProps = [
+  { name: 'Completed tasks', value: 0 },
+  { name: 'Pending tasks', value: 0 },
+  { name: 'Progress, %', value: 0 },
 ]

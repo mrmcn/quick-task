@@ -2,6 +2,7 @@
 'use server'
 
 import { auth, signIn, signOut } from '@/auth'
+import { $Enums } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { AuthError } from 'next-auth'
 import { revalidatePath } from 'next/cache'
@@ -156,26 +157,11 @@ export async function updateUserPassword(prevState: any, formData: FormData) {
   redirect('/dashboard')
 }
 
-export async function updateTask(prevState: any, formData: FormData) {
-  const validatedFields = UpdateTask.safeParse({
-    id: formData.get('taskId'),
-    summary: formData.get('summary'),
-    details: formData.get('details'),
-    priority: formData.get('priority'),
-    status: formData.get('status'),
-  })
-
-  if (!validatedFields.success) {
-    return 'Missing Fields. Failed to update task.'
-  }
-  const { id, summary, details, priority, status } = validatedFields.data
+export async function updateStatusTasks(id: string, status: $Enums.Status) {
   try {
     await prisma.task.update({
       where: { id: id },
       data: {
-        summary: summary,
-        details: details,
-        priority: priority,
         status: status,
       },
     })
@@ -187,10 +173,39 @@ export async function updateTask(prevState: any, formData: FormData) {
   redirect('/dashboard')
 }
 
-export async function deleteTask(id: string) {
+export async function updateTask(prevState: any, formData: FormData) {
+  const validatedFields = UpdateTask.safeParse({
+    id: formData.get('taskId'),
+    summary: formData.get('summary'),
+    details: formData.get('details'),
+    priority: formData.get('priority'),
+  })
+
+  if (!validatedFields.success) {
+    return 'Missing Fields. Failed to update task.'
+  }
+  const { id, summary, details, priority } = validatedFields.data
+  try {
+    await prisma.task.update({
+      where: { id: id },
+      data: {
+        summary: summary,
+        details: details,
+        priority: priority,
+      },
+    })
+  } catch (error) {
+    throw error
+  }
+
+  revalidatePath('/dashboard')
+  redirect('/dashboard')
+}
+
+export async function deleteTask(taskId: string) {
   try {
     await prisma.task.delete({
-      where: { id: id },
+      where: { id: taskId },
     })
   } catch (error) {
     throw error
@@ -199,14 +214,16 @@ export async function deleteTask(id: string) {
   revalidatePath('/dashboard')
 }
 
-export async function deleteUser(id: string) {
+export async function deleteUser() {
+  const session = await auth()
+  const userId = session?.user.id
   try {
     const deleteTasks = prisma.task.deleteMany({
-      where: { authorId: id },
+      where: { authorId: userId },
     })
 
     const deleteUser = prisma.user.delete({
-      where: { id: id },
+      where: { id: userId },
     })
 
     await prisma.$transaction([deleteTasks, deleteUser])

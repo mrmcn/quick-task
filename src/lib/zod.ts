@@ -10,9 +10,18 @@ export const TaskFormSchema = z.object({
   authorId: z.string(),
 })
 
+export const UpdateStatusTasks = TaskFormSchema.omit({
+  summary: true,
+  details: true,
+  date: true,
+  priority: true,
+  authorId: true,
+})
+
 export const UpdateTask = TaskFormSchema.omit({
   date: true,
   authorId: true,
+  status: true,
 })
 
 export const CreateTask = TaskFormSchema.omit({

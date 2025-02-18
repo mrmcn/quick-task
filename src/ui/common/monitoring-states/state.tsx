@@ -1,8 +1,9 @@
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { MonitoringStateProps } from './monitor'
 
-export default function IndicatorScreen({ name, value }: IndicatorScreenProps) {
+export default function MonitoringState({ name, value }: MonitoringStateProps) {
   return (
     <Paper sx={{ width: { xs: '20vh', sm: '20vh' } }}>
       <Stack
@@ -20,9 +21,4 @@ export default function IndicatorScreen({ name, value }: IndicatorScreenProps) {
       </Stack>
     </Paper>
   )
-}
-
-export interface IndicatorScreenProps {
-  name: string
-  value: number
 }

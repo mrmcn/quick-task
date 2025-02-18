@@ -61,9 +61,10 @@ export default function CreateForm() {
       <FormControl>
         <FormLabel id='priority-radio-buttons-group-label'>Priority</FormLabel>
         <RadioGroup
-          aria-labelledby='priority-radio-buttons-group-label'
+          row
           defaultValue='low'
           name='priority'
+          aria-labelledby='priority-radio-buttons-group-label'
         >
           <FormControlLabel
             value='low'
