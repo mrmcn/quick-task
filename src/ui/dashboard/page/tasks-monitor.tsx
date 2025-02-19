@@ -7,10 +7,7 @@ export default async function TasksMonitor() {
   const tasks = await fetchTasksData()
   const tasksList =
     tasks.length === 0 ? (
-      <Box
-        component='main'
-        sx={{ mt: '5vh' }}
-      >
+      <Box sx={{ mt: '5vh' }}>
         <Typography
           component='h1'
           variant='h4'

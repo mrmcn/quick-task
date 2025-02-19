@@ -12,10 +12,10 @@ export default async function Dashboard() {
       <Suspense fallback={<MonitoringScreenSkeleton />}>
         <MonitoringStates />
       </Suspense>
-      <CreateTaskBtn />
       <Suspense fallback={<CircularIndeterminate />}>
         <TasksMonitor />
       </Suspense>
+      <CreateTaskBtn />
     </Box>
   )
 }

@@ -11,12 +11,18 @@ import EditStatusForm from './edit-status-form'
 
 export default function TasksList({ tasks }: { tasks: TasksListProps[] }) {
   return (
-    <List sx={{ maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List
+      sx={{
+        maxWidth: 360,
+        bgcolor: 'background.paper',
+        mt: { xs: '3vh', sm: '5vh' },
+      }}
+    >
       {tasks.map(({ id, summary, details, status }) => (
         <ListItem
           key={id}
           disablePadding
-          sx={{ width: '80vw' }}
+          sx={{ width: '85vw' }}
           secondaryAction={
             <EditStatusForm
               id={id}

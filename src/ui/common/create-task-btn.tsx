@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add'
-import { IconButton } from '@mui/material'
+import Fab from '@mui/material/Fab'
 import Box from '@mui/material/Box'
 import Link from 'next/link'
 
@@ -7,17 +7,18 @@ export default function CreateTaskBtn() {
   return (
     <Box
       component='article'
-      sx={{ display: 'flex', justifyContent: 'flex-end', mt: '5vh' }}
+      sx={{
+        '& > :not(style)': { position: 'fixed', bottom: '10vh', right: '10vw' },
+      }}
     >
-      <IconButton
+      <Fab
         component={Link}
         href='/dashboard/create'
-        size='large'
-        color='success'
-        aria-label='delete'
+        color='primary'
+        aria-label='add'
       >
-        <AddIcon fontSize='large' />
-      </IconButton>
+        <AddIcon />
+      </Fab>
     </Box>
   )
 }

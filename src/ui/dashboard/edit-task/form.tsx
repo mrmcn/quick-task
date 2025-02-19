@@ -5,20 +5,25 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Container from '@mui/material/Container'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { $Enums } from '@prisma/client'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 
 export default function EditTaskForm({ task }: EditTaskFormProps) {
   const [state, formAction, isPending] = useActionState(updateTask, undefined)
   const { id, details, priority, summary } = task
+  const [changePriority, setChangePriority] = useState<string>(priority)
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null,
+  ) => {
+    if (newAlignment !== null) setChangePriority(newAlignment)
+  }
 
   return (
     <Container
@@ -26,7 +31,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
       action={formAction}
       maxWidth='xs'
       sx={{
-        mt: '20vh',
+        mt: { xs: '10vh', sm: '20vh' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -62,26 +67,40 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         required
         margin='dense'
       />
-      <FormControl>
-        <FormLabel id='priority-radio-buttons-group-label'>Priority</FormLabel>
-        <RadioGroup
-          row
-          defaultValue={priority}
-          name='priority'
-          aria-labelledby='priority-radio-buttons-group-label'
+      <Typography
+        variant='caption'
+        sx={{ ml: '1vw' }}
+      >
+        Priority
+      </Typography>
+      <ToggleButtonGroup
+        size='small'
+        value={changePriority}
+        fullWidth
+        exclusive
+        onChange={handleAlignment}
+        aria-label='priority selection buttons'
+      >
+        <ToggleButton
+          color='primary'
+          value='low'
+          aria-label='low priority'
         >
-          <FormControlLabel
-            value='low'
-            control={<Radio />}
-            label='low'
-          />
-          <FormControlLabel
-            value='high'
-            control={<Radio />}
-            label='high'
-          />
-        </RadioGroup>
-      </FormControl>
+          low
+        </ToggleButton>
+        <ToggleButton
+          color='error'
+          value='high'
+          aria-label='high priority'
+        >
+          high
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <input
+        type='hidden'
+        name='priority'
+        value={changePriority}
+      />
       <input
         type='hidden'
         name='taskId'
@@ -92,6 +111,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          mt: '2vh',
         }}
       >
         <ButtonGroup
@@ -128,7 +148,12 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
           {state}
         </Typography>
       )}
-      <Button onClick={() => deleteTask(id)}>Delete</Button>
+      <Button
+        onClick={() => deleteTask(id)}
+        sx={{ mt: '4vh' }}
+      >
+        Delete task
+      </Button>
     </Container>
   )
 }

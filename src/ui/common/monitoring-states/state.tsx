@@ -5,7 +5,7 @@ import { MonitoringStateProps } from './monitor'
 
 export default function MonitoringState({ name, value }: MonitoringStateProps) {
   return (
-    <Paper sx={{ width: { xs: '20vh', sm: '20vh' } }}>
+    <Paper sx={{ width: { xs: '30vw', sm: '20vw' } }}>
       <Stack
         component='article'
         spacing={1}
