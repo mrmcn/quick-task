@@ -1,6 +1,7 @@
 'use client'
 
 import { deleteTask, updateTask } from '@/lib/actions'
+import { useChoosingPriority } from '@/lib/hooks'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -11,19 +12,12 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { $Enums } from '@prisma/client'
 import Link from 'next/link'
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
 
 export default function EditTaskForm({ task }: EditTaskFormProps) {
   const [state, formAction, isPending] = useActionState(updateTask, undefined)
   const { id, details, priority, summary } = task
-  const [changePriority, setChangePriority] = useState<string>(priority)
-
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
-  ) => {
-    if (newAlignment !== null) setChangePriority(newAlignment)
-  }
+  const { changePriority, handleAlignment } = useChoosingPriority(priority)
 
   return (
     <Container

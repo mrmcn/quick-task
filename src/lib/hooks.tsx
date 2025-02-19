@@ -2,6 +2,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
+import { $Enums } from '@prisma/client'
 import { useState } from 'react'
 
 export function useVisibility() {
@@ -38,4 +39,16 @@ export function useVisibility() {
     },
     type: showPassword ? 'text' : 'password',
   }
+}
+
+export function useChoosingPriority(initialState: $Enums.Priority) {
+  const [changePriority, setChangePriority] = useState(initialState)
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: $Enums.Priority | null,
+  ) => {
+    if (newAlignment !== null) setChangePriority(newAlignment)
+  }
+  return { changePriority, handleAlignment }
 }

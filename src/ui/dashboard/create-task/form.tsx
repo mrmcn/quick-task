@@ -1,22 +1,21 @@
 'use client'
 
 import { createTask } from '@/lib/actions'
+import { useChoosingPriority } from '@/lib/hooks'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Container from '@mui/material/Container'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import { useActionState } from 'react'
 
 export default function CreateForm() {
   const [state, formAction, isPending] = useActionState(createTask, undefined)
+  const { changePriority, handleAlignment } = useChoosingPriority('low')
 
   return (
     <Container
@@ -58,31 +57,46 @@ export default function CreateForm() {
         required
         margin='dense'
       />
-      <FormControl>
-        <FormLabel id='priority-radio-buttons-group-label'>Priority</FormLabel>
-        <RadioGroup
-          row
-          defaultValue='low'
-          name='priority'
-          aria-labelledby='priority-radio-buttons-group-label'
+      <Typography
+        variant='caption'
+        sx={{ ml: '1vw' }}
+      >
+        Priority
+      </Typography>
+      <ToggleButtonGroup
+        size='small'
+        value={changePriority}
+        fullWidth
+        exclusive
+        onChange={handleAlignment}
+        aria-label='priority selection buttons'
+      >
+        <ToggleButton
+          color='primary'
+          value='low'
+          aria-label='low priority'
         >
-          <FormControlLabel
-            value='low'
-            control={<Radio />}
-            label='low'
-          />
-          <FormControlLabel
-            value='high'
-            control={<Radio />}
-            label='high'
-          />
-        </RadioGroup>
-      </FormControl>
+          low
+        </ToggleButton>
+        <ToggleButton
+          color='error'
+          value='high'
+          aria-label='high priority'
+        >
+          high
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <input
+        type='hidden'
+        name='priority'
+        value={changePriority}
+      />
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          mt: '2vh',
         }}
       >
         <ButtonGroup
