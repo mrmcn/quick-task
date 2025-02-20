@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Grid2'
 import MonitoringState from './state'
 
 export default function MonitoringScreen({
@@ -13,24 +12,18 @@ export default function MonitoringScreen({
       key={state.name}
       name={state.name}
       value={state.value}
+      size={state.size}
     />
   ))
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: '5vh' }}>
-      <Stack
-        component='article'
-        direction={{ xs: 'column', sm: 'row' }}
-        divider={
-          <Divider
-            orientation='vertical'
-            flexItem
-          />
-        }
-        spacing={{ xs: 3, sm: 6 }}
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        spacing={2}
       >
         {monitor}
-      </Stack>
+      </Grid>
     </Box>
   )
 }
@@ -40,4 +33,5 @@ export type MonitoringScreenProps = MonitoringStateProps[]
 export interface MonitoringStateProps {
   name: string
   value: number
+  size: number
 }

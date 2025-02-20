@@ -26,13 +26,13 @@ export const TasksSample: TasksListProps[] = [
 ]
 
 export const MonitoringDataSample: MonitoringScreenProps = [
-  { name: 'Completed tasks', value: 2 },
-  { name: 'Pending tasks', value: 1 },
-  { name: 'Progress, %', value: 67 },
+  { name: 'Completed tasks', value: 2, size: 6 },
+  { name: 'Pending tasks', value: 1, size: 6 },
+  { name: 'Progress, %', value: 67, size: 12 },
 ]
 
 export const MonitoringDataSkeleton: MonitoringScreenProps = [
-  { name: 'Completed tasks', value: 0 },
-  { name: 'Pending tasks', value: 0 },
-  { name: 'Progress, %', value: 0 },
+  { name: 'Completed tasks', value: 0, size: 6 },
+  { name: 'Pending tasks', value: 0, size: 6 },
+  { name: 'Progress, %', value: 0, size: 12 },
 ]

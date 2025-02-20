@@ -1,24 +1,31 @@
+import Grid from '@mui/material/Grid2'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { MonitoringStateProps } from './monitor'
 
-export default function MonitoringState({ name, value }: MonitoringStateProps) {
+export default function MonitoringState({
+  name,
+  value,
+  size,
+}: MonitoringStateProps) {
   return (
-    <Paper sx={{ width: { xs: '30vw', sm: '20vw' } }}>
-      <Stack
-        component='article'
-        spacing={1}
-        sx={{ justifyContent: 'center', mt: '1vh', mb: '1vh' }}
-      >
-        <Typography
-          variant='h6'
-          align='center'
+    <Grid size={size}>
+      <Paper>
+        <Stack
+          component='article'
+          spacing={1}
+          sx={{ justifyContent: 'center', mt: '1vh', mb: '1vh' }}
         >
-          {name}
-        </Typography>
-        <Typography align='center'>{value}</Typography>
-      </Stack>
-    </Paper>
+          <Typography
+            variant='h6'
+            align='center'
+          >
+            {name}
+          </Typography>
+          <Typography align='center'>{value}</Typography>
+        </Stack>
+      </Paper>
+    </Grid>
   )
 }

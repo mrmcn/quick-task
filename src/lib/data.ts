@@ -73,9 +73,9 @@ export async function fetchMonitoringStates() {
         ? 0
         : Math.round((completed * 100) / (completed + pending))
     const monitoringStates: MonitoringScreenProps = [
-      { name: 'Completed tasks', value: completed },
-      { name: 'Pending tasks', value: pending },
-      { name: 'Progress, %', value: progress },
+      { name: 'Completed tasks', value: completed, size: 6 },
+      { name: 'Pending tasks', value: pending, size: 6 },
+      { name: 'Progress, %', value: progress, size: 12 },
     ]
 
     return monitoringStates
