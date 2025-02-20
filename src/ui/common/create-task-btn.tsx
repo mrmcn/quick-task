@@ -6,7 +6,6 @@ import Link from 'next/link'
 export default function CreateTaskBtn() {
   return (
     <Box
-      component='article'
       sx={{
         '& > :not(style)': { position: 'fixed', bottom: '10vh', right: '10vw' },
       }}

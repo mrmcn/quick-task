@@ -1,5 +1,5 @@
 import { fetchTaskIdData } from '@/lib/data'
-import EditTaskForm from '@/ui/dashboard/edit-task/form'
+import TaskForm from '@/ui/dashboard/task-form'
 import { notFound } from 'next/navigation'
 
 export default async function EditTaskPage(props: {
@@ -12,5 +12,5 @@ export default async function EditTaskPage(props: {
     notFound()
   }
 
-  return <EditTaskForm task={task} />
+  return <TaskForm task={task} />
 }

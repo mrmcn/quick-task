@@ -1,7 +1,7 @@
 'use client'
 
-import { deleteTask, updateTask } from '@/lib/actions'
-import { useChoosingPriority } from '@/lib/hooks'
+import { deleteTask } from '@/lib/actions'
+import { useTaskForm } from '@/lib/hooks'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -12,12 +12,10 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { $Enums } from '@prisma/client'
 import Link from 'next/link'
-import { useActionState } from 'react'
 
-export default function EditTaskForm({ task }: EditTaskFormProps) {
-  const [state, formAction, isPending] = useActionState(updateTask, undefined)
-  const { id, details, priority, summary } = task
-  const { changePriority, handleAlignment } = useChoosingPriority(priority)
+export default function TaskForm({ task }: { task: TaskFormProps | null }) {
+  const { changePriority, handlePriority, state, formAction, isPending } =
+    useTaskForm(task)
 
   return (
     <Container
@@ -37,7 +35,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         gutterBottom
         align='center'
       >
-        Edit task
+        {task?.id ? 'Edit' : 'Create'} task
       </Typography>
       <TextField
         label='Title'
@@ -45,7 +43,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         type='text'
         name='summary'
         placeholder='Enter title'
-        defaultValue={summary}
+        defaultValue={task?.summary}
         required
         margin='dense'
       />
@@ -55,7 +53,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         type='text'
         name='details'
         placeholder='Enter details'
-        defaultValue={details}
+        defaultValue={task?.details}
         multiline
         rows={4}
         required
@@ -72,7 +70,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         value={changePriority}
         fullWidth
         exclusive
-        onChange={handleAlignment}
+        onChange={handlePriority}
         aria-label='priority selection buttons'
       >
         <ToggleButton
@@ -95,11 +93,13 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
         name='priority'
         value={changePriority}
       />
-      <input
-        type='hidden'
-        name='taskId'
-        value={id}
-      />
+      {task?.id && (
+        <input
+          type='hidden'
+          name='taskId'
+          value={task.id}
+        />
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -118,7 +118,7 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
             loadingPosition='center'
             aria-disabled={isPending}
           >
-            Save ...
+            {task?.id ? 'Save ...' : 'Create ...'}
           </Button>
           <Button
             component={Link}
@@ -142,21 +142,21 @@ export default function EditTaskForm({ task }: EditTaskFormProps) {
           {state}
         </Typography>
       )}
-      <Button
-        onClick={() => deleteTask(id)}
-        sx={{ mt: '4vh' }}
-      >
-        Delete task
-      </Button>
+      {task?.id && (
+        <Button
+          onClick={() => deleteTask(task.id)}
+          sx={{ mt: '4vh' }}
+        >
+          Delete task
+        </Button>
+      )}
     </Container>
   )
 }
 
-interface EditTaskFormProps {
-  task: {
-    id: string
-    summary: string
-    details: string
-    priority: $Enums.Priority
-  }
+export interface TaskFormProps {
+  id: string
+  summary: string
+  details: string
+  priority: $Enums.Priority
 }

@@ -1,9 +1,11 @@
+import { TaskFormProps } from '@/ui/dashboard/task-form'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { $Enums } from '@prisma/client'
-import { useState } from 'react'
+import { useActionState, useState } from 'react'
+import { createTask, updateTask } from './actions'
 
 export function useVisibility() {
   const [showPassword, setShowPassword] = useState(false)
@@ -41,14 +43,16 @@ export function useVisibility() {
   }
 }
 
-export function useChoosingPriority(initialState: $Enums.Priority) {
-  const [changePriority, setChangePriority] = useState(initialState)
+export function useTaskForm(task: TaskFormProps | null) {
+  const fn = task?.id ? updateTask : createTask //function for editForm or createForm
+  const [state, formAction, isPending] = useActionState(fn, undefined)
+  const [changePriority, setPriority] = useState(task?.priority ?? 'low') // editForm or createForm, for toggle btn
 
-  const handleAlignment = (
+  const handlePriority = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: $Enums.Priority | null,
+    newPriority: $Enums.Priority | null,
   ) => {
-    if (newAlignment !== null) setChangePriority(newAlignment)
+    if (newPriority !== null) setPriority(newPriority)
   }
-  return { changePriority, handleAlignment }
+  return { changePriority, handlePriority, state, formAction, isPending }
 }

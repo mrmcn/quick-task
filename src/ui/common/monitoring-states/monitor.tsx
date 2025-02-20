@@ -17,7 +17,10 @@ export default function MonitoringScreen({
   ))
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      component='article'
+      sx={{ flexGrow: 1, mt: '3vh' }}
+    >
       <Grid
         container
         spacing={2}

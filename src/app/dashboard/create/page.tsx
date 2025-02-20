@@ -1,5 +1,5 @@
-import CreateForm from '@/ui/dashboard/create-task/form'
+import TaskForm from '@/ui/dashboard/task-form'
 
 export default async function CreateTaskPage() {
-  return <CreateForm />
+  return <TaskForm task={null} />
 }

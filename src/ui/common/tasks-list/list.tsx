@@ -13,7 +13,7 @@ export default function TasksList({ tasks }: { tasks: TasksListProps[] }) {
   return (
     <List
       sx={{
-        maxWidth: 360,
+        width: '100%',
         bgcolor: 'background.paper',
         mt: { xs: '3vh', sm: '5vh' },
       }}
@@ -22,7 +22,6 @@ export default function TasksList({ tasks }: { tasks: TasksListProps[] }) {
         <ListItem
           key={id}
           disablePadding
-          sx={{ width: '85vw' }}
           secondaryAction={
             <EditStatusForm
               id={id}
