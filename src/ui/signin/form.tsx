@@ -1,7 +1,7 @@
 'use client'
 
 import { authenticate } from '@/lib/actions'
-import { useVisibility } from '@/lib/hooks'
+import { usePasswordVisibility } from '@/lib/hooks'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
@@ -17,7 +17,7 @@ export default function SigninForm() {
     authenticate,
     undefined,
   )
-  const { input, type } = useVisibility()
+  const { input, type } = usePasswordVisibility()
 
   return (
     <Container

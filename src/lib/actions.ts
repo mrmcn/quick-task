@@ -8,14 +8,7 @@ import { AuthError } from 'next-auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import prisma from './prisma'
-import {
-  CreateTask,
-  SignUpSchema,
-  UpdateTask,
-  UserEmailSchema,
-  UserNameSchema,
-  UserPasswordSchema,
-} from './zod'
+import { AuthDataSchema, CreateTask, UpdateTask, UserNameSchema } from './zod'
 
 export async function createTask(prevState: any, formData: FormData) {
   const session = await auth()
@@ -51,7 +44,7 @@ export async function createTask(prevState: any, formData: FormData) {
 }
 
 export async function createUser(prevState: any, formData: FormData) {
-  const validatedFields = SignUpSchema.safeParse({
+  const validatedFields = AuthDataSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   })
@@ -100,52 +93,28 @@ export async function updateUserName(prevState: any, formData: FormData) {
     throw error
   }
 
-  revalidatePath('/user')
-  redirect('/dashboard')
+  revalidatePath('/', 'layout')
+  redirect('/')
 }
 
-export async function updateUserEmail(prevState: any, formData: FormData) {
+export async function updateAuthData(prevState: any, formData: FormData) {
   const session = await auth()
   const id = session?.user.id
-  const validatedFields = UserEmailSchema.safeParse({
+  const validatedFields = AuthDataSchema.safeParse({
     email: formData.get('email'),
-  })
-
-  if (!validatedFields.success) {
-    return 'Missing Fields. Failed to update user.'
-  }
-  const { email } = validatedFields.data
-  try {
-    await prisma.user.update({
-      where: { id: id },
-      data: {
-        email: email,
-      },
-    })
-  } catch (error) {
-    throw error
-  }
-
-  revalidatePath('/user')
-  redirect('/dashboard')
-}
-
-export async function updateUserPassword(prevState: any, formData: FormData) {
-  const session = await auth()
-  const id = session?.user.id
-  const validatedFields = UserPasswordSchema.safeParse({
     password: formData.get('password'),
   })
 
   if (!validatedFields.success) {
     return 'Missing Fields. Failed to update user.'
   }
-  const { password } = validatedFields.data
+  const { email, password } = validatedFields.data
   const hashedPassword = await bcrypt.hash(password, 10)
   try {
     await prisma.user.update({
       where: { id: id },
       data: {
+        email: email,
         password: hashedPassword,
       },
     })

@@ -10,6 +10,12 @@ export const TaskFormSchema = z.object({
   authorId: z.string(),
 })
 
+export const UserSchema = z.object({
+  name: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(6),
+})
+
 export const UpdateStatusTasks = TaskFormSchema.omit({
   summary: true,
   details: true,
@@ -31,31 +37,11 @@ export const CreateTask = TaskFormSchema.omit({
   authorId: true,
 })
 
-export const UserSchema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
-  password: z.string().min(6),
-})
-
 export const UserNameSchema = UserSchema.omit({
   email: true,
   password: true,
 })
 
-export const UserEmailSchema = UserSchema.omit({
-  name: true,
-  password: true,
-})
-
-export const UserPasswordSchema = UserSchema.omit({
-  email: true,
-  name: true,
-})
-
-export const SignInSchema = UserSchema.omit({
-  name: true,
-})
-
-export const SignUpSchema = UserSchema.omit({
+export const AuthDataSchema = UserSchema.omit({
   name: true,
 })

@@ -85,18 +85,20 @@ export async function fetchMonitoringStates() {
   }
 }
 
-export async function fetchUserName() {
+export default async function fetchUserData() {
   const session = await auth()
   const userId = session?.user.id
+
   try {
-    const userName = await prisma.user.findUniqueOrThrow({
+    const userData = prisma.user.findUniqueOrThrow({
       where: { id: userId },
       select: {
         name: true,
+        email: true,
       },
     })
 
-    return userName
+    return userData
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')

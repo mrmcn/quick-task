@@ -1,39 +1,43 @@
 'use client'
 
-import { createUser } from '@/lib/actions'
+import { updateAuthData } from '@/lib/actions'
 import { usePasswordVisibility } from '@/lib/hooks'
 import TextField from '@mui/material/TextField'
 import FormWrapper from '../common/form-wrapper'
 
-export default function SignupForm() {
+export default function AuthDataForm({ email }: { email: string }) {
   const { input, type } = usePasswordVisibility()
 
   return (
     <FormWrapper
-      fn={createUser}
-      formName='Please create account to continue.'
-      btnName='Signup'
+      fn={updateAuthData}
+      formName='Edit email & password'
+      btnName='Save'
     >
       <TextField
-        label='email'
-        id='email'
-        type='email'
+        autoFocus
+        defaultValue={email}
+        label='Email'
+        type='text'
         name='email'
-        placeholder='Enter your email address'
         required
+        fullWidth
         margin='dense'
+        slotProps={{
+          inputLabel: { shrink: true },
+        }}
       />
       <TextField
         label='password'
-        id='password'
         type={type}
         name='password'
-        placeholder='Enter password'
         required
+        fullWidth
         margin='dense'
         slotProps={{
           htmlInput: { minLength: 6 },
           input: input,
+          inputLabel: { shrink: true },
         }}
       />
     </FormWrapper>

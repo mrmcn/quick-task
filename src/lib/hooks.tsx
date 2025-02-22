@@ -4,10 +4,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { $Enums } from '@prisma/client'
-import { useActionState, useState } from 'react'
-import { createTask, updateTask } from './actions'
+import { useState } from 'react'
 
-export function useVisibility() {
+export function usePasswordVisibility() {
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (
@@ -44,8 +43,6 @@ export function useVisibility() {
 }
 
 export function useTaskForm(task: TaskFormProps | null) {
-  const fn = task?.id ? updateTask : createTask //function for editForm or createForm
-  const [state, formAction, isPending] = useActionState(fn, undefined)
   const [changePriority, setPriority] = useState(task?.priority ?? 'low') // editForm or createForm, for toggle btn
 
   const handlePriority = (
@@ -54,5 +51,5 @@ export function useTaskForm(task: TaskFormProps | null) {
   ) => {
     if (newPriority !== null) setPriority(newPriority)
   }
-  return { changePriority, handlePriority, state, formAction, isPending }
+  return { changePriority, handlePriority }
 }

@@ -1,6 +1,6 @@
 import { signOut } from '@/auth'
+import { MenuItem, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 
 export function SignOut() {
   return (
@@ -11,12 +11,17 @@ export function SignOut() {
         await signOut({ redirectTo: '/' })
       }}
     >
-      <Button
+      <MenuItem
+        component='button'
         type='submit'
-        color='error'
       >
-        Sign Out
-      </Button>
+        <Typography
+          align='center'
+          variant='button'
+        >
+          Sign out
+        </Typography>
+      </MenuItem>
     </Box>
   )
 }
