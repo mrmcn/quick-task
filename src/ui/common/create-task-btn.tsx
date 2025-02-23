@@ -7,7 +7,11 @@ export default function CreateTaskBtn() {
   return (
     <Box
       sx={{
-        '& > :not(style)': { position: 'fixed', bottom: '10vh', right: '10vw' },
+        '& > :not(style)': {
+          position: 'fixed',
+          top: '85%',
+          left: '70%',
+        },
       }}
     >
       <Fab

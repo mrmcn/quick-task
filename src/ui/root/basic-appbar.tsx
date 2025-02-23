@@ -1,20 +1,25 @@
 import AppBar from '@mui/material/AppBar'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
-import { Suspense } from 'react'
-import CabinetBtn from './cabinet-btn'
-import HomeBtn from './home-btn'
-import SigninBtn from './signin-btn'
+import BarBtn from './bar-btn'
 
-export default async function BasicAppBar() {
+export default function BasicAppBar({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <AppBar position='static'>
-      <Toolbar>
-        <HomeBtn />
-        <SigninBtn />
-        <Suspense>
-          <CabinetBtn />
-        </Suspense>
-      </Toolbar>
-    </AppBar>
+    <>
+      <CssBaseline />
+      <Container maxWidth='md'>
+        <AppBar position='static'>
+          <Toolbar>
+            <BarBtn />
+          </Toolbar>
+        </AppBar>
+        {children}
+      </Container>
+    </>
   )
 }

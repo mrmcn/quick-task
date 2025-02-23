@@ -1,7 +1,6 @@
 import theme from '@/theme'
 import { roboto } from '@/ui/font'
 import BasicAppBar from '@/ui/root/basic-appbar'
-import { Container, CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'
@@ -21,11 +20,7 @@ export default function RootLayout({
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Container maxWidth='md'>
-              <BasicAppBar />
-              {children}
-            </Container>
+            <BasicAppBar>{children}</BasicAppBar>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

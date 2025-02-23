@@ -1,6 +1,6 @@
 'use client'
 
-import { createTask, deleteTask, updateTask } from '@/lib/actions'
+import { deleteTask } from '@/lib/actions'
 import { useTaskForm } from '@/lib/hooks'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -11,15 +11,23 @@ import { $Enums } from '@prisma/client'
 import FormWrapper from '../common/form-wrapper'
 
 export default function TaskForm({ task }: { task: TaskFormProps | null }) {
-  const fn = task?.id ? updateTask : createTask //function for editForm or createForm
-  const { changePriority, handlePriority } = useTaskForm(task)
+  const {
+    changePriority,
+    handlePriority,
+    action,
+    formName,
+    btnName,
+    id,
+    summary,
+    details,
+  } = useTaskForm(task)
 
   return (
     <>
       <FormWrapper
-        fn={fn}
-        formName={`${task?.id ? 'Edit' : 'Create'} task`}
-        btnName={task?.id ? 'Save ...' : 'Create ...'}
+        fn={action}
+        formName={formName}
+        btnName={btnName}
       >
         <TextField
           label='Title'
@@ -27,7 +35,7 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
           type='text'
           name='summary'
           placeholder='Enter title'
-          defaultValue={task?.summary}
+          defaultValue={summary}
           required
           margin='dense'
         />
@@ -37,7 +45,7 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
           type='text'
           name='details'
           placeholder='Enter details'
-          defaultValue={task?.details}
+          defaultValue={details}
           multiline
           rows={4}
           required
@@ -81,14 +89,14 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
           <input
             type='hidden'
             name='taskId'
-            value={task.id}
+            value={id}
           />
         )}
       </FormWrapper>
       {task?.id && (
         <Button
           color='error'
-          onClick={() => deleteTask(task.id)}
+          onClick={() => deleteTask(task?.id)}
         >
           Delete task
         </Button>

@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { $Enums } from '@prisma/client'
 import { useState } from 'react'
+import { createTask, updateTask } from './actions'
 
 export function usePasswordVisibility() {
   const [showPassword, setShowPassword] = useState(false)
@@ -44,12 +45,31 @@ export function usePasswordVisibility() {
 
 export function useTaskForm(task: TaskFormProps | null) {
   const [changePriority, setPriority] = useState(task?.priority ?? 'low') // editForm or createForm, for toggle btn
-
   const handlePriority = (
     event: React.MouseEvent<HTMLElement>,
     newPriority: $Enums.Priority | null,
   ) => {
     if (newPriority !== null) setPriority(newPriority)
   }
-  return { changePriority, handlePriority }
+
+  if (task) {
+    return {
+      action: updateTask,
+      formName: 'Edit task',
+      btnName: 'Save...',
+      changePriority,
+      handlePriority,
+      id: task.id,
+      summary: task.summary,
+      details: task.details,
+    }
+  } else {
+    return {
+      action: createTask,
+      formName: 'Edit task',
+      btnName: 'Save...',
+      changePriority,
+      handlePriority,
+    }
+  }
 }
