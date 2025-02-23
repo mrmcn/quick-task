@@ -1,5 +1,10 @@
 import SigninForm from '@/ui/signin/form'
+import { Suspense } from 'react'
 
 export default function SigninPage() {
-  return <SigninForm />
+  return (
+    <Suspense>
+      <SigninForm />
+    </Suspense>
+  )
 }
