@@ -1,20 +1,14 @@
+import { auth } from '@/auth'
+import { fetchMonitoringStates } from '@/lib/data'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid2'
 import MonitoringState from './state'
 
-export default function MonitoringScreen({
-  dataMonitoring,
-}: {
-  dataMonitoring: MonitoringScreenProps
-}) {
-  const monitor = dataMonitoring.map((state) => (
-    <MonitoringState
-      key={state.name}
-      name={state.name}
-      value={state.value}
-      size={state.size}
-    />
-  ))
+export default async function MonitoringScreen() {
+  const session = await auth()
+  const { completed, pending, progress } = session
+    ? await fetchMonitoringStates()
+    : { completed: 1, pending: 2, progress: 33 }
 
   return (
     <Box
@@ -25,16 +19,22 @@ export default function MonitoringScreen({
         container
         spacing={2}
       >
-        {monitor}
+        <MonitoringState
+          name='Completed tasks'
+          size={6}
+          value={completed}
+        />
+        <MonitoringState
+          name='Pending tasks'
+          size={6}
+          value={pending}
+        />
+        <MonitoringState
+          name='Progress, %'
+          size={12}
+          value={progress}
+        />
       </Grid>
     </Box>
   )
-}
-
-export type MonitoringScreenProps = MonitoringStateProps[]
-
-export interface MonitoringStateProps {
-  name: string
-  value: number
-  size: number
 }

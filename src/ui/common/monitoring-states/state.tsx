@@ -2,7 +2,6 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid2'
 import Typography from '@mui/material/Typography'
-import { MonitoringStateProps } from './monitor'
 
 export default function MonitoringState({
   name,
@@ -27,4 +26,10 @@ export default function MonitoringState({
       </Card>
     </Grid>
   )
+}
+
+export interface MonitoringStateProps {
+  name: string
+  value: number
+  size: number
 }

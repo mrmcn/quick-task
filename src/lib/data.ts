@@ -1,5 +1,4 @@
 import { auth } from '@/auth'
-import { MonitoringScreenProps } from '@/ui/common/monitoring-states/monitor'
 import prisma from './prisma'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -72,13 +71,8 @@ export async function fetchMonitoringStates() {
       completed + pending === 0
         ? 0
         : Math.round((completed * 100) / (completed + pending))
-    const monitoringStates: MonitoringScreenProps = [
-      { name: 'Completed tasks', value: completed, size: 6 },
-      { name: 'Pending tasks', value: pending, size: 6 },
-      { name: 'Progress, %', value: progress, size: 12 },
-    ]
 
-    return monitoringStates
+    return { completed, pending, progress }
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')

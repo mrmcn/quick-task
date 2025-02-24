@@ -3,7 +3,7 @@
 import { updateStatusTasks } from '@/lib/actions'
 import Checkbox from '@mui/material/Checkbox'
 import { $Enums } from '@prisma/client'
-import { TasksListProps } from './list'
+import { TasksListProps } from './tasks-list'
 
 export default function EditStatusForm({
   id,
