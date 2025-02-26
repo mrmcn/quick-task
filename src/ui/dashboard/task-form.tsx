@@ -16,11 +16,11 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
   const {
     changePriority,
     handlePriority,
-    action,
-    formName,
-    id,
-    summary,
-    details,
+    action, // query function
+    formName, // form title
+    id, // taskId
+    summary, // task title
+    details, // task details
   } = useTaskForm(task)
 
   return (

@@ -22,7 +22,7 @@ import {
 export async function createTask(prevState: any, formData: FormData) {
   const session = await auth()
   if (!session) return redirect('/signin')
-  const authorId = session?.user.id
+  const authorId = session.user.id
   const validatedFields = CreateTask.safeParse({
     summary: formData.get('summary'),
     details: formData.get('details'),
@@ -34,6 +34,7 @@ export async function createTask(prevState: any, formData: FormData) {
   }
 
   const { summary, details, priority } = validatedFields.data
+
   const res = await prisma.task.create({
     data: {
       summary,
@@ -42,6 +43,7 @@ export async function createTask(prevState: any, formData: FormData) {
       authorId,
     },
   })
+
   if (!res) {
     return { message: 'Failed to create task' }
   }

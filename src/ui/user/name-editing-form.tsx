@@ -16,7 +16,7 @@ export default function UsernameEditingForm({
         label='Name'
         type='text'
         name='name'
-        value={userName}
+        defaultValue={userName}
         required
         fullWidth
         margin='dense'
