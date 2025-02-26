@@ -56,7 +56,7 @@ export default function UserDataEditing() {
           >
             <MenuItem
               component={Link}
-              href='/user/edit-email'
+              href='/user/edit-password'
             >
               <ListItemIcon>
                 <DoubleArrowIcon fontSize='small' />
