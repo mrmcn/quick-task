@@ -1,72 +1,104 @@
-import { MenuItem, MenuList, Typography } from '@mui/material'
-import Box from '@mui/material/Box'
+import { signout } from '@/lib/actions'
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
+import LogoutIcon from '@mui/icons-material/Logout'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import MenuList from '@mui/material/MenuList'
+import Stack from '@mui/material/Stack'
 import Link from 'next/link'
-import { SignOut } from '../signout/form'
 
 export default function UserDataEditing() {
   return (
-    <Box
-      sx={{
-        '& > :not(style)': {
-          position: 'relative',
-          top: '20vh',
-          left: '30%',
-          width: '45%',
-        },
-      }}
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      spacing={5}
+      sx={{ display: 'flex', justifyContent: 'space-around', mt: '3vh' }}
     >
       <Card
         raised
-        sx={{ display: 'flex', justifyContent: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', width: { sm: '25%' } }}
       >
         <CardActions>
           <MenuList>
             <MenuItem
               component={Link}
-              href='/user/edit'
-              sx={{ display: 'flex', justifyContent: 'center' }}
+              href='/user/edit-name'
             >
-              <Typography
-                align='center'
-                variant='button'
-              >
-                Edit user data
-              </Typography>
-            </MenuItem>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'center' }}>
-              <SignOut />
+              <ListItemIcon>
+                <DoubleArrowIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText primary='Edit user name' />
             </MenuItem>
             <MenuItem
               component={Link}
-              href='/user/delete'
-              color='error'
-              sx={{ display: 'flex', justifyContent: 'center' }}
+              href='/user/edit-email'
             >
-              <Typography
-                align='center'
-                variant='button'
-                color='warning'
-              >
-                Delete account
-              </Typography>
-            </MenuItem>
-            <MenuItem
-              component={Link}
-              href='/dashboard'
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
-              <Typography
-                align='center'
-                variant='overline'
-              >
-                To the dashboard
-              </Typography>
+              <ListItemIcon>
+                <DoubleArrowIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText primary='Edit email' />
             </MenuItem>
           </MenuList>
         </CardActions>
       </Card>
-    </Box>
+      <Card
+        raised
+        sx={{ display: 'flex', justifyContent: 'center', width: { sm: '25%' } }}
+      >
+        <CardActions>
+          <MenuList
+            component='form'
+            action={signout}
+          >
+            <MenuItem
+              component={Link}
+              href='/user/edit-email'
+            >
+              <ListItemIcon>
+                <DoubleArrowIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText primary='Reset password' />
+            </MenuItem>
+            <MenuItem
+              component='button'
+              type='submit'
+            >
+              <ListItemIcon>
+                <LogoutIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText primary='Sign out' />
+            </MenuItem>
+          </MenuList>
+        </CardActions>
+      </Card>
+      <Card
+        raised
+        sx={{ display: 'flex', justifyContent: 'center', width: { sm: '25%' } }}
+      >
+        <CardActions>
+          <MenuList>
+            <MenuItem
+              component={Link}
+              href='/user/delete'
+            >
+              <ListItemIcon>
+                <PersonRemoveIcon
+                  fontSize='small'
+                  color='warning'
+                />
+              </ListItemIcon>
+              <ListItemText
+                primary='Delete account'
+                slotProps={{ primary: { color: 'warning' } }}
+              />
+            </MenuItem>
+          </MenuList>
+        </CardActions>
+      </Card>
+    </Stack>
   )
 }

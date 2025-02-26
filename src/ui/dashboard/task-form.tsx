@@ -18,7 +18,6 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
     handlePriority,
     action,
     formName,
-    btnName,
     id,
     summary,
     details,
@@ -29,14 +28,12 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
       <FormWrapper
         fn={action}
         formName={formName}
-        btnName={btnName}
       >
         <TextField
           label='Title'
           id='summary'
           type='text'
           name='summary'
-          placeholder='Enter title'
           defaultValue={summary}
           required
           margin='dense'
@@ -46,7 +43,6 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
           id='details'
           type='text'
           name='details'
-          placeholder='Enter details'
           defaultValue={details}
           multiline
           rows={4}

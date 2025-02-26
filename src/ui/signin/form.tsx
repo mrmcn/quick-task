@@ -74,6 +74,7 @@ export default function SigninForm() {
       <Button
         component={Link}
         href='/signup'
+        disabled={isPending}
       >
         Sign up ...
       </Button>

@@ -1,32 +1,16 @@
-'use client'
-
-import { updateAuthData } from '@/lib/actions'
+import { updatePassword } from '@/lib/actions'
 import { usePasswordVisibility } from '@/lib/hooks'
 import TextField from '@mui/material/TextField'
 import FormWrapper from '../common/form-wrapper'
 
-export default function AuthDataForm({ email }: { email: string }) {
+export default function PasswordEditingForm() {
   const { input, type } = usePasswordVisibility()
 
   return (
     <FormWrapper
-      fn={updateAuthData}
-      formName='Edit email & password'
-      btnName='Save'
+      fn={updatePassword}
+      formName='Reset password'
     >
-      <TextField
-        autoFocus
-        defaultValue={email}
-        label='Email'
-        type='text'
-        name='email'
-        required
-        fullWidth
-        margin='dense'
-        slotProps={{
-          inputLabel: { shrink: true },
-        }}
-      />
       <TextField
         label='password'
         type={type}

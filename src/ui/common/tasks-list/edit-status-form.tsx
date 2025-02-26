@@ -1,8 +1,10 @@
 'use client'
 
 import { updateStatusTasks } from '@/lib/actions'
+import { CircularProgress } from '@mui/material'
+import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
-import { $Enums } from '@prisma/client'
+import { useActionState } from 'react'
 import { TasksListProps } from './tasks-list'
 
 export default function EditStatusForm({
@@ -10,16 +12,36 @@ export default function EditStatusForm({
   status,
   summary,
 }: EditStatusFormProps) {
+  const [state, action, pending] = useActionState(updateStatusTasks, undefined)
+  if (pending) return <CircularProgress />
+  if (state?.massage) return <Box>{state.massage}</Box>
+
   return (
     <>
-      <Checkbox
-        name='status'
-        onChange={(e) => updateStatusTasks(id, e.target.value as $Enums.Status)}
-        value={status === 'completed' ? 'in_progress' : 'completed'}
-        edge='end'
-        checked={status.includes('completed')}
-        inputProps={{ 'aria-labelledby': summary }}
-      />
+      <Box
+        component='form'
+        action={action}
+      >
+        <Checkbox
+          onChange={(e) => {
+            e.preventDefault()
+            e.currentTarget.form?.requestSubmit()
+          }}
+          edge='end'
+          checked={status.includes('completed')}
+          inputProps={{ 'aria-labelledby': summary }}
+        />
+        <input
+          type='hidden'
+          name='taskId'
+          value={id}
+        />
+        <input
+          type='hidden'
+          name='status'
+          value={status === 'completed' ? 'in_progress' : 'completed'}
+        />
+      </Box>
     </>
   )
 }

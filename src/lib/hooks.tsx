@@ -56,7 +56,7 @@ export function useTaskForm(task: TaskFormProps | null) {
     return {
       action: updateTask,
       formName: 'Edit task',
-      btnName: 'Save...',
+      btnName: 'Save',
       changePriority,
       handlePriority,
       id: task.id,
@@ -67,7 +67,7 @@ export function useTaskForm(task: TaskFormProps | null) {
     return {
       action: createTask,
       formName: 'Edit task',
-      btnName: 'Save...',
+      btnName: 'Save',
       changePriority,
       handlePriority,
     }

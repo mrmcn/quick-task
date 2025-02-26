@@ -12,7 +12,6 @@ export default function SignupForm() {
     <FormWrapper
       fn={createUser}
       formName='Please create account to continue.'
-      btnName='Signup'
     >
       <TextField
         label='email'

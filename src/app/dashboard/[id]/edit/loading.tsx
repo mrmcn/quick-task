@@ -1,25 +1,17 @@
-'use client'
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import SaveIcon from '@mui/icons-material/Save'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Fab from '@mui/material/Fab'
+import TextField from '@mui/material/TextField'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
-import { useActionState } from 'react'
 
-export default function FormWrapper({
-  fn,
-  children,
-  formName,
-}: FormWrapperProps) {
-  const [state, formAction, isPending] = useActionState(fn, undefined)
-
+export default function Loading() {
   return (
     <Container
       component='form'
-      action={formAction}
       maxWidth='xs'
       sx={{
         mt: { xs: '10vh', sm: '15vh' },
@@ -34,22 +26,46 @@ export default function FormWrapper({
         gutterBottom
         align='center'
       >
-        {formName}
+        Edit task
       </Typography>
-      {children}
-      {state?.massage && (
-        <Typography
-          component='p'
-          variant='h5'
-          color='error'
-          align='center'
-          gutterBottom
-          aria-live='polite'
-          aria-atomic='true'
+      <TextField
+        label='Title'
+        type='text'
+        required
+        margin='dense'
+      />
+      <TextField
+        label='Details'
+        type='text'
+        multiline
+        rows={4}
+        required
+        margin='dense'
+      />
+      <Typography
+        variant='caption'
+        sx={{ ml: '1vw' }}
+      >
+        Priority
+      </Typography>
+      <ToggleButtonGroup
+        size='small'
+        fullWidth
+        exclusive
+      >
+        <ToggleButton
+          color='primary'
+          value='low'
         >
-          {state.massage}
-        </Typography>
-      )}
+          low
+        </ToggleButton>
+        <ToggleButton
+          color='error'
+          value='high'
+        >
+          high
+        </ToggleButton>
+      </ToggleButtonGroup>
       <Box
         sx={{
           '& > :not(style)': {
@@ -61,34 +77,12 @@ export default function FormWrapper({
       >
         <Fab
           component={Button}
-          type='submit'
           color='primary'
           aria-label='add'
-          loading={isPending}
-          aria-disabled={isPending}
         >
           <SaveIcon />
         </Fab>
       </Box>
     </Container>
   )
-}
-
-interface fnProps {
-  (prevState: any, formData: FormData): Promise<
-    | {
-        massage: string
-        message?: undefined
-      }
-    | {
-        message: string
-        massage?: undefined
-      }
-  >
-}
-
-interface FormWrapperProps {
-  fn: fnProps
-  children: React.ReactNode
-  formName: string
 }

@@ -42,6 +42,16 @@ export const UserNameSchema = UserSchema.omit({
   password: true,
 })
 
+export const UserPasswordSchema = UserSchema.omit({
+  name: true,
+  email: true,
+})
+
+export const UserEmailSchema = UserSchema.omit({
+  name: true,
+  password: true,
+})
+
 export const AuthDataSchema = UserSchema.omit({
   name: true,
 })
