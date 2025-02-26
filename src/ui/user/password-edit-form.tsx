@@ -1,3 +1,5 @@
+'use client'
+
 import { updatePassword } from '@/lib/actions'
 import { usePasswordVisibility } from '@/lib/hooks'
 import TextField from '@mui/material/TextField'
