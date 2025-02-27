@@ -1,4 +1,3 @@
-import SaveIcon from '@mui/icons-material/Save'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -43,11 +42,10 @@ export default function Loading() {
       >
         <Fab
           component={Button}
+          variant='extended'
           color='primary'
           aria-label='add'
-        >
-          <SaveIcon />
-        </Fab>
+        ></Fab>
       </Box>
     </Container>
   )

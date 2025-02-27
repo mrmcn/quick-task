@@ -1,4 +1,4 @@
-import CreateTaskBtn from '@/ui/common/create-task-btn'
+import CreateTaskBtn from '@/ui/common/create-task-fab'
 import MonitoringScreen from '@/ui/common/monitoring-states/monitor'
 import TasksList from '@/ui/common/tasks-list/tasks-list'
 import MonitoringScreenSkeleton from '@/ui/skeletons/monitoring-states'

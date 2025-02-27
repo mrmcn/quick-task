@@ -13,7 +13,7 @@ export default function EditStatusForm({
   summary,
 }: EditStatusFormProps) {
   const [state, action, pending] = useActionState(updateStatusTasks, undefined)
-  if (pending) return <CircularProgress />
+  if (pending) return <CircularProgress size={15} />
   if (state?.massage) return <Box>{state.massage}</Box>
 
   return (

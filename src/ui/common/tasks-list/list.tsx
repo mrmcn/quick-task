@@ -1,26 +1,29 @@
-import EditIcon from '@mui/icons-material/Edit'
-import IconButton from '@mui/material/IconButton'
+import { auth } from '@/auth'
+import CheckBox from '@mui/icons-material/CheckBox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import EditStatusForm from './edit-status-form'
 import { TasksListProps } from './tasks-list'
 
-export default function Task({ task }: { task: TasksListProps }) {
+export default async function Task({ task }: { task: TasksListProps }) {
   const { id, summary, status, details } = task
+  const session = await auth()
+  const secondaryAction = session?.user.email ? (
+    <EditStatusForm
+      id={id}
+      summary={summary}
+      status={status}
+    />
+  ) : (
+    <CheckBox />
+  )
 
   return (
     <ListItem
       disablePadding
-      secondaryAction={
-        <EditStatusForm
-          id={id}
-          summary={summary}
-          status={status}
-        />
-      }
+      secondaryAction={secondaryAction}
     >
       <ListItemButton
         component={Link}
@@ -28,14 +31,6 @@ export default function Task({ task }: { task: TasksListProps }) {
         role={undefined}
         dense
       >
-        <ListItemIcon>
-          <IconButton
-            edge='start'
-            aria-label='edit'
-          >
-            <EditIcon />
-          </IconButton>
-        </ListItemIcon>
         <ListItemText
           id={id}
           primary={summary}

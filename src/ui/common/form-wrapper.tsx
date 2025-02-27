@@ -1,7 +1,6 @@
 'use client'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import SaveIcon from '@mui/icons-material/Save'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -61,14 +60,13 @@ export default function FormWrapper({
       >
         <Fab
           component={Button}
+          variant='extended'
           type='submit'
           color='primary'
           aria-label='add'
           loading={isPending}
           aria-disabled={isPending}
-        >
-          <SaveIcon />
-        </Fab>
+        ></Fab>
       </Box>
     </Container>
   )
