@@ -1,6 +1,6 @@
-import CreateTaskBtn from '@/ui/common/create-task-fab'
-import MonitoringScreen from '@/ui/common/monitoring-states/monitor'
-import TasksList from '@/ui/common/tasks-list/tasks-list'
+import CreateTaskBtn from '@/ui/dashboard/create-task-fab'
+import MonitoringScreen from '@/ui/dashboard/monitoring-screen'
+import TasksList from '@/ui/dashboard/tasks-list/tasks-list'
 import Box from '@mui/material/Box'
 
 export default async function Home() {

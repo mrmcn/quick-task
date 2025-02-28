@@ -46,7 +46,9 @@ export default function Loading() {
           variant='extended'
           color='primary'
           aria-label='add'
-        ></Fab>
+        >
+          Save
+        </Fab>
       </Box>
     </Container>
   )

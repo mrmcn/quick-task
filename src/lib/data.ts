@@ -1,11 +1,14 @@
 import { auth } from '@/auth'
+import { TasksListProps } from '@/ui/dashboard/tasks-list/tasks-list'
 import prisma from './prisma'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000));
 
 export async function fetchTasksData() {
   const session = await auth()
-  const authorId = session?.user.id
+  if (!session) return getTasksDATA() // sampleTasksList
+
+  const authorId = session?.user.id // or userTasksList
   try {
     const tasks = await prisma.task.findMany({
       where: { authorId: authorId },
@@ -46,7 +49,9 @@ export async function fetchTaskIdData(id: string) {
 
 export async function fetchMonitoringStates() {
   const session = await auth()
-  const authorId = session?.user.id
+  if (!session) return getMonitoringDATA() // for sample monitor
+
+  const authorId = session?.user.id // or user monitor
   try {
     const groupInProgress = await prisma.task.groupBy({
       by: ['status'],
@@ -98,3 +103,29 @@ export default async function fetchUserData() {
     throw new Error('Failed to fetch display data.')
   }
 }
+
+const getTasksDATA = (): TasksListProps[] => [
+  {
+    id: '1',
+    summary: 'Sample 1',
+    details: 'Details task 1',
+    priority: 'high',
+    status: 'completed',
+  },
+  {
+    id: '2',
+    summary: 'Sample 2',
+    details: 'Details task 2',
+    priority: 'high',
+    status: 'completed',
+  },
+  {
+    id: '3',
+    summary: 'Sample 3',
+    details: 'Details task 3',
+    priority: 'high',
+    status: 'in_progress',
+  },
+]
+
+const getMonitoringDATA = () => ({ completed: 1, pending: 2, progress: 33 }) // for 'app/page'

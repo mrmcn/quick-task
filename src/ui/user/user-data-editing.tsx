@@ -1,8 +1,11 @@
+import { auth } from '@/auth'
 import { signout } from '@/lib/actions'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import DeleteIcon from '@mui/icons-material/Delete'
+import LockResetIcon from '@mui/icons-material/LockReset'
 import LogoutIcon from '@mui/icons-material/Logout'
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
-import { Box, Button } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import List from '@mui/material/List'
@@ -13,21 +16,59 @@ import Stack from '@mui/material/Stack'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-export default function UserDataEditing() {
+export default async function UserDataEditing() {
+  const session = await auth()
+  const name = session?.user.name
+  const email = session?.user.email
+
   return (
     <Stack {...getStackProps()}>
       <MyCard>
         <ListItem {...getListItemProps(Link, '/user/edit-name')}>
-          <ListItemText primary='Edit user name' />
-          <MyListItemIcon>
-            <ChevronRightIcon fontSize='small' />
-          </MyListItemIcon>
+          <ListItemText
+            primary='Edit user name'
+            sx={{ flexGrow: 1, color: 'primary.main' }}
+          />
+          <ListItemText
+            primary={name}
+            sx={{
+              color: 'secondary.main',
+              flexGrow: 0,
+              flexShrink: 0,
+              whiteSpace: 'nowrap',
+              minWidth: 'auto',
+            }}
+            slotProps={{
+              primary: {
+                variant: 'subtitle2',
+              },
+            }}
+          />
+          <ListItemIconChevron />
         </ListItem>
         <ListItem {...getListItemProps(Link, '/user/edit-email')}>
-          <ListItemText primary='Edit email' />
-          <MyListItemIcon>
-            <ChevronRightIcon fontSize='small' />
-          </MyListItemIcon>
+          <ListItemText
+            primary='Edit email'
+            sx={{
+              color: 'primary.main',
+            }}
+          />
+          <ListItemText
+            primary={email}
+            sx={{
+              color: 'secondary.main',
+              flexGrow: 0,
+              flexShrink: 0,
+              whiteSpace: 'nowrap',
+              minWidth: 'auto',
+            }}
+            slotProps={{
+              primary: {
+                variant: 'subtitle2',
+              },
+            }}
+          />
+          <ListItemIconChevron />
         </ListItem>
       </MyCard>
       <MyCard>
@@ -36,38 +77,49 @@ export default function UserDataEditing() {
           action={signout}
         >
           <ListItem {...getListItemProps(Link, '/user/edit-password')}>
-            <ListItemText primary='Reset password' />
-            <MyListItemIcon>
-              <ChevronRightIcon fontSize='small' />
-            </MyListItemIcon>
+            <ListItemIcon sx={{ minWidth: '30px' }}>
+              <LockResetIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary='Reset password'
+              sx={{
+                color: 'primary.main',
+              }}
+            />
+            <ListItemIconChevron />
           </ListItem>
           <ListItem {...getListItemProps(Button, undefined, 'none', 'submit')}>
+            <ListItemIcon sx={{ minWidth: '30px' }}>
+              <LogoutIcon />
+            </ListItemIcon>
             <ListItemText
               primary='Sign out'
+              sx={{
+                color: 'primary.main',
+              }}
               slotProps={{
                 primary: {
                   align: 'left',
                 },
               }}
             />
-            <MyListItemIcon>
-              <LogoutIcon fontSize='small' />
-            </MyListItemIcon>
+            <ListItemIconChevron />
           </ListItem>
         </Box>
       </MyCard>
       <MyCard>
         <ListItem {...getListItemProps(Link, '/user/delete')}>
+          <ListItemIcon sx={{ minWidth: '30px' }}>
+            <DeleteIcon />
+          </ListItemIcon>
           <ListItemText
             primary='Delete account'
+            sx={{
+              color: 'primary.main',
+            }}
             slotProps={{ primary: { color: 'warning' } }}
           />
-          <MyListItemIcon>
-            <PersonRemoveIcon
-              fontSize='small'
-              color='warning'
-            />
-          </MyListItemIcon>
+          <ListItemIconChevron />
         </ListItem>
       </MyCard>
     </Stack>
@@ -79,7 +131,7 @@ function MyCard({ children }: MyElementsProps) {
     <Card
       component='nav'
       variant='outlined'
-      sx={{ display: 'flex', width: { sm: '25%' } }}
+      sx={{ display: 'flex', width: { sm: '30%' } }}
     >
       <CardActions sx={{ width: '100%' }}>
         <List sx={{ width: '100%' }}>{children}</List>
@@ -88,22 +140,17 @@ function MyCard({ children }: MyElementsProps) {
   )
 }
 
-function MyListItemIcon({ children }: MyElementsProps) {
+function ListItemIconChevron() {
   return (
-    <ListItemIcon
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-      }}
-    >
-      {children}
+    <ListItemIcon sx={{ minWidth: '30px' }}>
+      <ChevronRightIcon fontSize='small' />
     </ListItemIcon>
   )
 }
 
 const getStackProps = () => ({
   direction: { xs: 'column', sm: 'row' } as const,
-  spacing: 5,
+  spacing: 3,
   sx: { display: 'flex', justifyContent: 'space-around', mt: '3vh' },
 })
 

@@ -1,9 +1,9 @@
 'use client'
 
 import { updateStatusTasks } from '@/lib/actions'
-import { CircularProgress } from '@mui/material'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
+import CircularProgress from '@mui/material/CircularProgress'
 import { useActionState } from 'react'
 import { TasksListProps } from './tasks-list'
 

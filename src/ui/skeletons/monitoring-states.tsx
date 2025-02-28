@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid2'
-import MonitoringState from '../common/monitoring-states/state'
+import { MonitoringCard } from '../dashboard/monitoring-screen'
 
 export default function MonitoringScreenSkeleton() {
   return (
@@ -12,21 +12,24 @@ export default function MonitoringScreenSkeleton() {
         container
         spacing={2}
       >
-        <MonitoringState
-          name='Completed tasks'
-          size={6}
-          value={0}
-        />
-        <MonitoringState
-          name='Pending tasks'
-          size={6}
-          value={0}
-        />
-        <MonitoringState
-          name='Progress, %'
-          size={12}
-          value={0}
-        />
+        <Grid size={6}>
+          <MonitoringCard
+            name='Completed tasks'
+            value={0}
+          />
+        </Grid>
+        <Grid size={6}>
+          <MonitoringCard
+            name='Pending tasks'
+            value={0}
+          />
+        </Grid>
+        <Grid size={12}>
+          <MonitoringCard
+            name='Progress, %'
+            value={0}
+          />
+        </Grid>
       </Grid>
     </Box>
   )

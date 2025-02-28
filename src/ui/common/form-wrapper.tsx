@@ -66,7 +66,9 @@ export default function FormWrapper({
           aria-label='add'
           loading={isPending}
           aria-disabled={isPending}
-        ></Fab>
+        >
+          Save
+        </Fab>
       </Box>
     </Container>
   )

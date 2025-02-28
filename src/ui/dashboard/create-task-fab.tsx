@@ -3,7 +3,7 @@ import Fab from '@mui/material/Fab'
 import Box from '@mui/material/Box'
 import Link from 'next/link'
 
-export default function CreateTaskBtn() {
+export default function CreateTaskFab() {
   return (
     <Box
       sx={{
