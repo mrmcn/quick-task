@@ -100,7 +100,7 @@ export async function updateUserName(prevState: any, formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/dashboard')
 }
 
 export async function updatePassword(prevState: any, formData: FormData) {

@@ -51,11 +51,9 @@ export default function FormWrapper({
       )}
       <Box
         sx={{
-          '& > :not(style)': {
-            position: 'fixed',
-            top: '85%',
-            left: '70%',
-          },
+          display: 'flex',
+          justifyContent: 'center',
+          mt: '10vh',
         }}
       >
         <Fab
@@ -66,6 +64,10 @@ export default function FormWrapper({
           aria-label='add'
           loading={isPending}
           aria-disabled={isPending}
+          sx={{
+            width: '100%',
+            maxWidth: '300px',
+          }}
         >
           Save
         </Fab>

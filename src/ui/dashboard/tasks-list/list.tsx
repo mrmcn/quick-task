@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import CheckBox from '@mui/icons-material/CheckBox'
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText, { ListItemTextProps } from '@mui/material/ListItemText'
@@ -7,38 +7,30 @@ import Link from 'next/link'
 import EditStatusForm from './edit-status-form'
 import { TasksListProps } from './tasks-list'
 
-export default function TaskItem({ task }: { task: TasksListProps }) {
+export default async function TaskItem({ task }: { task: TasksListProps }) {
+  const session = await auth()
   const { id, summary, details } = task
 
   return (
-    <ListItem
-      disablePadding
-      secondaryAction={secondaryAction(task)}
-    >
+    <ListItem disablePadding>
       <ListItemButton
         component={Link}
-        href={`/dashboard/${id}/edit`}
+        href={session ? `/dashboard/${id}/edit` : '/signin'}
         dense
       >
         <ListItemText {...getListItemText(id, summary, details)} />
       </ListItemButton>
+      {session ? (
+        <EditStatusForm
+          id={task.id}
+          summary={task.summary}
+          status={task.status}
+        />
+      ) : (
+        <CheckBoxIcon color='primary' />
+      )}
     </ListItem>
   )
-}
-
-const secondaryAction = async (task: TasksListProps) => {
-  const session = await auth()
-  if (session?.user.email) {
-    return (
-      <EditStatusForm
-        id={task.id}
-        summary={task.summary}
-        status={task.status}
-      />
-    )
-  } else {
-    return <CheckBox />
-  }
 }
 
 const getListItemText = (

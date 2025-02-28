@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
@@ -33,18 +32,18 @@ export default function Loading() {
       />
       <Box
         sx={{
-          '& > :not(style)': {
-            position: 'fixed',
-            top: '85%',
-            left: '70%',
-          },
+          display: 'flex',
+          justifyContent: 'center',
+          mt: '10vh',
         }}
       >
         <Fab
-          component={Button}
           variant='extended'
           color='primary'
-          aria-label='add'
+          sx={{
+            width: '100%',
+            maxWidth: '300px',
+          }}
         >
           Save
         </Fab>

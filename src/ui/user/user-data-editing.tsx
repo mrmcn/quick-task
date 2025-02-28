@@ -1,5 +1,5 @@
-import { auth } from '@/auth'
 import { signout } from '@/lib/actions'
+import fetchUserData from '@/lib/data'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LockResetIcon from '@mui/icons-material/LockReset'
@@ -17,9 +17,7 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 
 export default async function UserDataEditing() {
-  const session = await auth()
-  const name = session?.user.name
-  const email = session?.user.email
+  const { email, name } = await fetchUserData()
 
   return (
     <Stack {...getStackProps()}>

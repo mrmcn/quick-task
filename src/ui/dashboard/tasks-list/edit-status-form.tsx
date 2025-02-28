@@ -13,7 +13,13 @@ export default function EditStatusForm({
   summary,
 }: EditStatusFormProps) {
   const [state, action, pending] = useActionState(updateStatusTasks, undefined)
-  if (pending) return <CircularProgress size={15} />
+  if (pending)
+    return (
+      <CircularProgress
+        size={15}
+        sx={{ mr: 3 }}
+      />
+    )
   if (state?.massage) return <Box>{state.massage}</Box>
 
   return (
@@ -29,6 +35,7 @@ export default function EditStatusForm({
           }}
           edge='end'
           checked={status.includes('completed')}
+          sx={{ mr: 1, ml: 2 }}
           inputProps={{ 'aria-labelledby': summary }}
         />
         <input
