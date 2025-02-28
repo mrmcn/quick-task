@@ -2,7 +2,6 @@ import { auth } from '@/auth'
 import fetchUserData from '@/lib/data'
 import PersonIcon from '@mui/icons-material/Person'
 import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
@@ -23,15 +22,15 @@ export default async function BarBtn() {
   return (
     <>
       <HomeBtn hrefBtn={hrefBtn} />
-      <IconButton
+      <Button
         component={Link}
-        color='inherit'
         href='/user'
+        color='inherit'
+        startIcon={<PersonIcon />}
         aria-label='delete'
       >
-        <PersonIcon />
-        <Typography>{name}</Typography>
-      </IconButton>
+        {name}
+      </Button>
     </>
   )
 }
