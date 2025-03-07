@@ -1,12 +1,14 @@
 import { auth } from '@/auth'
 import { TasksListProps } from '@/ui/dashboard/tasks-list/tasks-list'
 import prisma from './prisma'
+import { redirect } from 'next/navigation'
+import { handleError } from './utils/error-handling'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000));
 
 export async function fetchTasksData() {
   const session = await auth()
-  if (!session) return getTasksDATA() // sampleTasksList
+  if (!session) return getTasksDATA() // for sampleTasksList
 
   const authorId = session?.user.id // or userTasksList
   try {
@@ -30,7 +32,7 @@ export async function fetchTasksData() {
 
 export async function fetchTaskIdData(id: string) {
   try {
-    const task = prisma.task.findUniqueOrThrow({
+    const task = await prisma.task.findUniqueOrThrow({
       where: { id: id },
       select: {
         id: true,
@@ -42,8 +44,7 @@ export async function fetchTaskIdData(id: string) {
 
     return task
   } catch (error) {
-    console.error('Database Error:', error)
-    throw new Error('Failed to fetch display data.')
+    return handleError(error)
   }
 }
 
@@ -86,18 +87,20 @@ export async function fetchMonitoringStates() {
 
 export default async function fetchUserData() {
   const session = await auth()
-  const userId = session?.user.id
+  if (!session) redirect('/')
+  const userId = session.user.id
 
   try {
-    const userData = prisma.user.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
       where: { id: userId },
       select: {
         name: true,
         email: true,
       },
     })
+    const userName = userData.name ?? 'User'
 
-    return userData
+    return { userName, email: userData.email }
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch display data.')

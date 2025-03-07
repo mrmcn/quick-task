@@ -1,5 +1,5 @@
-import { signout } from '@/lib/actions'
 import fetchUserData from '@/lib/data'
+import * as userService from '@/lib/services/actions/user-service'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LockResetIcon from '@mui/icons-material/LockReset'
@@ -11,78 +11,42 @@ import CardActions from '@mui/material/CardActions'
 import List from '@mui/material/List'
 import ListItem, { ListItemProps } from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
+import ListItemText, { ListItemTextProps } from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
+import { User } from '@prisma/client'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
 export default async function UserDataEditing() {
-  const { email, name } = await fetchUserData()
+  const { email, userName } = await fetchUserData()
 
   return (
     <Stack {...getStackProps()}>
       <MyCard>
         <ListItem {...getListItemProps(Link, '/user/edit-name')}>
-          <ListItemText
-            primary='Edit user name'
-            sx={{ flexGrow: 1, color: 'primary.main' }}
+          <ListName
+            getProps={getListNameProps('Edit user name', 'primary.main')}
           />
-          <ListItemText
-            primary={name}
-            sx={{
-              color: 'secondary.main',
-              flexGrow: 0,
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-              minWidth: 'auto',
-            }}
-            slotProps={{
-              primary: {
-                variant: 'subtitle2',
-              },
-            }}
-          />
+          <ListContent listContent={userName}></ListContent>
           <ListItemIconChevron />
         </ListItem>
         <ListItem {...getListItemProps(Link, '/user/edit-email')}>
-          <ListItemText
-            primary='Edit email'
-            sx={{
-              color: 'primary.main',
-            }}
-          />
-          <ListItemText
-            primary={email}
-            sx={{
-              color: 'secondary.main',
-              flexGrow: 0,
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-              minWidth: 'auto',
-            }}
-            slotProps={{
-              primary: {
-                variant: 'subtitle2',
-              },
-            }}
-          />
+          <ListName getProps={getListNameProps('Edit email', 'primary.main')} />
+          <ListContent listContent={email}></ListContent>
           <ListItemIconChevron />
         </ListItem>
       </MyCard>
       <MyCard>
         <Box
           component='form'
-          action={signout}
+          action={userService.signout}
         >
           <ListItem {...getListItemProps(Link, '/user/edit-password')}>
             <ListItemIcon sx={{ minWidth: '30px' }}>
               <LockResetIcon />
             </ListItemIcon>
-            <ListItemText
-              primary='Reset password'
-              sx={{
-                color: 'primary.main',
-              }}
+            <ListName
+              getProps={getListNameProps('Reset password', 'primary.main')}
             />
             <ListItemIconChevron />
           </ListItem>
@@ -90,17 +54,7 @@ export default async function UserDataEditing() {
             <ListItemIcon sx={{ minWidth: '30px' }}>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText
-              primary='Sign out'
-              sx={{
-                color: 'primary.main',
-              }}
-              slotProps={{
-                primary: {
-                  align: 'left',
-                },
-              }}
-            />
+            <ListName getProps={getListNameProps('Sign out', 'primary.main')} />
             <ListItemIconChevron />
           </ListItem>
         </Box>
@@ -110,12 +64,8 @@ export default async function UserDataEditing() {
           <ListItemIcon sx={{ minWidth: '30px' }}>
             <DeleteIcon />
           </ListItemIcon>
-          <ListItemText
-            primary='Delete account'
-            sx={{
-              color: 'primary.main',
-            }}
-            slotProps={{ primary: { color: 'warning' } }}
+          <ListName
+            getProps={getListNameProps('Delete account', 'warning.main')}
           />
           <ListItemIconChevron />
         </ListItem>
@@ -124,7 +74,7 @@ export default async function UserDataEditing() {
   )
 }
 
-function MyCard({ children }: MyElementsProps) {
+function MyCard({ children }: { children: ReactNode }) {
   return (
     <Card
       component='nav'
@@ -135,6 +85,27 @@ function MyCard({ children }: MyElementsProps) {
         <List sx={{ width: '100%' }}>{children}</List>
       </CardActions>
     </Card>
+  )
+}
+
+function ListName({ getProps }: { getProps: ListItemTextProps }) {
+  return <ListItemText {...getProps} />
+}
+
+function ListContent({ listContent }: ListContentProps) {
+  return (
+    <ListItemText
+      primary={listContent}
+      sx={{
+        color: 'secondary.main',
+        flexGrow: 0,
+      }}
+      slotProps={{
+        primary: {
+          variant: 'subtitle2',
+        },
+      }}
+    />
   )
 }
 
@@ -168,6 +139,14 @@ const getListItemProps = (
   },
 })
 
-interface MyElementsProps {
-  children: ReactNode
+const getListNameProps = (
+  primary: ListItemTextProps['primary'],
+  color: string,
+) => ({
+  primary,
+  sx: { color },
+})
+
+interface ListContentProps {
+  listContent: User['name'] | User['email']
 }

@@ -1,3 +1,4 @@
+import * as taskService from '@/lib/services/actions/task-service'
 import { TaskFormProps } from '@/ui/dashboard/task-form'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -5,9 +6,8 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { $Enums } from '@prisma/client'
 import { useState } from 'react'
-import { createTask, updateTask } from './actions'
 
-export function usePasswordVisibility() {
+export function usePasswordVisibility(): UsePasswordVisibilityReturnType {
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (
@@ -54,7 +54,7 @@ export function useTaskForm(task: TaskFormProps | null) {
 
   if (task) {
     return {
-      action: updateTask,
+      action: taskService.updateTask,
       formName: 'Edit task',
       btnName: 'Save',
       changePriority,
@@ -65,11 +65,18 @@ export function useTaskForm(task: TaskFormProps | null) {
     }
   } else {
     return {
-      action: createTask,
+      action: taskService.createTask,
       formName: 'Create task',
       btnName: 'Save',
       changePriority,
       handlePriority,
     }
   }
+}
+
+interface UsePasswordVisibilityReturnType {
+  input: {
+    endAdornment: React.ReactElement
+  }
+  type: 'text' | 'password'
 }

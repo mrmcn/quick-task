@@ -1,13 +1,18 @@
-import { auth } from '@/auth'
 import fetchUserData from '@/lib/data'
-import EmailEditingForm from '@/ui/user/email-editing-form'
-import { redirect } from 'next/navigation'
+import * as userService from '@/lib/services/actions/user-service'
+import FormWrapperWithAction from '@/ui/common/form-wrapper/with-action'
+import EmailTextField from '@/ui/common/text-field/email'
 
 export default async function EditEmail() {
-  const session = await auth()
-  if (!session) redirect('/')
   const userData = await fetchUserData()
   const email = userData.email
 
-  return <EmailEditingForm email={email} />
+  return (
+    <FormWrapperWithAction
+      action={userService.updateEmail}
+      formName='Edit email'
+    >
+      <EmailTextField defaultValue={email} />
+    </FormWrapperWithAction>
+  )
 }

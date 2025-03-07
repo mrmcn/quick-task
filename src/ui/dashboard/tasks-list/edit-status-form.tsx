@@ -1,6 +1,6 @@
 'use client'
 
-import { updateStatusTasks } from '@/lib/actions'
+import * as taskService from '@/lib/services/actions/task-service'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -12,7 +12,11 @@ export default function EditStatusForm({
   status,
   summary,
 }: EditStatusFormProps) {
-  const [state, action, pending] = useActionState(updateStatusTasks, undefined)
+  const [state, action, pending] = useActionState(
+    taskService.updateStatusTasks,
+    undefined,
+  )
+
   if (pending)
     return (
       <CircularProgress
@@ -20,7 +24,7 @@ export default function EditStatusForm({
         sx={{ mr: 3 }}
       />
     )
-  if (state?.massage) return <Box>{state.massage}</Box>
+  if (state?.message) return <Box>{state.message}</Box>
 
   return (
     <>
@@ -40,7 +44,7 @@ export default function EditStatusForm({
         />
         <input
           type='hidden'
-          name='taskId'
+          name='id'
           value={id}
         />
         <input

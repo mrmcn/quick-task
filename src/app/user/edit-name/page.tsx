@@ -1,13 +1,17 @@
-import { auth } from '@/auth'
 import fetchUserData from '@/lib/data'
-import UsernameEditingForm from '@/ui/user/name-editing-form'
-import { redirect } from 'next/navigation'
+import * as userService from '@/lib/services/actions/user-service'
+import FormWrapperWithAction from '@/ui/common/form-wrapper/with-action'
+import NameTextField from '@/ui/common/text-field/user-name'
 
 export default async function EditUsername() {
-  const session = await auth()
-  if (!session) redirect('/')
-  const userData = await fetchUserData()
-  const userName = userData.name ?? 'User'
+  const { userName } = await fetchUserData()
 
-  return <UsernameEditingForm userName={userName} />
+  return (
+    <FormWrapperWithAction
+      action={userService.updateUserName}
+      formName='Edit user name'
+    >
+      <NameTextField defaultValue={userName} />
+    </FormWrapperWithAction>
+  )
 }

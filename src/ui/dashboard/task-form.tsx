@@ -1,14 +1,14 @@
 'use client'
 
-import { deleteTask } from '@/lib/actions'
 import { useTaskForm } from '@/lib/hooks'
+import * as taskService from '@/lib/services/actions/task-service'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { $Enums } from '@prisma/client'
-import FormWrapper from '../common/form-wrapper'
+import FormWrapperWithAction from '../common/form-wrapper/with-action'
 
 // edit & create form
 
@@ -16,7 +16,7 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
   const {
     changePriority,
     handlePriority,
-    action, // query function
+    action, // server Action function
     formName, // form title
     id, // taskId
     summary, // task title
@@ -25,8 +25,8 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
 
   return (
     <>
-      <FormWrapper
-        fn={action}
+      <FormWrapperWithAction
+        action={action}
         formName={formName}
       >
         <TextField
@@ -86,15 +86,15 @@ export default function TaskForm({ task }: { task: TaskFormProps | null }) {
         {task?.id && (
           <input
             type='hidden'
-            name='taskId'
+            name='id'
             value={id}
           />
         )}
-      </FormWrapper>
+      </FormWrapperWithAction>
       {task?.id && (
         <Button
           color='error'
-          onClick={() => deleteTask(task?.id)}
+          onClick={() => taskService.deleteTask(task?.id)}
         >
           Delete task
         </Button>

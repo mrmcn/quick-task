@@ -1,4 +1,4 @@
-import { deleteUser } from '@/lib/actions'
+import * as userService from '@/lib/services/actions/user-service'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -40,7 +40,7 @@ export default function DeletingUser() {
           <Button
             color='error'
             size='small'
-            onClick={deleteUser}
+            onClick={userService.deleteUser}
           >
             Delete account
           </Button>

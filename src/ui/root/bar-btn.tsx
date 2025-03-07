@@ -7,21 +7,19 @@ import Link from 'next/link'
 
 export default async function BarBtn() {
   const session = await auth()
-  const hrefBtn = session ? '/dashboard' : '/'
   if (!session)
     return (
       <>
-        <HomeBtn hrefBtn={hrefBtn} />
+        <HomeBtn href='/' />
         <Signin />
       </>
     )
 
-  const userData = await fetchUserData()
-  const name = userData.name ?? 'User'
+  const { userName } = await fetchUserData()
 
   return (
     <>
-      <HomeBtn hrefBtn={hrefBtn} />
+      <HomeBtn href='/dashboard' />
       <Button
         component={Link}
         href='/user'
@@ -29,7 +27,7 @@ export default async function BarBtn() {
         startIcon={<PersonIcon />}
         aria-label='delete'
       >
-        {name}
+        {userName}
       </Button>
     </>
   )
@@ -47,11 +45,11 @@ function Signin() {
   )
 }
 
-function HomeBtn({ hrefBtn }: { hrefBtn: string }) {
+function HomeBtn({ href }: { href?: string }) {
   return (
     <Button
       component={Link}
-      href={hrefBtn}
+      href={href}
       size='large'
       color='inherit'
       sx={{ flexGrow: 1 }}

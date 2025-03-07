@@ -1,3 +1,4 @@
+import { checkAuth } from '@/auth'
 import CreateTaskBtn from '@/ui/dashboard/create-task-fab'
 import MonitoringScreen from '@/ui/dashboard/monitoring-screen'
 import TasksList from '@/ui/dashboard/tasks-list/tasks-list'
@@ -7,6 +8,8 @@ import Box from '@mui/material/Box'
 import { Suspense } from 'react'
 
 export default async function Dashboard() {
+  checkAuth()
+
   return (
     <Box component='main'>
       <Suspense fallback={<MonitoringScreenSkeleton />}>

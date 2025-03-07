@@ -1,5 +1,14 @@
-import PasswordEditingForm from '@/ui/user/password-edit-form'
+import * as userService from '@/lib/services/actions/user-service'
+import FormWrapperWithAction from '@/ui/common/form-wrapper/with-action'
+import PasswordTextField from '@/ui/common/text-field/password'
 
-export default async function EditPassword() {
-  return <PasswordEditingForm />
+export default function EditPassword() {
+  return (
+    <FormWrapperWithAction
+      action={userService.updatePassword}
+      formName='Reset password'
+    >
+      <PasswordTextField />
+    </FormWrapperWithAction>
+  )
 }
