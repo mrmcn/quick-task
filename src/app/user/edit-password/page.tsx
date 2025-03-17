@@ -1,12 +1,13 @@
-import * as userService from '@/lib/services/actions/user-service'
-import FormWrapperWithAction from '@/ui/common/form-wrapper/with-action'
-import PasswordTextField from '@/ui/common/text-field/password'
+import { updatePassword } from '@/lib/services/actions/user'
+import { FormName } from '@/lib/constants/text-const'
+import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
+import PasswordTextField from '@/ui/common/form/text-fields/password'
 
 export default function EditPassword() {
   return (
     <FormWrapperWithAction
-      action={userService.updatePassword}
-      formName='Reset password'
+      action={updatePassword}
+      formName={FormName.resetPassword}
     >
       <PasswordTextField />
     </FormWrapperWithAction>

@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { AuthError } from 'next-auth'
 import { ValidateErrorsProps } from '../zod/validate'
 
-export function handleError(error: unknown) {
+export function handleError(error: unknown): HandleErrorProps {
   if (error instanceof Prisma.PrismaClientKnownRequestError)
     return handlePrismaError(error)
   else return handleUnknownError(error)
@@ -104,3 +104,12 @@ interface HandleUnknownErrorProps {
 export type DetailsPrismaErrorProps = Record<string, unknown> | undefined
 
 export type DetailsUnknownErrorProps = string
+
+export interface HandleErrorProps {
+  type: string
+  message: string
+  details:
+    | ValidateErrorsProps
+    | DetailsPrismaErrorProps
+    | DetailsUnknownErrorProps
+}

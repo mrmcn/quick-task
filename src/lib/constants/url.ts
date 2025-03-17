@@ -1,0 +1,11 @@
+export const HOME_URL = '/'
+export const SIGNUP_URL = '/signup'
+export const SIGNIN_URL = '/signin'
+export const USER_URL = '/user'
+export const USER_EDIT_NAME_URL = '/user/edit-name'
+export const USER_EDIT_EMAIL_URL = '/user/edit-email'
+export const USER_EDIT_PASSWORD_URL = '/user/edit-password'
+export const USER_DELETE_URL = '/user/delete'
+export const DASHBOARD_URL = '/dashboard'
+export const DASHBOARD_CREATE_URL = '/dashboard/create'
+export const DASHBOARD_EDIT_URL = (id: string) => `/dashboard/${id}/edit`

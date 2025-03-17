@@ -1,21 +1,22 @@
 import type { NextAuthConfig } from 'next-auth'
 import { type DefaultSession } from 'next-auth'
 import 'next-auth/jwt'
+import { DASHBOARD_URL, SIGNIN_URL, USER_URL } from './lib/constants/url'
 
 export const authConfig = {
   pages: {
-    signIn: '/signin',
+    signIn: SIGNIN_URL,
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
-      const isOnUser = nextUrl.pathname.startsWith('/user')
+      const isOnDashboard = nextUrl.pathname.startsWith(DASHBOARD_URL)
+      const isOnUser = nextUrl.pathname.startsWith(USER_URL)
       if (isOnDashboard || isOnUser) {
         if (isLoggedIn) return true
         return false
       } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl))
+        return Response.redirect(new URL(DASHBOARD_URL, nextUrl))
       }
       return true
     },

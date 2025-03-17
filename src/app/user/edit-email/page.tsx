@@ -1,18 +1,31 @@
-import fetchUserData from '@/lib/data'
-import * as userService from '@/lib/services/actions/user-service'
-import FormWrapperWithAction from '@/ui/common/form-wrapper/with-action'
-import EmailTextField from '@/ui/common/text-field/email'
+import { FormName, ListError } from '@/lib/constants/text-const'
+import { updateEmail } from '@/lib/services/actions/user'
+import fetchUserData, { FetchUserData } from '@/lib/services/queries/user'
+import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
+import EmailTextField from '@/ui/common/form/text-fields/email'
+import { Suspense, use } from 'react'
 
 export default async function EditEmail() {
-  const userData = await fetchUserData()
-  const email = userData.email
+  const userDataPromise = fetchUserData()
 
   return (
     <FormWrapperWithAction
-      action={userService.updateEmail}
-      formName='Edit email'
+      action={updateEmail}
+      formName={FormName.editEmail}
     >
-      <EmailTextField defaultValue={email} />
+      <Suspense fallback={<EmailTextField />}>
+        <SuspenseItem promise={userDataPromise} />
+      </Suspense>
     </FormWrapperWithAction>
   )
+}
+
+function SuspenseItem({ promise }: SuspenseItemProps) {
+  const userData = use(promise)
+  const email = userData.data?.email ?? ListError.noData
+  return <EmailTextField defaultValue={email} />
+}
+
+interface SuspenseItemProps {
+  promise: FetchUserData
 }

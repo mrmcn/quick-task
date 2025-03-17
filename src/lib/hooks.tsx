@@ -1,13 +1,13 @@
-import * as taskService from '@/lib/services/actions/task-service'
-import { TaskFormProps } from '@/ui/dashboard/task-form'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import { $Enums } from '@prisma/client'
+import { Priority, Task } from '@prisma/client'
 import { useState } from 'react'
+import { TaskIdData } from './services/queries/task'
+import { PasswordInputType } from './constants/text-const'
 
-export function usePasswordVisibility(): UsePasswordVisibilityReturnType {
+export function usePasswordVisibility() {
   const [showPassword, setShowPassword] = useState(false)
   const handleClickShowPassword = () => setShowPassword((show) => !show)
   const handleMouseDownPassword = (
@@ -39,44 +39,20 @@ export function usePasswordVisibility(): UsePasswordVisibilityReturnType {
         </InputAdornment>
       ),
     },
-    type: showPassword ? 'text' : 'password',
+    type: showPassword ? PasswordInputType.text : PasswordInputType.password,
   }
 }
 
-export function useTaskForm(task: TaskFormProps | null) {
-  const [changePriority, setPriority] = useState(task?.priority ?? 'low') // editForm or createForm, for toggle btn
+export function usePriorityState(task: TaskIdData | undefined) {
+  const [changePriority, setPriority] = useState(
+    task?.priority ?? Priority['low'],
+  ) // editForm or createForm, for toggle btn
   const handlePriority = (
     event: React.MouseEvent<HTMLElement>,
-    newPriority: $Enums.Priority | null,
+    newPriority: Task['priority'] | null,
   ) => {
     if (newPriority !== null) setPriority(newPriority)
   }
 
-  if (task) {
-    return {
-      action: taskService.updateTask,
-      formName: 'Edit task',
-      btnName: 'Save',
-      changePriority,
-      handlePriority,
-      id: task.id,
-      summary: task.summary,
-      details: task.details,
-    }
-  } else {
-    return {
-      action: taskService.createTask,
-      formName: 'Create task',
-      btnName: 'Save',
-      changePriority,
-      handlePriority,
-    }
-  }
-}
-
-interface UsePasswordVisibilityReturnType {
-  input: {
-    endAdornment: React.ReactElement
-  }
-  type: 'text' | 'password'
+  return { changePriority, handlePriority }
 }

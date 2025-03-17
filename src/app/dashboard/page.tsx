@@ -1,30 +1,17 @@
-import { checkAuth } from '@/auth'
-import CreateTaskBtn from '@/ui/dashboard/create-task-fab'
-import MonitoringScreen from '@/ui/dashboard/monitoring-screen'
-import TasksList from '@/ui/dashboard/tasks-list/tasks-list'
-import MonitoringScreenSkeleton from '@/ui/skeletons/monitoring-states'
-import { CircularProgress } from '@mui/material'
+import { checkAuth } from '@/lib/utils/check-auth'
+import CreateTaskBtn from '@/ui/common/create-task-fab'
+import MonitoringScreen from '@/ui/common/monitoring-screen'
+import TasksList from '@/ui/common/tasks-list'
 import Box from '@mui/material/Box'
-import { Suspense } from 'react'
 
 export default async function Dashboard() {
   checkAuth()
 
   return (
     <Box component='main'>
-      <Suspense fallback={<MonitoringScreenSkeleton />}>
-        <MonitoringScreen />
-      </Suspense>
+      <MonitoringScreen />
       <CreateTaskBtn />
-      <Suspense
-        fallback={
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: '10vh' }}>
-            <CircularProgress />
-          </Box>
-        }
-      >
-        <TasksList />
-      </Suspense>
+      <TasksList />
     </Box>
   )
 }

@@ -28,8 +28,8 @@ function validateFormData<T extends z.ZodTypeAny>(
   return { errors: null, data: validatedFields.data }
 }
 
-export function validateForm(formData: FormData, updateSchema: z.ZodTypeAny) {
-  return validateFormData(updateSchema, formData)
+export function validateForm(zodSchema: z.ZodTypeAny, formData: FormData) {
+  return validateFormData(zodSchema, formData)
 }
 
 export type ValidateErrorsProps = Record<string, string[]>

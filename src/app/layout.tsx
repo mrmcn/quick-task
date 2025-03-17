@@ -1,6 +1,6 @@
 import theme from '@/theme'
 import { roboto } from '@/ui/font'
-import BasicAppBar from '@/ui/root/basic-appbar'
+import BasicAppBar from '@/ui/root/bar'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'

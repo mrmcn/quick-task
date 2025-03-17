@@ -1,4 +1,5 @@
-import * as userService from '@/lib/services/actions/user-service'
+import { ButtonName, Phrases } from '@/lib/constants/text-const'
+import { deleteUser } from '@/lib/services/actions/user'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
@@ -25,8 +26,7 @@ export default function DeletingUser() {
             gutterBottom
             sx={{ fontSize: 14 }}
           >
-            Are you sure? This action cannot be undone. All user data will be
-            lost forever.
+            {Phrases.userDeleteText}
           </Typography>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -35,14 +35,14 @@ export default function DeletingUser() {
             href='/user'
             size='large'
           >
-            Cancel
+            {ButtonName.cancel}
           </Button>
           <Button
             color='error'
             size='small'
-            onClick={userService.deleteUser}
+            onClick={deleteUser}
           >
-            Delete account
+            {ButtonName.deleteAccount}
           </Button>
         </CardActions>
       </Card>
