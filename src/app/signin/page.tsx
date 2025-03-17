@@ -12,8 +12,17 @@ import LoadingIndicator from '@/ui/common/loading-indicator'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default function SigninPage() {
+  return (
+    <Suspense>
+      <SigninForm />
+    </Suspense>
+  )
+}
+
+function SigninForm() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || DASHBOARD_URL
 
