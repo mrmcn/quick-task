@@ -1,7 +1,7 @@
 'use client'
 
 import { updateStatusTasks } from '@/lib/services/actions/task'
-import { TasksListProps } from '@/lib/services/queries/task'
+import { TaskData } from '@/lib/services/queries/task'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -54,4 +54,4 @@ export default function UpdateTaskStatus({
   )
 }
 
-type EditStatusFormProps = Omit<TasksListProps, 'priority' | 'details'>
+type EditStatusFormProps = Omit<TaskData, 'priority' | 'details'>
