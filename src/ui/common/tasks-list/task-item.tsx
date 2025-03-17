@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { DASHBOARD_EDIT_URL, SIGNIN_URL } from '@/lib/constants/url'
-import { TasksListProps } from '@/lib/services/queries/task'
+import { TaskData } from '@/lib/services/queries/task'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -9,7 +9,7 @@ import Skeleton from '@mui/material/Skeleton'
 import Link from 'next/link'
 import UpdateTaskStatus from './update-status-form'
 
-export default async function TaskItem({ task }: { task: TasksListProps }) {
+export default async function TaskItem({ task }: TaskItem) {
   const { summary, details } = task
   const { href, renderTaskStatus } = await getTaskNavigationAndStatus(task)
 
@@ -54,7 +54,7 @@ export function TaskItemSkeleton() {
   ))
 }
 
-async function getTaskNavigationAndStatus(task: TasksListProps) {
+async function getTaskNavigationAndStatus(task: TaskData) {
   const session = await auth()
   const href = session ? DASHBOARD_EDIT_URL(task.id) : SIGNIN_URL
   const renderTaskStatus = session ? (
@@ -67,4 +67,8 @@ async function getTaskNavigationAndStatus(task: TasksListProps) {
     <CheckBoxIcon color='primary' />
   )
   return { href, renderTaskStatus }
+}
+
+interface TaskItem {
+  task: TaskData
 }

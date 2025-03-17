@@ -72,7 +72,9 @@ export type FetchTaskData<T> = Promise<
   { data: T; error?: undefined } | { error: HandleErrorProps; data?: undefined }
 >
 
-export type TasksData = Omit<Task, 'date' | 'authorId'>[]
+export type TaskData = Omit<Task, 'date' | 'authorId'>
+
+export type TasksData = TaskData[]
 
 export type TaskIdData = Pick<Task, 'id' | 'summary' | 'details' | 'priority'>
 
