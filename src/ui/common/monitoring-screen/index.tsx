@@ -1,9 +1,9 @@
 import { ListError, MonitoringCardName } from '@/lib/constants/text-const'
 import {
   fetchMonitoringStates,
-  FetchMonitoringStates,
+  FetchTaskData,
+  MonitoringStatesProps,
 } from '@/lib/services/queries/task'
-import { MonitoringStatesProps } from '@/lib/utils/calculator-monitoring-states'
 import { Skeleton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -98,7 +98,7 @@ function SuspenseItem({ type, monitoringStatesPromise }: SuspenseItemProps) {
 
 interface SuspenseItemProps {
   type: keyof MonitoringStatesProps
-  monitoringStatesPromise: FetchMonitoringStates
+  monitoringStatesPromise: FetchTaskData<MonitoringStatesProps>
 }
 
 interface MonitoringCardProps {
