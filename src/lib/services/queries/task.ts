@@ -4,7 +4,7 @@ import { calculateMonitoringStates } from '@/lib/utils/calculator-monitoring-sta
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { Task } from '@prisma/client'
 
-export async function fetchTasksData(): FetchTaskData<TasksData> {
+export async function fetchUserTasksData(): FetchData<UserTasks> {
   const session = await auth()
 
   if (!session) return { data: getTasksDATA() } // for sampleTasksList
@@ -14,7 +14,7 @@ export async function fetchTasksData(): FetchTaskData<TasksData> {
       where: { authorId: authorId },
       select: {
         id: true,
-        summary: true,
+        title: true,
         details: true,
         priority: true,
         status: true,
@@ -29,13 +29,13 @@ export async function fetchTasksData(): FetchTaskData<TasksData> {
 
 export async function fetchTaskIdData(
   id: FetchTaskIdDataProps,
-): FetchTaskData<TaskIdData> {
+): FetchData<TaskId> {
   try {
     const data = await prisma.task.findUniqueOrThrow({
       where: { id: id },
       select: {
         id: true,
-        summary: true,
+        title: true,
         details: true,
         priority: true,
       },
@@ -47,7 +47,7 @@ export async function fetchTaskIdData(
   }
 }
 
-export async function fetchMonitoringStates(): FetchTaskData<MonitoringStatesProps> {
+export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> {
   const session = await auth()
 
   if (!session) return { data: getMonitoringDATA() } // for sample monitor
@@ -68,15 +68,15 @@ export async function fetchMonitoringStates(): FetchTaskData<MonitoringStatesPro
   }
 }
 
-export type FetchTaskData<T> = Promise<
+export type FetchData<T> = Promise<
   { data: T; error?: undefined } | { error: HandleErrorProps; data?: undefined }
 >
 
 export type TaskData = Omit<Task, 'date' | 'authorId'>
 
-export type TasksData = TaskData[]
+export type UserTasks = TaskData[]
 
-export type TaskIdData = Pick<Task, 'id' | 'summary' | 'details' | 'priority'>
+export type TaskId = Omit<TaskData, 'status'>
 
 export interface MonitoringStatesProps {
   completed: number | undefined
@@ -86,24 +86,24 @@ export interface MonitoringStatesProps {
 
 export type FetchTaskIdDataProps = string
 
-const getTasksDATA = (): TasksData => [
+const getTasksDATA = (): UserTasks => [
   {
     id: '1',
-    summary: 'Sample 1',
+    title: 'Sample 1',
     details: 'Details task 1',
     priority: 'high',
     status: 'completed',
   },
   {
     id: '2',
-    summary: 'Sample 2',
+    title: 'Sample 2',
     details: 'Details task 2',
     priority: 'high',
     status: 'completed',
   },
   {
     id: '3',
-    summary: 'Sample 3',
+    title: 'Sample 3',
     details: 'Details task 3',
     priority: 'high',
     status: 'in_progress',

@@ -1,22 +1,16 @@
-export const FormButtonName = {
-  signIn: 'Sign in',
-  save: 'Save',
-} as const
-
-export type FormButtonNameProps =
-  (typeof FormButtonName)[keyof typeof FormButtonName]
-
-export const ButtonName = {
+export const ListButtonNames = {
   deleteAccount: 'Delete account',
   deleteTask: 'Delete task',
   cancel: 'Cancel',
   signup: 'Sign up',
+  signIn: 'Sign in',
+  save: 'Save',
 } as const
 
-export type ButtonNameProps =
-  (typeof FormButtonName)[keyof typeof FormButtonName]
+export type ListButtonNamesProps =
+  (typeof ListButtonNames)[keyof typeof ListButtonNames]
 
-export const FormName = {
+export const ListFormNames = {
   editUserName: 'Edit user name',
   editEmail: 'Edit email',
   resetPassword: 'Reset password',
@@ -26,7 +20,8 @@ export const FormName = {
   createTask: 'Create task',
 } as const
 
-export type FormNameProps = (typeof FormName)[keyof typeof FormName]
+export type ListFormNamesProps =
+  (typeof ListFormNames)[keyof typeof ListFormNames]
 
 export const PasswordInputType = {
   text: 'text',
@@ -36,16 +31,16 @@ export const PasswordInputType = {
 export type PasswordInputTypeProps =
   (typeof PasswordInputType)[keyof typeof PasswordInputType]
 
-export const TextFieldLabel = {
+export const ListTextFieldLabel = {
   email: 'Email',
   password: 'Password',
   name: 'Name',
-  summary: 'Title',
+  title: 'Title',
   details: 'Details',
 } as const
 
-export type TextFieldLabelProps =
-  (typeof TextFieldLabel)[keyof typeof TextFieldLabel]
+export type ListTextFieldLabelProps =
+  (typeof ListTextFieldLabel)[keyof typeof ListTextFieldLabel]
 
 export const ListError = {
   noData: 'no data',
@@ -56,21 +51,29 @@ export const ListError = {
 
 export type ListErrorProps = (typeof ListError)[keyof typeof ListError]
 
-export const MonitoringCardName = {
+export const ListMonitoringCardName = {
   completed: 'Completed tasks',
   pending: 'Pending tasks',
   progress: 'Progress, %',
 } as const
 
-export type MonitoringCardNameProps =
-  (typeof MonitoringCardName)[keyof typeof MonitoringCardName]
+export type ListMonitoringCardNameProps =
+  (typeof ListMonitoringCardName)[keyof typeof ListMonitoringCardName]
 
-export const Phrases = {
+export const ListPlaceholder = {
+  enterEmail: 'Enter your email address',
+  enterPassword: 'Enter your password',
+  createPassword: 'Create a strong password',
+  createTitle: 'Create a task title',
+  createDetails: 'Describe the details of the task',
+} as const
+
+export type ListPlaceholderProps =
+  (typeof ListPlaceholder)[keyof typeof ListPlaceholder]
+
+export const ListPhrases = {
   createNewTask: 'This is empty for now. Create a new task.',
   deleteAccount: 'Delete account',
-  editEmail: 'Edit email',
-  enterEmail: 'Enter your email address',
-  enterPassword: 'Enter password',
   editUserName: 'Edit user name',
   high: 'high',
   quickTask: 'QUICK TASK',
@@ -83,4 +86,4 @@ export const Phrases = {
     'Are you sure? This action cannot be undone. All user data will be lost forever.',
 } as const
 
-export type PhrasesProps = (typeof Phrases)[keyof typeof Phrases]
+export type ListPhrasesProps = (typeof ListPhrases)[keyof typeof ListPhrases]

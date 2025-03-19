@@ -1,28 +1,15 @@
 'use client'
 
-import { ListError, Phrases } from '@/lib/constants/text-const'
+import { ListPhrases } from '@/lib/constants/text-const'
 import { usePriorityState } from '@/lib/hooks'
-import { FetchTaskData, TaskIdData } from '@/lib/services/queries/task'
+import { TaskId } from '@/lib/services/queries/task'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { Priority } from '@prisma/client'
-import { notFound } from 'next/navigation'
-import { use } from 'react'
 
-export default function SuspensePriorityToggleBtns({ promise }: SuspenseProps) {
-  const { data, error } = promise ? use(promise) : {}
-
-  if (error && error.type !== 'database') notFound()
+export default function PriorityToggleBtns({ data }: Props) {
   const { changePriority, handlePriority } = usePriorityState(data)
-  const errorMessage = error ? ListError.noData : null
-  const renderIdTask = data ? (
-    <input
-      type='hidden'
-      name='id'
-      value={data.id}
-    />
-  ) : null
 
   return (
     <>
@@ -30,8 +17,7 @@ export default function SuspensePriorityToggleBtns({ promise }: SuspenseProps) {
         variant='caption'
         sx={{ ml: '1vw' }}
       >
-        {Phrases.priority}
-        {errorMessage}
+        {ListPhrases.priority}
       </Typography>
       <ToggleButtonGroup
         size='small'
@@ -46,14 +32,14 @@ export default function SuspensePriorityToggleBtns({ promise }: SuspenseProps) {
           value={Priority['low']}
           aria-label='low priority'
         >
-          {Phrases.low}
+          {ListPhrases.low}
         </ToggleButton>
         <ToggleButton
           color='error'
           value={Priority['high']}
           aria-label='high priority'
         >
-          {Phrases.high}
+          {ListPhrases.high}
         </ToggleButton>
       </ToggleButtonGroup>
       <input
@@ -61,11 +47,10 @@ export default function SuspensePriorityToggleBtns({ promise }: SuspenseProps) {
         name='priority'
         value={changePriority}
       />
-      {renderIdTask}
     </>
   )
 }
 
-interface SuspenseProps {
-  promise?: FetchTaskData<TaskIdData>
+interface Props {
+  data?: TaskId
 }

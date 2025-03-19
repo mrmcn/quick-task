@@ -1,6 +1,6 @@
 'use client'
 
-import { Phrases, PhrasesProps } from '@/lib/constants/text-const'
+import { ListPhrases, ListPhrasesProps } from '@/lib/constants/text-const'
 import { useMediaQuery, useTheme } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -36,7 +36,7 @@ export default function LoadingIndicator({ content }: LoadingIndicatorProps) {
 
 interface LoadingIndicatorProps {
   content: Extract<
-    PhrasesProps,
-    typeof Phrases.loggingIn | typeof Phrases.logoutIn
+    ListPhrasesProps,
+    typeof ListPhrases.loggingIn | typeof ListPhrases.logoutIn
   >
 }

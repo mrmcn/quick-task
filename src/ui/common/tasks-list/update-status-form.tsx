@@ -10,7 +10,7 @@ import { useActionState } from 'react'
 export default function UpdateTaskStatus({
   id,
   status,
-  summary,
+  title,
 }: EditStatusFormProps) {
   const [state, action, pending] = useActionState(updateStatusTasks, undefined)
 
@@ -37,7 +37,7 @@ export default function UpdateTaskStatus({
           edge='end'
           checked={status.includes('completed')}
           sx={{ mr: 1, ml: 2 }}
-          inputProps={{ 'aria-labelledby': summary }}
+          inputProps={{ 'aria-labelledby': title }}
         />
         <input
           type='hidden'

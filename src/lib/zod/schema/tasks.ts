@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const FormSchema = z.object({
   id: z.string(),
-  summary: z.string({ message: '"This field is required."' }), //This field is required.
+  title: z.string({ message: '"This field is required."' }), //This field is required.
   details: z.string({ message: '"This field is required."' }), //This field is required.
   date: z.date(),
   priority: z.enum(['high', 'low']),
@@ -11,7 +11,7 @@ export const FormSchema = z.object({
 })
 
 export const UpdateStatusSchema = FormSchema.omit({
-  summary: true,
+  title: true,
   details: true,
   date: true,
   priority: true,

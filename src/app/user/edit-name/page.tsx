@@ -1,31 +1,24 @@
-import { FormName, ListError } from '@/lib/constants/text-const'
+import { ListFormNames } from '@/lib/constants/text-const'
 import { updateUserName } from '@/lib/services/actions/user'
-import fetchUserData, { FetchUserData } from '@/lib/services/queries/user'
+import fetchUserData from '@/lib/services/queries/user'
 import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
-import NameTextField from '@/ui/common/form/text-fields/user-name'
-import { Suspense, use } from 'react'
+import Await from '@/lib/utils/await'
+import NameTextField from '@/ui/common/form/text-fields/user/name'
+import { Suspense } from 'react'
 
-export default async function EditUsername() {
+export default function EditUsername() {
   const userDataPromise = fetchUserData()
 
   return (
     <FormWrapperWithAction
       action={updateUserName}
-      formName={FormName.editUserName}
+      formName={ListFormNames.editUserName}
     >
       <Suspense fallback={<NameTextField />}>
-        <SuspenseItem promise={userDataPromise} />
+        <Await promise={userDataPromise}>
+          <NameTextField />
+        </Await>
       </Suspense>
     </FormWrapperWithAction>
   )
-}
-
-function SuspenseItem({ promise }: SuspenseItemProps) {
-  const userData = use(promise)
-  const name = userData.data?.name ?? ListError.noData
-  return <NameTextField defaultValue={name} />
-}
-
-interface SuspenseItemProps {
-  promise: FetchUserData
 }

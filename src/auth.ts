@@ -1,17 +1,16 @@
 import { authConfig } from '@/auth.config'
 import prisma from '@/lib/prisma'
-import * as zodSchema from '@/lib/zod/schema/user'
 import bcrypt from 'bcrypt'
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+import { EmailAndPasswordSchema } from './lib/zod/schema/user'
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
-        const parsedCredentials =
-          zodSchema.AuthOrCreateSchema.safeParse(credentials)
+        const parsedCredentials = EmailAndPasswordSchema.safeParse(credentials)
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data

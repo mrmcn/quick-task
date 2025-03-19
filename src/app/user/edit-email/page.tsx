@@ -1,9 +1,10 @@
-import { FormName, ListError } from '@/lib/constants/text-const'
+import { ListFormNames } from '@/lib/constants/text-const'
 import { updateEmail } from '@/lib/services/actions/user'
-import fetchUserData, { FetchUserData } from '@/lib/services/queries/user'
+import fetchUserData from '@/lib/services/queries/user'
 import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
-import EmailTextField from '@/ui/common/form/text-fields/email'
-import { Suspense, use } from 'react'
+import EmailTextField from '@/ui/common/form/text-fields/user/email'
+import Await from '@/lib/utils/await'
+import { Suspense } from 'react'
 
 export default async function EditEmail() {
   const userDataPromise = fetchUserData()
@@ -11,21 +12,13 @@ export default async function EditEmail() {
   return (
     <FormWrapperWithAction
       action={updateEmail}
-      formName={FormName.editEmail}
+      formName={ListFormNames.editEmail}
     >
       <Suspense fallback={<EmailTextField />}>
-        <SuspenseItem promise={userDataPromise} />
+        <Await promise={userDataPromise}>
+          <EmailTextField />
+        </Await>
       </Suspense>
     </FormWrapperWithAction>
   )
-}
-
-function SuspenseItem({ promise }: SuspenseItemProps) {
-  const userData = use(promise)
-  const email = userData.data?.email ?? ListError.noData
-  return <EmailTextField defaultValue={email} />
-}
-
-interface SuspenseItemProps {
-  promise: FetchUserData
 }

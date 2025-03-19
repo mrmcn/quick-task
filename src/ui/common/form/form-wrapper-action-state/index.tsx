@@ -1,7 +1,7 @@
 'use client'
 
 import { ActionProps, StateProps } from '@/lib/services/actions/user'
-import { FormNameProps } from '@/lib/constants/text-const'
+import { ListFormNamesProps } from '@/lib/constants/text-const'
 import Typography from '@mui/material/Typography'
 import { useActionState } from 'react'
 import FormContainer from './container'
@@ -47,7 +47,7 @@ interface FormWrapperWithActionProps extends FormProps {
 export interface FormProps {
   name?: RedirectNameProps // for redirect, component SigninForm app/signin/page.tsx
   value?: string // for redirect, component SigninForm app/signin/page.tsx
-  formName?: FormNameProps
+  formName?: ListFormNamesProps
 }
 
 export enum RedirectNameProps {

@@ -1,5 +1,6 @@
 'use server'
 
+import { DASHBOARD_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
 import { checkAuth } from '@/lib/utils/check-auth'
 import { handleError, handleZodError } from '@/lib/utils/error-handling'
@@ -12,7 +13,6 @@ import { validateForm } from '@/lib/zod/validate'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { ActionProps, StateProps } from './user'
-import { DASHBOARD_URL } from '@/lib/constants/url'
 
 export const createTask: ActionProps<StateProps> = async (state, formData) => {
   const validationResult = validateForm(CreateTaskSchema, formData)
@@ -22,10 +22,10 @@ export const createTask: ActionProps<StateProps> = async (state, formData) => {
   if (validationResult.data)
     try {
       const { id } = await checkAuth()
-      const { summary, details, priority } = validationResult.data
+      const { title, details, priority } = validationResult.data
       await prisma.task.create({
         data: {
-          summary,
+          title,
           details,
           priority,
           authorId: id,
@@ -68,11 +68,11 @@ export const updateTask: ActionProps<StateProps> = async (state, formData) => {
     return { error: handleZodError(validationResult.errors) }
   if (validationResult.data)
     try {
-      const { id, summary, details, priority } = validationResult.data
+      const { id, title, details, priority } = validationResult.data
       await prisma.task.update({
         where: { id: id },
         data: {
-          summary: summary,
+          title: title,
           details: details,
           priority: priority,
         },

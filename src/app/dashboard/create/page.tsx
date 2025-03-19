@@ -1,8 +1,8 @@
+import { ListFormNames, ListPlaceholder } from '@/lib/constants/text-const'
 import { createTask } from '@/lib/services/actions/task'
-import { FormName } from '@/lib/constants/text-const'
 import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
-import TaskDetailsTextField from '@/ui/common/form/text-fields/task-details'
-import TaskTitleTextField from '@/ui/common/form/text-fields/task-title'
+import DetailsTextField from '@/ui/common/form/text-fields/task/details'
+import TitleTextField from '@/ui/common/form/text-fields/task/title'
 import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
 
 export default async function CreateTaskPage() {
@@ -10,10 +10,10 @@ export default async function CreateTaskPage() {
     <>
       <FormWrapperActionState
         action={createTask}
-        formName={FormName.createTask}
+        formName={ListFormNames.createTask}
       >
-        <TaskTitleTextField />
-        <TaskDetailsTextField />
+        <TitleTextField placeholder={ListPlaceholder.createTitle} />
+        <DetailsTextField placeholder={ListPlaceholder.createDetails} />
         <PriorityToggleBtns />
       </FormWrapperActionState>
     </>

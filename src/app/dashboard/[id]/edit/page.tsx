@@ -1,22 +1,16 @@
-import {
-  ButtonName,
-  FormName,
-  TextFieldLabel,
-  TextFieldLabelProps,
-} from '@/lib/constants/text-const'
-import { updateTask } from '@/lib/services/actions/task'
-import { fetchTaskIdData } from '@/lib/services/queries/task'
+import { ListButtonNames, ListFormNames } from '@/lib/constants/text-const'
+import { deleteTask, updateTask } from '@/lib/services/actions/task'
+import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
 import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
-import { MyTextField } from '@/ui/common/form/text-fields/custom-text-field'
-import SuspenseTaskTextField from '@/ui/common/form/text-fields/suspense-task-field'
-import SuspenseDeleteTaskBtn from '@/ui/dashboard/edit/delete-task-btn'
+import Await from '@/lib/utils/await'
+import DetailsTextField from '@/ui/common/form/text-fields/task/details'
+import InputWithTaskId from '@/ui/common/form/text-fields/task/input-id'
+import TitleTextField from '@/ui/common/form/text-fields/task/title'
 import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
 import Button from '@mui/material/Button'
 import { Suspense } from 'react'
 
-export default async function EditTaskPage(props: {
-  params: Promise<{ id: string }>
-}) {
+export default async function EditTaskPage(props: EditTaskPageProps) {
   const params = await props.params
   const id = params.id
   const TaskIdDataPromise = fetchTaskIdData(id)
@@ -25,51 +19,63 @@ export default async function EditTaskPage(props: {
     <>
       <FormWrapperActionState
         action={updateTask}
-        formName={FormName.updateTask}
+        formName={ListFormNames.updateTask}
       >
-        <Suspense fallback={<FallbackField label={TextFieldLabel.summary} />}>
-          <SuspenseTaskTextField
-            type='summary'
-            promise={TaskIdDataPromise}
-          />
+        <Suspense fallback={<TitleTextField />}>
+          <Await promise={TaskIdDataPromise}>
+            <TitleTextField />
+          </Await>
         </Suspense>
-        <Suspense fallback={<FallbackField label={TextFieldLabel.details} />}>
-          <SuspenseTaskTextField
-            type='details'
-            promise={TaskIdDataPromise}
-          />
+        <Suspense fallback={<DetailsTextField />}>
+          <Await promise={TaskIdDataPromise}>
+            <DetailsTextField />
+          </Await>
         </Suspense>
         <Suspense fallback={<PriorityToggleBtns />}>
-          <PriorityToggleBtns promise={TaskIdDataPromise} />
+          <Await promise={TaskIdDataPromise}>
+            <PriorityToggleBtns />
+          </Await>
+        </Suspense>
+        <Suspense>
+          <Await promise={TaskIdDataPromise}>
+            <InputWithTaskId />
+          </Await>
         </Suspense>
       </FormWrapperActionState>
-      <Suspense fallback={<FallbackBtn />}>
-        <SuspenseDeleteTaskBtn promise={TaskIdDataPromise} />
+      <Suspense fallback={<DeleteTaskBtn />}>
+        <Await promise={TaskIdDataPromise}>
+          <DeleteTaskBtn />
+        </Await>
       </Suspense>
     </>
   )
 }
 
-function FallbackField({ label }: FallbackFieldProps) {
+function DeleteTaskBtn({ data }: Props) {
+  const taskId = data?.id
+
   return (
-    <MyTextField
-      label={label}
-      margin='dense'
-    />
+    <form action={deleteTask}>
+      <Button
+        type='submit'
+        color='error'
+        disabled={!data}
+      >
+        {ListButtonNames.deleteTask}
+      </Button>
+      <input
+        type='hidden'
+        name='id'
+        value={taskId}
+      />
+    </form>
   )
 }
 
-function FallbackBtn() {
-  return (
-    <Button
-      disabled
-      color='error'
-    >
-      {ButtonName.deleteTask}
-    </Button>
-  )
+interface Props {
+  data?: TaskId
 }
 
-interface FallbackFieldProps {
-  label: TextFieldLabelProps
+interface EditTaskPageProps {
+  params: Promise<{ id: string }>
 }

@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { Priority, Task } from '@prisma/client'
 import { useState } from 'react'
-import { TaskIdData } from './services/queries/task'
+import { TaskId } from './services/queries/task'
 import { PasswordInputType } from './constants/text-const'
 
 export function usePasswordVisibility() {
@@ -43,7 +43,7 @@ export function usePasswordVisibility() {
   }
 }
 
-export function usePriorityState(task: TaskIdData | undefined) {
+export function usePriorityState(task: TaskId | undefined) {
   const [changePriority, setPriority] = useState(
     task?.priority ?? Priority['low'],
   ) // editForm or createForm, for toggle btn

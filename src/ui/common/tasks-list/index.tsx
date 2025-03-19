@@ -1,5 +1,5 @@
-import { Phrases } from '@/lib/constants/text-const'
-import { fetchTasksData } from '@/lib/services/queries/task'
+import { ListPhrases } from '@/lib/constants/text-const'
+import { fetchUserTasksData } from '@/lib/services/queries/task'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -25,7 +25,7 @@ export default function TasksList() {
 }
 
 async function SuspenseItem() {
-  const { data, error } = await fetchTasksData()
+  const { data, error } = await fetchUserTasksData()
 
   if (error && error.type !== 'database') notFound()
   if (!data) return <Empty error={error} />
@@ -39,7 +39,7 @@ async function SuspenseItem() {
 }
 
 function Empty({ error }: { error?: HandleErrorProps | undefined }) {
-  const content = error ? error.message : Phrases.createNewTask
+  const content = error ? error.message : ListPhrases.createNewTask
 
   return (
     <Box sx={{ mt: '5vh' }}>

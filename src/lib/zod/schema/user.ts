@@ -25,6 +25,6 @@ export const EmailSchema = UserSchema.omit({
   password: true,
 })
 
-export const AuthOrCreateSchema = UserSchema.omit({
+export const EmailAndPasswordSchema = UserSchema.omit({
   name: true,
 })

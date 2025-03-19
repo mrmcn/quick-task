@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import { ListError, Phrases } from '@/lib/constants/text-const'
+import { ListError, ListPhrases } from '@/lib/constants/text-const'
 import {
   DASHBOARD_URL,
   HOME_URL,
@@ -67,7 +67,7 @@ function HomeBtn({ href }: { href?: string }) {
         component='div'
         sx={{ flexGrow: 1 }}
       >
-        {Phrases.quickTask}
+        {ListPhrases.quickTask}
       </Typography>
     </Button>
   )

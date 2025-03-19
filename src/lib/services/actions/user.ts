@@ -11,10 +11,10 @@ import {
   handleZodError,
 } from '@/lib/utils/error-handling'
 import {
+  EmailAndPasswordSchema,
   EmailSchema,
   NameSchema,
   PasswordSchema,
-  UserSchema,
 } from '@/lib/zod/schema/user'
 import { validateForm } from '@/lib/zod/validate'
 import bcrypt from 'bcrypt'
@@ -24,7 +24,7 @@ import { redirect } from 'next/navigation'
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 
 export const createUser: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateForm(UserSchema, formData)
+  const validationResult = validateForm(EmailAndPasswordSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }

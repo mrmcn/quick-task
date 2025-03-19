@@ -1,7 +1,7 @@
 import {
-  FormButtonName,
-  FormName,
-  FormNameProps,
+  ListButtonNames,
+  ListFormNames,
+  ListFormNamesProps,
 } from '@/lib/constants/text-const'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -37,9 +37,9 @@ export default function MyButton({ formName, ...props }: MyButtonProps) {
   )
 }
 
-function getFormHeader(formName: FormNameProps) {
-  if (formName === FormName.signin) return FormButtonName.signIn
-  return FormButtonName.save
+function getFormHeader(formName: ListFormNamesProps) {
+  if (formName === ListFormNames.signin) return ListButtonNames.signIn
+  return ListButtonNames.save
 }
 
 interface MyButtonProps extends FormProps {

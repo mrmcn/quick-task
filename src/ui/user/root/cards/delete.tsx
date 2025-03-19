@@ -1,4 +1,4 @@
-import { Phrases } from '@/lib/constants/text-const'
+import { ListPhrases } from '@/lib/constants/text-const'
 import { USER_DELETE_URL } from '@/lib/constants/url'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -28,7 +28,7 @@ export default async function DeletingAccountCard() {
               <DeleteIcon />
             </ListItemIcon>
             <ListItemText
-              primary={Phrases.deleteAccount}
+              primary={ListPhrases.deleteAccount}
               sx={{ color: 'warning.main' }}
             />
             <ListItemIcon sx={{ minWidth: '30px' }}>

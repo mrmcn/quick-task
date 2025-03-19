@@ -10,7 +10,7 @@ import Link from 'next/link'
 import UpdateTaskStatus from './update-status-form'
 
 export default async function TaskItem({ task }: TaskItem) {
-  const { summary, details } = task
+  const { title, details } = task
   const { href, renderTaskStatus } = await getTaskNavigationAndStatus(task)
 
   return (
@@ -21,7 +21,7 @@ export default async function TaskItem({ task }: TaskItem) {
         dense
       >
         <ListItemText
-          primary={summary}
+          primary={title}
           secondary={details}
           slotProps={{
             primary: { variant: 'h5', color: 'textPrimary' },
@@ -60,7 +60,7 @@ async function getTaskNavigationAndStatus(task: TaskData) {
   const renderTaskStatus = session ? (
     <UpdateTaskStatus
       id={task.id}
-      summary={task.summary}
+      title={task.title}
       status={task.status}
     />
   ) : (

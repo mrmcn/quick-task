@@ -1,4 +1,4 @@
-import { ButtonName, Phrases } from '@/lib/constants/text-const'
+import { ListButtonNames, ListPhrases } from '@/lib/constants/text-const'
 import { deleteUser } from '@/lib/services/actions/user'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -26,7 +26,7 @@ export default function DeletingUser() {
             gutterBottom
             sx={{ fontSize: 14 }}
           >
-            {Phrases.userDeleteText}
+            {ListPhrases.userDeleteText}
           </Typography>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -35,14 +35,14 @@ export default function DeletingUser() {
             href='/user'
             size='large'
           >
-            {ButtonName.cancel}
+            {ListButtonNames.cancel}
           </Button>
           <Button
             color='error'
             size='small'
             onClick={deleteUser}
           >
-            {ButtonName.deleteAccount}
+            {ListButtonNames.deleteAccount}
           </Button>
         </CardActions>
       </Card>

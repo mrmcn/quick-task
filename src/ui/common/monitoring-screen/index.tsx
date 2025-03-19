@@ -1,17 +1,20 @@
-import { ListError, MonitoringCardName } from '@/lib/constants/text-const'
+import {
+  ListError,
+  ListMonitoringCardName,
+  ListMonitoringCardNameProps,
+} from '@/lib/constants/text-const'
 import {
   fetchMonitoringStates,
-  FetchTaskData,
   MonitoringStatesProps,
 } from '@/lib/services/queries/task'
+import Await from '@/lib/utils/await'
 import { Skeleton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid2'
 import Typography from '@mui/material/Typography'
-import { notFound } from 'next/navigation'
-import { ReactNode, Suspense, use } from 'react'
+import { ReactNode, Suspense } from 'react'
 
 export default function MonitoringScreen() {
   const monitoringStatesPromise = fetchMonitoringStates()
@@ -26,35 +29,38 @@ export default function MonitoringScreen() {
         spacing={2}
       >
         <Grid size={6}>
-          <MonitoringCard cardName={MonitoringCardName.completed}>
-            <SuspenseItem
-              type='completed'
-              monitoringStatesPromise={monitoringStatesPromise}
-            />
-          </MonitoringCard>
+          <CardWrapper cardName={ListMonitoringCardName.completed}>
+            <Suspense fallback={<Fallback />}>
+              <Await promise={monitoringStatesPromise}>
+                <MonitoringData type='completed' />
+              </Await>
+            </Suspense>
+          </CardWrapper>
         </Grid>
         <Grid size={6}>
-          <MonitoringCard cardName={MonitoringCardName.pending}>
-            <SuspenseItem
-              type='pending'
-              monitoringStatesPromise={monitoringStatesPromise}
-            />
-          </MonitoringCard>
+          <CardWrapper cardName={ListMonitoringCardName.pending}>
+            <Suspense fallback={<Fallback />}>
+              <Await promise={monitoringStatesPromise}>
+                <MonitoringData type='pending' />
+              </Await>
+            </Suspense>
+          </CardWrapper>
         </Grid>
         <Grid size={12}>
-          <MonitoringCard cardName={MonitoringCardName.progress}>
-            <SuspenseItem
-              type='progress'
-              monitoringStatesPromise={monitoringStatesPromise}
-            />
-          </MonitoringCard>
+          <CardWrapper cardName={ListMonitoringCardName.progress}>
+            <Suspense fallback={<Fallback />}>
+              <Await promise={monitoringStatesPromise}>
+                <MonitoringData type='progress' />
+              </Await>
+            </Suspense>
+          </CardWrapper>
         </Grid>
       </Grid>
     </Box>
   )
 }
 
-function MonitoringCard({ cardName, children }: MonitoringCardProps) {
+function CardWrapper({ cardName, children }: CardWrapperProps) {
   return (
     <Card
       component='section'
@@ -67,41 +73,39 @@ function MonitoringCard({ cardName, children }: MonitoringCardProps) {
         >
           {cardName}
         </Typography>
-        <Suspense
-          fallback={
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100%',
-              }}
-            >
-              <Skeleton width={10} />
-            </Box>
-          }
-        >
-          {children}
-        </Suspense>
+        {children}
       </CardContent>
     </Card>
   )
 }
 
-function SuspenseItem({ type, monitoringStatesPromise }: SuspenseItemProps) {
-  const { data, error } = use(monitoringStatesPromise)
-
-  if (error && error.type !== 'database') notFound()
+function MonitoringData({ type, data }: MonitoringDataProps) {
   const value = data?.[type]
+
   return <Typography align='center'>{value ?? ListError.noData}</Typography>
 }
 
-interface SuspenseItemProps {
-  type: keyof MonitoringStatesProps
-  monitoringStatesPromise: FetchTaskData<MonitoringStatesProps>
+function Fallback() {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+      }}
+    >
+      <Skeleton width={10} />
+    </Box>
+  )
 }
 
-interface MonitoringCardProps {
-  cardName: string
+interface CardWrapperProps {
+  cardName: ListMonitoringCardNameProps
   children: ReactNode
+}
+
+interface MonitoringDataProps {
+  type: keyof MonitoringStatesProps
+  data?: MonitoringStatesProps
 }

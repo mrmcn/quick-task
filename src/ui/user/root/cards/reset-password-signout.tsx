@@ -1,4 +1,4 @@
-import { Phrases } from '@/lib/constants/text-const'
+import { ListPhrases } from '@/lib/constants/text-const'
 import { USER_EDIT_PASSWORD_URL } from '@/lib/constants/url'
 import { signout } from '@/lib/services/actions/user'
 import LoadingIndicator from '@/ui/common/loading-indicator'
@@ -60,7 +60,7 @@ export default function ResetPasswordAndSignoutCard() {
                 <ChevronRightIcon fontSize='small' />
               </ListItemIcon>
             </ListItem>
-            <LoadingIndicator content={Phrases.logoutIn} />
+            <LoadingIndicator content={ListPhrases.logoutIn} />
           </form>
         </List>
       </CardActions>
