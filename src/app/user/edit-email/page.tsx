@@ -1,9 +1,10 @@
-import { ListFormNames } from '@/lib/constants/text-const'
+import { ListFormNames, ListLoadingIndicator } from '@/lib/constants/text-const'
 import { updateEmail } from '@/lib/services/actions/user'
 import fetchUserData from '@/lib/services/queries/user'
+import Await from '@/lib/utils/await'
 import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
 import EmailTextField from '@/ui/common/form/text-fields/user/email'
-import Await from '@/lib/utils/await'
+import LoadingIndicator from '@/ui/common/loading-indicator'
 import { Suspense } from 'react'
 
 export default async function EditEmail() {
@@ -19,6 +20,7 @@ export default async function EditEmail() {
           <EmailTextField />
         </Await>
       </Suspense>
+      <LoadingIndicator content={ListLoadingIndicator.updataUser} />
     </FormWrapperWithAction>
   )
 }

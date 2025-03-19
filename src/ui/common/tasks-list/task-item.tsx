@@ -5,7 +5,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
-import Skeleton from '@mui/material/Skeleton'
 import Link from 'next/link'
 import UpdateTaskStatus from './update-status-form'
 
@@ -34,25 +33,8 @@ export default async function TaskItem({ task }: TaskItem) {
   )
 }
 
-export function TaskItemSkeleton() {
-  return [1, 2, 3].map((i) => (
-    <ListItem
-      key={i}
-      disablePadding
-    >
-      <ListItemButton dense>
-        <ListItemText
-          primary={<Skeleton width={100} />}
-          secondary={<Skeleton width={170} />}
-          slotProps={{
-            primary: { variant: 'h5' },
-            secondary: { variant: 'body1' },
-          }}
-        />
-      </ListItemButton>
-    </ListItem>
-  ))
-}
+// In this function, it is determined which page will be rendered ('/dashboard' or '/').
+// Accordingly, the href value is selected, and the task 'status' is rendered.
 
 async function getTaskNavigationAndStatus(task: TaskData) {
   const session = await auth()

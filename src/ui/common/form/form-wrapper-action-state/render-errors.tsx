@@ -16,7 +16,7 @@ export default function RenderErrors({ state }: { state: StateProps }) {
 
 function renderValidationErrors(details: ValidateErrorsProps) {
   const listErrors = Object.entries(details).map(([key, value]) => (
-    <ErrorMessage
+    <ValidationErrorMessage
       key={nanoid()}
       nameField={key}
       value={value}
@@ -38,7 +38,7 @@ function renderErrorMessage(message: HandleErrorProps['message']) {
   )
 }
 
-function ErrorMessage({ nameField, value }: ErrorMessageProps) {
+function ValidationErrorMessage({ nameField, value }: ErrorMessageProps) {
   return (
     <Typography
       component='p'

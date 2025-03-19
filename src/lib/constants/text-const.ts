@@ -77,8 +77,6 @@ export const ListPhrases = {
   editUserName: 'Edit user name',
   high: 'high',
   quickTask: 'QUICK TASK',
-  loggingIn: 'Logging in...',
-  logoutIn: 'Logout in progress',
   low: 'low',
   priority: 'Priority',
   user: 'User',
@@ -87,3 +85,15 @@ export const ListPhrases = {
 } as const
 
 export type ListPhrasesProps = (typeof ListPhrases)[keyof typeof ListPhrases]
+
+export const ListLoadingIndicator = {
+  loggingIn: 'Logging in...',
+  logoutIn: 'Logout in progress',
+  creating: 'Creating...',
+  deleting: 'Deleting a task',
+  updata: 'Task update',
+  updataUser: 'Updating data',
+} as const
+
+export type ListLoadingIndicatorProps =
+  (typeof ListLoadingIndicator)[keyof typeof ListLoadingIndicator]

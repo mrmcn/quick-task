@@ -3,8 +3,8 @@
 import {
   ListButtonNames,
   ListFormNames,
+  ListLoadingIndicator,
   ListPlaceholder,
-  ListPhrases,
 } from '@/lib/constants/text-const'
 import { DASHBOARD_URL, SIGNUP_URL } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/user'
@@ -47,7 +47,7 @@ function SigninForm() {
       >
         {ListButtonNames.signup}
       </Button>
-      <LoadingIndicator content={ListPhrases.loggingIn} />
+      <LoadingIndicator content={ListLoadingIndicator.loggingIn} />
     </FormWrapperActionState>
   )
 }

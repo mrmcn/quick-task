@@ -1,11 +1,16 @@
-import { ListButtonNames, ListFormNames } from '@/lib/constants/text-const'
+import {
+  ListButtonNames,
+  ListFormNames,
+  ListLoadingIndicator,
+} from '@/lib/constants/text-const'
 import { deleteTask, updateTask } from '@/lib/services/actions/task'
 import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
-import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
 import Await from '@/lib/utils/await'
+import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
 import DetailsTextField from '@/ui/common/form/text-fields/task/details'
 import InputWithTaskId from '@/ui/common/form/text-fields/task/input-id'
 import TitleTextField from '@/ui/common/form/text-fields/task/title'
+import LoadingIndicator from '@/ui/common/loading-indicator'
 import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
 import Button from '@mui/material/Button'
 import { Suspense } from 'react'
@@ -41,6 +46,7 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
             <InputWithTaskId />
           </Await>
         </Suspense>
+        <LoadingIndicator content={ListLoadingIndicator.updata} />
       </FormWrapperActionState>
       <Suspense fallback={<DeleteTaskBtn />}>
         <Await promise={TaskIdDataPromise}>
@@ -68,6 +74,7 @@ function DeleteTaskBtn({ data }: Props) {
         name='id'
         value={taskId}
       />
+      <LoadingIndicator content={ListLoadingIndicator.deleting} />
     </form>
   )
 }

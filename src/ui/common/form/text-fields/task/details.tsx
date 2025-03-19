@@ -3,8 +3,6 @@ import { TaskId } from '@/lib/services/queries/task'
 import { TextField } from '@mui/material'
 
 export default function DetailsTextField({ placeholder, data }: Props) {
-  const defaultValue = data?.details
-
   return (
     <TextField
       label={ListTextFieldLabel.details}
@@ -15,7 +13,7 @@ export default function DetailsTextField({ placeholder, data }: Props) {
       margin='dense'
       multiline
       rows={4}
-      defaultValue={defaultValue}
+      defaultValue={data?.details}
       placeholder={placeholder}
     />
   )

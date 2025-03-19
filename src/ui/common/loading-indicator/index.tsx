@@ -1,8 +1,10 @@
 'use client'
 
-import { ListPhrases, ListPhrasesProps } from '@/lib/constants/text-const'
+import { ListLoadingIndicatorProps } from '@/lib/constants/text-const'
 import { useMediaQuery, useTheme } from '@mui/material'
 import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { useFormStatus } from 'react-dom'
 
@@ -16,27 +18,28 @@ export default function LoadingIndicator({ content }: LoadingIndicatorProps) {
       <Box
         sx={{
           position: 'fixed',
-          top: isMobile ? '65%' : '55%',
-          left: isMobile ? '50%' : '40%',
+          top: isMobile ? '70%' : '55%',
+          left: isMobile ? '55%' : '35%',
           transform: isMobile ? 'translate(-50%, -50%)' : 'translateY(-50%)',
           width: isMobile ? '90%' : 'auto',
           padding: isMobile ? '16px' : '0',
         }}
       >
-        <Typography
-          variant='h5'
-          align='center'
-          color='warning'
-        >
-          {content}
-        </Typography>
+        <Card sx={{ width: 300, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+          <CardContent>
+            <Typography
+              variant='h5'
+              align='center'
+              color='warning'
+            >
+              {content}
+            </Typography>
+          </CardContent>
+        </Card>
       </Box>
     )
 }
 
 interface LoadingIndicatorProps {
-  content: Extract<
-    ListPhrasesProps,
-    typeof ListPhrases.loggingIn | typeof ListPhrases.logoutIn
-  >
+  content: ListLoadingIndicatorProps
 }

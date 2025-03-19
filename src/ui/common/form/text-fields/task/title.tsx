@@ -3,8 +3,6 @@ import { TaskId } from '@/lib/services/queries/task'
 import { TextField } from '@mui/material'
 
 export default function TitleTextField({ placeholder, data }: Props) {
-  const defaultValue = data?.title
-
   return (
     <TextField
       label={ListTextFieldLabel.title}
@@ -13,7 +11,7 @@ export default function TitleTextField({ placeholder, data }: Props) {
       id='title'
       required
       margin='dense'
-      defaultValue={defaultValue}
+      defaultValue={data?.title}
       placeholder={placeholder}
     />
   )

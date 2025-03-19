@@ -50,6 +50,8 @@ export function handleZodError(error: ValidateErrorsProps) {
 
 export function handleAuthError(error: unknown) {
   if (error instanceof AuthError) {
+    console.log('error authenticate:', error)
+
     switch (error.type) {
       case 'CredentialsSignin':
         return {

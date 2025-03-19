@@ -9,7 +9,7 @@ import Fab from '@mui/material/Fab'
 import { FormProps } from '.'
 
 export default function MyButton({ formName, ...props }: MyButtonProps) {
-  const formHeader = formName ? getFormHeader(formName) : null
+  const btnName = formName ? getFormHeader(formName) : null
 
   return (
     <Box
@@ -31,7 +31,7 @@ export default function MyButton({ formName, ...props }: MyButtonProps) {
         }}
         {...props}
       >
-        {formHeader}
+        {btnName}
       </Fab>
     </Box>
   )

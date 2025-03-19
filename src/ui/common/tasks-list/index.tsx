@@ -1,12 +1,16 @@
 import { ListPhrases } from '@/lib/constants/text-const'
 import { fetchUserTasksData } from '@/lib/services/queries/task'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
+import TaskItem from '@/ui/common/tasks-list/task-item'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import TaskItem, { TaskItemSkeleton } from './task-item'
 
 export default function TasksList() {
   return (
@@ -18,13 +22,13 @@ export default function TasksList() {
       }}
     >
       <Suspense fallback={<TaskItemSkeleton />}>
-        <SuspenseItem />
+        <SuspenseTaskList />
       </Suspense>
     </List>
   )
 }
 
-async function SuspenseItem() {
+async function SuspenseTaskList() {
   const { data, error } = await fetchUserTasksData()
 
   if (error && error.type !== 'database') notFound()
@@ -51,5 +55,22 @@ function Empty({ error }: { error?: HandleErrorProps | undefined }) {
         {content}
       </Typography>
     </Box>
+  )
+}
+
+function TaskItemSkeleton() {
+  return (
+    <ListItem disablePadding>
+      <ListItemButton dense>
+        <ListItemText
+          primary={<Skeleton width={100} />}
+          secondary={<Skeleton width={170} />}
+          slotProps={{
+            primary: { variant: 'h5' },
+            secondary: { variant: 'body1' },
+          }}
+        />
+      </ListItemButton>
+    </ListItem>
   )
 }

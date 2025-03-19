@@ -3,8 +3,6 @@ import { UserNameAndEmail } from '@/lib/services/queries/user'
 import TextField from '@mui/material/TextField'
 
 export default function EmailTextField({ placeholder, data }: Props) {
-  const defaultValue = data?.email
-
   return (
     <TextField
       label={ListTextFieldLabel.email}
@@ -14,7 +12,7 @@ export default function EmailTextField({ placeholder, data }: Props) {
       required
       margin='dense'
       placeholder={placeholder}
-      defaultValue={defaultValue}
+      defaultValue={data?.email}
     />
   )
 }
