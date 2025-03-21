@@ -19,7 +19,10 @@ export default function TasksList({ searchParams }: TasksListProps) {
 
   return (
     <>
-      <Search placeholder={ListPlaceholder.search} />
+      <Suspense>
+        <Search placeholder={ListPlaceholder.search} />
+      </Suspense>
+
       <List
         sx={{
           width: '100%',
