@@ -37,6 +37,7 @@ export const ListTextFieldLabel = {
   name: 'Name',
   title: 'Title',
   details: 'Details',
+  search: 'Search',
 } as const
 
 export type ListTextFieldLabelProps =
@@ -66,6 +67,7 @@ export const ListPlaceholder = {
   createPassword: 'Create a strong password',
   createTitle: 'Create a task title',
   createDetails: 'Describe the details of the task',
+  search: 'Search task...',
 } as const
 
 export type ListPlaceholderProps =

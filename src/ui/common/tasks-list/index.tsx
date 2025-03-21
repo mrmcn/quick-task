@@ -1,7 +1,9 @@
-import { ListPhrases } from '@/lib/constants/text-const'
+import { getSearchParams, SearchParamsProps } from '@/app/dashboard/page'
+import { ListPhrases, ListPlaceholder } from '@/lib/constants/text-const'
 import { fetchUserTasksData } from '@/lib/services/queries/task'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
 import TaskItem from '@/ui/common/tasks-list/task-item'
+import Search from '@/ui/dashboard/search'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -12,24 +14,30 @@ import Typography from '@mui/material/Typography'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
-export default function TasksList() {
+export default function TasksList({ searchParams }: TasksListProps) {
+  // const totalPages = await fetchInvoicesPages(query)
+
   return (
-    <List
-      sx={{
-        width: '100%',
-        bgcolor: 'background.paper',
-        mt: { xs: '3vh', sm: '5vh' },
-      }}
-    >
-      <Suspense fallback={<TaskItemSkeleton />}>
-        <SuspenseTaskList />
-      </Suspense>
-    </List>
+    <>
+      <Search placeholder={ListPlaceholder.search} />
+      <List
+        sx={{
+          width: '100%',
+          bgcolor: 'background.paper',
+          mt: { xs: '3vh', sm: '3vh' },
+        }}
+      >
+        <Suspense fallback={<TaskItemSkeleton />}>
+          <SuspenseTaskList searchParams={searchParams} />
+        </Suspense>
+      </List>
+    </>
   )
 }
 
-async function SuspenseTaskList() {
-  const { data, error } = await fetchUserTasksData()
+async function SuspenseTaskList({ searchParams }: TasksListProps) {
+  const { query, currentPage } = getSearchParams(searchParams)
+  const { data, error } = await fetchUserTasksData(query, currentPage)
 
   if (error && error.type !== 'database') notFound()
   if (!data) return <Empty error={error} />
@@ -73,4 +81,8 @@ function TaskItemSkeleton() {
       </ListItemButton>
     </ListItem>
   )
+}
+
+interface TasksListProps {
+  searchParams: SearchParamsProps
 }

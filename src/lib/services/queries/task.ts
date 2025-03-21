@@ -4,14 +4,24 @@ import { calculateMonitoringStates } from '@/lib/utils/calculator-monitoring-sta
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { Task } from '@prisma/client'
 
-export async function fetchUserTasksData(): FetchData<UserTasks> {
+export async function fetchUserTasksData(
+  query: string,
+  currentPage: number,
+  tasksPerPage: number = 3,
+): FetchData<UserTasks> {
   const session = await auth()
+  const offset = (currentPage - 1) * tasksPerPage
 
   if (!session) return { data: getTasksDATA() } // for sampleTasksList
   const authorId = session?.user.id // or userTasksList
   try {
     const data = await prisma.task.findMany({
-      where: { authorId: authorId },
+      skip: offset,
+      take: tasksPerPage,
+      where: {
+        authorId: authorId,
+        OR: [{ title: { contains: query } }, { details: { contains: query } }],
+      },
       select: {
         id: true,
         title: true,

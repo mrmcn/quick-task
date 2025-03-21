@@ -7,14 +7,17 @@ import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import Link from 'next/link'
 
-export default function Dashboard() {
+export default async function Dashboard(props: {
+  searchParams?: Promise<SearchParamsProps>
+}) {
   checkAuth()
+  const searchParams = await props.searchParams
 
   return (
     <Box component='main'>
       <MonitoringScreen />
       <CreateTaskFab />
-      <TasksList />
+      <TasksList searchParams={searchParams} />
     </Box>
   )
 }
@@ -41,3 +44,16 @@ function CreateTaskFab() {
     </Box>
   )
 }
+
+export const getSearchParams = (searchParams: SearchParamsProps) => {
+  const query = searchParams?.query || ''
+  const currentPage = Number(searchParams?.page) || 1
+  return { query, currentPage }
+}
+
+export type SearchParamsProps =
+  | {
+      query?: string
+      page?: string
+    }
+  | undefined

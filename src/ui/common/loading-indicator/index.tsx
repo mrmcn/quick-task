@@ -17,15 +17,19 @@ export default function LoadingIndicator({ content }: LoadingIndicatorProps) {
     return (
       <Box
         sx={{
-          position: 'fixed',
-          top: isMobile ? '70%' : '55%',
-          left: isMobile ? '55%' : '35%',
-          transform: isMobile ? 'translate(-50%, -50%)' : 'translateY(-50%)',
-          width: isMobile ? '90%' : 'auto',
-          padding: isMobile ? '16px' : '0',
+          '& > :not(style)': {
+            position: 'fixed',
+            top: isMobile ? '50%' : '55%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: isMobile ? '90%' : '100%',
+            padding: isMobile ? '16px' : '0',
+          },
         }}
       >
-        <Card sx={{ width: 300, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+        <Card
+          sx={{ maxWidth: 300, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}
+        >
           <CardContent>
             <Typography
               variant='h5'
