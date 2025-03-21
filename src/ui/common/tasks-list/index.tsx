@@ -84,5 +84,5 @@ function TaskItemSkeleton() {
 }
 
 interface TasksListProps {
-  searchParams: SearchParamsProps
+  searchParams?: SearchParamsProps
 }
