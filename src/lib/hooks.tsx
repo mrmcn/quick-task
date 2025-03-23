@@ -63,6 +63,7 @@ export function useUrlReplacement() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
+
   const handleSearch = debounce((value) => {
     const params = new URLSearchParams(searchParams)
     params.set('page', '1')

@@ -81,6 +81,7 @@ export const ListPhrases = {
   quickTask: 'QUICK TASK',
   low: 'low',
   priority: 'Priority',
+  taskNoFound: 'No such task found.',
   user: 'User',
   userDeleteText:
     'Are you sure? This action cannot be undone. All user data will be lost forever.',

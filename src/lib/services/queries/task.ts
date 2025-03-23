@@ -4,10 +4,12 @@ import { calculateMonitoringStates } from '@/lib/utils/calculator-monitoring-sta
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { Task } from '@prisma/client'
 
+const tasksPage = 3
+
 export async function fetchUserTasksData(
   query: string,
   currentPage: number,
-  tasksPerPage: number = 3,
+  tasksPerPage: number = tasksPage,
 ): FetchData<UserTasks> {
   const session = await auth()
   const offset = (currentPage - 1) * tasksPerPage
@@ -73,6 +75,29 @@ export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> 
     const data = calculateMonitoringStates(groupInProgress)
 
     return { data }
+  } catch (error) {
+    return { error: handleError(error) }
+  }
+}
+
+export async function fetchCountNumberPagesTasks(
+  query: string,
+  tasksPerPage: number = tasksPage,
+) {
+  const session = await auth()
+
+  if (!session) return { data: 3 } // for sampleTasksList
+  const authorId = session?.user.id // or userTasksList
+  try {
+    const count = await prisma.task.count({
+      where: {
+        authorId: authorId,
+        OR: [{ title: { contains: query } }, { details: { contains: query } }],
+      },
+    })
+    const numberOfPages = Math.ceil(count / tasksPerPage)
+
+    return { data: numberOfPages }
   } catch (error) {
     return { error: handleError(error) }
   }
