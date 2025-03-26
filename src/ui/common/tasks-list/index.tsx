@@ -7,8 +7,8 @@ import {
 } from '@/lib/services/queries/task'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
 import TaskItem from '@/ui/common/tasks-list/task-item'
-import PaginationRow from '@/ui/dashboard/pagination'
-import Search from '@/ui/dashboard/search'
+import PaginationRow from '@/ui/dashboard/page/pagination'
+import Search from '@/ui/dashboard/page/search'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -54,12 +54,13 @@ async function SuspenseTaskList({ searchParams }: TasksListProps) {
     <TaskListContent
       data={data}
       error={error}
-      query={query}
+      searchParams={searchParams}
     />
   )
 }
 
-function TaskListContent({ data, error, query }: TaskListContentProps) {
+function TaskListContent({ data, error, searchParams }: TaskListContentProps) {
+  const { query } = getSearchParams(searchParams)
   if (error && error.type !== 'database') notFound()
   if (!data || data.length === 0)
     return (
@@ -72,6 +73,7 @@ function TaskListContent({ data, error, query }: TaskListContentProps) {
     <TaskItem
       key={task.id}
       task={task}
+      searchParams={searchParams}
     />
   ))
 }
@@ -126,7 +128,10 @@ interface TasksListProps {
 interface TaskListContentProps {
   data: UserTasks | undefined
   error: HandleErrorProps | undefined
-  query: string
+  searchParams?: SearchParamsProps
 }
 
-type EmptyStateProps = Pick<TaskListContentProps, 'error' | 'query'>
+interface EmptyStateProps {
+  error: HandleErrorProps | undefined
+  query: string
+}

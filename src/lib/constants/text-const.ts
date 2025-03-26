@@ -1,4 +1,5 @@
 export const ListButtonNames = {
+  back: 'Go back',
   deleteAccount: 'Delete account',
   deleteTask: 'Delete task',
   cancel: 'Cancel',

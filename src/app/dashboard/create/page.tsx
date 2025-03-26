@@ -4,6 +4,7 @@ import {
   ListPlaceholder,
 } from '@/lib/constants/text-const'
 import { createTask } from '@/lib/services/actions/task'
+import BackButton from '@/ui/common/back-btn'
 import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
 import DetailsTextField from '@/ui/common/form/text-fields/task/details'
 import TitleTextField from '@/ui/common/form/text-fields/task/title'
@@ -20,6 +21,7 @@ export default async function CreateTaskPage() {
       <DetailsTextField placeholder={ListPlaceholder.createDetails} />
       <PriorityToggleBtns />
       <LoadingIndicator content={ListLoadingIndicator.creating} />
+      <BackButton />
     </FormWrapperActionState>
   )
 }

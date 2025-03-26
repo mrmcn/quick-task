@@ -81,11 +81,12 @@ export const updateTask: ActionProps<StateProps> = async (state, formData) => {
       return { error: handleError(error) }
     }
   revalidatePath(DASHBOARD_URL)
-  redirect(DASHBOARD_URL)
+  redirect(`${DASHBOARD_URL}${validationResult.data?.searchParams}`)
 }
 
 export const deleteTask = async (formData: FormData) => {
   const taskId = formData.get('id')
+  const searchParamsString = formData.get('searchParams')
 
   if (typeof taskId !== 'string') {
     console.error('Invalid task ID:', taskId)
@@ -100,5 +101,5 @@ export const deleteTask = async (formData: FormData) => {
     throw new Error('Failed to delete task')
   }
   revalidatePath(DASHBOARD_URL)
-  redirect(DASHBOARD_URL)
+  redirect(`${DASHBOARD_URL}${searchParamsString}`)
 }

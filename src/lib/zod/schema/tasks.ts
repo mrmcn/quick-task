@@ -8,6 +8,7 @@ export const FormSchema = z.object({
   priority: z.enum(['high', 'low']),
   status: z.enum(['completed', 'in_progress']),
   authorId: z.string(),
+  searchParams: z.string(),
 })
 
 export const UpdateStatusSchema = FormSchema.omit({
@@ -16,6 +17,7 @@ export const UpdateStatusSchema = FormSchema.omit({
   date: true,
   priority: true,
   authorId: true,
+  searchParams: true,
 })
 
 export const UpdateTaskSchema = FormSchema.omit({
@@ -29,4 +31,5 @@ export const CreateTaskSchema = FormSchema.omit({
   date: true,
   status: true,
   authorId: true,
+  searchParams: true,
 })

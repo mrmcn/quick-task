@@ -1,24 +1,25 @@
-import {
-  ListButtonNames,
-  ListFormNames,
-  ListLoadingIndicator,
-} from '@/lib/constants/text-const'
+import { SearchParamsProps } from '@/app/dashboard/page'
+import { ListFormNames, ListLoadingIndicator } from '@/lib/constants/text-const'
 import { deleteTask, updateTask } from '@/lib/services/actions/task'
 import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
 import Await from '@/lib/utils/await'
+import { formatSearchParams } from '@/lib/utils/format-search-params'
+import BackButton from '@/ui/common/back-btn'
 import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
 import DetailsTextField from '@/ui/common/form/text-fields/task/details'
-import InputWithTaskId from '@/ui/common/form/text-fields/task/input-id'
+import InputWithTaskIdAndSearchParams from '@/ui/common/form/text-fields/task/input-id'
 import TitleTextField from '@/ui/common/form/text-fields/task/title'
 import LoadingIndicator from '@/ui/common/loading-indicator'
+import { Btn } from '@/ui/dashboard/edit/btn'
+import BtnWithPending from '@/ui/dashboard/edit/delete-task-btn'
 import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
-import Button from '@mui/material/Button'
 import { Suspense } from 'react'
 
 export default async function EditTaskPage(props: EditTaskPageProps) {
-  const params = await props.params
-  const id = params.id
-  const TaskIdDataPromise = fetchTaskIdData(id)
+  const TaskIdDataPromise = getTaskIdDataPromise(props.params)
+  const searchParamsString = await getSearchParamsStringPromise(
+    props.searchParams,
+  )
 
   return (
     <>
@@ -43,46 +44,65 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
         </Suspense>
         <Suspense>
           <Await promise={TaskIdDataPromise}>
-            <InputWithTaskId />
+            <InputWithTaskIdAndSearchParams
+              searchParamsString={searchParamsString}
+            />
           </Await>
         </Suspense>
         <LoadingIndicator content={ListLoadingIndicator.updata} />
+        <BackButton />
       </FormWrapperActionState>
-      <Suspense fallback={<DeleteTaskBtn />}>
+      <Suspense fallback={<Btn disabled={true} />}>
         <Await promise={TaskIdDataPromise}>
-          <DeleteTaskBtn />
+          <DeleteTaskBtn searchParamsString={searchParamsString} />
         </Await>
       </Suspense>
     </>
   )
 }
 
-function DeleteTaskBtn({ data }: Props) {
-  const taskId = data?.id
-
+function DeleteTaskBtn({ data, searchParamsString }: Props) {
   return (
     <form action={deleteTask}>
-      <Button
-        type='submit'
-        color='error'
-        disabled={!data}
-      >
-        {ListButtonNames.deleteTask}
-      </Button>
+      <BtnWithPending />
       <input
         type='hidden'
         name='id'
-        value={taskId}
+        value={data?.id}
+      />
+      <input
+        type='hidden'
+        name='searchParams'
+        value={searchParamsString}
       />
       <LoadingIndicator content={ListLoadingIndicator.deleting} />
     </form>
   )
 }
 
-interface Props {
-  data?: TaskId
+async function getTaskIdDataPromise(paramsPromise: Promise<ParamsProps>) {
+  const params = await paramsPromise
+  const id = params.id
+  return fetchTaskIdData(id)
+}
+
+async function getSearchParamsStringPromise(
+  searchParams: Promise<SearchParamsProps> | undefined,
+) {
+  const resolvedParams = await searchParams
+  return formatSearchParams(resolvedParams)
 }
 
 interface EditTaskPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<ParamsProps>
+  searchParams?: Promise<SearchParamsProps>
+}
+
+interface ParamsProps {
+  id: string
+}
+
+interface Props {
+  data?: TaskId
+  searchParamsString: string
 }
