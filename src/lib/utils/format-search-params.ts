@@ -1,4 +1,4 @@
-import { SearchParamsProps } from '@/app/dashboard/page'
+import { SearchParamsProps } from './get-search-params'
 
 export const formatSearchParams = (searchParams: SearchParamsProps) => {
   const searchParamsString = searchParams
