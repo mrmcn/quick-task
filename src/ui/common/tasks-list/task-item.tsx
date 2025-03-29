@@ -11,7 +11,6 @@ import Link from 'next/link'
 import UpdateTaskStatus from './update-status-form'
 
 export default async function TaskItem({ task, searchParams }: TaskItem) {
-  const { title, details } = task
   const { href, renderTaskStatus } = await getTaskNavigationAndStatus(
     task,
     searchParams,
@@ -25,8 +24,8 @@ export default async function TaskItem({ task, searchParams }: TaskItem) {
         dense
       >
         <ListItemText
-          primary={title}
-          secondary={details}
+          primary={task.title}
+          secondary={task.details}
           slotProps={{
             primary: { variant: 'h5', color: 'textPrimary' },
             secondary: { variant: 'body1', color: 'textSecondary' },
@@ -50,20 +49,22 @@ async function getTaskNavigationAndStatus(
   // This allows preserving the context of the current page (e.g., filters, sorting, pagination)
   // and returning to it after updating or deleting the task.
   // Uses the formatSearchParams function from the library to convert searchParams to a query string.
-  const href = session
-    ? `${DASHBOARD_EDIT_URL(task.id)}${formatSearchParams(searchParams)}`
-    : SIGNIN_URL
+  if (session)
+    return {
+      href: `${DASHBOARD_EDIT_URL(task.id)}${formatSearchParams(searchParams)}`,
+      renderTaskStatus: (
+        <UpdateTaskStatus
+          id={task.id}
+          title={task.title}
+          status={task.status}
+        />
+      ),
+    }
 
-  const renderTaskStatus = session ? (
-    <UpdateTaskStatus
-      id={task.id}
-      title={task.title}
-      status={task.status}
-    />
-  ) : (
-    <CheckBoxIcon color='primary' />
-  )
-  return { href, renderTaskStatus }
+  return {
+    href: SIGNIN_URL,
+    renderTaskStatus: <CheckBoxIcon color='primary' />,
+  }
 }
 
 interface TaskItem {

@@ -2,20 +2,27 @@ import { auth } from '@/auth'
 import prisma from '@/lib/prisma'
 import { calculateMonitoringStates } from '@/lib/utils/calculator-monitoring-states'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
+import {
+  getSearchParams,
+  SearchParamsProps,
+} from '@/lib/utils/get-search-params'
 import { Task } from '@prisma/client'
 
 const tasksPage = 3
 
 export async function fetchUserTasksData(
-  query: string,
-  currentPage: number,
+  searchParams?: SearchParamsProps,
   tasksPerPage: number = tasksPage,
 ): FetchData<UserTasks> {
   const session = await auth()
-  const offset = (currentPage - 1) * tasksPerPage
 
   if (!session) return { data: getTasksDATA() } // for sampleTasksList
   const authorId = session?.user.id // or userTasksList
+
+  const { query, currentPage } = getSearchParams(searchParams)
+  const offset = (currentPage - 1) * tasksPerPage
+  const sortParams = JSON.parse(searchParams?.sort ?? '{}')
+
   try {
     const data = await prisma.task.findMany({
       skip: offset,
@@ -31,6 +38,7 @@ export async function fetchUserTasksData(
         priority: true,
         status: true,
       },
+      orderBy: sortParams,
     })
 
     return { data }

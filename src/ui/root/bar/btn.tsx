@@ -33,7 +33,7 @@ export default async function BarBtn() {
         href={USER_URL}
         color='inherit'
         startIcon={<PersonIcon />}
-        aria-label='delete'
+        aria-label='user setting'
       >
         {userName}
       </Button>
@@ -47,6 +47,7 @@ function Signin() {
       component={Link}
       color='inherit'
       href={SIGNIN_URL}
+      aria-label='Go to signup'
     >
       Sign in
     </Button>
@@ -60,6 +61,7 @@ function HomeBtn({ href }: { href?: string }) {
       href={href}
       size='large'
       color='inherit'
+      aria-label='Go to home'
       sx={{ flexGrow: 1 }}
     >
       <Typography

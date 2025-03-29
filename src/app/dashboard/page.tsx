@@ -1,5 +1,6 @@
 import { DASHBOARD_CREATE_URL } from '@/lib/constants/url'
 import { checkAuth } from '@/lib/utils/check-auth'
+import { SearchParamsProps } from '@/lib/utils/get-search-params'
 import MonitoringScreen from '@/ui/common/monitoring-screen'
 import TasksList from '@/ui/common/tasks-list'
 import AddIcon from '@mui/icons-material/Add'
@@ -7,9 +8,7 @@ import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import Link from 'next/link'
 
-export default async function Dashboard(props: {
-  searchParams?: Promise<SearchParamsProps>
-}) {
+export default async function Dashboard(props: DashboardProps) {
   checkAuth()
   const searchParams = await props.searchParams
 
@@ -37,7 +36,7 @@ function CreateTaskFab() {
         component={Link}
         href={DASHBOARD_CREATE_URL}
         color='primary'
-        aria-label='add'
+        aria-label='create new task'
       >
         <AddIcon />
       </Fab>
@@ -45,9 +44,6 @@ function CreateTaskFab() {
   )
 }
 
-export type SearchParamsProps =
-  | {
-      query?: string
-      page?: string
-    }
-  | undefined
+interface DashboardProps {
+  searchParams?: Promise<SearchParamsProps>
+}

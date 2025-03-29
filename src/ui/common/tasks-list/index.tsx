@@ -1,4 +1,3 @@
-import { SearchParamsProps } from '@/app/dashboard/page'
 import { ListPhrases, ListPlaceholder } from '@/lib/constants/text-const'
 import {
   fetchCountNumberPagesTasks,
@@ -6,9 +5,15 @@ import {
   UserTasks,
 } from '@/lib/services/queries/task'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
+import {
+  getSearchParams,
+  SearchParamsProps,
+} from '@/lib/utils/get-search-params'
 import TaskItem from '@/ui/common/tasks-list/task-item'
 import PaginationRow from '@/ui/dashboard/page/pagination'
-import Search from '@/ui/dashboard/page/search'
+import Search from '@/ui/dashboard/page/task-search'
+import SortSelect from '@/ui/dashboard/page/task-sort'
+import { Stack } from '@mui/material'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -21,12 +26,18 @@ import { Suspense } from 'react'
 
 export default async function TasksList({ searchParams }: TasksListProps) {
   const { query } = getSearchParams(searchParams)
-  const response = await fetchCountNumberPagesTasks(query)
+  const countPages = await fetchCountNumberPagesTasks(query)
 
   return (
     <>
       <Suspense>
-        <Search placeholder={ListPlaceholder.search} />
+        <Stack
+          direction='row'
+          sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
+        >
+          <Search placeholder={ListPlaceholder.search} />
+          <SortSelect />
+        </Stack>
       </Suspense>
       <List
         sx={{
@@ -40,15 +51,14 @@ export default async function TasksList({ searchParams }: TasksListProps) {
         </Suspense>
       </List>
       <Suspense>
-        <PaginationRow data={response} />
+        <PaginationRow countPages={countPages} />
       </Suspense>
     </>
   )
 }
 
 async function SuspenseTaskList({ searchParams }: TasksListProps) {
-  const { query, currentPage } = getSearchParams(searchParams)
-  const { data, error } = await fetchUserTasksData(query, currentPage)
+  const { data, error } = await fetchUserTasksData(searchParams)
 
   return (
     <TaskListContent
@@ -113,12 +123,6 @@ function TaskItemSkeleton() {
       </ListItemButton>
     </ListItem>
   )
-}
-
-export const getSearchParams = (searchParams: SearchParamsProps) => {
-  const query = searchParams?.query || ''
-  const currentPage = Number(searchParams?.page) || 1
-  return { query, currentPage }
 }
 
 interface TasksListProps {

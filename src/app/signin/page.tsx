@@ -10,9 +10,9 @@ import { DASHBOARD_URL, SIGNUP_URL } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/user'
 import FormWrapperActionState, {
   RedirectNameProps,
-} from '@/ui/common/form/form-wrapper-action-state'
-import EmailTextField from '@/ui/common/form/text-fields/user/email'
-import PasswordTextField from '@/ui/common/form/text-fields/user/password'
+} from '@/ui/common/form-action-state/form-wrapper'
+import EmailTextField from '@/ui/common/form-action-state/text-fields/user/email'
+import PasswordTextField from '@/ui/common/form-action-state/text-fields/user/password'
 import LoadingIndicator from '@/ui/common/loading-indicator'
 import Button from '@mui/material/Button'
 import Link from 'next/link'

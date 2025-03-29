@@ -4,9 +4,9 @@ import {
   ListPlaceholder,
 } from '@/lib/constants/text-const'
 import { createUser } from '@/lib/services/actions/user'
-import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
-import EmailTextField from '@/ui/common/form/text-fields/user/email'
-import PasswordTextField from '@/ui/common/form/text-fields/user/password'
+import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
+import EmailTextField from '@/ui/common/form-action-state/text-fields/user/email'
+import PasswordTextField from '@/ui/common/form-action-state/text-fields/user/password'
 import LoadingIndicator from '@/ui/common/loading-indicator'
 
 export default function SignupPage() {

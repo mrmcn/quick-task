@@ -4,14 +4,14 @@ import { deleteTask, updateTask } from '@/lib/services/actions/task'
 import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
 import Await from '@/lib/utils/await'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
-import BackButton from '@/ui/common/back-btn'
-import FormWrapperActionState from '@/ui/common/form/form-wrapper-action-state'
-import DetailsTextField from '@/ui/common/form/text-fields/task/details'
-import InputWithTaskIdAndSearchParams from '@/ui/common/form/text-fields/task/input-id'
-import TitleTextField from '@/ui/common/form/text-fields/task/title'
+import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
+import DetailsTextField from '@/ui/common/form-action-state/text-fields/task/details'
+import InputWithTaskIdAndSearchParams from '@/ui/common/form-action-state/text-fields/task/input-id'
+import TitleTextField from '@/ui/common/form-action-state/text-fields/task/title'
 import LoadingIndicator from '@/ui/common/loading-indicator'
+import BackButton from '@/ui/dashboard/back-btn'
 import { Btn } from '@/ui/dashboard/edit/btn'
-import BtnWithPending from '@/ui/dashboard/edit/delete-task-btn'
+import BtnWithUseFormStatus from '@/ui/dashboard/edit/btn-with-react-hook'
 import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
 import { Suspense } from 'react'
 
@@ -64,7 +64,7 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
 function DeleteTaskBtn({ data, searchParamsString }: Props) {
   return (
     <form action={deleteTask}>
-      <BtnWithPending />
+      <BtnWithUseFormStatus />
       <input
         type='hidden'
         name='id'

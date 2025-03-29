@@ -45,10 +45,11 @@ export type ListTextFieldLabelProps =
   (typeof ListTextFieldLabel)[keyof typeof ListTextFieldLabel]
 
 export const ListError = {
-  noData: 'no data',
+  dataError: 'Data retrieval error',
   errorInField: 'Error in field',
   error: 'error',
-  dataError: 'Data retrieval error',
+  incorrectParameter: 'Incorrect page parameter',
+  noData: 'no data',
 } as const
 
 export type ListErrorProps = (typeof ListError)[keyof typeof ListError]

@@ -4,8 +4,8 @@ import {
   ListPlaceholder,
 } from '@/lib/constants/text-const'
 import { updatePassword } from '@/lib/services/actions/user'
-import FormWrapperWithAction from '@/ui/common/form/form-wrapper-action-state'
-import PasswordTextField from '@/ui/common/form/text-fields/user/password'
+import FormWrapperWithAction from '@/ui/common/form-action-state/form-wrapper'
+import PasswordTextField from '@/ui/common/form-action-state/text-fields/user/password'
 import LoadingIndicator from '@/ui/common/loading-indicator'
 
 export default function EditPassword() {
