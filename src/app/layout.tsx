@@ -1,6 +1,8 @@
+import '@/app/globals.css'
 import theme from '@/theme'
-import BasicAppBar from '@/ui/root/bar'
+import Appbar from '@/ui/root/bar'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
+import Box from '@mui/material/Box'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
@@ -30,7 +32,16 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <BasicAppBar>{children}</BasicAppBar>
+            <Box
+              sx={{
+                bgcolor: 'primary.light',
+                p: 2,
+                height: '100vh',
+              }}
+            >
+              <Appbar />
+              {children}
+            </Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

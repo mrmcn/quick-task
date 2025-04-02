@@ -1,6 +1,6 @@
 'use client'
 
-import { ListTextFieldLabel } from '@/lib/constants/text-const'
+import { ListLabelName } from '@/lib/constants/text-const'
 import { usePasswordVisibility } from '@/lib/hooks'
 import { TextField, TextFieldProps } from '@mui/material'
 
@@ -9,7 +9,7 @@ export default function PasswordTextField({ placeholder }: TextFieldProps) {
 
   return (
     <TextField
-      label={ListTextFieldLabel.password}
+      label={ListLabelName.password}
       type={type}
       name='password'
       id='password'

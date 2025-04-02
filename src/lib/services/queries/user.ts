@@ -1,5 +1,4 @@
 import { auth } from '@/auth'
-import { ListPhrases } from '@/lib/constants/text-const'
 import { HOME_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
 import { handleError } from '@/lib/utils/error-handling'
@@ -22,9 +21,8 @@ export default async function fetchUserData(): FetchData<UserNameAndEmail> {
         email: true,
       },
     })
-    const userName = userData.name ?? ListPhrases.user
 
-    return { data: { name: userName, email: userData.email } }
+    return { data: { name: userData.name, email: userData.email } }
   } catch (error) {
     return { error: handleError(error) }
   }

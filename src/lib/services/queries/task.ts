@@ -133,7 +133,7 @@ const getTasksDATA = (): UserTasks => [
   {
     id: '1',
     title: 'Sample 1',
-    details: 'Details task 1',
+    details: 'Details task',
     priority: 'high',
     status: 'completed',
   },

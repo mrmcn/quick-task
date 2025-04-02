@@ -1,12 +1,5 @@
-import MonitoringScreen from '@/ui/common/monitoring-screen'
-import TasksList from '@/ui/common/tasks-list'
-import Box from '@mui/material/Box'
+import Home from '@/ui/common/home'
 
-export default async function Home() {
-  return (
-    <Box component='main'>
-      <MonitoringScreen />
-      <TasksList />
-    </Box>
-  )
+export default function RootPage() {
+  return <Home />
 }

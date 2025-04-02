@@ -2,11 +2,8 @@ import { ListFormNames, ListLoadingIndicator } from '@/lib/constants/text-const'
 import { deleteTask, updateTask } from '@/lib/services/actions/task'
 import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
 import Await from '@/lib/utils/await'
-import { formatSearchParams } from '@/lib/utils/format-search-params'
-import { SearchParamsProps } from '@/lib/utils/get-search-params'
 import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
 import DetailsTextField from '@/ui/common/form-action-state/text-fields/task/details'
-import InputWithTaskIdAndSearchParams from '@/ui/common/form-action-state/text-fields/task/input-id'
 import TitleTextField from '@/ui/common/form-action-state/text-fields/task/title'
 import LoadingIndicator from '@/ui/common/loading-indicator'
 import BackButton from '@/ui/dashboard/back-btn'
@@ -17,9 +14,7 @@ import { Suspense } from 'react'
 
 export default async function EditTaskPage(props: EditTaskPageProps) {
   const TaskIdDataPromise = getTaskIdDataPromise(props.params)
-  const searchParamsString = await getSearchParamsStringPromise(
-    props.searchParams,
-  )
+  const searchParamsToGoBack = (await props.searchParams) ?? ''
 
   return (
     <>
@@ -45,7 +40,7 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
         <Suspense>
           <Await promise={TaskIdDataPromise}>
             <InputWithTaskIdAndSearchParams
-              searchParamsString={searchParamsString}
+              searchParamsToGoBack={searchParamsToGoBack}
             />
           </Await>
         </Suspense>
@@ -54,14 +49,33 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
       </FormWrapperActionState>
       <Suspense fallback={<Btn disabled={true} />}>
         <Await promise={TaskIdDataPromise}>
-          <DeleteTaskBtn searchParamsString={searchParamsString} />
+          <DeleteTaskBtn searchParamsToGoBack={searchParamsToGoBack} />
         </Await>
       </Suspense>
     </>
   )
 }
 
-function DeleteTaskBtn({ data, searchParamsString }: Props) {
+function InputWithTaskIdAndSearchParams({ data, searchParamsToGoBack }: Props) {
+  if (data)
+    return (
+      <>
+        <input
+          type='hidden'
+          name='id'
+          value={data.id}
+        />
+        <input
+          type='hidden'
+          name='searchParams'
+          value={searchParamsToGoBack}
+        />
+      </>
+    )
+  return null
+}
+
+function DeleteTaskBtn({ data, searchParamsToGoBack }: Props) {
   return (
     <form action={deleteTask}>
       <BtnWithUseFormStatus />
@@ -73,7 +87,7 @@ function DeleteTaskBtn({ data, searchParamsString }: Props) {
       <input
         type='hidden'
         name='searchParams'
-        value={searchParamsString}
+        value={searchParamsToGoBack}
       />
       <LoadingIndicator content={ListLoadingIndicator.deleting} />
     </form>
@@ -86,16 +100,9 @@ async function getTaskIdDataPromise(paramsPromise: Promise<ParamsProps>) {
   return fetchTaskIdData(id)
 }
 
-async function getSearchParamsStringPromise(
-  searchParams: Promise<SearchParamsProps> | undefined,
-) {
-  const resolvedParams = await searchParams
-  return formatSearchParams(resolvedParams)
-}
-
 interface EditTaskPageProps {
   params: Promise<ParamsProps>
-  searchParams?: Promise<SearchParamsProps>
+  searchParams?: Promise<string>
 }
 
 interface ParamsProps {
@@ -104,5 +111,5 @@ interface ParamsProps {
 
 interface Props {
   data?: TaskId
-  searchParamsString: string
+  searchParamsToGoBack: string
 }

@@ -1,9 +1,8 @@
 import { auth } from '@/auth'
 import { DASHBOARD_EDIT_URL, SIGNIN_URL } from '@/lib/constants/url'
 import { TaskData } from '@/lib/services/queries/task'
-import { formatSearchParams } from '@/lib/utils/format-search-params'
 import { SearchParamsProps } from '@/lib/utils/get-search-params'
-import CheckBoxIcon from '@mui/icons-material/CheckBox'
+import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
@@ -17,7 +16,13 @@ export default async function TaskItem({ task, searchParams }: TaskItem) {
   )
 
   return (
-    <ListItem disablePadding>
+    <ListItem
+      disablePadding
+      sx={{
+        m: 1,
+        bgcolor: 'secondary.light',
+      }}
+    >
       <ListItemButton
         component={Link}
         href={href}
@@ -26,9 +31,10 @@ export default async function TaskItem({ task, searchParams }: TaskItem) {
         <ListItemText
           primary={task.title}
           secondary={task.details}
+          sx={{ color: 'primary.contrastText' }}
           slotProps={{
-            primary: { variant: 'h5', color: 'textPrimary' },
-            secondary: { variant: 'body1', color: 'textSecondary' },
+            primary: { variant: 'h5' },
+            secondary: { variant: 'body1', color: 'primary.contrastText' },
           }}
         />
       </ListItemButton>
@@ -63,8 +69,17 @@ async function getTaskNavigationAndStatus(
 
   return {
     href: SIGNIN_URL,
-    renderTaskStatus: <CheckBoxIcon color='primary' />,
+    renderTaskStatus: <Checkbox color='secondary' />,
   }
+}
+
+function formatSearchParams(searchParams: SearchParamsProps) {
+  const searchParamsString = searchParams
+    ? new URLSearchParams(searchParams).toString()
+    : null
+
+  if (searchParamsString) return `?${searchParamsString}`
+  return ''
 }
 
 interface TaskItem {

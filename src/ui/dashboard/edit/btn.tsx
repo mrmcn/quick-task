@@ -1,4 +1,4 @@
-import { ListButtonNames } from '@/lib/constants/text-const'
+import { ListBtnNames } from '@/lib/constants/text-const'
 import Button from '@mui/material/Button'
 
 export function Btn({ disabled }: BtnProps) {
@@ -8,7 +8,7 @@ export function Btn({ disabled }: BtnProps) {
       color='error'
       disabled={disabled}
     >
-      {ListButtonNames.deleteTask}
+      {ListBtnNames.deleteTask}
     </Button>
   )
 }

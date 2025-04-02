@@ -3,7 +3,7 @@ import EditingNameAndEmailCard from '@/ui/user/root/cards/editing-name-email'
 import ResetPasswordAndSignoutCard from '@/ui/user/root/cards/reset-password-signout'
 import Stack from '@mui/material/Stack'
 
-export default async function User() {
+export default async function UserPage() {
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}

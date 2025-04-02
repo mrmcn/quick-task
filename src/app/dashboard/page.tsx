@@ -1,23 +1,21 @@
 import { DASHBOARD_CREATE_URL } from '@/lib/constants/url'
 import { checkAuth } from '@/lib/utils/check-auth'
 import { SearchParamsProps } from '@/lib/utils/get-search-params'
-import MonitoringScreen from '@/ui/common/monitoring-screen'
-import TasksList from '@/ui/common/tasks-list'
+import Home from '@/ui/common/home'
 import AddIcon from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import Link from 'next/link'
 
-export default async function Dashboard(props: DashboardProps) {
+export default async function DashboardPage(props: DashboardProps) {
   checkAuth()
   const searchParams = await props.searchParams
 
   return (
-    <Box component='main'>
-      <MonitoringScreen />
+    <>
+      <Home searchParams={searchParams} />
       <CreateTaskFab />
-      <TasksList searchParams={searchParams} />
-    </Box>
+    </>
   )
 }
 

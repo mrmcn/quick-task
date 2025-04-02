@@ -19,7 +19,11 @@ export default function ResetPasswordAndSignoutCard() {
     <Card
       component='nav'
       variant='outlined'
-      sx={{ display: 'flex', width: { sm: '30%' } }}
+      sx={{
+        display: 'flex',
+        width: { sm: '30%' },
+        bgcolor: 'primary.main',
+      }}
     >
       <CardActions sx={{ width: '100%' }}>
         <List sx={{ width: '100%' }}>
@@ -31,10 +35,7 @@ export default function ResetPasswordAndSignoutCard() {
             <ListItemIcon sx={{ minWidth: '30px' }}>
               <LockResetIcon />
             </ListItemIcon>
-            <ListItemText
-              primary='Reset password'
-              sx={{ color: 'primary.main' }}
-            />
+            <ListItemText primary='Reset password' />
             <ListItemIcon sx={{ minWidth: '30px' }}>
               <ChevronRightIcon fontSize='small' />
             </ListItemIcon>
@@ -54,7 +55,7 @@ export default function ResetPasswordAndSignoutCard() {
               </ListItemIcon>
               <ListItemText
                 primary='Sign out'
-                sx={{ color: 'primary.main' }}
+                sx={{ color: 'secondary.dark' }}
               />
               <ListItemIcon sx={{ minWidth: '30px' }}>
                 <ChevronRightIcon fontSize='small' />

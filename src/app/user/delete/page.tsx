@@ -1,4 +1,4 @@
-import { ListButtonNames, ListPhrases } from '@/lib/constants/text-const'
+import { ListBtnNames, ListPhrases } from '@/lib/constants/text-const'
 import { deleteUser } from '@/lib/services/actions/user'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -33,16 +33,17 @@ export default function DeletingUser() {
           <Button
             component={Link}
             href='/user'
+            color='secondary'
             size='large'
           >
-            {ListButtonNames.cancel}
+            {ListBtnNames.cancel}
           </Button>
           <Button
             color='error'
             size='small'
             onClick={deleteUser}
           >
-            {ListButtonNames.deleteAccount}
+            {ListBtnNames.deleteAccount}
           </Button>
         </CardActions>
       </Card>

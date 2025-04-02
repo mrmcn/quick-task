@@ -1,11 +1,11 @@
-import { ListTextFieldLabel } from '@/lib/constants/text-const'
+import { ListLabelName } from '@/lib/constants/text-const'
 import { TaskId } from '@/lib/services/queries/task'
 import { TextField } from '@mui/material'
 
 export default function DetailsTextField({ placeholder, data }: Props) {
   return (
     <TextField
-      label={ListTextFieldLabel.details}
+      label={ListLabelName.details}
       type='text'
       name='details'
       id='details'

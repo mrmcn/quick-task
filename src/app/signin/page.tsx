@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  ListButtonNames,
+  ListBtnNames,
   ListFormNames,
   ListLoadingIndicator,
   ListPlaceholder,
@@ -43,9 +43,10 @@ function SigninForm() {
       <Button
         component={Link}
         href={SIGNUP_URL}
+        color='secondary'
         sx={{ mt: 2 }}
       >
-        {ListButtonNames.signup}
+        {ListBtnNames.signup}
       </Button>
       <LoadingIndicator content={ListLoadingIndicator.loggingIn} />
     </FormWrapperActionState>

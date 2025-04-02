@@ -28,7 +28,7 @@ export default function PriorityToggleBtns({ data }: Props) {
         aria-label='priority selection buttons'
       >
         <ToggleButton
-          color='primary'
+          color='secondary'
           value={Priority['low']}
           aria-label='low priority'
         >

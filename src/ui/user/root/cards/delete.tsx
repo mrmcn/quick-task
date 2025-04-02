@@ -4,6 +4,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
+import { deepOrange } from '@mui/material/colors'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -15,7 +16,7 @@ export default async function DeletingAccountCard() {
     <Card
       component='nav'
       variant='outlined'
-      sx={{ display: 'flex', width: { sm: '30%' } }}
+      sx={{ display: 'flex', width: { sm: '30%' }, bgcolor: 'primary.main' }}
     >
       <CardActions sx={{ width: '100%' }}>
         <List sx={{ width: '100%' }}>
@@ -29,7 +30,7 @@ export default async function DeletingAccountCard() {
             </ListItemIcon>
             <ListItemText
               primary={ListPhrases.deleteAccount}
-              sx={{ color: 'warning.main' }}
+              sx={{ color: deepOrange[800] }}
             />
             <ListItemIcon sx={{ minWidth: '30px' }}>
               <ChevronRightIcon fontSize='small' />

@@ -1,6 +1,6 @@
 'use client'
 
-import { ListButtonNames } from '@/lib/constants/text-const'
+import { ListBtnNames } from '@/lib/constants/text-const'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/navigation'
 
@@ -17,9 +17,9 @@ export default function BackButton() {
   return (
     <Button
       onClick={handleBack}
-      sx={{ mt: 2 }}
+      sx={{ mt: 2, color: 'secondary.main' }}
     >
-      {ListButtonNames.back}
+      {ListBtnNames.back}
     </Button>
   )
 }

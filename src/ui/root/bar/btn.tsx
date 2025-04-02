@@ -1,5 +1,9 @@
 import { auth } from '@/auth'
-import { ListError, ListPhrases } from '@/lib/constants/text-const'
+import {
+  ListBtnNames,
+  ListError,
+  ListPhrases,
+} from '@/lib/constants/text-const'
 import {
   DASHBOARD_URL,
   HOME_URL,
@@ -45,11 +49,11 @@ function Signin() {
   return (
     <Button
       component={Link}
-      color='inherit'
       href={SIGNIN_URL}
+      color='inherit'
       aria-label='Go to signup'
     >
-      Sign in
+      <Typography>{ListBtnNames.signIn}</Typography>
     </Button>
   )
 }
@@ -59,18 +63,11 @@ function HomeBtn({ href }: { href?: string }) {
     <Button
       component={Link}
       href={href}
-      size='large'
       color='inherit'
       aria-label='Go to home'
       sx={{ flexGrow: 1 }}
     >
-      <Typography
-        variant='h4'
-        component='div'
-        sx={{ flexGrow: 1 }}
-      >
-        {ListPhrases.quickTask}
-      </Typography>
+      <Typography sx={{ flexGrow: 1 }}>{ListPhrases.quickTask}</Typography>
     </Button>
   )
 }

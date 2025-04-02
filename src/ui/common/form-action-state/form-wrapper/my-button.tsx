@@ -1,5 +1,5 @@
 import {
-  ListButtonNames,
+  ListBtnNames,
   ListFormNames,
   ListFormNamesProps,
 } from '@/lib/constants/text-const'
@@ -38,8 +38,8 @@ export default function MyButton({ formName, ...props }: MyButtonProps) {
 }
 
 function getFormHeader(formName: ListFormNamesProps) {
-  if (formName === ListFormNames.signin) return ListButtonNames.signIn
-  return ListButtonNames.save
+  if (formName === ListFormNames.signin) return ListBtnNames.signIn
+  return ListBtnNames.save
 }
 
 interface MyButtonProps extends FormProps {

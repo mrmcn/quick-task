@@ -20,7 +20,7 @@ export default async function EditingNameAndEmailCard() {
     <Card
       component='nav'
       variant='outlined'
-      sx={{ display: 'flex', width: { sm: '30%' } }}
+      sx={{ display: 'flex', width: { sm: '30%' }, bgcolor: 'primary.main' }}
     >
       <CardActions sx={{ width: '100%' }}>
         <List sx={{ width: '100%' }}>
@@ -29,10 +29,7 @@ export default async function EditingNameAndEmailCard() {
             href={USER_EDIT_NAME_URL}
             sx={{ pr: 0 }}
           >
-            <ListItemText
-              primary={ListFormNames.editUserName}
-              sx={{ color: 'primary.main' }}
-            />
+            <ListItemText primary={ListFormNames.editUserName} />
             <Suspense fallback={<ListItemText primary={<Skeleton />} />}>
               <Await promise={userDataPromise}>
                 <ShowUserData type='name' />
@@ -47,10 +44,7 @@ export default async function EditingNameAndEmailCard() {
             href={USER_EDIT_EMAIL_URL}
             sx={{ pr: 0 }}
           >
-            <ListItemText
-              primary={ListFormNames.editEmail}
-              sx={{ color: 'primary.main' }}
-            />
+            <ListItemText primary={ListFormNames.editEmail} />
             <Suspense fallback={<ListItemText primary={<Skeleton />} />}>
               <Await promise={userDataPromise}>
                 <ShowUserData type='email' />

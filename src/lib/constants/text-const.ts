@@ -1,15 +1,18 @@
-export const ListButtonNames = {
+export const ListBtnNames = {
   back: 'Go back',
   deleteAccount: 'Delete account',
   deleteTask: 'Delete task',
   cancel: 'Cancel',
+  newestToOldest: 'Newest to oldest',
+  oldestToNewest: 'Oldest to newest',
   signup: 'Sign up',
   signIn: 'Sign in',
   save: 'Save',
+  titleAtoZ: 'Title A to Z',
+  titleZtoA: 'Title Z to A',
 } as const
 
-export type ListButtonNamesProps =
-  (typeof ListButtonNames)[keyof typeof ListButtonNames]
+export type ListBtnNamesProps = (typeof ListBtnNames)[keyof typeof ListBtnNames]
 
 export const ListFormNames = {
   editUserName: 'Edit user name',
@@ -32,17 +35,18 @@ export const PasswordInputType = {
 export type PasswordInputTypeProps =
   (typeof PasswordInputType)[keyof typeof PasswordInputType]
 
-export const ListTextFieldLabel = {
+export const ListLabelName = {
   email: 'Email',
   password: 'Password',
   name: 'Name',
   title: 'Title',
   details: 'Details',
   search: 'Search',
+  sortBy: 'Sort by',
 } as const
 
-export type ListTextFieldLabelProps =
-  (typeof ListTextFieldLabel)[keyof typeof ListTextFieldLabel]
+export type ListLabelNameProps =
+  (typeof ListLabelName)[keyof typeof ListLabelName]
 
 export const ListError = {
   dataError: 'Data retrieval error',
@@ -55,8 +59,8 @@ export const ListError = {
 export type ListErrorProps = (typeof ListError)[keyof typeof ListError]
 
 export const ListMonitoringCardName = {
-  completed: 'Completed tasks',
-  pending: 'Pending tasks',
+  completed: 'Completed',
+  pending: 'Pending',
   progress: 'Progress, %',
 } as const
 

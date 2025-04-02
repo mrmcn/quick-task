@@ -72,8 +72,9 @@ export function usePriorityState(task: TaskId | undefined) {
   return { changePriority, handlePriority }
 }
 
-export function useUrlReplacement() {
+export function useSearchTask() {
   const { searchParams, pathname, router } = useNextNavigation()
+  const query = searchParams.get('query')
 
   const debounceSearch = debounce((searchParameter) => {
     const params = new URLSearchParams(searchParams)
@@ -93,7 +94,7 @@ export function useUrlReplacement() {
     [debounceSearch],
   )
 
-  return handleSearch
+  return { handleSearch, query }
 }
 
 export function useSortParams() {
@@ -109,12 +110,12 @@ export function useSortParams() {
 
   const handleSortChange = useCallback(
     (e: SelectChangeEvent<string>) => {
-      const newSearchParams = getNewSortParams(e.target.value)
+      const newSortParams = getNewSortParams(e.target.value)
 
-      if (!newSearchParams) return
+      if (!newSortParams) return
 
       const params = new URLSearchParams(searchParams)
-      params.set('sort', JSON.stringify(newSearchParams))
+      params.set('sort', JSON.stringify(newSortParams))
       router.push(`${pathname}?${params.toString()}`)
     },
     [getNewSortParams, searchParams, router, pathname],
@@ -125,7 +126,7 @@ export function useSortParams() {
 
 export function usePagination(countPages: CountPagesProps) {
   const { searchParams, pathname, router } = useNextNavigation()
-  const pageParam = Number(searchParams.get('page'))
+  const pageParam = Number(searchParams.get('page')) || 1
 
   const error = paginationError(countPages, pageParam)
 
@@ -151,7 +152,7 @@ export function useNextNavigation() {
   return { searchParams, pathname, router }
 }
 
-function parseSortParams(sortParamsString: string | null): string {
+function parseSortParams(sortParamsString: string | null) {
   if (!sortParamsString) return ''
 
   try {
@@ -165,9 +166,7 @@ function parseSortParams(sortParamsString: string | null): string {
   }
 }
 
-function createNewSortParams(
-  newSortingData: string,
-): { [key: string]: string } | null {
+function createNewSortParams(newSortingData: string) {
   if (!newSortingData) return null
 
   const [field, order] = newSortingData.split(' ')

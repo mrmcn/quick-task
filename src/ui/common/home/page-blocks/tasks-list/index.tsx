@@ -1,4 +1,4 @@
-import { ListPhrases, ListPlaceholder } from '@/lib/constants/text-const'
+import { ListPhrases } from '@/lib/constants/text-const'
 import {
   fetchCountNumberPagesTasks,
   fetchUserTasksData,
@@ -9,11 +9,8 @@ import {
   getSearchParams,
   SearchParamsProps,
 } from '@/lib/utils/get-search-params'
-import TaskItem from '@/ui/common/tasks-list/task-item'
+import TaskItem from '@/ui/common/home/page-blocks/tasks-list/task-item'
 import PaginationRow from '@/ui/dashboard/page/pagination'
-import Search from '@/ui/dashboard/page/task-search'
-import SortSelect from '@/ui/dashboard/page/task-sort'
-import { Stack } from '@mui/material'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -30,29 +27,35 @@ export default async function TasksList({ searchParams }: TasksListProps) {
 
   return (
     <>
-      <Suspense>
-        <Stack
-          direction='row'
-          sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}
-        >
-          <Search placeholder={ListPlaceholder.search} />
-          <SortSelect />
-        </Stack>
-      </Suspense>
-      <List
+      <Box
+        component='article'
         sx={{
-          width: '100%',
-          bgcolor: 'background.paper',
-          mt: { xs: '3vh', sm: '3vh' },
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
-        <Suspense fallback={<TaskItemSkeleton />}>
-          <SuspenseTaskList searchParams={searchParams} />
+        <Suspense>
+          <PaginationRow countPages={countPages} />
         </Suspense>
-      </List>
-      <Suspense>
-        <PaginationRow countPages={countPages} />
-      </Suspense>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
+        <List
+          sx={{
+            maxWidth: 'md',
+            width: { xs: '90%', md: '100%' },
+          }}
+        >
+          <Suspense fallback={<TaskItemSkeleton />}>
+            <SuspenseTaskList searchParams={searchParams} />
+          </Suspense>
+        </List>
+      </Box>
     </>
   )
 }
