@@ -1,5 +1,5 @@
+import { MonitoringStatesProps } from '@/lib/services/queries/task'
 import { Prisma } from '@prisma/client'
-import { MonitoringStatesProps } from '../services/queries/task'
 
 export function calculateMonitoringStates(
   groupInProgress: GroupInProgressProps,
