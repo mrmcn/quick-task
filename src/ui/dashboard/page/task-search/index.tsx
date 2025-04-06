@@ -1,7 +1,7 @@
 'use client'
 
 import { ListLabelName } from '@/lib/constants/text-const'
-import { useSearchTask } from '@/lib/hooks'
+import { useSearchTask } from '@/lib/utils/hooks/use-search-task'
 import TextField from '@mui/material/TextField'
 
 export default function Search({ placeholder }: Props) {

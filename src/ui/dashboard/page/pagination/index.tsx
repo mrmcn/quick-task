@@ -1,7 +1,7 @@
 'use client'
 
-import { usePagination } from '@/lib/hooks'
 import { HandleErrorProps } from '@/lib/utils/error-handling'
+import { usePagination } from '@/lib/utils/hooks/use-pagination'
 import Pagination from '@mui/material/Pagination'
 
 export default function PaginationRow({ countPages }: Props) {

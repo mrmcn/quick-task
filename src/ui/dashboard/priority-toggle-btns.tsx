@@ -1,8 +1,8 @@
 'use client'
 
 import { ListPhrases } from '@/lib/constants/text-const'
-import { usePriorityState } from '@/lib/hooks'
 import { TaskId } from '@/lib/services/queries/task'
+import { usePriorityState } from '@/lib/utils/hooks/use-priority-state'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'

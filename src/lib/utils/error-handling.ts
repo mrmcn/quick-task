@@ -106,7 +106,7 @@ export function paginationError(
     return null
   }
 
-  if (isNaN(pageParam) || !Number.isInteger(pageParam) || pageParam < 1) {
+  if (!Number.isInteger(pageParam) || pageParam < 1) {
     console.log('PaginationRow pageParam error', pageParam)
     return null
   }

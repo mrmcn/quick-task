@@ -1,7 +1,7 @@
 'use client'
 
 import { ListBtnNames, ListLabelName } from '@/lib/constants/text-const'
-import { useSortParams } from '@/lib/hooks'
+import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import { yellow } from '@mui/material/colors'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
