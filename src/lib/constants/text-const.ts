@@ -106,3 +106,23 @@ export const ListLoadingIndicator = {
 
 export type ListLoadingIndicatorProps =
   (typeof ListLoadingIndicator)[keyof typeof ListLoadingIndicator]
+
+export const ListSearchParameter = {
+  query: 'query',
+  page: 'page',
+  sorting: 'sorting',
+  filter: 'filter',
+} as const
+
+export type ListSearchParameterProps =
+  (typeof ListSearchParameter)[keyof typeof ListSearchParameter]
+
+export const ListDefaultSearchParameter = {
+  defaultQuery: '',
+  defaultSort: '{}',
+  defaultPage: '1',
+  defaultFilter: undefined,
+} as const
+
+export type ListDefaultSearchParameterProps =
+  (typeof ListDefaultSearchParameter)[keyof typeof ListDefaultSearchParameter]

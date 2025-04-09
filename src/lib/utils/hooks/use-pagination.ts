@@ -1,11 +1,13 @@
+import { ListSearchParameter } from '@/lib/constants/text-const'
 import { CountPagesProps } from '@/ui/dashboard/page/pagination'
 import { useCallback } from 'react'
 import { paginationError } from '../error-handling'
 import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
 export function usePagination(countPages: CountPagesProps) {
-  const { updateUrl, valueCurrentQueryParameter } =
-    useUpdateUrlWithParams('page')
+  const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(
+    ListSearchParameter.page,
+  )
   const currentPage = Number(valueCurrentQueryParameter) || 1
 
   const error = paginationError(countPages, currentPage)

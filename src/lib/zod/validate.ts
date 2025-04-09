@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-function validateFormData<T extends z.ZodTypeAny>(
+export function validateFormData<T extends z.ZodTypeAny>(
   schema: T,
   formData: FormData,
 ): {
@@ -26,16 +26,6 @@ function validateFormData<T extends z.ZodTypeAny>(
   }
 
   return { errors: null, data: validatedFields.data }
-}
-
-export function validateForm<T extends z.ZodTypeAny>(
-  zodSchema: T,
-  formData: FormData,
-): {
-  errors: ValidateErrorsProps | null
-  data: z.infer<T> | null
-} {
-  return validateFormData(zodSchema, formData)
 }
 
 export type ValidateErrorsProps = Record<string, string[]>

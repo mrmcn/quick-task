@@ -9,13 +9,13 @@ import {
   UpdateStatusSchema,
   UpdateTaskSchema,
 } from '@/lib/zod/schema/tasks'
-import { validateForm } from '@/lib/zod/validate'
+import { validateFormData } from '@/lib/zod/validate'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { ActionProps, StateProps } from './user'
 
 export const createTask: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateForm(CreateTaskSchema, formData)
+  const validationResult = validateFormData(CreateTaskSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -42,7 +42,7 @@ export const updateStatusTasks: ActionProps<StateProps> = async (
   state,
   formData,
 ) => {
-  const validationResult = validateForm(UpdateStatusSchema, formData)
+  const validationResult = validateFormData(UpdateStatusSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -62,7 +62,7 @@ export const updateStatusTasks: ActionProps<StateProps> = async (
 }
 
 export const updateTask: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateForm(UpdateTaskSchema, formData)
+  const validationResult = validateFormData(UpdateTaskSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -80,8 +80,10 @@ export const updateTask: ActionProps<StateProps> = async (state, formData) => {
     } catch (error) {
       return { error: handleError(error) }
     }
+  const searchParamsString = formData.get('searchParams')
+
   revalidatePath(DASHBOARD_URL)
-  redirect(`${DASHBOARD_URL}${validationResult.data?.searchParams}`)
+  redirect(`${DASHBOARD_URL}${searchParamsString}`)
 }
 
 export const deleteTask = async (formData: FormData) => {

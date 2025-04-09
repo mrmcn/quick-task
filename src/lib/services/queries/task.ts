@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import {
   getSearchParams,
-  SearchParamsProps,
+  SearchParamsObject,
 } from '@/lib/utils/get-search-params'
 import { calculateMonitoringStates } from '@/lib/utils/services/calculator-monitoring-states'
 import { getOrderBy } from '@/lib/utils/services/get-order-by'
@@ -12,7 +12,7 @@ import { Task } from '@prisma/client'
 const tasksPage = 3
 
 export async function fetchUserTasksData(
-  searchParams?: SearchParamsProps,
+  searchParamsObject?: SearchParamsObject,
   tasksPerPage: number = tasksPage,
 ): FetchData<UserTasks> {
   const session = await auth()
@@ -20,7 +20,8 @@ export async function fetchUserTasksData(
   if (!session) return { data: getTasksDATA() } // for sampleTasksList
   const authorId = session?.user.id // or userTasksList
 
-  const { query, currentPage, sort, filter } = getSearchParams(searchParams)
+  const { query, currentPage, sort, filter } =
+    getSearchParams(searchParamsObject)
   const offset = (currentPage - 1) * tasksPerPage
   const orderBy = getOrderBy(sort)
 

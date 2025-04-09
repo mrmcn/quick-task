@@ -7,7 +7,8 @@ import {
 import { HandleErrorProps } from '@/lib/utils/error-handling'
 import {
   getSearchParams,
-  SearchParamsProps,
+  SearchParamsObject,
+  SearchParamsObjectProps,
 } from '@/lib/utils/get-search-params'
 import TaskItem from '@/ui/common/home/page-blocks/tasks-list/task-item'
 import PaginationRow from '@/ui/dashboard/page/pagination'
@@ -21,8 +22,10 @@ import Typography from '@mui/material/Typography'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
-export default async function TasksList({ searchParams }: TasksListProps) {
-  const { query } = getSearchParams(searchParams)
+export default async function TasksList({
+  searchParamsObject,
+}: SearchParamsObjectProps) {
+  const query = getSearchParams(searchParamsObject).query
   const countPages = await fetchCountNumberPagesTasks(query)
 
   return (
@@ -52,7 +55,7 @@ export default async function TasksList({ searchParams }: TasksListProps) {
           }}
         >
           <Suspense fallback={<TaskItemSkeleton />}>
-            <SuspenseTaskList searchParams={searchParams} />
+            <SuspenseTaskList searchParamsObject={searchParamsObject} />
           </Suspense>
         </List>
       </Box>
@@ -60,20 +63,26 @@ export default async function TasksList({ searchParams }: TasksListProps) {
   )
 }
 
-async function SuspenseTaskList({ searchParams }: TasksListProps) {
-  const { data, error } = await fetchUserTasksData(searchParams)
+async function SuspenseTaskList({
+  searchParamsObject,
+}: SearchParamsObjectProps) {
+  const { data, error } = await fetchUserTasksData(searchParamsObject)
 
   return (
     <TaskListContent
       data={data}
       error={error}
-      searchParams={searchParams}
+      searchParamsObject={searchParamsObject}
     />
   )
 }
 
-function TaskListContent({ data, error, searchParams }: TaskListContentProps) {
-  const { query } = getSearchParams(searchParams)
+function TaskListContent({
+  data,
+  error,
+  searchParamsObject,
+}: TaskListContentProps) {
+  const { query } = getSearchParams(searchParamsObject)
   if (error && error.type !== 'database') notFound()
   if (!data || data.length === 0)
     return (
@@ -86,7 +95,7 @@ function TaskListContent({ data, error, searchParams }: TaskListContentProps) {
     <TaskItem
       key={task.id}
       task={task}
-      searchParams={searchParams}
+      searchParamsObject={searchParamsObject}
     />
   ))
 }
@@ -128,14 +137,10 @@ function TaskItemSkeleton() {
   )
 }
 
-interface TasksListProps {
-  searchParams?: SearchParamsProps
-}
-
 interface TaskListContentProps {
   data: UserTasks | undefined
   error: HandleErrorProps | undefined
-  searchParams?: SearchParamsProps
+  searchParamsObject?: SearchParamsObject | undefined
 }
 
 interface EmptyStateProps {

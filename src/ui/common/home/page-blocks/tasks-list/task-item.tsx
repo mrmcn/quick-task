@@ -1,7 +1,8 @@
 import { auth } from '@/auth'
 import { DASHBOARD_EDIT_URL, SIGNIN_URL } from '@/lib/constants/url'
 import { TaskData } from '@/lib/services/queries/task'
-import { SearchParamsProps } from '@/lib/utils/get-search-params'
+import { formatSearchParams } from '@/lib/utils/format-search-params'
+import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -9,10 +10,10 @@ import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import UpdateTaskStatus from './update-status-form'
 
-export default async function TaskItem({ task, searchParams }: TaskItem) {
+export default async function TaskItem({ task, searchParamsObject }: TaskItem) {
   const { href, renderTaskStatus } = await getTaskNavigationAndStatus(
     task,
-    searchParams,
+    searchParamsObject,
   )
 
   return (
@@ -48,7 +49,7 @@ export default async function TaskItem({ task, searchParams }: TaskItem) {
 
 async function getTaskNavigationAndStatus(
   task: TaskData,
-  searchParams?: SearchParamsProps,
+  searchParamsObject?: Props,
 ) {
   const session = await auth()
   // Constructs the URL for editing or deleting a task, including search parameters if the user is authorized.
@@ -57,7 +58,9 @@ async function getTaskNavigationAndStatus(
   // Uses the formatSearchParams function from the library to convert searchParams to a query string.
   if (session)
     return {
-      href: `${DASHBOARD_EDIT_URL(task.id)}${formatSearchParams(searchParams)}`,
+      href: `${DASHBOARD_EDIT_URL(task.id)}${formatSearchParams(
+        searchParamsObject,
+      )}`,
       renderTaskStatus: (
         <UpdateTaskStatus
           id={task.id}
@@ -73,16 +76,9 @@ async function getTaskNavigationAndStatus(
   }
 }
 
-function formatSearchParams(searchParams: SearchParamsProps) {
-  const searchParamsString = searchParams
-    ? new URLSearchParams(searchParams).toString()
-    : null
-
-  if (searchParamsString) return `?${searchParamsString}`
-  return ''
-}
-
 interface TaskItem {
   task: TaskData
-  searchParams?: SearchParamsProps
+  searchParamsObject?: Props
 }
+
+type Props = SearchParamsObject | undefined

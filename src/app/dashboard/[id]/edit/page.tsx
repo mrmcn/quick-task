@@ -2,6 +2,8 @@ import { ListFormNames, ListLoadingIndicator } from '@/lib/constants/text-const'
 import { deleteTask, updateTask } from '@/lib/services/actions/task'
 import { fetchTaskIdData, TaskId } from '@/lib/services/queries/task'
 import Await from '@/lib/utils/await'
+import { formatSearchParams } from '@/lib/utils/format-search-params'
+import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
 import DetailsTextField from '@/ui/common/form-action-state/text-fields/task/details'
 import TitleTextField from '@/ui/common/form-action-state/text-fields/task/title'
@@ -14,7 +16,7 @@ import { Suspense } from 'react'
 
 export default async function EditTaskPage(props: EditTaskPageProps) {
   const TaskIdDataPromise = getTaskIdDataPromise(props.params)
-  const searchParamsToGoBack = (await props.searchParams) ?? ''
+  const searchParamsStringToGoBack = await getSearchParamsStringToGoBack(props)
 
   return (
     <>
@@ -40,7 +42,7 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
         <Suspense>
           <Await promise={TaskIdDataPromise}>
             <InputWithTaskIdAndSearchParams
-              searchParamsToGoBack={searchParamsToGoBack}
+              searchParamsToGoBack={searchParamsStringToGoBack}
             />
           </Await>
         </Suspense>
@@ -49,7 +51,7 @@ export default async function EditTaskPage(props: EditTaskPageProps) {
       </FormWrapperActionState>
       <Suspense fallback={<Btn disabled={true} />}>
         <Await promise={TaskIdDataPromise}>
-          <DeleteTaskBtn searchParamsToGoBack={searchParamsToGoBack} />
+          <DeleteTaskBtn searchParamsToGoBack={searchParamsStringToGoBack} />
         </Await>
       </Suspense>
     </>
@@ -100,9 +102,14 @@ async function getTaskIdDataPromise(paramsPromise: Promise<ParamsProps>) {
   return fetchTaskIdData(id)
 }
 
+async function getSearchParamsStringToGoBack(props: EditTaskPageProps) {
+  const searchParamsObject = await props.searchParams
+  return formatSearchParams(searchParamsObject)
+}
+
 interface EditTaskPageProps {
   params: Promise<ParamsProps>
-  searchParams?: Promise<string>
+  searchParams?: Promise<SearchParamsObject>
 }
 
 interface ParamsProps {

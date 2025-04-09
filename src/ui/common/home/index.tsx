@@ -1,10 +1,10 @@
-import { SearchParamsProps } from '@/lib/utils/get-search-params'
+import { SearchParamsObjectProps } from '@/lib/utils/get-search-params'
 import TasksList from '@/ui/common/home/page-blocks/tasks-list'
 import Grid from '@mui/material/Grid2'
 import MonitoringScreen from './page-blocks/monitoring-screen'
 import SortAndSearch from './page-blocks/sorting-searching'
 
-export default function Home({ searchParams }: Props) {
+export default function Home({ searchParamsObject }: SearchParamsObjectProps) {
   return (
     <Grid
       component='main'
@@ -31,12 +31,8 @@ export default function Home({ searchParams }: Props) {
         component='section'
         size={12}
       >
-        <TasksList searchParams={searchParams} />
+        <TasksList searchParamsObject={searchParamsObject} />
       </Grid>
     </Grid>
   )
-}
-
-interface Props {
-  searchParams?: SearchParamsProps
 }

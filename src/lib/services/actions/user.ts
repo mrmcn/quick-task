@@ -16,7 +16,7 @@ import {
   NameSchema,
   PasswordSchema,
 } from '@/lib/zod/schema/user'
-import { validateForm } from '@/lib/zod/validate'
+import { validateFormData } from '@/lib/zod/validate'
 import bcrypt from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -24,7 +24,7 @@ import { redirect } from 'next/navigation'
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 
 export const createUser: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateForm(EmailAndPasswordSchema, formData)
+  const validationResult = validateFormData(EmailAndPasswordSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -49,7 +49,7 @@ export const updateUserName: ActionProps<StateProps> = async (
   state,
   formData,
 ) => {
-  const validationResult = validateForm(NameSchema, formData)
+  const validationResult = validateFormData(NameSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -74,7 +74,7 @@ export const updatePassword: ActionProps<StateProps> = async (
   state,
   formData,
 ) => {
-  const validationResult = validateForm(PasswordSchema, formData)
+  const validationResult = validateFormData(PasswordSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
@@ -97,7 +97,7 @@ export const updatePassword: ActionProps<StateProps> = async (
 }
 
 export const updateEmail: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateForm(EmailSchema, formData)
+  const validationResult = validateFormData(EmailSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
