@@ -126,3 +126,13 @@ export const ListDefaultSearchParameter = {
 
 export type ListDefaultSearchParameterProps =
   (typeof ListDefaultSearchParameter)[keyof typeof ListDefaultSearchParameter]
+
+export const ListSortingParameter = {
+  titleAsc: 'title asc',
+  titleDesc: 'title desc',
+  dateAsc: 'date asc',
+  dateDesc: 'date desc',
+} as const
+
+export type ListSortingParameterProps =
+  (typeof ListSortingParameter)[keyof typeof ListSortingParameter]

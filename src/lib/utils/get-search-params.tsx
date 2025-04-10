@@ -4,7 +4,9 @@ import {
   ListSearchParameter,
 } from '../constants/text-const'
 
-export const getSearchParams = (searchParamsObject: Props) => {
+export const getSearchParams = (
+  searchParamsObject: OptionalSearchParamsObject,
+) => {
   const { filter, page, query, sorting } = ListSearchParameter
   const { defaultFilter, defaultPage, defaultQuery, defaultSort } =
     ListDefaultSearchParameter
@@ -22,7 +24,7 @@ export type SearchParamsObject = {
 }
 
 export interface SearchParamsObjectProps {
-  searchParamsObject?: Props
+  searchParamsObject?: OptionalSearchParamsObject
 }
 
-type Props = SearchParamsObject | undefined
+export type OptionalSearchParamsObject = SearchParamsObject | undefined

@@ -5,13 +5,13 @@ import { usePagination } from '@/lib/utils/hooks/use-pagination'
 import Pagination from '@mui/material/Pagination'
 
 export default function PaginationRow({ countPages }: Props) {
-  const { currentPage, handlePageChange, error } = usePagination(countPages)
+  const { currentPage, handlePageChange, error, count } =
+    usePagination(countPages)
 
   if (error === null) return null
-
   return (
     <Pagination
-      count={countPages.data}
+      count={count}
       page={currentPage}
       onChange={handlePageChange}
       sx={{ mt: 2 }}
@@ -20,15 +20,5 @@ export default function PaginationRow({ countPages }: Props) {
 }
 
 interface Props {
-  countPages: CountPagesProps
+  countPages: number | HandleErrorProps
 }
-
-export type CountPagesProps =
-  | {
-      data: number
-      error?: undefined
-    }
-  | {
-      error: HandleErrorProps
-      data?: undefined
-    }

@@ -1,5 +1,9 @@
 'use server'
 
+import {
+  ListSearchParameter,
+  ListSortingParameter,
+} from '@/lib/constants/text-const'
 import { DASHBOARD_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
 import { checkAuth } from '@/lib/utils/check-auth'
@@ -35,7 +39,9 @@ export const createTask: ActionProps<StateProps> = async (state, formData) => {
       return { error: handleError(error) }
     }
   revalidatePath(DASHBOARD_URL)
-  redirect(DASHBOARD_URL)
+  redirect(
+    `${DASHBOARD_URL}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
+  )
 }
 
 export const updateStatusTasks: ActionProps<StateProps> = async (

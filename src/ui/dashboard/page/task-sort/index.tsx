@@ -1,6 +1,10 @@
 'use client'
 
-import { ListBtnNames, ListLabelName } from '@/lib/constants/text-const'
+import {
+  ListBtnNames,
+  ListLabelName,
+  ListSortingParameter,
+} from '@/lib/constants/text-const'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import { yellow } from '@mui/material/colors'
 import FormControl from '@mui/material/FormControl'
@@ -10,13 +14,15 @@ import Select from '@mui/material/Select'
 
 export default function SortSelector() {
   const { handleSortChange, selectValue } = useSortParams()
+  const { titleAtoZ, titleZtoA, newestToOldest, oldestToNewest } = ListBtnNames
+  const { titleAsc, titleDesc, dateAsc, dateDesc } = ListSortingParameter
 
   return (
     <FormControl variant='standard'>
       <InputLabel id='sort-label'>{ListLabelName.sortBy}</InputLabel>
       <Select
         labelId='sort-label'
-        value={selectValue || 'title asc'}
+        value={selectValue || titleAsc}
         onChange={handleSortChange}
         MenuProps={{
           MenuListProps: {
@@ -35,10 +41,10 @@ export default function SortSelector() {
           2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
           Other "value" options are possible that correspond to PrismaORM sorting queries.
         */}
-        <MenuItem value='title asc'>{ListBtnNames.titleAtoZ}</MenuItem>
-        <MenuItem value='title desc'>{ListBtnNames.titleZtoA}</MenuItem>
-        <MenuItem value='date asc'>{ListBtnNames.newestToOldest}</MenuItem>
-        <MenuItem value='date desc'>{ListBtnNames.oldestToNewest}</MenuItem>
+        <MenuItem value={titleAsc}>{titleAtoZ}</MenuItem>
+        <MenuItem value={titleDesc}>{titleZtoA}</MenuItem>
+        <MenuItem value={dateDesc}>{newestToOldest}</MenuItem>
+        <MenuItem value={dateAsc}>{oldestToNewest}</MenuItem>
       </Select>
     </FormControl>
   )

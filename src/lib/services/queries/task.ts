@@ -14,10 +14,13 @@ const tasksPage = 3
 export async function fetchUserTasksData(
   searchParamsObject?: SearchParamsObject,
   tasksPerPage: number = tasksPage,
-): FetchData<UserTasks> {
+): FetchData<FetchUserTasksResult> {
   const session = await auth()
 
-  if (!session) return { data: getTasksDATA() } // for sampleTasksList
+  if (!session) {
+    const sampleData = getTasksDATA()
+    return { data: { tasks: sampleData, totalPages: 1 } } // for sampleTasksList
+  }
   const authorId = session?.user.id // or userTasksList
 
   const { query, currentPage, sort, filter } =
@@ -26,25 +29,42 @@ export async function fetchUserTasksData(
   const orderBy = getOrderBy(sort)
 
   try {
-    const data = await prisma.task.findMany({
-      skip: offset,
-      take: tasksPerPage,
-      where: {
-        authorId: authorId,
-        status: filter,
-        OR: [{ title: { contains: query } }, { details: { contains: query } }],
-      },
-      select: {
-        id: true,
-        title: true,
-        details: true,
-        priority: true,
-        status: true,
-      },
-      orderBy: orderBy,
-    })
+    const [tasks, count] = await prisma.$transaction([
+      prisma.task.findMany({
+        skip: offset,
+        take: tasksPerPage,
+        where: {
+          authorId: authorId,
+          status: filter,
+          OR: [
+            { title: { contains: query } },
+            { details: { contains: query } },
+          ],
+        },
+        select: {
+          id: true,
+          title: true,
+          details: true,
+          priority: true,
+          status: true,
+        },
+        orderBy: orderBy,
+      }),
+      prisma.task.count({
+        where: {
+          authorId: authorId,
+          status: filter,
+          OR: [
+            { title: { contains: query } },
+            { details: { contains: query } },
+          ],
+        },
+      }),
+    ])
 
-    return { data }
+    const totalPages = Math.ceil(count / tasksPerPage)
+
+    return { data: { tasks, totalPages } }
   } catch (error) {
     return { error: handleError(error) }
   }
@@ -91,38 +111,18 @@ export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> 
   }
 }
 
-export async function fetchCountNumberPagesTasks(
-  query: string,
-  tasksPerPage: number = tasksPage,
-) {
-  const session = await auth()
-
-  if (!session) return { data: 3 } // for sampleTasksList
-  const authorId = session?.user.id // or userTasksList
-  try {
-    const count = await prisma.task.count({
-      where: {
-        authorId: authorId,
-        OR: [{ title: { contains: query } }, { details: { contains: query } }],
-      },
-    })
-    const numberOfPages = Math.ceil(count / tasksPerPage)
-
-    return { data: numberOfPages }
-  } catch (error) {
-    return { error: handleError(error) }
-  }
-}
-
 export type FetchData<T> = Promise<
   { data: T; error?: undefined } | { error: HandleErrorProps; data?: undefined }
 >
 
 export type TaskData = Omit<Task, 'date' | 'authorId'>
 
-export type UserTasks = TaskData[]
-
 export type TaskId = Omit<TaskData, 'status'>
+
+export interface FetchUserTasksResult {
+  tasks: TaskData[]
+  totalPages: number
+}
 
 export interface MonitoringStatesProps {
   completed: number | undefined
@@ -132,7 +132,7 @@ export interface MonitoringStatesProps {
 
 export type FetchTaskIdDataProps = string
 
-const getTasksDATA = (): UserTasks => [
+const getTasksDATA = (): TaskData[] => [
   {
     id: '1',
     title: 'Sample 1',
