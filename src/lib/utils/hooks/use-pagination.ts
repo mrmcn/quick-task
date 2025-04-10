@@ -1,9 +1,9 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
 import { useCallback } from 'react'
-import { HandleErrorProps, paginationError } from '../error-handling'
+import { paginationError } from '../error-handling'
 import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
-export function usePagination(countPages: number | HandleErrorProps) {
+export function usePagination(countPages: number | undefined) {
   const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(
     ListSearchParameter.page,
   )

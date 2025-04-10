@@ -1,4 +1,3 @@
-import { CountPagesProps } from '@/ui/dashboard/page/pagination'
 import { Prisma } from '@prisma/client'
 import { AuthError } from 'next-auth'
 import { ValidateErrorsProps } from '../zod/validate'
@@ -93,16 +92,11 @@ function handleUnknownError(error: unknown): HandleUnknownErrorProps {
 }
 
 export function paginationError(
-  countPages: CountPagesProps,
+  countPages: number | undefined,
   pageParam: number,
 ) {
-  if (countPages.error) {
-    console.log('PaginationRow error', countPages.error)
-    return null
-  }
-
-  if (countPages.data < 1) {
-    console.log('PaginationRow data < 1', countPages.data)
+  if (countPages && countPages < 1) {
+    console.log('PaginationRow data < 1', countPages)
     return null
   }
 

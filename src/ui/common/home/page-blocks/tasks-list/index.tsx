@@ -14,13 +14,9 @@ import TaskItem from '@/ui/common/home/page-blocks/tasks-list/task-item'
 import PaginationRow from '@/ui/dashboard/page/pagination'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+import { ReactNode, Suspense } from 'react'
 
 export default async function TasksList({ searchParams }: SearchParamsProps) {
   const { countPages, searchParamsObject, response } =
@@ -28,49 +24,33 @@ export default async function TasksList({ searchParams }: SearchParamsProps) {
 
   return (
     <>
-      <Box
-        component='article'
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <FirstCenteringBox>
         <Suspense>
           <PaginationRow countPages={countPages} />
         </Suspense>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-        }}
-      >
+      </FirstCenteringBox>
+      <SecondCenteringBox>
         <List
           sx={{
             maxWidth: 'md',
             width: { xs: '90%', md: '100%' },
           }}
         >
-          <Suspense fallback={<TaskItemSkeleton />}>
-            <TaskListContent
-              searchParamsObject={searchParamsObject}
-              response={response}
-            />
-          </Suspense>
+          <TaskListContent
+            searchParamsObject={searchParamsObject}
+            response={response}
+          />
         </List>
-      </Box>
+      </SecondCenteringBox>
     </>
   )
 }
 
-async function TaskListContent({
+function TaskListContent({
   searchParamsObject,
   response,
 }: TaskListContentProps) {
-  const { tasks, error, errorNotFromDB, notData } = await processTasksData(
-    response,
-  )
+  const { tasks, error, errorNotFromDB, notData } = processTasksData(response)
 
   if (errorNotFromDB) notFound()
   if (notData)
@@ -112,29 +92,12 @@ function EmptyState({ error, searchParamsObject }: EmptyStateProps) {
   )
 }
 
-function TaskItemSkeleton() {
-  return (
-    <ListItem disablePadding>
-      <ListItemButton dense>
-        <ListItemText
-          primary={<Skeleton width={100} />}
-          secondary={<Skeleton width={170} />}
-          slotProps={{
-            primary: { variant: 'h5' },
-            secondary: { variant: 'body1' },
-          }}
-        />
-      </ListItemButton>
-    </ListItem>
-  )
-}
-
 async function fetchAndGetSearchParamsObject(
   searchParams: Promise<SearchParamsObject> | undefined,
 ) {
   const searchParamsObject = await searchParams
   const response = await fetchUserTasksData(searchParamsObject)
-  const countPages = response.data ? response.data.totalPages : response.error
+  const countPages = response.data?.totalPages
 
   return { countPages, searchParamsObject, response }
 }
@@ -146,6 +109,34 @@ function processTasksData(response: ResponseProps) {
   const tasks = data?.tasks
 
   return { errorNotFromDB, notData, error, tasks }
+}
+
+export function FirstCenteringBox({ children }: Children) {
+  return (
+    <Box
+      component='article'
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      {children}
+    </Box>
+  )
+}
+
+export function SecondCenteringBox({ children }: Children) {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+      }}
+    >
+      {children}
+    </Box>
+  )
 }
 
 interface EmptyStateProps {
@@ -167,3 +158,7 @@ type ResponseProps =
       data: FetchUserTasksResult
       error?: undefined
     }
+
+interface Children {
+  children: ReactNode
+}
