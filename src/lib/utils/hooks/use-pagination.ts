@@ -1,13 +1,16 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
-import { useCallback } from 'react'
+import { FetchData, UserTasksResult } from '@/lib/services/queries/task'
+import { use, useCallback } from 'react'
 import { paginationError } from '../error-handling'
 import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
-export function usePagination(countPages: number | undefined) {
+export function usePagination(tasksDataPromise: FetchData<UserTasksResult>) {
   const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(
     ListSearchParameter.page,
   )
   const currentPage = Number(valueCurrentQueryParameter) || 1
+  const { data } = use(tasksDataPromise)
+  const countPages = data?.totalPages
 
   const error = paginationError(countPages, currentPage)
   const count = typeof countPages === 'number' ? countPages : undefined

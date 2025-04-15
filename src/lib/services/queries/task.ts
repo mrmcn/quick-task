@@ -5,16 +5,16 @@ import {
   getSearchParams,
   SearchParamsObject,
 } from '@/lib/utils/get-search-params'
-import { calculateMonitoringStates } from '@/lib/utils/services/calculator-monitoring-states'
 import { getOrderBy } from '@/lib/utils/services/get-order-by'
-import { Task } from '@prisma/client'
+import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services/task-status-counts'
+import { Status, Task } from '@prisma/client'
 
-const tasksPage = 3
+const tasksPage = 6
 
 export async function fetchUserTasksData(
   searchParamsObject?: SearchParamsObject,
   tasksPerPage: number = tasksPage,
-): FetchData<FetchUserTasksResult> {
+): FetchData<UserTasksResult> {
   const session = await auth()
 
   if (!session) {
@@ -23,7 +23,7 @@ export async function fetchUserTasksData(
   }
   const authorId = session?.user.id // or userTasksList
 
-  const { query, currentPage, sort, filter } =
+  const { query, currentPage, sort, status, priority } =
     getSearchParams(searchParamsObject)
   const offset = (currentPage - 1) * tasksPerPage
   const orderBy = getOrderBy(sort)
@@ -35,7 +35,8 @@ export async function fetchUserTasksData(
         take: tasksPerPage,
         where: {
           authorId: authorId,
-          status: filter,
+          status: status,
+          priority: priority,
           OR: [
             { title: { contains: query } },
             { details: { contains: query } },
@@ -53,7 +54,8 @@ export async function fetchUserTasksData(
       prisma.task.count({
         where: {
           authorId: authorId,
-          status: filter,
+          status: status,
+          priority: priority,
           OR: [
             { title: { contains: query } },
             { details: { contains: query } },
@@ -103,7 +105,7 @@ export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> 
       },
       _count: { status: true },
     })
-    const data = calculateMonitoringStates(groupInProgress)
+    const data = getTaskStatusCountsFromPrismaSchema(groupInProgress)
 
     return { data }
   } catch (error) {
@@ -119,15 +121,14 @@ export type TaskData = Omit<Task, 'date' | 'authorId'>
 
 export type TaskId = Omit<TaskData, 'status'>
 
-export interface FetchUserTasksResult {
+export interface UserTasksResult {
   tasks: TaskData[]
   totalPages: number
 }
 
 export interface MonitoringStatesProps {
-  completed: number | undefined
-  pending: number | undefined
-  progress: number | undefined
+  [Status.completed]: number
+  [Status.in_progress]: number
 }
 
 export type FetchTaskIdDataProps = string
@@ -156,4 +157,4 @@ const getTasksDATA = (): TaskData[] => [
   },
 ] // for 'app/page'
 
-const getMonitoringDATA = () => ({ completed: 1, pending: 2, progress: 33 }) // for 'app/page'
+const getMonitoringDATA = () => ({ completed: 1, in_progress: 2 }) // for 'app/page'

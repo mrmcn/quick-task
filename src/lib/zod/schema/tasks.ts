@@ -10,23 +10,23 @@ export const FormSchema = z.object({
   authorId: z.string(),
 })
 
-export const UpdateStatusSchema = FormSchema.omit({
+export const UpdatePrioritySchema = FormSchema.pick({
+  id: true,
+  priority: true,
+})
+
+export const UpdateStatusSchema = FormSchema.pick({
+  id: true,
+  status: true,
+})
+
+export const UpdateTaskSchema = FormSchema.pick({
+  id: true,
   title: true,
   details: true,
-  date: true,
-  priority: true,
-  authorId: true,
 })
 
-export const UpdateTaskSchema = FormSchema.omit({
-  date: true,
-  authorId: true,
-  status: true,
-})
-
-export const CreateTaskSchema = FormSchema.omit({
-  id: true,
-  date: true,
-  status: true,
-  authorId: true,
+export const CreateTaskSchema = FormSchema.pick({
+  title: true,
+  details: true,
 })

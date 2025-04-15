@@ -6,16 +6,15 @@ import {
   SIGNIN_URL,
   USER_URL,
 } from '@/lib/constants/url'
+import fetchUserData from '@/lib/services/queries/user'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
 export default async function Appbar() {
-  const session = await auth()
-  const homeUrl = session ? DASHBOARD_URL : HOME_URL
-  const userCabinetUrl = session ? USER_URL : SIGNIN_URL
-  const btnName = session ? session.user.name : ListBtnNames.signIn
+  const { homeUrl, userButtonAriaLabel, userButtonText, userCabinetUrl } =
+    await getAppBarConfig()
 
   return (
     <Box
@@ -37,10 +36,22 @@ export default async function Appbar() {
         component={Link}
         href={userCabinetUrl}
         color='inherit'
-        aria-label='Go to signup'
+        aria-label={userButtonAriaLabel}
       >
-        <Typography>{btnName}</Typography>
+        <Typography>{userButtonText}</Typography>
       </Button>
     </Box>
   )
+}
+
+async function getAppBarConfig() {
+  const session = await auth()
+  const userData = session ? await fetchUserData() : null
+
+  return {
+    homeUrl: session ? DASHBOARD_URL : HOME_URL,
+    userCabinetUrl: session ? USER_URL : SIGNIN_URL,
+    userButtonText: session ? userData?.data?.name : ListBtnNames.signIn,
+    userButtonAriaLabel: session ? 'Go to user cabinet' : 'Go to sign in',
+  }
 }

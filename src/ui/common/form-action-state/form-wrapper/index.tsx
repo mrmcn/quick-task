@@ -1,7 +1,8 @@
 'use client'
 
-import { ActionProps, StateProps } from '@/lib/services/actions/user'
 import { ListFormNamesProps } from '@/lib/constants/text-const'
+import { ActionProps, StateProps } from '@/lib/services/actions/user'
+import BackButton from '@/ui/common/form-action-state/form-wrapper/back-btn'
 import Typography from '@mui/material/Typography'
 import { useActionState } from 'react'
 import FormContainer from './container'
@@ -18,6 +19,7 @@ export default function FormWrapperActionState({
 
   return (
     <form action={formAction}>
+      <BackButton />
       <FormContainer>
         <Typography
           component='h1'

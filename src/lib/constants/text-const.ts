@@ -1,3 +1,5 @@
+import { Priority, Status, Task } from '@prisma/client'
+
 export const ListBtnNames = {
   back: 'Go back',
   deleteAccount: 'Delete account',
@@ -58,14 +60,15 @@ export const ListError = {
 
 export type ListErrorProps = (typeof ListError)[keyof typeof ListError]
 
-export const ListMonitoringCardName = {
+export const ListChipNames = {
   completed: 'Completed',
   pending: 'Pending',
-  progress: 'Progress, %',
+  priorityHigh: 'Priority high',
+  priorityLow: 'Priority low',
 } as const
 
-export type ListMonitoringCardNameProps =
-  (typeof ListMonitoringCardName)[keyof typeof ListMonitoringCardName]
+export type ListChipNamesProps =
+  (typeof ListChipNames)[keyof typeof ListChipNames]
 
 export const ListPlaceholder = {
   enterEmail: 'Enter your email address',
@@ -111,7 +114,8 @@ export const ListSearchParameter = {
   query: 'query',
   page: 'page',
   sorting: 'sorting',
-  filter: 'filter',
+  status: 'status',
+  priority: 'priority',
 } as const
 
 export type ListSearchParameterProps =
@@ -121,7 +125,8 @@ export const ListDefaultSearchParameter = {
   defaultQuery: '',
   defaultSort: '{}',
   defaultPage: '1',
-  defaultFilter: undefined,
+  defaultStatus: undefined,
+  defaultPriority: undefined,
 } as const
 
 export type ListDefaultSearchParameterProps =
@@ -136,3 +141,24 @@ export const ListSortingParameter = {
 
 export type ListSortingParameterProps =
   (typeof ListSortingParameter)[keyof typeof ListSortingParameter]
+
+type TaskKeys = keyof Task
+export const ListTaskField: { [key in TaskKeys]: key } = {
+  id: 'id',
+  title: 'title',
+  details: 'details',
+  date: 'date',
+  priority: 'priority',
+  status: 'status',
+  authorId: 'authorId',
+}
+
+export const ListPriorityField: { [key in Priority]: key } = {
+  high: 'high',
+  low: 'low',
+}
+
+export const ListStatusField: { [key in Status]: key } = {
+  completed: 'completed',
+  in_progress: 'in_progress',
+}

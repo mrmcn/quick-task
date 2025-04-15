@@ -2,28 +2,47 @@
 
 import {
   ListBtnNames,
-  ListLabelName,
   ListSortingParameter,
+  ListSortingParameterProps,
 } from '@/lib/constants/text-const'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
+import Chip from '@mui/material/Chip'
 import { yellow } from '@mui/material/colors'
 import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
+import Input from '@mui/material/Input'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 
-export default function SortSelector() {
+export default function SortSelectorChip() {
   const { handleSortChange, selectValue } = useSortParams()
   const { titleAtoZ, titleZtoA, newestToOldest, oldestToNewest } = ListBtnNames
   const { titleAsc, titleDesc, dateAsc, dateDesc } = ListSortingParameter
+  const getChipLabel = getSortChipLabel()
 
   return (
-    <FormControl variant='standard'>
-      <InputLabel id='sort-label'>{ListLabelName.sortBy}</InputLabel>
+    <FormControl
+      variant='standard'
+      sx={{ width: 150 }}
+    >
       <Select
         labelId='sort-label'
         value={selectValue || titleAsc}
         onChange={handleSortChange}
+        // input - custom Input component used instead of the standard field in Select.
+        // renderValue - function that renders the display of the selected value. Here, we render a Chip with the appropriate label.
+        input={
+          <Input
+            id='select-multiple-chip'
+            disableUnderline
+          />
+        }
+        renderValue={(selected) => (
+          <Chip
+            variant='outlined'
+            label={getChipLabel(selected)}
+            sx={{ width: 140 }}
+          />
+        )}
         MenuProps={{
           MenuListProps: {
             sx: {
@@ -48,4 +67,24 @@ export default function SortSelector() {
       </Select>
     </FormControl>
   )
+}
+
+// Factory function that returns a function to get the chip label based on the sorting value.
+function getSortChipLabel() {
+  const sortOptions = [
+    { value: ListSortingParameter.titleAsc, label: ListBtnNames.titleAtoZ },
+    { value: ListSortingParameter.titleDesc, label: ListBtnNames.titleZtoA },
+    {
+      value: ListSortingParameter.dateDesc,
+      label: ListBtnNames.newestToOldest,
+    },
+    { value: ListSortingParameter.dateAsc, label: ListBtnNames.oldestToNewest },
+  ] as const
+  const getChipLabel = (selectedValue: ListSortingParameterProps) => {
+    const selectedOption = sortOptions.find(
+      (option) => option.value === selectedValue,
+    )
+    return selectedOption?.label || ListBtnNames.titleAtoZ
+  }
+  return getChipLabel
 }

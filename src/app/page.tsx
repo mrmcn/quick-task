@@ -1,5 +1,5 @@
-import Home from '@/ui/common/home'
+import TasksList from '@/ui/common/tasks-list'
 
 export default function RootPage() {
-  return <Home />
+  return <TasksList />
 }

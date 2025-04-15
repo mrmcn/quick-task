@@ -10,6 +10,7 @@ import { checkAuth } from '@/lib/utils/check-auth'
 import { handleError, handleZodError } from '@/lib/utils/error-handling'
 import {
   CreateTaskSchema,
+  UpdatePrioritySchema,
   UpdateStatusSchema,
   UpdateTaskSchema,
 } from '@/lib/zod/schema/tasks'
@@ -26,12 +27,11 @@ export const createTask: ActionProps<StateProps> = async (state, formData) => {
   if (validationResult.data)
     try {
       const { id } = await checkAuth()
-      const { title, details, priority } = validationResult.data
+      const { title, details } = validationResult.data
       await prisma.task.create({
         data: {
           title,
           details,
-          priority,
           authorId: id,
         },
       })
@@ -67,6 +67,29 @@ export const updateStatusTasks: ActionProps<StateProps> = async (
   revalidatePath(DASHBOARD_URL)
 }
 
+export const updatePriorityTasks: ActionProps<StateProps> = async (
+  state,
+  formData,
+) => {
+  const validationResult = validateFormData(UpdatePrioritySchema, formData)
+
+  if (validationResult.errors)
+    return { error: handleZodError(validationResult.errors) }
+  if (validationResult.data)
+    try {
+      const { id, priority } = validationResult.data
+      await prisma.task.update({
+        where: { id: id },
+        data: {
+          priority: priority,
+        },
+      })
+    } catch (error) {
+      return { error: handleError(error) }
+    }
+  revalidatePath(DASHBOARD_URL)
+}
+
 export const updateTask: ActionProps<StateProps> = async (state, formData) => {
   const validationResult = validateFormData(UpdateTaskSchema, formData)
 
@@ -74,13 +97,12 @@ export const updateTask: ActionProps<StateProps> = async (state, formData) => {
     return { error: handleZodError(validationResult.errors) }
   if (validationResult.data)
     try {
-      const { id, title, details, priority } = validationResult.data
+      const { id, title, details } = validationResult.data
       await prisma.task.update({
         where: { id: id },
         data: {
           title: title,
           details: details,
-          priority: priority,
         },
       })
     } catch (error) {

@@ -1,11 +1,9 @@
 'use client'
 
 import { ListLoadingIndicatorProps } from '@/lib/constants/text-const'
-import { useMediaQuery, useTheme } from '@mui/material'
+import { CircularProgress, useMediaQuery, useTheme } from '@mui/material'
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Typography from '@mui/material/Typography'
+import Chip from '@mui/material/Chip'
 import { useFormStatus } from 'react-dom'
 
 export default function LoadingIndicator({ content }: LoadingIndicatorProps) {
@@ -19,24 +17,19 @@ export default function LoadingIndicator({ content }: LoadingIndicatorProps) {
         sx={{
           '& > :not(style)': {
             position: 'fixed',
-            top: isMobile ? '50%' : '55%',
+            top: isMobile ? '55%' : '65%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: isMobile ? '90%' : '100%',
+            width: isMobile ? '30%' : '35%',
             padding: isMobile ? '16px' : '0',
           },
         }}
       >
-        <Card sx={{ maxWidth: 300, bgcolor: 'secondary.light' }}>
-          <CardContent>
-            <Typography
-              variant='h5'
-              align='center'
-            >
-              {content}
-            </Typography>
-          </CardContent>
-        </Card>
+        <Chip
+          label={content}
+          icon={<CircularProgress size={20} />}
+          sx={{ bgcolor: 'secondary.light' }}
+        />
       </Box>
     )
 }

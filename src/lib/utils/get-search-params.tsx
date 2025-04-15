@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client'
+import { Priority, Status } from '@prisma/client'
 import {
   ListDefaultSearchParameter,
   ListSearchParameter,
@@ -7,15 +7,21 @@ import {
 export const getSearchParams = (
   searchParamsObject: OptionalSearchParamsObject,
 ) => {
-  const { filter, page, query, sorting } = ListSearchParameter
-  const { defaultFilter, defaultPage, defaultQuery, defaultSort } =
-    ListDefaultSearchParameter
+  const { status, page, query, sorting, priority } = ListSearchParameter
+  const {
+    defaultStatus,
+    defaultPage,
+    defaultQuery,
+    defaultSort,
+    defaultPriority,
+  } = ListDefaultSearchParameter
 
   return {
     query: (searchParamsObject?.[query] as string) || defaultQuery,
     currentPage: Number(searchParamsObject?.[page] || defaultPage),
     sort: (searchParamsObject?.[sorting] as string) || defaultSort,
-    filter: (searchParamsObject?.[filter] as Status) || defaultFilter,
+    status: (searchParamsObject?.[status] as Status) || defaultStatus,
+    priority: (searchParamsObject?.[priority] as Priority) || defaultPriority,
   }
 }
 

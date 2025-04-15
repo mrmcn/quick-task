@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
+import { UpdateTaskPriority } from './update-priority'
 import UpdateTaskStatus from './update-status-form'
 
 export default async function TaskItem({ task, searchParamsObject }: TaskItem) {
@@ -22,8 +23,11 @@ export default async function TaskItem({ task, searchParamsObject }: TaskItem) {
       sx={{
         m: 1,
         bgcolor: 'secondary.light',
+        display: 'flex',
+        alignItems: 'stretch',
       }}
     >
+      <UpdateTaskPriority task={task} />
       <ListItemButton
         component={Link}
         href={href}

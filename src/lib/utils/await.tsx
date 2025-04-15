@@ -2,6 +2,7 @@ import {
   FetchData,
   MonitoringStatesProps,
   TaskId,
+  UserTasksResult,
 } from '@/lib/services/queries/task'
 import { UserNameAndEmail } from '@/lib/services/queries/user'
 import { notFound } from 'next/navigation'
@@ -23,8 +24,10 @@ export default function Await({ promise, children }: AwaitEmailProps) {
 }
 
 interface AwaitEmailProps {
-  promise: FetchData<UserNameAndEmail | TaskId | MonitoringStatesProps>
+  promise: FetchData<
+    UserNameAndEmail | TaskId | MonitoringStatesProps | UserTasksResult
+  >
   children: ReactElement<{
-    data: UserNameAndEmail | TaskId | MonitoringStatesProps | null | undefined
+    data: UserNameAndEmail | TaskId | MonitoringStatesProps | UserTasksResult
   }>
 }

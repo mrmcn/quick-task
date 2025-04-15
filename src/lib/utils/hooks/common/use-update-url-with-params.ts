@@ -6,10 +6,10 @@ import { useCallback } from 'react'
 import { useNextNavigation } from '../use-next-navigation'
 
 export function useUpdateUrlWithParams(
-  queryParameterName: ListSearchParameterProps,
+  filteringParam: ListSearchParameterProps,
 ) {
   const { pathname, router, searchParams } = useNextNavigation()
-  const valueCurrentQueryParameter = searchParams.get(queryParameterName)
+  const valueCurrentQueryParameter = searchParams.get(filteringParam)
 
   const updateUrl = useCallback(
     (page: number, updateCurrentParameter?: UpdateParamsProps) => {

@@ -10,21 +10,19 @@ export const UserSchema = z.object({
     .min(6, { message: 'Must be more than six characters' }),
 })
 
-export const NameSchema = UserSchema.omit({
-  email: true,
+export const NameSchema = UserSchema.pick({
+  name: true,
+})
+
+export const PasswordSchema = UserSchema.pick({
   password: true,
 })
 
-export const PasswordSchema = UserSchema.omit({
-  name: true,
+export const EmailSchema = UserSchema.pick({
   email: true,
 })
 
-export const EmailSchema = UserSchema.omit({
-  name: true,
+export const EmailAndPasswordSchema = UserSchema.pick({
+  email: true,
   password: true,
-})
-
-export const EmailAndPasswordSchema = UserSchema.omit({
-  name: true,
 })

@@ -8,8 +8,6 @@ import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
 import DetailsTextField from '@/ui/common/form-action-state/text-fields/task/details'
 import TitleTextField from '@/ui/common/form-action-state/text-fields/task/title'
 import LoadingIndicator from '@/ui/common/loading-indicator'
-import BackButton from '@/ui/dashboard/back-btn'
-import PriorityToggleBtns from '@/ui/dashboard/priority-toggle-btns'
 
 export default async function CreateTaskPage() {
   return (
@@ -19,9 +17,7 @@ export default async function CreateTaskPage() {
     >
       <TitleTextField placeholder={ListPlaceholder.createTitle} />
       <DetailsTextField placeholder={ListPlaceholder.createDetails} />
-      <PriorityToggleBtns />
       <LoadingIndicator content={ListLoadingIndicator.creating} />
-      <BackButton />
     </FormWrapperActionState>
   )
 }
