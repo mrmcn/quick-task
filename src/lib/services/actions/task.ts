@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from '@/auth'
 import {
   ListSearchParameter,
   ListSortingParameter,
@@ -71,6 +72,9 @@ export const updatePriorityTasks: ActionProps<StateProps> = async (
   state,
   formData,
 ) => {
+  const session = await auth()
+
+  if (!session) return undefined
   const validationResult = validateFormData(UpdatePrioritySchema, formData)
 
   if (validationResult.errors)
