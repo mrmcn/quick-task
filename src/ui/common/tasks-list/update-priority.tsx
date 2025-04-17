@@ -31,6 +31,7 @@ export function UpdateTaskPriority({ task }: Props) {
     >
       <Box
         sx={{
+          ml: 6,
           width: 48,
           bgcolor: 'primary.light',
           display: 'flex',

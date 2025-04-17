@@ -3,7 +3,7 @@ import { Priority, Status, Task } from '@prisma/client'
 export const ListBtnNames = {
   back: 'Go back',
   deleteAccount: 'Delete account',
-  deleteTask: 'Delete task',
+  deleteTask: 'Delete',
   cancel: 'Cancel',
   newestToOldest: 'Newest to oldest',
   oldestToNewest: 'Oldest to newest',

@@ -1,15 +1,15 @@
+import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
 import {
+  FetchData,
   fetchUserTasksData,
   UserTasksResult,
 } from '@/lib/services/queries/task'
-import Await from '@/lib/utils/await'
 import {
   getSearchParams,
   OptionalSearchParamsObject,
   SearchParamsObject,
 } from '@/lib/utils/get-search-params'
-import TaskItem from '@/ui/common/tasks-list/task-item'
 import PaginationRow from '@/ui/dashboard/page/pagination'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -18,7 +18,9 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import TaskListItemSwipeable from './list-item-swipeable'
 
 export default async function TasksList({
   searchParamsObject,
@@ -38,9 +40,10 @@ export default async function TasksList({
           }}
         >
           <Suspense fallback={<Fallback />}>
-            <Await promise={tasksDataPromise}>
-              <TaskListContent searchParamsObject={searchParamsObject} />
-            </Await>
+            <TaskListContent
+              tasksDataPromise={tasksDataPromise}
+              searchParamsObject={searchParamsObject}
+            />
           </Suspense>
         </List>
       </Box>
@@ -51,16 +54,20 @@ export default async function TasksList({
   )
 }
 
-function TaskListContent({ searchParamsObject, data }: TaskListContentProps) {
-  const { tasks, notTasks } = processTasksData(data)
+async function TaskListContent({
+  searchParamsObject,
+  tasksDataPromise,
+}: TaskListContentProps) {
+  const { tasks, notTasks } = await processTasksData(tasksDataPromise)
 
   if (notTasks) return <EmptyState searchParamsObject={searchParamsObject} />
-
+  const session = await auth()
   const taskItem = tasks?.map((task) => (
-    <TaskItem
+    <TaskListItemSwipeable
       key={task.id}
       task={task}
       searchParamsObject={searchParamsObject}
+      session={session}
     />
   ))
   return <>{taskItem}</>
@@ -84,8 +91,11 @@ function EmptyState({ searchParamsObject }: EmptyStateProps) {
   )
 }
 
-function processTasksData(data: UserTasksResult | undefined) {
-  const tasks = data?.tasks
+async function processTasksData(tasksDataPromise: FetchData<UserTasksResult>) {
+  const taskData = await tasksDataPromise
+  const { data, error } = taskData
+  if (error) return notFound()
+  const tasks = data.tasks
   const notTasks = !tasks || tasks.length === 0
 
   return { notTasks, tasks }
@@ -114,7 +124,7 @@ interface EmptyStateProps {
 
 interface TaskListContentProps {
   searchParamsObject: OptionalSearchParamsObject
-  data?: UserTasksResult
+  tasksDataPromise: FetchData<UserTasksResult>
 }
 
 interface TasksListProps {

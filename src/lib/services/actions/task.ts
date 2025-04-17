@@ -119,6 +119,9 @@ export const updateTask: ActionProps<StateProps> = async (state, formData) => {
 }
 
 export const deleteTask = async (formData: FormData) => {
+  const session = await auth()
+
+  if (!session) return undefined
   const taskId = formData.get('id')
   const searchParamsString = formData.get('searchParams')
 

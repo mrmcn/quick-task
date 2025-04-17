@@ -19,7 +19,7 @@ export default function UpdateTaskStatus({
     return (
       <CircularProgress
         size={15}
-        sx={{ mr: 3, mt: 4, color: 'primary.dark' }}
+        sx={{ mr: 5, mt: 3, color: 'primary.dark' }}
       />
     )
 
@@ -42,8 +42,8 @@ export default function UpdateTaskStatus({
         }}
         edge='end'
         checked={status.includes(completed)}
-        sx={{ mr: 1, ml: 2 }}
-        inputProps={{ 'aria-labelledby': title }}
+        sx={{ mr: 3 }}
+        aria-labelledby={`task-${title}`}
       />
       <input
         type='hidden'

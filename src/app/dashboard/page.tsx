@@ -29,7 +29,7 @@ export default async function DashboardPage({
             alignItems: 'flex-start',
             width: '90%',
             position: 'fixed',
-            top: '75%',
+            top: '70%',
             left: '5%',
             zIndex: 10,
           },
