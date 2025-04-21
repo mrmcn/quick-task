@@ -1,3 +1,5 @@
+'use client'
+
 import { ListBtnNames, ListLabelNameProps } from '@/lib/constants/text-const'
 import { TaskId } from '@/lib/services/queries/task'
 import { TextField } from '@mui/material'
