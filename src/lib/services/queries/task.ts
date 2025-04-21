@@ -9,7 +9,7 @@ import { getOrderBy } from '@/lib/utils/services/get-order-by'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services/task-status-counts'
 import { Status, Task } from '@prisma/client'
 
-const tasksPage = 6
+const tasksPage = 3
 
 export async function fetchUserTasksData(
   searchParamsObject?: SearchParamsObject,

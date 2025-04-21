@@ -11,7 +11,7 @@ export function useGetSwipeProps() {
   const { isMobile } = useMyMediaQuery() // Custom hook to determine if the device is mobile based on media queries.
 
   const leftHiddenWidth = isMobile ? 60 : 100 // Width of the left hidden area, adjusted for mobile.
-  const rightHiddenWidth = isMobile ? 120 : 180 // Width of the right hidden area, adjusted for mobile.
+  const rightHiddenWidth = isMobile ? 60 : 100 // Width of the right hidden area, adjusted for mobile.
   const SWIPE_THRESHOLD = 0.3 // Threshold (as a percentage of the hidden area width) to trigger a full swipe action.
 
   // Handler for swipe left gestures.

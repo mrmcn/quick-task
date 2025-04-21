@@ -1,22 +1,29 @@
 'use client'
 
 import { ListBtnNames, ListTaskField } from '@/lib/constants/text-const'
-import { DASHBOARD_EDIT_URL, SIGNIN_URL } from '@/lib/constants/url'
-import { deleteTask } from '@/lib/services/actions/task'
+import {
+  deleteTask,
+  updateTaskDetails,
+  updateTaskTitle,
+} from '@/lib/services/actions/task'
 import { TaskData } from '@/lib/services/queries/task'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { useGetSwipeProps } from '@/lib/utils/hooks/use-get-swipe-props'
+import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import { Task } from '@prisma/client'
 import { Session } from 'next-auth'
-import Link from 'next/link'
-import { ReactNode } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { useSwipeable } from 'react-swipeable'
+import DetailsTextField from '../form-action-state/text-fields/task/details'
+import TitleTextField from '../form-action-state/text-fields/task/title'
+import EditForm from './editing-form'
 import { UpdateTaskPriority } from './update-priority'
 import UpdateTaskStatus from './update-status-form'
 
@@ -28,11 +35,6 @@ export default function TaskListItemSwipeable({
   searchParamsObject,
   session,
 }: TaskItem) {
-  const { href, renderTaskStatus } = getTaskNavigationAndStatus(
-    task,
-    session,
-    searchParamsObject,
-  )
   const {
     translateX,
     leftHiddenWidth,
@@ -50,6 +52,7 @@ export default function TaskListItemSwipeable({
     delta,
     trackMouse,
   })
+  const renderTaskStatus = getTaskStatus(task, session)
 
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden' }}>
@@ -74,16 +77,24 @@ export default function TaskListItemSwipeable({
         }}
       >
         <ListItemText
-          primary={task.title}
-          secondary={task.details}
+          primary={
+            <TaskViewOrEdit
+              searchParamsObject={searchParamsObject}
+              task={task}
+              type={ListTaskField.title}
+            />
+          }
+          secondary={
+            <TaskViewOrEdit
+              searchParamsObject={searchParamsObject}
+              task={task}
+              type={ListTaskField.details}
+            />
+          }
           color='secondary'
           slotProps={{
-            primary: {
-              id: `task-${task.title}`,
-              variant: 'h5',
-              color: 'secondary',
-            },
-            secondary: { variant: 'body1', color: 'secondary' },
+            primary: { component: 'div' },
+            secondary: { component: 'div' },
           }}
         />
         {renderTaskStatus}
@@ -94,19 +105,88 @@ export default function TaskListItemSwipeable({
         translateX={translateX}
         right={0}
       >
-        <Button
-          component={Link}
-          href={href}
-          color='secondary'
-        >
-          Edit
-        </Button>
         <DeleteTaskBtn
           taskId={task.id}
           searchParamsToGoBack=''
         />
       </HiddenComponent>
     </Box>
+  )
+}
+
+function getTitleOrDetails(
+  type: keyof Task,
+  task: TaskData,
+  setIsEditing: Dispatch<SetStateAction<boolean>>,
+) {
+  const handleBlur = () => setIsEditing(false)
+
+  if (type === 'title')
+    return {
+      textField: (
+        <TitleTextField
+          data={task}
+          onBlur={handleBlur}
+        />
+      ),
+      action: updateTaskTitle,
+      variantTypography: 'h5' as const,
+    }
+  return {
+    textField: (
+      <DetailsTextField
+        data={task}
+        onBlur={handleBlur}
+      />
+    ),
+    action: updateTaskDetails,
+    variantTypography: 'body1' as const,
+  }
+}
+
+function TaskViewOrEdit({
+  task,
+  searchParamsObject,
+  type,
+}: TitleTaskEditFormProps) {
+  const [isEditing, setIsEditing] = useState(false)
+
+  const searchParamsToGoBack = formatSearchParams(searchParamsObject)
+  const { textField, action, variantTypography } = getTitleOrDetails(
+    type,
+    task,
+    setIsEditing,
+  )
+
+  if (isEditing)
+    return (
+      <EditForm action={action}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {textField}
+          <input
+            type='hidden'
+            name={ListTaskField.id}
+            value={task.id}
+          />
+          <input
+            type='hidden'
+            name='searchParams'
+            value={searchParamsToGoBack}
+          />
+        </Box>
+      </EditForm>
+    )
+
+  return (
+    <Typography
+      id={`task-${task[type]}`}
+      variant={variantTypography}
+      color='secondary'
+      onClick={() => setIsEditing(true)}
+      style={{ cursor: 'pointer', display: 'inline-block' }} // Вказуємо, що елемент клікабельний та обмежуємо його ширину змістом контенту.
+    >
+      {task[type]}
+    </Typography>
   )
 }
 
@@ -187,37 +267,20 @@ function BtnWithUseFormStatus() {
   )
 }
 
-// Function: getTaskNavigationAndStatus
-// Determines the navigation URL (edit or sign-in) and the task status component to render
-// based on the user's session.
-function getTaskNavigationAndStatus(
-  task: TaskData,
-  session: Session | null,
-  searchParamsObject?: Props,
-) {
-  if (session)
-    return {
-      href: `${DASHBOARD_EDIT_URL(task.id)}${formatSearchParams(
-        searchParamsObject,
-      )}`, // URL for editing the task.
-      renderTaskStatus: (
-        <UpdateTaskStatus
-          id={task.id}
-          title={task.title}
-          status={task.status}
-        />
-      ), // Component to display and update the task status.
-    }
-
-  return {
-    href: SIGNIN_URL, // URL for the sign-in page if no session.
-    renderTaskStatus: (
-      <Checkbox
-        color='secondary'
-        sx={{ mr: 10 }}
-      />
-    ),
-  }
+function getTaskStatus(task: TaskData, session: Session | null) {
+  const renderTaskStatus = session ? (
+    <UpdateTaskStatus
+      id={task.id}
+      title={task.title}
+      status={task.status}
+    />
+  ) : (
+    <Checkbox
+      color='secondary'
+      sx={{ mr: 10 }}
+    />
+  )
+  return renderTaskStatus
 }
 
 interface TaskItem {
@@ -239,4 +302,10 @@ interface HiddenComponentProps {
   right?: number | string
   width: number | string
   translateX: number
+}
+
+interface TitleTaskEditFormProps {
+  task: TaskData
+  searchParamsObject: Props
+  type: keyof TaskData
 }

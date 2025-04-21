@@ -20,9 +20,13 @@ export const UpdateStatusSchema = FormSchema.pick({
   status: true,
 })
 
-export const UpdateTaskSchema = FormSchema.pick({
+export const UpdateTaskTitleSchema = FormSchema.pick({
   id: true,
   title: true,
+})
+
+export const UpdateTaskDetailsSchema = FormSchema.pick({
+  id: true,
   details: true,
 })
 

@@ -13,7 +13,8 @@ import {
   CreateTaskSchema,
   UpdatePrioritySchema,
   UpdateStatusSchema,
-  UpdateTaskSchema,
+  UpdateTaskDetailsSchema,
+  UpdateTaskTitleSchema,
 } from '@/lib/zod/schema/tasks'
 import { validateFormData } from '@/lib/zod/validate'
 import { revalidatePath } from 'next/cache'
@@ -94,18 +95,46 @@ export const updatePriorityTasks: ActionProps<StateProps> = async (
   revalidatePath(DASHBOARD_URL)
 }
 
-export const updateTask: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateFormData(UpdateTaskSchema, formData)
+export const updateTaskTitle: ActionProps<StateProps> = async (
+  state,
+  formData,
+) => {
+  const validationResult = validateFormData(UpdateTaskTitleSchema, formData)
 
   if (validationResult.errors)
     return { error: handleZodError(validationResult.errors) }
   if (validationResult.data)
     try {
-      const { id, title, details } = validationResult.data
+      const { id, title } = validationResult.data
       await prisma.task.update({
         where: { id: id },
         data: {
           title: title,
+        },
+      })
+    } catch (error) {
+      return { error: handleError(error) }
+    }
+  const searchParamsString = formData.get('searchParams')
+
+  revalidatePath(DASHBOARD_URL)
+  redirect(`${DASHBOARD_URL}${searchParamsString}`)
+}
+
+export const updateTaskDetails: ActionProps<StateProps> = async (
+  state,
+  formData,
+) => {
+  const validationResult = validateFormData(UpdateTaskDetailsSchema, formData)
+
+  if (validationResult.errors)
+    return { error: handleZodError(validationResult.errors) }
+  if (validationResult.data)
+    try {
+      const { id, details } = validationResult.data
+      await prisma.task.update({
+        where: { id: id },
+        data: {
           details: details,
         },
       })
