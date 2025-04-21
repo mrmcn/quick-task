@@ -56,5 +56,5 @@ interface Props {
   placeholder?: string
   data?: TaskId
   label?: ListLabelNameProps
-  onBlur: () => void
+  onBlur?: () => void
 }
