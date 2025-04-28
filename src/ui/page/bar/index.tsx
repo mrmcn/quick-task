@@ -6,7 +6,7 @@ import {
   SIGNIN_URL,
   USER_URL,
 } from '@/lib/constants/url'
-import fetchUserData from '@/lib/services/queries/user'
+import { fetchUserName } from '@/lib/services/queries/user'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -46,12 +46,15 @@ export default async function Appbar() {
 
 async function getAppBarConfig() {
   const session = await auth()
-  const userData = session ? await fetchUserData() : null
+  const userName = session ? await fetchUserName() : null
 
   return {
     homeUrl: session ? DASHBOARD_URL : HOME_URL,
     userCabinetUrl: session ? USER_URL : SIGNIN_URL,
-    userButtonText: session ? userData?.data?.name : ListBtnNames.signIn,
+    userButtonText:
+      userName === null
+        ? ListBtnNames.signIn
+        : userName.data ?? 'Error database',
     userButtonAriaLabel: session ? 'Go to user cabinet' : 'Go to sign in',
   }
 }

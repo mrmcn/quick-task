@@ -9,6 +9,7 @@ export const ListBtnNames = {
   oldestToNewest: 'Oldest to newest',
   signup: 'Sign up',
   signIn: 'Sign in',
+  signout: 'Sign out',
   save: 'Save',
   titleAtoZ: 'Title A to Z',
   titleZtoA: 'Title Z to A',
@@ -90,9 +91,12 @@ export const ListPhrases = {
   quickTask: 'QUICK TASK',
   low: 'low',
   priority: 'Priority',
+  signout1: 'Log out!',
+  signout2: 'Do you really want to log out?',
   taskNoFound: 'No such task found.',
   user: 'User',
-  userDeleteText:
+  userDeleteText1: 'Account deletion!',
+  userDeleteText2:
     'Are you sure? This action cannot be undone. All user data will be lost forever.',
 } as const
 
@@ -151,7 +155,7 @@ export const ListTaskField: { [key in TaskKeys]: key } = {
   priority: 'priority',
   status: 'status',
   authorId: 'authorId',
-}
+} as const
 
 export const ListPriorityField: { [key in Priority]: key } = {
   high: 'high',

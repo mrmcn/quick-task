@@ -8,7 +8,26 @@ import { FetchData } from './task'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-export default async function fetchUserData(): FetchData<UserNameAndEmail> {
+export async function fetchUserEmail(): FetchData<UserData> {
+  const session = await auth()
+
+  if (!session) redirect(HOME_URL)
+  const userId = session.user.id
+  try {
+    const userData = await prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: {
+        email: true,
+      },
+    })
+
+    return { data: userData.email }
+  } catch (error) {
+    return { error: handleError(error) }
+  }
+}
+
+export async function fetchUserName(): FetchData<UserData> {
   const session = await auth()
 
   if (!session) redirect(HOME_URL)
@@ -18,14 +37,13 @@ export default async function fetchUserData(): FetchData<UserNameAndEmail> {
       where: { id: userId },
       select: {
         name: true,
-        email: true,
       },
     })
 
-    return { data: { name: userData.name, email: userData.email } }
+    return { data: userData.name }
   } catch (error) {
     return { error: handleError(error) }
   }
 }
 
-export type UserNameAndEmail = Pick<User, 'name' | 'email'>
+export type UserData = User['name' | 'email']

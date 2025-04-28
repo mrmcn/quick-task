@@ -20,7 +20,7 @@ import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import TaskListItemSwipeable from './list-item-swipeable'
+import TaskListItemSwipeable from './swipeable-list-items'
 
 export default async function TasksList({
   searchParamsObject,
@@ -67,7 +67,7 @@ async function TaskListContent({
       key={task.id}
       task={task}
       searchParamsObject={searchParamsObject}
-      session={session}
+      authenticated={!!session}
     />
   ))
   return <>{taskItem}</>

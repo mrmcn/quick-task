@@ -1,60 +1,43 @@
 'use client'
 
-import { ListBtnNames, ListLabelNameProps } from '@/lib/constants/text-const'
+import { ListLabelNameProps } from '@/lib/constants/text-const'
 import { TaskId } from '@/lib/services/queries/task'
 import { TextField } from '@mui/material'
-import Button from '@mui/material/Button'
-import CircularProgress from '@mui/material/CircularProgress'
 import { useFormStatus } from 'react-dom'
 
 export default function DetailsTextField({
   placeholder,
-  data,
+  defaultValue,
   onBlur,
   label,
-}: Props) {
+  margin,
+}: DetailsTextFieldProps) {
   const { pending } = useFormStatus()
   const onBlurWithPending = !pending ? onBlur : undefined
-  const progress = pending ? (
-    <CircularProgress
-      size={20}
-      color='secondary'
-    />
-  ) : undefined
 
   return (
-    <>
-      <TextField
-        label={label}
-        type='text'
-        name='details'
-        id='details'
-        required
-        multiline
-        rows={4}
-        defaultValue={data?.details}
-        placeholder={placeholder}
-        onBlur={onBlurWithPending}
-        autoFocus
-        disabled={pending}
-        size='small'
-      />
-      <Button
-        type='submit'
-        color='secondary'
-        disabled={pending}
-        onMouseDown={(e) => e.preventDefault()} // Запобігаємо втраті фокуса з поля введення
-      >
-        {ListBtnNames.save}
-      </Button>
-      {progress}
-    </>
+    <TextField
+      label={label}
+      type='text'
+      name='details'
+      id='details'
+      required
+      margin={margin}
+      multiline
+      rows={4}
+      defaultValue={defaultValue}
+      placeholder={placeholder}
+      onBlur={onBlurWithPending}
+      disabled={pending}
+      size='small'
+    />
   )
 }
 
-interface Props {
+export interface DetailsTextFieldProps {
   placeholder?: string
-  data?: TaskId
+  defaultValue?: TaskId['details']
   label?: ListLabelNameProps
   onBlur?: () => void
+  margin: 'dense' | 'none' | 'normal'
 }

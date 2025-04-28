@@ -1,3 +1,4 @@
+import Await from '@/lib/components/await'
 import {
   ListChipNames,
   ListPriorityField,
@@ -5,7 +6,6 @@ import {
   ListStatusField,
 } from '@/lib/constants/text-const'
 import { fetchMonitoringStates } from '@/lib/services/queries/task'
-import Await from '@/lib/utils/await'
 import SortSelectorChip from '@/ui/dashboard/page/block-of-chips/task-sort'
 import { TaskParamChip } from '@/ui/dashboard/page/block-of-chips/task-status-chip'
 import Chip from '@mui/material/Chip'
@@ -76,7 +76,8 @@ function Fallback() {
   return (
     <Chip
       variant='outlined'
-      label={<Skeleton width={70} />}
+      label={<Skeleton width={30} />}
+      sx={{ width: { md: 125 } }}
     />
   )
 }

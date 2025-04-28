@@ -16,7 +16,7 @@ const theme = createTheme({
     secondary: {
       light: blue[100],
       main: blue[500],
-      dark: blue[800],
+      dark: blue[900],
       contrastText: grey[800],
     },
   },

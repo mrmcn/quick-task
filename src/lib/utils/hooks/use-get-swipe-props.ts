@@ -3,7 +3,7 @@ import { SwipeEventData } from 'react-swipeable'
 import { useMyMediaQuery } from './common/use-my-media-query'
 
 // A custom hook that encapsulates the logic related to swipe gestures for revealing hidden actions.
-export function useGetSwipeProps() {
+export function useSwipeProps() {
   const [translateX, setTranslateX] = useState(0) // State to control the horizontal translation of the swipable element.
   const [swipeState, setSwipeState] = useState<'none' | 'left' | 'right'>(
     'none', // State to track the current swipe direction ('none', 'left', 'right').

@@ -1,5 +1,5 @@
 import { ListLabelName } from '@/lib/constants/text-const'
-import { UserNameAndEmail } from '@/lib/services/queries/user'
+import { UserData } from '@/lib/services/queries/user'
 import TextField from '@mui/material/TextField'
 
 export default function EmailTextField({ placeholder, data }: Props) {
@@ -12,12 +12,12 @@ export default function EmailTextField({ placeholder, data }: Props) {
       required
       margin='dense'
       placeholder={placeholder}
-      defaultValue={data?.email}
+      defaultValue={data}
     />
   )
 }
 
 interface Props {
   placeholder?: string
-  data?: UserNameAndEmail
+  data?: UserData
 }

@@ -1,6 +1,6 @@
 import '@/app/globals.css'
 import theme from '@/theme'
-import Appbar from '@/ui/root/bar'
+import Appbar from '@/ui/page/bar'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import Box from '@mui/material/Box'
 import { ThemeProvider } from '@mui/material/styles'
