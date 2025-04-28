@@ -5,7 +5,7 @@ import { usePasswordVisibility } from '@/lib/utils/hooks/use-password-visibility
 import { TextField, TextFieldProps } from '@mui/material'
 
 export default function PasswordTextField({ placeholder }: TextFieldProps) {
-  const { input, type } = usePasswordVisibility()
+  const { visibilityToggle, type } = usePasswordVisibility()
 
   return (
     <TextField
@@ -18,7 +18,7 @@ export default function PasswordTextField({ placeholder }: TextFieldProps) {
       margin='dense'
       slotProps={{
         htmlInput: { minLength: 6 },
-        input: input,
+        input: { endAdornment: visibilityToggle },
       }}
     />
   )

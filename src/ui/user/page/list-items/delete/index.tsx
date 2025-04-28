@@ -13,6 +13,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Slide from '@mui/material/Slide'
@@ -25,14 +26,19 @@ export default function ListItemWithDeletingAccount() {
 
   return (
     <>
-      <ListItem onClick={handleClickOpen}>
+      <ListItem>
         <ListItemIcon sx={{ minWidth: '30px' }}>
           <DeleteIcon />
         </ListItemIcon>
-        <ListItemText
-          primary={ListBtnNames.deleteAccount}
-          sx={{ color: deepOrange[800] }}
-        />
+        <ListItemButton
+          onClick={handleClickOpen}
+          sx={{ pl: 0 }}
+        >
+          <ListItemText
+            primary={ListBtnNames.deleteAccount}
+            sx={{ color: deepOrange[800] }}
+          />
+        </ListItemButton>
         <ChevronIcon />
       </ListItem>
       <Dialog

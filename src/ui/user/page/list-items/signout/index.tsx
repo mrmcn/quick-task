@@ -4,7 +4,7 @@ import { ListBtnNames, ListPhrases } from '@/lib/constants/text-const'
 import { signout } from '@/lib/services/actions/user'
 import useDialog from '@/lib/utils/hooks/common/use-dialog'
 import ChevronIcon from '@/ui/user/page/chevron-icon'
-import DeleteIcon from '@mui/icons-material/Delete'
+import LogoutIcon from '@mui/icons-material/Logout'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Slide from '@mui/material/Slide'
@@ -24,14 +25,19 @@ export default function ListItemWithSignout() {
 
   return (
     <>
-      <ListItem onClick={handleClickOpen}>
+      <ListItem>
         <ListItemIcon sx={{ minWidth: '30px' }}>
-          <DeleteIcon />
+          <LogoutIcon />
         </ListItemIcon>
-        <ListItemText
-          primary={ListBtnNames.signout}
-          slotProps={{ primary: { color: 'secondary' } }}
-        />
+        <ListItemButton
+          onClick={handleClickOpen}
+          sx={{ pl: 0 }}
+        >
+          <ListItemText
+            primary={ListBtnNames.signout}
+            slotProps={{ primary: { color: 'secondary' } }}
+          />
+        </ListItemButton>
         <ChevronIcon />
       </ListItem>
       <Dialog
