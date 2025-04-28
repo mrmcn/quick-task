@@ -4,9 +4,9 @@ import {
   TaskId,
   UserTasksResult,
 } from '@/lib/services/queries/task'
-import { UserNameAndEmail } from '@/lib/services/queries/user'
 import { notFound } from 'next/navigation'
 import { cloneElement, isValidElement, ReactElement, use } from 'react'
+import { UserData } from '../services/queries/user'
 
 // This component is used to enable the use of a fallback UI while awaiting a 'promise'.
 // The 'promise' is used to fetch data for pre-filling the form.
@@ -25,9 +25,9 @@ export default function Await({ promise, children }: AwaitEmailProps) {
 
 interface AwaitEmailProps {
   promise: FetchData<
-    UserNameAndEmail | TaskId | MonitoringStatesProps | UserTasksResult
+    UserData | TaskId | MonitoringStatesProps | UserTasksResult
   >
   children: ReactElement<{
-    data: UserNameAndEmail | TaskId | MonitoringStatesProps | UserTasksResult
+    data: UserData | TaskId | MonitoringStatesProps | UserTasksResult
   }>
 }
