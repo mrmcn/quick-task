@@ -1,4 +1,4 @@
-import { Priority, Status, Task } from '@prisma/client'
+import { Priority, Status, Task, User } from '@prisma/client'
 
 export const ListBtnNames = {
   back: 'Go back',
@@ -7,6 +7,7 @@ export const ListBtnNames = {
   cancel: 'Cancel',
   newestToOldest: 'Newest to oldest',
   oldestToNewest: 'Oldest to newest',
+  resetPassword: 'Reset password',
   signup: 'Sign up',
   signIn: 'Sign in',
   signout: 'Sign out',
@@ -20,7 +21,6 @@ export type ListBtnNamesProps = (typeof ListBtnNames)[keyof typeof ListBtnNames]
 export const ListFormNames = {
   editUserName: 'Edit user name',
   editEmail: 'Edit email',
-  resetPassword: 'Reset password',
   signin: 'Sign in',
   signup: 'Create account',
   updateTask: 'Edit task',
@@ -39,9 +39,12 @@ export type PasswordInputTypeProps =
   (typeof PasswordInputType)[keyof typeof PasswordInputType]
 
 export const ListLabelName = {
+  confirmNewPassword: 'Confirm new password',
+  currentPassword: 'Current password',
   email: 'Email',
   password: 'Password',
   name: 'Name',
+  newPassword: 'New password',
   title: 'Title',
   details: 'Details',
   search: 'Search',
@@ -84,6 +87,9 @@ export type ListPlaceholderProps =
   (typeof ListPlaceholder)[keyof typeof ListPlaceholder]
 
 export const ListPhrases = {
+  changePasswordTitle: 'Change password',
+  changePasswordContent:
+    'For the security of your account, kindly enter the new password you would like to use. Please make sure that the password is secure (includes letters, numbers, and symbols) and differs from your previous passwords.',
   createNewTask: 'This is empty for now. Create a new task.',
   deleteAccount: 'Delete account',
   editUserName: 'Edit user name',
@@ -91,12 +97,12 @@ export const ListPhrases = {
   quickTask: 'QUICK TASK',
   low: 'low',
   priority: 'Priority',
-  signout1: 'Log out!',
-  signout2: 'Do you really want to log out?',
+  signoutTitle: 'Log out!',
+  signoutContent: 'Do you really want to log out?',
   taskNoFound: 'No such task found.',
   user: 'User',
-  userDeleteText1: 'Account deletion!',
-  userDeleteText2:
+  userDeleteTitle: 'Account deletion!',
+  userDeleteContent:
     'Are you sure? This action cannot be undone. All user data will be lost forever.',
 } as const
 
@@ -157,6 +163,15 @@ export const ListTaskField: { [key in TaskKeys]: key } = {
   authorId: 'authorId',
 } as const
 
+type UserKeys = keyof User
+export const ListUserField: { [key in UserKeys]: key } = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  password: 'password',
+  tasksPerPage: 'tasksPerPage',
+} as const
+
 export const ListPriorityField: { [key in Priority]: key } = {
   high: 'high',
   low: 'low',
@@ -166,3 +181,7 @@ export const ListStatusField: { [key in Status]: key } = {
   completed: 'completed',
   in_progress: 'in_progress',
 }
+
+export const RedirectName = {
+  redirectTo: 'redirectTo',
+} as const

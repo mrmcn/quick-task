@@ -5,8 +5,8 @@ import {
   getSearchParams,
   SearchParamsObject,
 } from '@/lib/utils/get-search-params'
-import { getOrderBy } from '@/lib/utils/services/get-order-by'
-import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services/task-status-counts'
+import { getOrderBy } from '@/lib/utils/services-helper/get-order-by'
+import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services-helper/task-status-counts'
 import { Status, Task } from '@prisma/client'
 
 const tasksPage = 3
@@ -94,9 +94,7 @@ export async function fetchTaskIdData(
 
 export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> {
   const session = await auth()
-
-  if (!session) return { data: getMonitoringDATA() } // for sample monitor
-  const authorId = session?.user.id // or user monitor
+  const authorId = session?.user.id
   try {
     const groupInProgress = await prisma.task.groupBy({
       by: ['status'],
@@ -156,5 +154,3 @@ const getTasksDATA = (): TaskData[] => [
     status: 'in_progress',
   },
 ] // for 'app/page'
-
-const getMonitoringDATA = () => ({ completed: 1, in_progress: 2 }) // for 'app/page'

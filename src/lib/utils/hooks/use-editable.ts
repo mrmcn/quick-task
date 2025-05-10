@@ -1,7 +1,7 @@
 'use client'
 
-import { DetailsTextFieldProps } from '@/ui/common/form-action-state/text-fields/task/details'
-import { TitleTextFieldProps } from '@/ui/common/form-action-state/text-fields/task/title'
+import { DetailsTextFieldProps } from '@/ui/common/forms/text-fields/task/details'
+import { TitleTextFieldProps } from '@/ui/common/forms/text-fields/task/title'
 import { TypographyProps } from '@mui/material/Typography'
 import { cloneElement, ReactElement, useState } from 'react'
 

@@ -46,15 +46,23 @@ export default async function Appbar() {
 
 async function getAppBarConfig() {
   const session = await auth()
-  const userName = session ? await fetchUserName() : null
+
+  if (session) {
+    const name = await fetchUserName()
+    const userName = name?.data ?? name?.error.message
+
+    return {
+      homeUrl: DASHBOARD_URL,
+      userCabinetUrl: USER_URL,
+      userButtonText: userName,
+      userButtonAriaLabel: 'Go to user cabinet',
+    }
+  }
 
   return {
-    homeUrl: session ? DASHBOARD_URL : HOME_URL,
-    userCabinetUrl: session ? USER_URL : SIGNIN_URL,
-    userButtonText:
-      userName === null
-        ? ListBtnNames.signIn
-        : userName.data ?? 'Error database',
-    userButtonAriaLabel: session ? 'Go to user cabinet' : 'Go to sign in',
+    homeUrl: HOME_URL,
+    userCabinetUrl: SIGNIN_URL,
+    userButtonText: ListBtnNames.signIn,
+    userButtonAriaLabel: 'Go to sign in',
   }
 }

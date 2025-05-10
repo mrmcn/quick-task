@@ -1,27 +1,41 @@
+'use client'
+
 import { ListFormNames, ListPlaceholder } from '@/lib/constants/text-const'
 import { createTask } from '@/lib/services/actions/task'
-import FormWrapperActionState from '@/ui/common/form-action-state/form-wrapper'
-import BackButton from '@/ui/common/form-action-state/form-wrapper/back-btn'
-import DetailsTextField from '@/ui/common/form-action-state/text-fields/task/details'
-import TitleTextField from '@/ui/common/form-action-state/text-fields/task/title'
+import BackButton from '@/ui/common/back-btn'
+import FormContainer from '@/ui/common/forms/form-container'
+import FormWrapperUsesActionStateAndRendersErrors, {
+  RenderWrappedComponentProps,
+} from '@/ui/common/forms/form-use-action-state'
+import DetailsTextField from '@/ui/common/forms/text-fields/task/details'
+import TitleTextField from '@/ui/common/forms/text-fields/task/title'
 
-export default async function CreateTaskPage() {
+export default function CreateTaskPage() {
   return (
     <>
       <BackButton />
-      <FormWrapperActionState
+      <FormWrapperUsesActionStateAndRendersErrors
         action={createTask}
-        formName={ListFormNames.createTask}
-      >
-        <TitleTextField
-          placeholder={ListPlaceholder.createTitle}
-          margin='normal'
-        />
-        <DetailsTextField
-          placeholder={ListPlaceholder.createDetails}
-          margin='normal'
-        />
-      </FormWrapperActionState>
+        renderWrappedComponent={(props) => <FormContent props={props} />}
+      />
     </>
+  )
+}
+
+function FormContent({ props }: { props: RenderWrappedComponentProps }) {
+  return (
+    <FormContainer
+      formName={ListFormNames.createTask}
+      {...props}
+    >
+      <TitleTextField
+        placeholder={ListPlaceholder.createTitle}
+        margin='normal'
+      />
+      <DetailsTextField
+        placeholder={ListPlaceholder.createDetails}
+        margin='normal'
+      />
+    </FormContainer>
   )
 }

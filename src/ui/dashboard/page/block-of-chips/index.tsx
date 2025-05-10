@@ -49,20 +49,26 @@ export default function BlockOfChips() {
       />
       <Suspense fallback={<Fallback />}>
         <Await promise={monitoringStatesPromise}>
-          <TaskParamChip
-            chipName={nameCompleted}
-            filterValue={completed}
-            filteringParam={status}
-          />
+          {(res) => (
+            <TaskParamChip
+              chipName={nameCompleted}
+              filterValue={completed}
+              filteringParam={status}
+              data={res}
+            />
+          )}
         </Await>
       </Suspense>
       <Suspense fallback={<Fallback />}>
         <Await promise={monitoringStatesPromise}>
-          <TaskParamChip
-            chipName={pending}
-            filterValue={in_progress}
-            filteringParam={status}
-          />
+          {(res) => (
+            <TaskParamChip
+              chipName={pending}
+              filterValue={in_progress}
+              filteringParam={status}
+              data={res}
+            />
+          )}
         </Await>
       </Suspense>
       <Suspense>

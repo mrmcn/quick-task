@@ -7,8 +7,8 @@ import {
 } from '@/lib/constants/text-const'
 import { DASHBOARD_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
-import { checkAuth } from '@/lib/utils/check-auth'
-import { handleError, handleZodError } from '@/lib/utils/error-handling'
+import { getSessionData } from '@/lib/utils/get-session-data'
+import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
 import {
   CreateTaskSchema,
   UpdatePrioritySchema,
@@ -16,136 +16,96 @@ import {
   UpdateTaskDetailsSchema,
   UpdateTaskTitleSchema,
 } from '@/lib/zod/schema/tasks'
-import { validateFormData } from '@/lib/zod/validate'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { ActionProps, StateProps } from './user'
 
-export const createTask: ActionProps<StateProps> = async (state, formData) => {
-  const validationResult = validateFormData(CreateTaskSchema, formData)
+export const createTask: ActionProps<StateProps> = withFormHandling(
+  CreateTaskSchema,
+  async ({ title, details }) => {
+    const { userId } = await getSessionData()
+    await prisma.task.create({
+      data: {
+        title,
+        details,
+        authorId: userId,
+      },
+    })
+  },
+  async () => {
+    revalidatePath(DASHBOARD_URL)
+    redirect(
+      `${DASHBOARD_URL}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
+    )
+  },
+)
 
-  if (validationResult.errors)
-    return { error: handleZodError(validationResult.errors) }
-  if (validationResult.data)
-    try {
-      const { id } = await checkAuth()
-      const { title, details } = validationResult.data
-      await prisma.task.create({
-        data: {
-          title,
-          details,
-          authorId: id,
-        },
-      })
-    } catch (error) {
-      return { error: handleError(error) }
-    }
-  revalidatePath(DASHBOARD_URL)
-  redirect(
-    `${DASHBOARD_URL}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
-  )
-}
+export const updateStatusTasks: ActionProps<StateProps> = withFormHandling(
+  UpdateStatusSchema,
+  async ({ id, status }) => {
+    await prisma.task.update({
+      where: { id: id },
+      data: {
+        status: status,
+      },
+    })
+  },
+  async () => {
+    revalidatePath(DASHBOARD_URL)
+  },
+)
 
-export const updateStatusTasks: ActionProps<StateProps> = async (
-  state,
-  formData,
-) => {
-  const validationResult = validateFormData(UpdateStatusSchema, formData)
+export const updatePriorityTasks: ActionProps<StateProps> = withFormHandling(
+  UpdatePrioritySchema,
+  async ({ id, priority }) => {
+    const session = await auth()
 
-  if (validationResult.errors)
-    return { error: handleZodError(validationResult.errors) }
-  if (validationResult.data)
-    try {
-      const { id, status } = validationResult.data
-      await prisma.task.update({
-        where: { id: id },
-        data: {
-          status: status,
-        },
-      })
-    } catch (error) {
-      return { error: handleError(error) }
-    }
-  revalidatePath(DASHBOARD_URL)
-}
+    if (!session) return undefined
+    await prisma.task.update({
+      where: { id: id },
+      data: {
+        priority: priority,
+      },
+    })
+  },
+  async () => {
+    revalidatePath(DASHBOARD_URL)
+  },
+)
 
-export const updatePriorityTasks: ActionProps<StateProps> = async (
-  state,
-  formData,
-) => {
-  const session = await auth()
+export const updateTaskTitle: ActionProps<StateProps> = withFormHandling(
+  UpdateTaskTitleSchema,
+  async ({ id, title }) => {
+    await prisma.task.update({
+      where: { id: id },
+      data: {
+        title: title,
+      },
+    })
+  },
+  async (formData) => {
+    const searchParamsString = formData?.get('searchParams')
+    revalidatePath(DASHBOARD_URL)
+    redirect(`${DASHBOARD_URL}${searchParamsString}`)
+  },
+)
 
-  if (!session) return undefined
-  const validationResult = validateFormData(UpdatePrioritySchema, formData)
-
-  if (validationResult.errors)
-    return { error: handleZodError(validationResult.errors) }
-  if (validationResult.data)
-    try {
-      const { id, priority } = validationResult.data
-      await prisma.task.update({
-        where: { id: id },
-        data: {
-          priority: priority,
-        },
-      })
-    } catch (error) {
-      return { error: handleError(error) }
-    }
-  revalidatePath(DASHBOARD_URL)
-}
-
-export const updateTaskTitle: ActionProps<StateProps> = async (
-  state,
-  formData,
-) => {
-  const validationResult = validateFormData(UpdateTaskTitleSchema, formData)
-
-  if (validationResult.errors)
-    return { error: handleZodError(validationResult.errors) }
-  if (validationResult.data)
-    try {
-      const { id, title } = validationResult.data
-      await prisma.task.update({
-        where: { id: id },
-        data: {
-          title: title,
-        },
-      })
-    } catch (error) {
-      return { error: handleError(error) }
-    }
-  const searchParamsString = formData.get('searchParams')
-
-  revalidatePath(DASHBOARD_URL)
-  redirect(`${DASHBOARD_URL}${searchParamsString}`)
-}
-
-export const updateTaskDetails: ActionProps<StateProps> = async (
-  state,
-  formData,
-) => {
-  const validationResult = validateFormData(UpdateTaskDetailsSchema, formData)
-
-  if (validationResult.errors)
-    return { error: handleZodError(validationResult.errors) }
-  if (validationResult.data)
-    try {
-      const { id, details } = validationResult.data
-      await prisma.task.update({
-        where: { id: id },
-        data: {
-          details: details,
-        },
-      })
-    } catch (error) {
-      return { error: handleError(error) }
-    }
-  const searchParamsString = formData.get('searchParams')
-
-  revalidatePath(DASHBOARD_URL)
-  redirect(`${DASHBOARD_URL}${searchParamsString}`)
-}
+export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
+  UpdateTaskDetailsSchema,
+  async ({ id, details }) => {
+    await prisma.task.update({
+      where: { id: id },
+      data: {
+        details: details,
+      },
+    })
+  },
+  async (formData) => {
+    const searchParamsString = formData?.get('searchParams')
+    revalidatePath(DASHBOARD_URL)
+    redirect(`${DASHBOARD_URL}${searchParamsString}`)
+  },
+)
 
 export const deleteTask = async (formData: FormData) => {
   const session = await auth()

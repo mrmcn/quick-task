@@ -6,7 +6,20 @@ import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { FetchData } from './task'
 
-// await new Promise((resolve) => setTimeout(resolve, 3000));
+// await new Promise((resolve) => setTimeout(resolve, 3000))
+
+export async function fetchUserData(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    })
+
+    return user
+  } catch (error) {
+    console.error('Failed to fetch user:', error)
+    throw new Error('Failed to fetch user.')
+  }
+}
 
 export async function fetchUserEmail(): FetchData<UserData> {
   const session = await auth()
@@ -39,7 +52,6 @@ export async function fetchUserName(): FetchData<UserData> {
         name: true,
       },
     })
-
     return { data: userData.name }
   } catch (error) {
     return { error: handleError(error) }

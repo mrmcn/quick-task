@@ -3,43 +3,42 @@
 import {
   ListBtnNames,
   ListFormNames,
-  ListLoadingIndicator,
+  ListLabelName,
   ListPlaceholder,
+  ListUserField,
 } from '@/lib/constants/text-const'
-import { DASHBOARD_URL, SIGNUP_URL } from '@/lib/constants/url'
+import { SIGNUP_URL } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/user'
-import FormWrapperActionState, {
-  RedirectNameProps,
-} from '@/ui/common/form-action-state/form-wrapper'
-import EmailTextField from '@/ui/common/form-action-state/text-fields/user/email'
-import PasswordTextField from '@/ui/common/form-action-state/text-fields/user/password'
-import LoadingIndicator from '@/ui/common/loading-indicator'
+import FormContainer from '@/ui/common/forms/form-container'
+import FormWrapperUsesActionStateAndRendersErrors, {
+  RenderWrappedComponentProps,
+} from '@/ui/common/forms/form-use-action-state'
+import EmailTextField from '@/ui/common/forms/text-fields/user/email'
+import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
 
 export default function SigninPage() {
   return (
-    <Suspense>
-      <SigninForm />
-    </Suspense>
+    <FormWrapperUsesActionStateAndRendersErrors
+      action={authenticate}
+      renderWrappedComponent={(props) => <FormContent props={props} />}
+    />
   )
 }
 
-function SigninForm() {
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || DASHBOARD_URL
-
+function FormContent({ props }: { props: RenderWrappedComponentProps }) {
   return (
-    <FormWrapperActionState
-      action={authenticate}
+    <FormContainer
       formName={ListFormNames.signin}
-      name={RedirectNameProps.signin}
-      value={callbackUrl}
+      {...props}
     >
       <EmailTextField placeholder={ListPlaceholder.enterEmail} />
-      <PasswordTextField placeholder={ListPlaceholder.enterEmail} />
+      <PasswordTextField
+        label={ListLabelName.password}
+        name={ListUserField.password}
+        placeholder={ListPlaceholder.enterEmail}
+      />
       <Button
         component={Link}
         href={SIGNUP_URL}
@@ -48,7 +47,6 @@ function SigninForm() {
       >
         {ListBtnNames.signup}
       </Button>
-      <LoadingIndicator content={ListLoadingIndicator.loggingIn} />
-    </FormWrapperActionState>
+    </FormContainer>
   )
 }

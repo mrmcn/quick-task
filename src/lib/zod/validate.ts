@@ -4,7 +4,7 @@ export function validateFormData<T extends z.ZodTypeAny>(
   schema: T,
   formData: FormData,
 ): {
-  errors: ValidateErrorsProps | null
+  errors: z.ZodError<T> | null
   data: z.infer<T> | null
 } {
   const parsedData: Record<string, string | File | undefined> = {}
@@ -14,18 +14,8 @@ export function validateFormData<T extends z.ZodTypeAny>(
   const validatedFields = schema.safeParse(parsedData)
 
   if (!validatedFields.success) {
-    const fieldErrors: ValidateErrorsProps = {}
-    const zodErrors = validatedFields.error.flatten().fieldErrors
-
-    for (const field in zodErrors) {
-      if (zodErrors[field] && zodErrors[field] !== undefined) {
-        fieldErrors[field] = zodErrors[field]
-      }
-    }
-    return { errors: fieldErrors, data: null }
+    return { errors: validatedFields.error, data: null }
   }
 
   return { errors: null, data: validatedFields.data }
 }
-
-export type ValidateErrorsProps = Record<string, string[]>

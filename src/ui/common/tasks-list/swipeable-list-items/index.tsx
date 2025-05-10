@@ -1,16 +1,16 @@
 'use client'
 
-import { EditableText } from '@/lib/components/editable-text'
 import { ListTaskField } from '@/lib/constants/text-const'
 import { updateTaskDetails, updateTaskTitle } from '@/lib/services/actions/task'
 import { TaskData } from '@/lib/services/queries/task'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { useSwipeProps } from '@/lib/utils/hooks/use-get-swipe-props'
+import { EditableText } from '@/ui/common/forms/editable-text'
+import textFieldSx from '@/ui/common/forms/text-fields/text-field-sx'
 import { DeleteTaskBtn } from '@/ui/common/tasks-list/swipeable-list-items/delete-task-btn'
 import { UpdateTaskPriority } from '@/ui/common/tasks-list/swipeable-list-items/update-priority'
 import UpdateTaskStatus from '@/ui/common/tasks-list/swipeable-list-items/update-status-form'
-import textFieldSx from '@/ui/common/text-field-sx'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
@@ -142,7 +142,6 @@ function TaskTitleEditable({ task, searchParamsToGoBack }: TaskEditableProps) {
       renderEditedText={(props) => (
         <>
           <TextField
-            defaultValue={task.title}
             type='text'
             name='title'
             id='title'
@@ -157,15 +156,16 @@ function TaskTitleEditable({ task, searchParamsToGoBack }: TaskEditableProps) {
           />
         </>
       )}
-      renderViewText={(props) => (
+      renderViewText={(props, data) => (
         <Typography
           variant='h5'
           {...props}
         >
-          {task.title}
+          {data}
         </Typography>
       )}
       action={updateTaskTitle}
+      data={task.title}
     />
   )
 }
@@ -184,7 +184,6 @@ function TaskDetailsEditable({
             id='details'
             required
             multiline
-            defaultValue={task.details}
             size='small'
             sx={{
               '& .MuiInputBase-input': {
@@ -205,15 +204,16 @@ function TaskDetailsEditable({
           />
         </>
       )}
-      renderViewText={(props) => (
+      renderViewText={(props, data) => (
         <Typography
           variant='body1'
           {...props}
         >
-          {task.details}
+          {data}
         </Typography>
       )}
       action={updateTaskDetails}
+      data={task.details}
     />
   )
 }

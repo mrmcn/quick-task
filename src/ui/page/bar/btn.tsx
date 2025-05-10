@@ -22,7 +22,14 @@ export default async function BarBtn() {
     return (
       <>
         <HomeBtn href={HOME_URL} />
-        <Signin />
+        <Button // signin btn
+          component={Link}
+          href={SIGNIN_URL}
+          color='inherit'
+          aria-label='Go to signup'
+        >
+          <Typography>{ListBtnNames.signIn}</Typography>
+        </Button>
       </>
     )
 
@@ -32,7 +39,7 @@ export default async function BarBtn() {
   return (
     <>
       <HomeBtn href={DASHBOARD_URL} />
-      <Button
+      <Button // user cabinet
         component={Link}
         href={USER_URL}
         color='inherit'
@@ -45,20 +52,7 @@ export default async function BarBtn() {
   )
 }
 
-function Signin() {
-  return (
-    <Button
-      component={Link}
-      href={SIGNIN_URL}
-      color='inherit'
-      aria-label='Go to signup'
-    >
-      <Typography>{ListBtnNames.signIn}</Typography>
-    </Button>
-  )
-}
-
-function HomeBtn({ href }: { href?: string }) {
+function HomeBtn({ href }: { href: string }) {
   return (
     <Button
       component={Link}
