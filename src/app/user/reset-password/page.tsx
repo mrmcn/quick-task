@@ -67,12 +67,20 @@ function FormDialog({ state }: FormDialogProps) {
     <Dialog
       open={open}
       onClose={closeModal}
+      slotProps={{
+        paper: { sx: { bgcolor: (theme) => theme.palette.primary.main } },
+      }}
     >
-      <DialogContent color='primary'>
+      <DialogContent>
         <DialogContentText>{ListPhrases.passwordChanged}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={router.back}>{ListBtnNames.ok}</Button>
+        <Button
+          color='secondary'
+          onClick={router.back}
+        >
+          {ListBtnNames.ok}
+        </Button>
       </DialogActions>
     </Dialog>
   )

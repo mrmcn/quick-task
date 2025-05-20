@@ -58,6 +58,9 @@ function DelAccDialog({ open, closeModal }: MyDialogProps) {
       open={open}
       onClose={closeModal}
       slots={{ transition: Transition }}
+      slotProps={{
+        paper: { sx: { bgcolor: (theme) => theme.palette.primary.main } },
+      }}
     >
       <DialogTitle>{ListPhrases.userDeleteTitle}</DialogTitle>
       <DialogContent>
