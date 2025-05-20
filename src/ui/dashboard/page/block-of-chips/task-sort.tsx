@@ -3,7 +3,7 @@
 import {
   ListBtnNames,
   ListSortingParameter,
-  ListSortingParameterProps,
+  ListSortingParameterValue,
 } from '@/lib/constants/text-const'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import Chip from '@mui/material/Chip'
@@ -80,7 +80,7 @@ function getSortChipLabel() {
     },
     { value: ListSortingParameter.dateAsc, label: ListBtnNames.oldestToNewest },
   ] as const
-  const getChipLabel = (selectedValue: ListSortingParameterProps) => {
+  const getChipLabel = (selectedValue: ListSortingParameterValue) => {
     const selectedOption = sortOptions.find(
       (option) => option.value === selectedValue,
     )

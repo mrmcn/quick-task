@@ -28,7 +28,7 @@ export default async function BarBtn() {
           color='inherit'
           aria-label='Go to signup'
         >
-          <Typography>{ListBtnNames.signIn}</Typography>
+          <Typography>{ListBtnNames.signin}</Typography>
         </Button>
       </>
     )
