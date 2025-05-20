@@ -22,7 +22,7 @@ export function UpdateTaskPriority({ task }: Props) {
     undefined,
   )
 
-  if (state?.error) notFound()
+  if (state?.status === 'error') notFound()
 
   const { id, priority } = TextFieldsNameAttributeList
   const { icon, value } = getIconAndPriorityValue(task)
