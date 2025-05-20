@@ -26,7 +26,7 @@ export default function UpdateTaskStatus({
       />
     )
 
-  if (state?.error.message) return <Box>{state.error.message}</Box>
+  if (state?.status === 'error') return <Box>{state.error.message}</Box>
   const { completed, in_progress } = ListStatusField
   const value = status === completed ? in_progress : completed
 
