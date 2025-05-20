@@ -1,6 +1,10 @@
 import { auth } from '@/auth'
 import prisma from '@/lib/prisma'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
+import {
+  HandleError,
+  handleError,
+  HandleErrorProps,
+} from '@/lib/utils/error-handling'
 import {
   getSearchParams,
   SearchParamsObject,
@@ -68,7 +72,7 @@ export async function fetchUserTasksData(
 
     return { data: { tasks, totalPages } }
   } catch (error) {
-    return { error: handleError(error) }
+    return { error: handleError(error as HandleErrorProps) }
   }
 }
 
@@ -88,7 +92,7 @@ export async function fetchTaskIdData(
 
     return { data }
   } catch (error) {
-    return { error: handleError(error) }
+    return { error: handleError(error as HandleErrorProps) }
   }
 }
 
@@ -107,12 +111,12 @@ export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> 
 
     return { data }
   } catch (error) {
-    return { error: handleError(error) }
+    return { error: handleError(error as HandleErrorProps) }
   }
 }
 
 export type FetchData<T> = Promise<
-  { data: T; error?: undefined } | { error: HandleErrorProps; data?: undefined }
+  { data: T; error?: undefined } | { error: HandleError; data?: undefined }
 >
 
 export type TaskData = Omit<Task, 'date' | 'authorId'>

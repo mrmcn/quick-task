@@ -1,23 +1,13 @@
-import { ListLabelName } from '@/lib/constants/text-const'
-import { UserData } from '@/lib/services/queries/user'
 import TextField from '@mui/material/TextField'
+import { MyTextFieldProps } from '../my-text-field-props'
 
-export default function EmailTextField({ placeholder, data }: Props) {
+export default function EmailTextField(props: MyTextFieldProps) {
   return (
     <TextField
-      label={ListLabelName.email}
       type='email'
-      name='email'
       id='email'
       required
-      margin='dense'
-      placeholder={placeholder}
-      defaultValue={data}
+      {...props}
     />
   )
-}
-
-interface Props {
-  placeholder?: string
-  data?: UserData
 }

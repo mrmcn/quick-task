@@ -1,40 +1,42 @@
 'use client'
 
 import {
+  ListBtnNames,
   ListFormNames,
-  ListLabelName,
+  ListLabels,
   ListPlaceholder,
-  ListUserField,
+  TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { createUser } from '@/lib/services/actions/user'
-import FormContainer from '@/ui/common/forms/form-container'
-import FormWrapperUsesActionStateAndRendersErrors, {
-  RenderWrappedComponentProps,
-} from '@/ui/common/forms/form-use-action-state'
+import PageFormContainer from '@/ui/common/forms/form-container'
 import EmailTextField from '@/ui/common/forms/text-fields/user/email'
 import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
+import { useActionState } from 'react'
 
 export default function SignupPage() {
-  return (
-    <FormWrapperUsesActionStateAndRendersErrors
-      action={createUser}
-      renderWrappedComponent={(props) => <FormContent props={props} />}
-    />
-  )
-}
+  const [state, formAction, isPending] = useActionState(createUser, undefined)
 
-function FormContent({ props }: { props: RenderWrappedComponentProps }) {
   return (
-    <FormContainer
-      formName={ListFormNames.signup}
-      {...props}
-    >
-      <EmailTextField placeholder={ListPlaceholder.enterEmail} />
-      <PasswordTextField
-        label={ListLabelName.password}
-        name={ListUserField.password}
-        placeholder={ListPlaceholder.createPassword}
-      />
-    </FormContainer>
+    <form action={formAction}>
+      <PageFormContainer
+        formName={ListFormNames.signup}
+        btnName={ListBtnNames.signup}
+        disabled={isPending}
+        state={state}
+      >
+        <EmailTextField
+          name={TextFieldsNameAttributeList.email}
+          label={ListLabels.email}
+          placeholder={ListPlaceholder.enterEmail}
+          margin='dense'
+        />
+        <PasswordTextField
+          label={ListLabels.password}
+          name={TextFieldsNameAttributeList.password}
+          placeholder={ListPlaceholder.createPassword}
+          margin='dense'
+        />
+      </PageFormContainer>
+    </form>
   )
 }

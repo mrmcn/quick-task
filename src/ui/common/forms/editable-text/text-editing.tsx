@@ -1,14 +1,15 @@
 'use client'
 
 import { ListBtnNames } from '@/lib/constants/text-const'
-import { HandleErrorProps } from '@/lib/utils/error-handling'
+import { HandleError } from '@/lib/utils/error-handling'
 import { useDisplayableContent } from '@/lib/utils/hooks/use-displayable-content'
 import RenderErrors from '@/ui/common/forms/render-errors'
-import { CircularProgress, InputAdornment, TextFieldProps } from '@mui/material'
+import { CircularProgress, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { Dispatch, SetStateAction, useActionState } from 'react'
 import { BaseEditableTextProps } from '.'
+import { RenderProps } from '../text-fields/my-text-field-props'
 
 /**
  * The TextEditing component displays the form for editing the text.
@@ -55,8 +56,8 @@ export default function TextEditing({
 function getTextFieldProps(
   isPending: boolean, // Whether the server action is currently pending.
   setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
-  content: string | HandleErrorProps, // The current content to display in the input field.
-): TextFieldProps {
+  content: string | HandleError, // The current content to display in the input field.
+): RenderProps {
   const defaultValue = typeof content === 'string' ? content : content.message
   const endAdornment = isPending ? (
     <InputAdornment position='end'>
@@ -83,7 +84,7 @@ function getTextFieldProps(
         endAdornment: endAdornment,
       },
     },
-  } as TextFieldProps
+  }
 }
 
 interface TextEditingProps extends BaseEditableTextProps {

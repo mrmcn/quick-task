@@ -6,39 +6,32 @@ export const ListBtnNames = {
   deleteTask: 'Delete',
   cancel: 'Cancel',
   newestToOldest: 'Newest to oldest',
+  ok: 'Great!',
   oldestToNewest: 'Oldest to newest',
   resetPassword: 'Reset password',
   signup: 'Sign up',
-  signIn: 'Sign in',
+  signin: 'Sign in',
   signout: 'Sign out',
   save: 'Save',
   titleAtoZ: 'Title A to Z',
   titleZtoA: 'Title Z to A',
 } as const
 
-export type ListBtnNamesProps = (typeof ListBtnNames)[keyof typeof ListBtnNames]
+export type ListBtnNamesValue = ValueOf<typeof ListBtnNames>
 
 export const ListFormNames = {
+  createTask: 'Create task',
   editUserName: 'Edit user name',
   editEmail: 'Edit email',
+  resetPassword: 'Reset password',
   signin: 'Sign in',
   signup: 'Create account',
   updateTask: 'Edit task',
-  createTask: 'Create task',
 } as const
 
-export type ListFormNamesProps =
-  (typeof ListFormNames)[keyof typeof ListFormNames]
+export type ListFormNamesValue = ValueOf<typeof ListFormNames>
 
-export const PasswordInputType = {
-  text: 'text',
-  password: 'password',
-} as const
-
-export type PasswordInputTypeProps =
-  (typeof PasswordInputType)[keyof typeof PasswordInputType]
-
-export const ListLabelName = {
+export const ListLabels = {
   confirmNewPassword: 'Confirm new password',
   currentPassword: 'Current password',
   email: 'Email',
@@ -51,8 +44,7 @@ export const ListLabelName = {
   sortBy: 'Sort by',
 } as const
 
-export type ListLabelNameProps =
-  (typeof ListLabelName)[keyof typeof ListLabelName]
+export type ListLabelsValue = ValueOf<typeof ListLabels>
 
 export const ListError = {
   dataError: 'Data retrieval error',
@@ -62,7 +54,7 @@ export const ListError = {
   noData: 'no data',
 } as const
 
-export type ListErrorProps = (typeof ListError)[keyof typeof ListError]
+export type ListErrorValue = ValueOf<typeof ListError>
 
 export const ListChipNames = {
   completed: 'Completed',
@@ -71,8 +63,7 @@ export const ListChipNames = {
   priorityLow: 'Priority low',
 } as const
 
-export type ListChipNamesProps =
-  (typeof ListChipNames)[keyof typeof ListChipNames]
+export type ListChipNamesValue = ValueOf<typeof ListChipNames>
 
 export const ListPlaceholder = {
   enterEmail: 'Enter your email address',
@@ -83,22 +74,23 @@ export const ListPlaceholder = {
   search: 'Search task...',
 } as const
 
-export type ListPlaceholderProps =
-  (typeof ListPlaceholder)[keyof typeof ListPlaceholder]
+export type ListPlaceholderValue = ValueOf<typeof ListPlaceholder>
 
 export const ListPhrases = {
-  changePasswordTitle: 'Change password',
-  changePasswordContent:
-    'For the security of your account, kindly enter the new password you would like to use. Please make sure that the password is secure (includes letters, numbers, and symbols) and differs from your previous passwords.',
   createNewTask: 'This is empty for now. Create a new task.',
   deleteAccount: 'Delete account',
   editUserName: 'Edit user name',
   high: 'high',
   quickTask: 'QUICK TASK',
   low: 'low',
+  passwordChanged: 'Password changed successfully!',
   priority: 'Priority',
+  // resetPasswordTitle: 'Reset password',
+  // resetPasswordContent:
+  //   'For the security of your account, kindly enter the new password you would like to use. Please make sure that the password is secure (includes letters, numbers, and symbols) and differs from your previous passwords.',
   signoutTitle: 'Log out!',
   signoutContent: 'Do you really want to log out?',
+  newTaskDialogText: 'Successfully created task!',
   taskNoFound: 'No such task found.',
   user: 'User',
   userDeleteTitle: 'Account deletion!',
@@ -106,19 +98,19 @@ export const ListPhrases = {
     'Are you sure? This action cannot be undone. All user data will be lost forever.',
 } as const
 
-export type ListPhrasesProps = (typeof ListPhrases)[keyof typeof ListPhrases]
+export type ListPhrasesValue = ValueOf<typeof ListPhrases>
 
-export const ListLoadingIndicator = {
-  loggingIn: 'Logging in...',
-  logoutIn: 'Logout in progress',
-  creating: 'Creating...',
-  deleting: 'Deleting a task',
-  updata: 'Task update',
-  updataUser: 'Updating data',
-} as const
+// export const ListLoadingIndicator = {
+//   loggingIn: 'Logging in...',
+//   logoutIn: 'Logout in progress',
+//   creating: 'Creating...',
+//   deleting: 'Deleting a task',
+//   updata: 'Task update',
+//   updataUser: 'Updating data',
+// } as const
 
-export type ListLoadingIndicatorProps =
-  (typeof ListLoadingIndicator)[keyof typeof ListLoadingIndicator]
+// export type ListLoadingIndicatorValue =
+//   (typeof ListLoadingIndicator)[keyof typeof ListLoadingIndicator]
 
 export const ListSearchParameter = {
   query: 'query',
@@ -128,8 +120,7 @@ export const ListSearchParameter = {
   priority: 'priority',
 } as const
 
-export type ListSearchParameterProps =
-  (typeof ListSearchParameter)[keyof typeof ListSearchParameter]
+export type ListSearchParameterValue = ValueOf<typeof ListSearchParameter>
 
 export const ListDefaultSearchParameter = {
   defaultQuery: '',
@@ -139,8 +130,9 @@ export const ListDefaultSearchParameter = {
   defaultPriority: undefined,
 } as const
 
-export type ListDefaultSearchParameterProps =
-  (typeof ListDefaultSearchParameter)[keyof typeof ListDefaultSearchParameter]
+export type ListDefaultSearchParameterValue = ValueOf<
+  typeof ListDefaultSearchParameter
+>
 
 export const ListSortingParameter = {
   titleAsc: 'title asc',
@@ -149,11 +141,22 @@ export const ListSortingParameter = {
   dateDesc: 'date desc',
 } as const
 
-export type ListSortingParameterProps =
-  (typeof ListSortingParameter)[keyof typeof ListSortingParameter]
+export type ListSortingParameterValue = ValueOf<typeof ListSortingParameter>
 
-type TaskKeys = keyof Task
-export const ListTaskField: { [key in TaskKeys]: key } = {
+// Keys for the change password form fields. Used solely for type definitions.
+export const TextFieldChangePasswordList = {
+  confirmNewPassword: 'confirmNewPassword',
+  currentPassword: 'currentPassword',
+  newPassword: 'newPassword',
+} as const
+type TextFieldsNameAttributeKeys =
+  | keyof typeof TextFieldChangePasswordList
+  | keyof Task
+  | keyof User
+
+export const TextFieldsNameAttributeList: {
+  [key in TextFieldsNameAttributeKeys]: key
+} = {
   id: 'id',
   title: 'title',
   details: 'details',
@@ -161,16 +164,18 @@ export const ListTaskField: { [key in TaskKeys]: key } = {
   priority: 'priority',
   status: 'status',
   authorId: 'authorId',
-} as const
-
-type UserKeys = keyof User
-export const ListUserField: { [key in UserKeys]: key } = {
-  id: 'id',
   email: 'email',
   name: 'name',
   password: 'password',
   tasksPerPage: 'tasksPerPage',
+  confirmNewPassword: 'confirmNewPassword',
+  currentPassword: 'currentPassword',
+  newPassword: 'newPassword',
 } as const
+
+export type TextFieldsNameAttributeListValue = ValueOf<
+  typeof TextFieldsNameAttributeList
+>
 
 export const ListPriorityField: { [key in Priority]: key } = {
   high: 'high',
@@ -185,3 +190,5 @@ export const ListStatusField: { [key in Status]: key } = {
 export const RedirectName = {
   redirectTo: 'redirectTo',
 } as const
+
+type ValueOf<T> = T[keyof T]

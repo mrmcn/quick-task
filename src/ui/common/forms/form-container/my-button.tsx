@@ -1,16 +1,9 @@
-import {
-  ListBtnNames,
-  ListFormNames,
-  ListFormNamesProps,
-} from '@/lib/constants/text-const'
+import { ListBtnNamesValue } from '@/lib/constants/text-const'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
-import { FormProps } from '../form-use-action-state'
 
-export default function MyButton({ formName, disabled }: MyButtonProps) {
-  const btnName = formName ? getFormHeader(formName) : null
-
+export default function MyButton({ btnName, disabled }: MyButtonProps) {
   return (
     <Box
       sx={{
@@ -39,11 +32,7 @@ export default function MyButton({ formName, disabled }: MyButtonProps) {
   )
 }
 
-function getFormHeader(formName: ListFormNamesProps) {
-  if (formName === ListFormNames.signin) return ListBtnNames.signIn
-  return ListBtnNames.save
-}
-
-interface MyButtonProps extends FormProps {
+interface MyButtonProps {
   disabled?: boolean
+  btnName: ListBtnNamesValue
 }

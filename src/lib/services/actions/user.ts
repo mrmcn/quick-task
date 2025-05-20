@@ -2,8 +2,13 @@
 
 import { signIn, signOut } from '@/auth'
 import { DASHBOARD_URL, HOME_URL, USER_URL } from '@/lib/constants/url'
+import { ValidationError } from '@/lib/errors/validation-error'
 import prisma from '@/lib/prisma'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
+import {
+  HandleError,
+  handleError,
+  HandleErrorProps,
+} from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
 import verifyAndHashPassword from '@/lib/utils/services-helper/verify-and-hash-password'
 import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
@@ -55,25 +60,24 @@ export const updateUserName: ActionProps<StateProps> = withFormHandling(
 
 export const updatePassword: ActionProps<StateProps> = withFormHandling(
   ChangePasswordSchema,
-  async (data) => {
+  async ({ currentPassword, newPassword }) => {
     const { userId } = await getSessionData()
     const user = await prisma.user.findUnique({
       where: { id: userId },
     })
-    const res = await verifyAndHashPassword(data, user)
+    const res = await verifyAndHashPassword(currentPassword, newPassword, user)
 
-    if (res.error) throw new Error(res.error)
-    if (res.data)
-      await prisma.user.update({
-        where: { id: userId },
-        data: {
-          password: res.data,
-        },
-      })
-  },
-  async () => {
-    revalidatePath(USER_URL)
-    redirect(USER_URL)
+    if (res.data === null) {
+      throw new ValidationError(res.error)
+    }
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: res.data,
+      },
+    })
+
+    return { status: 'success' }
   },
 )
 
@@ -105,7 +109,7 @@ export async function deleteUser(): Promise<StateProps> {
     })
     await prisma.$transaction([deleteTasks, deleteUser])
   } catch (error) {
-    return { error: handleError(error) }
+    return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
 
   await signOut()
@@ -119,7 +123,7 @@ export const authenticate: ActionProps<StateProps> = async (
   try {
     await signIn('credentials', formData)
   } catch (error) {
-    return { error: handleError(error) }
+    return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
 }
 
@@ -127,7 +131,10 @@ export async function signout() {
   await signOut({ redirectTo: HOME_URL })
 }
 
-export type StateProps = { error: HandleErrorProps } | undefined // undefined is the type of initialState with useActionState '@/ui/common/form-wrapper/with-action'
+export type StateProps =
+  | { status: 'success' }
+  | { status: 'error'; error: HandleError }
+  | undefined // undefined is the type of initialState with useActionState '@/ui/common/form-wrapper/with-action'
 
 export type ActionProps<T> = (
   state: Awaited<T>,

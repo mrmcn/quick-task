@@ -1,4 +1,3 @@
-import { PasswordInputType } from '@/lib/constants/text-const'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import IconButton from '@mui/material/IconButton'
@@ -37,6 +36,6 @@ export function usePasswordVisibility() {
         {showPassword ? <VisibilityOff /> : <Visibility />}
       </IconButton>
     ),
-    type: showPassword ? PasswordInputType.text : PasswordInputType.password,
+    type: showPassword ? 'text' : 'password',
   }
 }

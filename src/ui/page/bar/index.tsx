@@ -62,7 +62,7 @@ async function getAppBarConfig() {
   return {
     homeUrl: HOME_URL,
     userCabinetUrl: SIGNIN_URL,
-    userButtonText: ListBtnNames.signIn,
+    userButtonText: ListBtnNames.signin,
     userButtonAriaLabel: 'Go to sign in',
   }
 }

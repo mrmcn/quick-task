@@ -1,6 +1,6 @@
 'use client'
 
-import { ListTaskField } from '@/lib/constants/text-const'
+import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import { updateTaskDetails, updateTaskTitle } from '@/lib/services/actions/task'
 import { TaskData } from '@/lib/services/queries/task'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
@@ -223,7 +223,7 @@ function HiddenInputs({ searchParamsToGoBack, taskId }: HiddenInputsProps) {
     <>
       <input
         type='hidden'
-        name={ListTaskField.id}
+        name={TextFieldsNameAttributeList.id}
         value={taskId}
       />
       <input

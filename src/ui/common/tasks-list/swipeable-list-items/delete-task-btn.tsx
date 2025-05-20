@@ -1,6 +1,9 @@
 'use client'
 
-import { ListBtnNames, ListTaskField } from '@/lib/constants/text-const'
+import {
+  ListBtnNames,
+  TextFieldsNameAttributeList,
+} from '@/lib/constants/text-const'
 import { deleteTask } from '@/lib/services/actions/task'
 import Button from '@mui/material/Button'
 import { useFormStatus } from 'react-dom'
@@ -16,7 +19,7 @@ export function DeleteTaskBtn({
       <BtnWithUseFormStatus />
       <input
         type='hidden'
-        name={ListTaskField.id}
+        name={TextFieldsNameAttributeList.id}
         value={taskId} // The ID of the task to be deleted.
       />
       <input

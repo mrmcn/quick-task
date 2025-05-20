@@ -1,6 +1,9 @@
 'use client'
 
-import { ListStatusField, ListTaskField } from '@/lib/constants/text-const'
+import {
+  ListStatusField,
+  TextFieldsNameAttributeList,
+} from '@/lib/constants/text-const'
 import { updateStatusTasks } from '@/lib/services/actions/task'
 import { TaskData } from '@/lib/services/queries/task'
 import Box from '@mui/material/Box'
@@ -47,12 +50,12 @@ export default function UpdateTaskStatus({
       />
       <input
         type='hidden'
-        name={ListTaskField.id}
+        name={TextFieldsNameAttributeList.id}
         value={id}
       />
       <input
         type='hidden'
-        name={ListTaskField.status}
+        name={TextFieldsNameAttributeList.status}
         value={value}
       />
     </form>

@@ -1,28 +1,21 @@
 'use client'
 
 import { usePasswordVisibility } from '@/lib/utils/hooks/use-password-visibility'
-import { TextField, TextFieldProps } from '@mui/material'
+import { TextField } from '@mui/material'
+import { MyTextFieldProps } from '../my-text-field-props'
 
-export default function PasswordTextField({
-  placeholder,
-  label,
-  name,
-}: TextFieldProps) {
+export default function PasswordTextField(props: MyTextFieldProps) {
   const { visibilityToggle, type } = usePasswordVisibility()
 
   return (
     <TextField
-      label={label}
       type={type}
-      name={name}
-      id={name}
       required
-      placeholder={placeholder}
-      margin='dense'
       slotProps={{
         htmlInput: { minLength: 6 },
         input: { endAdornment: visibilityToggle },
       }}
+      {...props}
     />
   )
 }

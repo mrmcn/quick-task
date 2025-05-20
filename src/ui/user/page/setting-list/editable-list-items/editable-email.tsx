@@ -1,10 +1,11 @@
 'use client'
 
 import { EditableUserDataProps } from '@/app/user/page'
+import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import { updateEmail } from '@/lib/services/actions/user'
 import { EditableText } from '@/ui/common/forms/editable-text'
 import textFieldSx from '@/ui/common/forms/text-fields/text-field-sx'
-import TextField from '@mui/material/TextField'
+import EmailTextField from '@/ui/common/forms/text-fields/user/email'
 import Typography from '@mui/material/Typography'
 
 export default function EditableEmail({
@@ -13,11 +14,8 @@ export default function EditableEmail({
   return (
     <EditableText
       renderEditedText={(props) => (
-        <TextField
-          type='email'
-          name='email'
-          id='email'
-          required
+        <EmailTextField
+          name={TextFieldsNameAttributeList.email}
           sx={textFieldSx('0.8rem')}
           {...props}
         />

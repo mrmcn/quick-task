@@ -1,6 +1,9 @@
 'use client'
 
-import { ListPriorityField, ListTaskField } from '@/lib/constants/text-const'
+import {
+  ListPriorityField,
+  TextFieldsNameAttributeList,
+} from '@/lib/constants/text-const'
 import { updatePriorityTasks } from '@/lib/services/actions/task'
 import { TaskData } from '@/lib/services/queries/task'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
@@ -21,7 +24,7 @@ export function UpdateTaskPriority({ task }: Props) {
 
   if (state?.error) notFound()
 
-  const { id, priority } = ListTaskField
+  const { id, priority } = TextFieldsNameAttributeList
   const { icon, value } = getIconAndPriorityValue(task)
 
   return (

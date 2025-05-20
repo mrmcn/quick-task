@@ -1,64 +1,60 @@
 import { Prisma } from '@prisma/client'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
+import { ValidationError } from '../errors/validation-error'
 
-export function handleError(error: unknown): HandleErrorProps {
+export function handleError(error: HandleErrorProps): HandleError {
   switch (true) {
-    case error instanceof Prisma.PrismaClientKnownRequestError ||
-      error instanceof Prisma.PrismaClientUnknownRequestError ||
-      error instanceof Prisma.PrismaClientRustPanicError ||
-      error instanceof Prisma.PrismaClientInitializationError ||
-      error instanceof Prisma.PrismaClientValidationError:
-      return handlePrismaError(error as PrismaClientError)
-    case error instanceof AuthError:
+    case isPrismaClientError(error):
+      return handlePrismaError(error)
+    case isAuthError(error):
       return handleAuthError(error)
-    case error instanceof z.ZodError:
+    case isZodError(error):
       return handleZodError(error)
-    case typeof error === 'string':
-      return handlePasswordValidationError(error)
-    case error instanceof Error:
-      if (error.message === 'NEXT_REDIRECT') {
-        throw error
-      } else {
-        return {
-          type: error.name,
-          message: error.message,
-          details: undefined,
-        }
-      }
+    case isValidateError(error):
+      return handleValidationError(error)
+    case isError(error):
+      return handleLastError(error)
     default:
-      throw error
+      throw new Error(
+        'An error occurred while using service functions in app/lib/services',
+      )
   }
 }
 
-function handlePrismaError(error: PrismaClientError): HandleErrorProps {
-  // Handling of known errors Prisma
+function isPrismaClientError(
+  error: HandleErrorProps,
+): error is PrismaClientError {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError ||
+    error instanceof Prisma.PrismaClientUnknownRequestError ||
+    error instanceof Prisma.PrismaClientRustPanicError ||
+    error instanceof Prisma.PrismaClientInitializationError ||
+    error instanceof Prisma.PrismaClientValidationError
+  )
+}
+
+function isAuthError(error: HandleErrorProps): error is AuthError {
+  return error instanceof AuthError
+}
+
+function isZodError(error: HandleErrorProps): error is z.ZodError {
+  return error instanceof z.ZodError
+}
+function isValidateError(error: HandleErrorProps): error is ValidationError {
+  return error instanceof ValidationError
+}
+
+function isError(error: HandleErrorProps): error is Error {
+  return error instanceof Error
+}
+
+function handlePrismaError(error: PrismaClientError): HandleError {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    switch (error.code) {
-      case 'P2002':
-        return {
-          type: 'database',
-          message: 'Such a record already exists.',
-          details: error.meta,
-        }
-      case ' P2001':
-        return {
-          type: 'database',
-          message: 'The record searched does not exist.',
-          details: error.meta,
-        }
-      case 'P2025':
-        return {
-          type: 'database',
-          message: 'The operation failed because no records were found.',
-          details: error.meta,
-        }
-      default:
-        return {
-          type: 'database',
-          message: `Database error. Code: ${error.code}.`,
-          details: undefined,
-        }
+    return {
+      type: 'database',
+      message: `${error.message}. Code: ${error.code}.`,
+      details: error.meta,
     }
   } else {
     return {
@@ -69,8 +65,8 @@ function handlePrismaError(error: PrismaClientError): HandleErrorProps {
   }
 }
 
-export function handleZodError(error: z.ZodError): HandleErrorProps {
-  const fieldErrors: ValidateErrorsProps = {}
+function handleZodError(error: z.ZodError): HandleError {
+  const fieldErrors: ZodErrors = {}
   const zodErrors = error.flatten().fieldErrors
 
   for (const field in zodErrors) {
@@ -80,38 +76,46 @@ export function handleZodError(error: z.ZodError): HandleErrorProps {
   }
 
   return {
-    type: 'validation',
+    type: 'zodValidation',
     message: 'Validation error.',
     details: fieldErrors,
   }
 }
 
-export function handleAuthError(error: unknown): HandleErrorProps {
-  if (error instanceof AuthError) {
-    console.log('error authenticate:', error)
-
-    switch (error.type) {
-      case 'CredentialsSignin':
-        return {
-          type: 'authenticate',
-          message: 'Invalid credentials.',
-          details: undefined,
-        }
-      default:
-        return {
-          type: 'authenticate',
-          message: 'Something went wrong.',
-          details: undefined,
-        }
-    }
-  } else throw error
+function handleValidationError(error: ValidationError): HandleError {
+  return {
+    type: error.type,
+    message: error.message,
+    details: error.details,
+  }
 }
 
-function handlePasswordValidationError(error: string): HandleErrorProps {
-  return {
-    type: 'passwordValidation',
-    message: error,
-    details: undefined,
+function handleAuthError(error: AuthError): HandleError {
+  switch (error.type) {
+    case 'CredentialsSignin':
+      return {
+        type: 'authenticate',
+        message: 'Invalid credentials.',
+        details: undefined,
+      }
+    default:
+      return {
+        type: 'authenticate',
+        message: 'Something went wrong.',
+        details: undefined,
+      }
+  }
+}
+
+function handleLastError(error: Error): HandleError {
+  if (error.message === 'NEXT_REDIRECT') {
+    throw error
+  } else {
+    return {
+      type: 'unknown',
+      message: error.message,
+      details: error.name,
+    }
   }
 }
 
@@ -130,41 +134,42 @@ export function paginationError(
   }
 }
 
-export type ValidateErrorsProps = Record<string, string[]>
-
-export type DetailsPrismaErrorProps = Record<string, unknown> | undefined
-
-export type DetailsUnknownErrorProps = string
-
 export type HandleErrorProps =
+  | PrismaClientError
+  | AuthError
+  | z.ZodError
+  | ValidationError
+  | Error
+
+export type ZodErrors = Record<string, string[]>
+
+type DetailsPrismaError = Record<string, unknown> | undefined
+
+type DetailsUnknownError = string
+
+export type HandleError =
   | {
       type: 'database'
       message: string
-      details: DetailsPrismaErrorProps
+      details: DetailsPrismaError | DetailsUnknownError
     }
   | {
-      type: 'database'
+      type: 'authenticate'
       message: string
-      details: DetailsUnknownErrorProps
+      details: undefined
     }
   | {
-      type: 'authenticate' | string
+      type: 'unknown'
       message: string
-      details: string | undefined
+      details: string
     }
   | HandleZodError
-  | HandlePasswordValidationErrorProps
+  | ValidationError
 
-export interface HandleZodError {
-  type: 'validation'
+interface HandleZodError {
+  type: 'zodValidation'
   message: 'Validation error.'
-  details: ValidateErrorsProps
-}
-
-export interface HandlePasswordValidationErrorProps {
-  type: 'passwordValidation'
-  message: string
-  details: undefined
+  details: ZodErrors
 }
 
 type PrismaClientError =

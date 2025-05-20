@@ -2,15 +2,10 @@ import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
 export default async function verifyAndHashPassword(
-  data: {
-    currentPassword: string
-    newPassword: string
-    confirmNewPassword: string
-  },
+  currentPassword: string,
+  newPassword: string,
   user: User | null,
 ) {
-  const { currentPassword, newPassword } = data
-
   if (!user || !user.password)
     return {
       error: 'User not found or current password missing.',

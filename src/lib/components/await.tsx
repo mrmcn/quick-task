@@ -14,7 +14,7 @@ export default function Await<T>({
   promise,
   errorElement,
   children,
-}: AwaitEmailProps<T>) {
+}: AwaitProps<T>) {
   const { data, error } = use(promise)
 
   if (error) return errorElement
@@ -22,7 +22,7 @@ export default function Await<T>({
   return children(data)
 }
 
-interface AwaitEmailProps<T> {
+interface AwaitProps<T> {
   promise: FetchData<T>
   children: (props: T) => React.ReactNode
   errorElement?: React.ReactNode

@@ -1,43 +1,24 @@
 'use client'
 
-import { ListLabelNameProps } from '@/lib/constants/text-const'
-import { TaskId } from '@/lib/services/queries/task'
 import TextField from '@mui/material/TextField'
 import { useFormStatus } from 'react-dom'
+import { MyTextFieldProps } from '../my-text-field-props'
 
-export default function TitleTextField({
-  placeholder,
-  defaultValue,
-  label,
-  margin,
-  onBlur,
-}: TitleTextFieldProps) {
+export default function TitleTextField(props: MyTextFieldProps) {
   const { pending } = useFormStatus()
-  const onBlurWithPending = !pending ? onBlur : undefined
+  const onBlurWithPending = !pending ? props.onBlur : undefined
 
   return (
     <TextField
-      label={label}
       type='text'
-      name='title'
       id='title'
       required
-      margin={margin}
-      defaultValue={defaultValue}
-      placeholder={placeholder}
       onBlur={onBlurWithPending}
       disabled={pending}
       size='small'
+      {...props}
     />
   )
-}
-
-export interface TitleTextFieldProps {
-  placeholder?: string
-  defaultValue?: TaskId['title']
-  label?: ListLabelNameProps
-  margin: 'dense' | 'none' | 'normal'
-  onBlur?: () => void
 }
 
 /**

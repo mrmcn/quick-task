@@ -3,50 +3,50 @@
 import {
   ListBtnNames,
   ListFormNames,
-  ListLabelName,
+  ListLabels,
   ListPlaceholder,
-  ListUserField,
+  TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { SIGNUP_URL } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/user'
-import FormContainer from '@/ui/common/forms/form-container'
-import FormWrapperUsesActionStateAndRendersErrors, {
-  RenderWrappedComponentProps,
-} from '@/ui/common/forms/form-use-action-state'
+import PageFormContainer from '@/ui/common/forms/form-container'
 import EmailTextField from '@/ui/common/forms/text-fields/user/email'
 import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
-import Button from '@mui/material/Button'
+import { Button } from '@mui/material'
 import Link from 'next/link'
+import { useActionState } from 'react'
 
 export default function SigninPage() {
-  return (
-    <FormWrapperUsesActionStateAndRendersErrors
-      action={authenticate}
-      renderWrappedComponent={(props) => <FormContent props={props} />}
-    />
-  )
-}
+  const [state, formAction, isPending] = useActionState(authenticate, undefined)
 
-function FormContent({ props }: { props: RenderWrappedComponentProps }) {
   return (
-    <FormContainer
-      formName={ListFormNames.signin}
-      {...props}
-    >
-      <EmailTextField placeholder={ListPlaceholder.enterEmail} />
-      <PasswordTextField
-        label={ListLabelName.password}
-        name={ListUserField.password}
-        placeholder={ListPlaceholder.enterEmail}
-      />
-      <Button
-        component={Link}
-        href={SIGNUP_URL}
-        color='secondary'
-        sx={{ mt: 2 }}
+    <form action={formAction}>
+      <PageFormContainer
+        disabled={isPending}
+        state={state}
+        btnName={ListBtnNames.signin}
+        formName={ListFormNames.signin}
       >
-        {ListBtnNames.signup}
-      </Button>
-    </FormContainer>
+        <EmailTextField
+          name={TextFieldsNameAttributeList.email}
+          label={ListLabels.email}
+          placeholder={ListPlaceholder.enterEmail}
+          margin='dense'
+        />
+        <PasswordTextField
+          label={ListLabels.password}
+          name={TextFieldsNameAttributeList.password}
+          placeholder={ListPlaceholder.enterEmail}
+          margin='dense'
+        />
+        <Button
+          component={Link}
+          href={SIGNUP_URL}
+          color='secondary'
+        >
+          {ListBtnNames.signup}
+        </Button>
+      </PageFormContainer>
+    </form>
   )
 }

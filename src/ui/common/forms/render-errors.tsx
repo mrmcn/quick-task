@@ -1,22 +1,21 @@
 import { ListError } from '@/lib/constants/text-const'
 import { StateProps } from '@/lib/services/actions/user'
-import {
-  HandleErrorProps,
-  ValidateErrorsProps,
-} from '@/lib/utils/error-handling'
+import { HandleErrorProps, ZodErrors } from '@/lib/utils/error-handling'
 import Typography from '@mui/material/Typography'
 import { nanoid } from 'nanoid'
 
 export default function RenderErrors({ state }: { state: StateProps }) {
-  if (state?.error) {
-    if (state.error.type === 'validation' && state.error.details)
-      return renderValidationErrors(state.error.details as ValidateErrorsProps)
-    if (state.error.message) return renderErrorMessage(state.error.message)
+  if (state?.status === 'error') {
+    if (state.error.type === 'zodValidation') {
+      return renderZodErrors(state.error.details)
+    }
+    if (state.error.type === 'validation')
+      return renderValidationErrors(state.error.message)
   }
   return null
 }
 
-function renderValidationErrors(details: ValidateErrorsProps) {
+function renderZodErrors(details: ZodErrors) {
   const listErrors = Object.entries(details).map(([key, value]) => (
     <ValidationErrorMessage
       key={nanoid()}
@@ -27,7 +26,7 @@ function renderValidationErrors(details: ValidateErrorsProps) {
   return <>{listErrors}</>
 }
 
-function renderErrorMessage(message: HandleErrorProps['message']) {
+function renderValidationErrors(message: HandleErrorProps['message']) {
   return (
     <Typography
       align='center'

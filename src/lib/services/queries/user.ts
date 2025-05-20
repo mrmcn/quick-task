@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { HOME_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
-import { handleError } from '@/lib/utils/error-handling'
+import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { FetchData } from './task'
@@ -36,7 +36,7 @@ export async function fetchUserEmail(): FetchData<UserData> {
 
     return { data: userData.email }
   } catch (error) {
-    return { error: handleError(error) }
+    return { error: handleError(error as HandleErrorProps) }
   }
 }
 
@@ -54,7 +54,7 @@ export async function fetchUserName(): FetchData<UserData> {
     })
     return { data: userData.name }
   } catch (error) {
-    return { error: handleError(error) }
+    return { error: handleError(error as HandleErrorProps) }
   }
 }
 

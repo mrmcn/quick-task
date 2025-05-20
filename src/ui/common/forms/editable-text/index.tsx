@@ -3,9 +3,10 @@
 import Await from '@/lib/components/await'
 import { ActionProps, StateProps } from '@/lib/services/actions/user'
 import { FetchData } from '@/lib/services/queries/task'
-import { Skeleton, TextFieldProps } from '@mui/material'
+import { Skeleton } from '@mui/material'
 import { TypographyProps } from '@mui/material/Typography'
 import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
+import { RenderProps } from '../text-fields/my-text-field-props'
 import TextEditing from './text-editing'
 
 /**
@@ -84,7 +85,5 @@ interface EditableTextProps extends BaseEditableTextProps {
 export interface BaseEditableTextProps {
   data: FetchData<string> | string
   action: ActionProps<StateProps>
-  renderEditedText: (props: MyTextFieldProps) => React.ReactNode
+  renderEditedText: (props: RenderProps) => React.ReactNode
 }
-
-type MyTextFieldProps = Omit<TextFieldProps, 'defaultValue'>
