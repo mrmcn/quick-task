@@ -1,11 +1,11 @@
-import { ListSearchParameterProps } from '@/lib/constants/text-const'
+import { ListSearchParameterValue } from '@/lib/constants/text-const'
 import { Priority, Status } from '@prisma/client'
 import { useCallback } from 'react'
 import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
 export function useFilterParams(
   filterValue: Status | Priority,
-  filteringParam: ListSearchParameterProps,
+  filteringParam: ListSearchParameterValue,
 ) {
   const { updateUrl, valueCurrentQueryParameter: currentFilterValue } =
     useUpdateUrlWithParams(filteringParam)

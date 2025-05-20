@@ -1,12 +1,12 @@
 import {
   ListSearchParameter,
-  ListSearchParameterProps,
+  ListSearchParameterValue,
 } from '@/lib/constants/text-const'
 import { useCallback } from 'react'
 import { useNextNavigation } from '../use-next-navigation'
 
 export function useUpdateUrlWithParams(
-  filteringParam: ListSearchParameterProps,
+  filteringParam: ListSearchParameterValue,
 ) {
   const { pathname, router, searchParams } = useNextNavigation()
   const valueCurrentQueryParameter = searchParams.get(filteringParam)

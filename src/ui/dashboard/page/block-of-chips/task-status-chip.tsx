@@ -1,9 +1,9 @@
 'use client'
 
 import {
-  ListChipNamesProps,
+  ListChipNamesValue,
   ListSearchParameter,
-  ListSearchParameterProps,
+  ListSearchParameterValue,
 } from '@/lib/constants/text-const'
 import { MonitoringStatesProps } from '@/lib/services/queries/task'
 import { useFilterParams } from '@/lib/utils/hooks/use-filter-params'
@@ -65,8 +65,8 @@ function GetIcon({ isActive }: { isActive: boolean }) {
 }
 
 interface Props {
-  chipName: ListChipNamesProps
+  chipName: ListChipNamesValue
   filterValue: Status | Priority
-  filteringParam: ListSearchParameterProps
+  filteringParam: ListSearchParameterValue
   data?: MonitoringStatesProps
 }
