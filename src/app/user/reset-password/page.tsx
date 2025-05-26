@@ -11,6 +11,7 @@ import { StateProps, updatePassword } from '@/lib/services/actions/user'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
+import slotProps from '@/ui/user/page/setting-list/list-items/dialogs-props/slot-props'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -67,9 +68,7 @@ function FormDialog({ state }: FormDialogProps) {
     <Dialog
       open={open}
       onClose={closeModal}
-      slotProps={{
-        paper: { sx: { bgcolor: (theme) => theme.palette.primary.main } },
-      }}
+      slotProps={slotProps()}
     >
       <DialogContent>
         <DialogContentText>{ListPhrases.passwordChanged}</DialogContentText>

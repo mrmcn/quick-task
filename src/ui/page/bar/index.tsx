@@ -1,5 +1,9 @@
 import { auth } from '@/auth'
-import { ListBtnNames, ListPhrases } from '@/lib/constants/text-const'
+import {
+  ListBtnNames,
+  ListError,
+  ListPhrases,
+} from '@/lib/constants/text-const'
 import {
   DASHBOARD_URL,
   HOME_URL,
@@ -48,8 +52,8 @@ async function getAppBarConfig() {
   const session = await auth()
 
   if (session) {
-    const name = await fetchUserName()
-    const userName = name?.data ?? name?.error.message
+    const { data } = await fetchUserName()
+    const userName = data ?? ListError.failed
 
     return {
       homeUrl: DASHBOARD_URL,

@@ -1,4 +1,4 @@
-export default function textFieldSx(fontSize: string) {
+export default function sxEditableTextProps(fontSize: string) {
   return {
     '& .MuiInputBase-input': {
       fontSize: fontSize,

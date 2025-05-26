@@ -1,10 +1,12 @@
 'use client'
 
 import Await from '@/lib/components/await'
+import { ListError } from '@/lib/constants/text-const'
 import { ActionProps, StateProps } from '@/lib/services/actions/user'
-import { FetchData } from '@/lib/services/queries/task'
-import { Skeleton } from '@mui/material'
-import { TypographyProps } from '@mui/material/Typography'
+import { TaskData } from '@/lib/services/queries/task'
+import { FetchUserData, UserData } from '@/lib/services/queries/user'
+import Skeleton from '@mui/material/Skeleton'
+import Typography, { TypographyProps } from '@mui/material/Typography'
 import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
 import { RenderProps } from '../text-fields/my-text-field-props'
 import TextEditing from './text-editing'
@@ -41,15 +43,18 @@ export function EditableText({
  * Handles both synchronous strings and asynchronous promises.
  */
 function getViewingText(
-  data: string | FetchData<string>, // The data to display.
+  data: Data, // The data to display.
   setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
-  renderViewText: (props: TypographyProps, data: string) => JSX.Element, // Function to render the text for viewing.
+  renderViewText: (props: TypographyProps, data: ViewData) => JSX.Element, // Function to render the text for viewing.
 ): JSX.Element {
   const typographyProps = getTypographyProps(setIsEditing)
   const viewingText =
     typeof data !== 'string' ? (
       <Suspense fallback={<Skeleton width={40} />}>
-        <Await promise={data}>
+        <Await
+          promise={data}
+          errorElement={<ErrorElement />}
+        >
           {(res) => renderViewText(typographyProps, res)}
         </Await>
       </Suspense>
@@ -58,6 +63,10 @@ function getViewingText(
     )
 
   return viewingText
+}
+
+function ErrorElement() {
+  return <Typography color='error'>{ListError.failed}</Typography>
 }
 
 /**
@@ -79,11 +88,14 @@ function getTypographyProps(
 }
 
 interface EditableTextProps extends BaseEditableTextProps {
-  renderViewText: (props: TypographyProps, data: string) => JSX.Element
+  renderViewText: (props: TypographyProps, data: ViewData) => JSX.Element
 }
 
 export interface BaseEditableTextProps {
-  data: FetchData<string> | string
+  data: Data
   action: ActionProps<StateProps>
   renderEditedText: (props: RenderProps) => React.ReactNode
 }
+
+type Data = FetchUserData | TaskData['details' | 'title']
+type ViewData = string | UserData

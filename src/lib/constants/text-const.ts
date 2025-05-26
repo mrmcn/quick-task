@@ -52,6 +52,7 @@ export const ListError = {
   error: 'error',
   incorrectParameter: 'Incorrect page parameter',
   noData: 'no data',
+  failed: 'Failed',
 } as const
 
 export type ListErrorValue = ValueOf<typeof ListError>
@@ -92,6 +93,7 @@ export const ListPhrases = {
   signoutContent: 'Do you really want to log out?',
   newTaskDialogText: 'Successfully created task!',
   taskNoFound: 'No such task found.',
+  tasksPerPage: 'Tasks per page',
   user: 'User',
   userDeleteTitle: 'Account deletion!',
   userDeleteContent:
@@ -142,6 +144,16 @@ export const ListSortingParameter = {
 } as const
 
 export type ListSortingParameterValue = ValueOf<typeof ListSortingParameter>
+
+export const sortOptions = [
+  { value: ListSortingParameter.titleAsc, label: ListBtnNames.titleAtoZ },
+  { value: ListSortingParameter.titleDesc, label: ListBtnNames.titleZtoA },
+  {
+    value: ListSortingParameter.dateDesc,
+    label: ListBtnNames.newestToOldest,
+  },
+  { value: ListSortingParameter.dateAsc, label: ListBtnNames.oldestToNewest },
+] as const
 
 // Keys for the change password form fields. Used solely for type definitions.
 export const TextFieldChangePasswordList = {

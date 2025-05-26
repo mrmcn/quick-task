@@ -4,6 +4,7 @@ import {
   ListBtnNames,
   ListSortingParameter,
   ListSortingParameterValue,
+  sortOptions,
 } from '@/lib/constants/text-const'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import Chip from '@mui/material/Chip'
@@ -17,7 +18,6 @@ export default function SortSelectorChip() {
   const { handleSortChange, selectValue } = useSortParams()
   const { titleAtoZ, titleZtoA, newestToOldest, oldestToNewest } = ListBtnNames
   const { titleAsc, titleDesc, dateAsc, dateDesc } = ListSortingParameter
-  const getChipLabel = getSortChipLabel()
 
   return (
     <FormControl
@@ -70,21 +70,10 @@ export default function SortSelectorChip() {
 }
 
 // Factory function that returns a function to get the chip label based on the sorting value.
-function getSortChipLabel() {
-  const sortOptions = [
-    { value: ListSortingParameter.titleAsc, label: ListBtnNames.titleAtoZ },
-    { value: ListSortingParameter.titleDesc, label: ListBtnNames.titleZtoA },
-    {
-      value: ListSortingParameter.dateDesc,
-      label: ListBtnNames.newestToOldest,
-    },
-    { value: ListSortingParameter.dateAsc, label: ListBtnNames.oldestToNewest },
-  ] as const
-  const getChipLabel = (selectedValue: ListSortingParameterValue) => {
-    const selectedOption = sortOptions.find(
-      (option) => option.value === selectedValue,
-    )
-    return selectedOption?.label || ListBtnNames.titleAtoZ
-  }
-  return getChipLabel
+
+function getChipLabel(selectedValue: ListSortingParameterValue) {
+  const selectedOption = sortOptions.find(
+    (option) => option.value === selectedValue,
+  )
+  return selectedOption?.label || ListBtnNames.titleAtoZ
 }

@@ -9,8 +9,8 @@ import {
 } from '@/lib/constants/text-const'
 import { createUser } from '@/lib/services/actions/user'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import EmailTextField from '@/ui/common/forms/text-fields/user/email'
 import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
+import TextField from '@mui/material/TextField'
 import { useActionState } from 'react'
 
 export default function SignupPage() {
@@ -24,7 +24,10 @@ export default function SignupPage() {
         disabled={isPending}
         state={state}
       >
-        <EmailTextField
+        <TextField
+          type='email'
+          id='email'
+          required
           name={TextFieldsNameAttributeList.email}
           label={ListLabels.email}
           placeholder={ListPlaceholder.enterEmail}

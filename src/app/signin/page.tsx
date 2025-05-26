@@ -10,9 +10,9 @@ import {
 import { SIGNUP_URL } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/user'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import EmailTextField from '@/ui/common/forms/text-fields/user/email'
 import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
 import { Button } from '@mui/material'
+import TextField from '@mui/material/TextField'
 import Link from 'next/link'
 import { useActionState } from 'react'
 
@@ -27,7 +27,10 @@ export default function SigninPage() {
         btnName={ListBtnNames.signin}
         formName={ListFormNames.signin}
       >
-        <EmailTextField
+        <TextField
+          type='email'
+          id='email'
+          required
           name={TextFieldsNameAttributeList.email}
           label={ListLabels.email}
           placeholder={ListPlaceholder.enterEmail}

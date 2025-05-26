@@ -7,6 +7,7 @@ import {
 } from '@/lib/constants/text-const'
 import { DASHBOARD_URL } from '@/lib/constants/url'
 import prisma from '@/lib/prisma'
+import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
 import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
 import {
@@ -107,7 +108,7 @@ export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-export const deleteTask = async (formData: FormData) => {
+export async function deleteTask(formData: FormData) {
   const session = await auth()
 
   if (!session) return undefined
@@ -124,7 +125,7 @@ export const deleteTask = async (formData: FormData) => {
     })
   } catch (error) {
     console.error('Error deleting task:', error)
-    throw new Error('Failed to delete task')
+    return handleError(error as HandleErrorProps)
   }
   revalidatePath(DASHBOARD_URL)
   redirect(`${DASHBOARD_URL}${searchParamsString}`)

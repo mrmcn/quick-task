@@ -15,8 +15,10 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { MyDialogProps } from '../my-dialog-props'
-import Transition from '../slot-transition'
+import sxListItemIconProps from '../../styles/sx-list-item-icon-props'
+import { MyDialogProps } from '../dialogs-props/my-dialog-props'
+import slotProps from '../dialogs-props/slot-props'
+import Transition from '../dialogs-props/slot-transition'
 
 export default function ListItemSignout() {
   const { open, openModal, closeModal } = useModal()
@@ -24,7 +26,7 @@ export default function ListItemSignout() {
   return (
     <>
       <ListItem>
-        <ListItemIcon sx={{ minWidth: '30px' }}>
+        <ListItemIcon sx={sxListItemIconProps()}>
           <LogoutIcon />
         </ListItemIcon>
         <ListItemButton
@@ -57,9 +59,7 @@ function SignoutDialog({ open, closeModal }: MyDialogProps) {
       open={open}
       onClose={closeModal}
       slots={{ transition: Transition }}
-      slotProps={{
-        paper: { sx: { bgcolor: (theme) => theme.palette.primary.main } },
-      }}
+      slotProps={slotProps()}
     >
       <DialogTitle>{ListPhrases.signoutTitle}</DialogTitle>
       <DialogContent>

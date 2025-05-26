@@ -1,74 +1,37 @@
 import { auth } from '@/auth'
 import prisma from '@/lib/prisma'
+import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import {
   HandleError,
   handleError,
   HandleErrorProps,
 } from '@/lib/utils/error-handling'
-import {
-  getSearchParams,
-  SearchParamsObject,
-} from '@/lib/utils/get-search-params'
-import { getOrderBy } from '@/lib/utils/services-helper/get-order-by'
+import { SearchParamsObject } from '@/lib/utils/get-search-params'
+import prepareTaskFetchParams from '@/lib/utils/services-helper/prepare-task-fetch-params'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services-helper/task-status-counts'
 import { Status, Task } from '@prisma/client'
 
-const tasksPage = 3
-
 export async function fetchUserTasksData(
   searchParamsObject?: SearchParamsObject,
-  tasksPerPage: number = tasksPage,
 ): FetchData<UserTasksResult> {
-  const session = await auth()
-
-  if (!session) {
-    const sampleData = getTasksDATA()
-    return { data: { tasks: sampleData, totalPages: 1 } } // for sampleTasksList
-  }
-  const authorId = session?.user.id // or userTasksList
-
-  const { query, currentPage, sort, status, priority } =
-    getSearchParams(searchParamsObject)
-  const offset = (currentPage - 1) * tasksPerPage
-  const orderBy = getOrderBy(sort)
+  const { sampleData, error, data } = await prepareTaskFetchParams(
+    searchParamsObject,
+  )
+  if (sampleData) return { data: sampleData }
+  if (error) throw error
 
   try {
-    const [tasks, count] = await prisma.$transaction([
-      prisma.task.findMany({
-        skip: offset,
-        take: tasksPerPage,
-        where: {
-          authorId: authorId,
-          status: status,
-          priority: priority,
-          OR: [
-            { title: { contains: query } },
-            { details: { contains: query } },
-          ],
-        },
-        select: {
-          id: true,
-          title: true,
-          details: true,
-          priority: true,
-          status: true,
-        },
-        orderBy: orderBy,
-      }),
-      prisma.task.count({
-        where: {
-          authorId: authorId,
-          status: status,
-          priority: priority,
-          OR: [
-            { title: { contains: query } },
-            { details: { contains: query } },
-          ],
-        },
-      }),
-    ])
+    const { tasks, count } = await taskRepository.getUserTasksWithCount({
+      userId: data.userId,
+      offset: data.offset,
+      orderBy: data.orderBy,
+      query: data.query,
+      status: data.status,
+      priority: data.priority,
+      tasksPerPage: data.tasksPerPage,
+    })
 
-    const totalPages = Math.ceil(count / tasksPerPage)
+    const totalPages = Math.ceil(count / data.tasksPerPage)
 
     return { data: { tasks, totalPages } }
   } catch (error) {
@@ -134,27 +97,3 @@ export interface MonitoringStatesProps {
 }
 
 export type FetchTaskIdDataProps = string
-
-const getTasksDATA = (): TaskData[] => [
-  {
-    id: '1',
-    title: 'Sample 1',
-    details: 'Details task',
-    priority: 'high',
-    status: 'completed',
-  },
-  {
-    id: '2',
-    title: 'Sample 2',
-    details: 'Details task 2',
-    priority: 'high',
-    status: 'completed',
-  },
-  {
-    id: '3',
-    title: 'Sample 3',
-    details: 'Details task 3',
-    priority: 'high',
-    status: 'in_progress',
-  },
-] // for 'app/page'

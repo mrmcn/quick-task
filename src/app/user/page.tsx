@@ -1,11 +1,15 @@
-import { FetchData } from '@/lib/services/queries/task'
-import { fetchUserEmail, fetchUserName } from '@/lib/services/queries/user'
+import {
+  FetchUserData,
+  fetchUserEmail,
+  fetchUserName,
+} from '@/lib/services/queries/user'
 import EditableListItem from '@/ui/user/page/setting-list/editable-list-items'
 import EditableEmail from '@/ui/user/page/setting-list/editable-list-items/editable-email'
 import EditableUserName from '@/ui/user/page/setting-list/editable-list-items/editable-name'
 import ListItemDeletingAccount from '@/ui/user/page/setting-list/list-items/delete'
 import ListItemResetPassword from '@/ui/user/page/setting-list/list-items/password'
 import ListItemSignout from '@/ui/user/page/setting-list/list-items/signout'
+import TasksPerPage from '@/ui/user/page/setting-list/list-items/tasks-per-page'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
@@ -31,6 +35,7 @@ export default async function UserPage() {
           firstIcon={<ModeEditIcon />}
         />
         <ListItemResetPassword />
+        <TasksPerPage />
         <Divider variant='middle' />
         <ListItemSignout />
         <Divider variant='middle' />
@@ -42,5 +47,5 @@ export default async function UserPage() {
 }
 
 export interface EditableUserDataProps {
-  userDataPromise: FetchData<string>
+  userDataPromise: FetchUserData
 }

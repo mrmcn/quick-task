@@ -7,11 +7,12 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
+import sxListItemIconProps from '../../styles/sx-list-item-icon-props'
 
 export default function ListItemResetPassword() {
   return (
     <ListItem>
-      <ListItemIcon sx={{ minWidth: '30px' }}>
+      <ListItemIcon sx={sxListItemIconProps()}>
         <LockResetIcon />
       </ListItemIcon>
       <ListItemButton

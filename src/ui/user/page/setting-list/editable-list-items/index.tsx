@@ -1,9 +1,9 @@
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
-import editableTextSlotProps from '@/ui/user/page/setting-list/editable-list-items/styles/editable-text-slot-props'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { JSX } from 'react'
+import sxListItemIconProps from '../styles/sx-list-item-icon-props'
 
 export default function EditableListItem({
   editableComponent,
@@ -11,10 +11,12 @@ export default function EditableListItem({
 }: EditableListItemProps) {
   return (
     <ListItem>
-      <ListItemIcon sx={{ minWidth: '30px' }}>{firstIcon}</ListItemIcon>
+      <ListItemIcon sx={sxListItemIconProps()}>{firstIcon}</ListItemIcon>
       <ListItemText
         primary={editableComponent}
-        slotProps={editableTextSlotProps()}
+        slotProps={{
+          primary: { component: 'div' },
+        }}
       />
       <ChevronIcon />
     </ListItem>

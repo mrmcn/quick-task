@@ -15,12 +15,12 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data
 
-          const user = await fetchUserData(email)
-          if (!user) return null
+          const { data } = await fetchUserData(email)
+          if (!data) return null
 
-          const passwordsMatch = await bcrypt.compare(password, user.password)
+          const passwordsMatch = await bcrypt.compare(password, data.password)
 
-          if (passwordsMatch) return user
+          if (passwordsMatch) return data
         }
 
         return null

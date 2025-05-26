@@ -22,11 +22,7 @@ export default async function TasksList({
       }}
     >
       <Box component='main'>
-        <List
-          sx={{
-            width: { xs: '90%', sm: '95%' },
-          }}
-        >
+        <List>
           <Suspense fallback={<Fallback />}>
             <TasksItems
               tasksDataPromise={tasksDataPromise}

@@ -22,7 +22,7 @@ export default function NotFound() {
       >
         Could not find the requested task.
       </Typography>
-      <Link href={DASHBOARD_URL}>Go Back</Link>
+      <Link href={DASHBOARD_URL}>Go home</Link>
     </Container>
   )
 }

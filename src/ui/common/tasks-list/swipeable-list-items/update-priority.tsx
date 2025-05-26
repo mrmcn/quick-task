@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  ListError,
   ListPriorityField,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
@@ -9,11 +10,8 @@ import { TaskData } from '@/lib/services/queries/task'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import LowPriorityIcon from '@mui/icons-material/LowPriority'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
-import { Button } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import { notFound } from 'next/navigation'
 import { useActionState } from 'react'
 
 export function UpdateTaskPriority({ task }: Props) {
@@ -21,36 +19,46 @@ export function UpdateTaskPriority({ task }: Props) {
     updatePriorityTasks,
     undefined,
   )
-
-  if (state?.status === 'error') notFound()
-
   const { id, priority } = TextFieldsNameAttributeList
   const { icon, value } = getIconAndPriorityValue(task)
+  const errorMessage =
+    state?.status === 'error' ? (
+      <Typography
+        variant='caption'
+        color='error'
+      >
+        {ListError.failed}
+      </Typography>
+    ) : null
 
   return (
     <form
       action={formAction}
-      style={{ display: 'flex', alignItems: 'stretch' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
       <Box
         sx={{
-          ml: 6,
           width: 48,
           bgcolor: 'primary.light',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
-        <ListItemButton
-          component={Button}
+        <IconButton
           type='submit'
           disabled={isPending}
-          sx={{ justifyContent: 'center', height: '100%' }}
+          sx={{
+            color: 'secondary.main',
+            justifyContent: 'center',
+            height: '100%',
+          }}
         >
-          <ListItemIcon sx={{ minWidth: 'auto', mr: 0 }}>{icon}</ListItemIcon>
-        </ListItemButton>
+          {icon}
+        </IconButton>
       </Box>
+      {errorMessage}
       <input
         type='hidden'
         name={priority}
@@ -69,17 +77,11 @@ function getIconAndPriorityValue(task: TaskData) {
   const { high, low } = ListPriorityField
   const highStatus = task.priority === high
   const icon = highStatus ? (
-    <LowPriorityIcon color='secondary' />
+    <LowPriorityIcon />
   ) : (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <ArrowUpwardIcon
-        color='secondary'
-        sx={{ fontSize: 'small' }}
-      />
-      <PriorityHighIcon
-        color='secondary'
-        sx={{ marginLeft: '-8px' }}
-      />
+      <ArrowUpwardIcon sx={{ fontSize: 'small' }} />
+      <PriorityHighIcon sx={{ marginLeft: '-8px' }} />
     </Box>
   )
   const value = highStatus ? low : high

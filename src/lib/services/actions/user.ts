@@ -5,8 +5,8 @@ import { DASHBOARD_URL, HOME_URL, USER_URL } from '@/lib/constants/url'
 import { ValidationError } from '@/lib/errors/validation-error'
 import prisma from '@/lib/prisma'
 import {
-  HandleError,
   handleError,
+  HandleError,
   HandleErrorProps,
 } from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
@@ -97,6 +97,19 @@ export const updateEmail: ActionProps<StateProps> = withFormHandling(
     redirect(USER_URL)
   },
 )
+
+export const updateTasksPerPageNumber = async (perPageNumber: string) => {
+  const { userId } = await getSessionData()
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { tasksPerPage: Number(perPageNumber) },
+    })
+  } catch (error) {
+    return { status: 'error', error: handleError(error as HandleErrorProps) }
+  }
+  revalidatePath(USER_URL)
+}
 
 export async function deleteUser(): Promise<StateProps> {
   const { userId } = await getSessionData()

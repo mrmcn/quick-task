@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
 import { FetchData, UserTasksResult } from '@/lib/services/queries/task'
+import { HandleError } from '@/lib/utils/error-handling'
 import {
   getSearchParams,
   OptionalSearchParamsObject,
@@ -8,18 +9,24 @@ import {
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { notFound } from 'next/navigation'
 
 export default async function TasksItems({
   searchParamsObject,
   tasksDataPromise,
 }: TaskListContentProps) {
-  const tasks = await processTasksData(tasksDataPromise)
+  const { data, error } = await tasksDataPromise
 
-  if (!tasks) return <EmptyState searchParamsObject={searchParamsObject} />
+  if (!data?.tasks || data?.tasks.length === 0)
+    return (
+      <EmptyState
+        data={data}
+        error={error}
+        searchParamsObject={searchParamsObject}
+      />
+    )
 
   const session = await auth()
-  const taskItem = tasks.map((task) => (
+  const taskItem = data.tasks.map((task) => (
     <TaskListItemSwipeable
       key={task.id}
       task={task}
@@ -31,10 +38,14 @@ export default async function TasksItems({
   return <>{taskItem}</>
 }
 
-function EmptyState({ searchParamsObject }: EmptyStateProps) {
+function EmptyState({ searchParamsObject, data, error }: EmptyStateProps) {
   const { query } = getSearchParams(searchParamsObject)
   const content =
-    query !== '' ? ListPhrases.taskNoFound : ListPhrases.createNewTask
+    data?.tasks === undefined
+      ? error?.message
+      : data.tasks.length === 0 && query !== ''
+      ? ListPhrases.taskNoFound
+      : ListPhrases.createNewTask
 
   return (
     <Box sx={{ mt: '5vh' }}>
@@ -49,17 +60,10 @@ function EmptyState({ searchParamsObject }: EmptyStateProps) {
   )
 }
 
-async function processTasksData(tasksDataPromise: FetchData<UserTasksResult>) {
-  const taskData = await tasksDataPromise
-  const { data, error } = taskData
-  if (error) return notFound()
-  const tasks = data.tasks.length === 0 ? null : data.tasks
-
-  return tasks
-}
-
 interface EmptyStateProps {
   searchParamsObject: OptionalSearchParamsObject
+  data: UserTasksResult | undefined
+  error: HandleError | undefined
 }
 
 interface TaskListContentProps {

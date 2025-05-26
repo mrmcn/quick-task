@@ -4,8 +4,8 @@ import { EditableUserDataProps } from '@/app/user/page'
 import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import { updateEmail } from '@/lib/services/actions/user'
 import { EditableText } from '@/ui/common/forms/editable-text'
-import textFieldSx from '@/ui/common/forms/text-fields/text-field-sx'
-import EmailTextField from '@/ui/common/forms/text-fields/user/email'
+import sxEditableTextProps from '@/ui/common/styles/sx-editable-text-props'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 export default function EditableEmail({
@@ -14,9 +14,12 @@ export default function EditableEmail({
   return (
     <EditableText
       renderEditedText={(props) => (
-        <EmailTextField
+        <TextField
+          type='email'
+          id='email'
+          required
           name={TextFieldsNameAttributeList.email}
-          sx={textFieldSx('0.8rem')}
+          sx={sxEditableTextProps('0.8rem')}
           {...props}
         />
       )}
