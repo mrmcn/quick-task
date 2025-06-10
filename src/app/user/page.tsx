@@ -1,11 +1,6 @@
-import {
-  FetchUserData,
-  fetchUserEmail,
-  fetchUserName,
-} from '@/lib/services/queries/user'
+import { fetchUniqueUserData } from '@/lib/services/queries/user'
 import EditableListItem from '@/ui/user/page/setting-list/editable-list-items'
-import EditableEmail from '@/ui/user/page/setting-list/editable-list-items/editable-email'
-import EditableUserName from '@/ui/user/page/setting-list/editable-list-items/editable-name'
+import EditableUserData from '@/ui/user/page/setting-list/editable-list-items/editable-user-data'
 import ListItemDeletingAccount from '@/ui/user/page/setting-list/list-items/delete'
 import ListItemResetPassword from '@/ui/user/page/setting-list/list-items/password'
 import ListItemSignout from '@/ui/user/page/setting-list/list-items/signout'
@@ -16,21 +11,27 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 
 export default async function UserPage() {
-  const userNamePromise = fetchUserName()
-  const userEmailPromise = fetchUserEmail()
+  const userNamePromise = fetchUniqueUserData('name')
+  const userEmailPromise = fetchUniqueUserData('email')
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <List sx={{ width: { xs: '100%', sm: '80%', md: '60%' } }}>
         <EditableListItem
           editableComponent={
-            <EditableUserName userDataPromise={userNamePromise} />
+            <EditableUserData
+              userDataPromise={userNamePromise}
+              fieldName='name'
+            />
           }
           firstIcon={<ModeEditIcon />}
         />
         <EditableListItem
           editableComponent={
-            <EditableEmail userDataPromise={userEmailPromise} />
+            <EditableUserData
+              userDataPromise={userEmailPromise}
+              fieldName='email'
+            />
           }
           firstIcon={<ModeEditIcon />}
         />
@@ -44,8 +45,4 @@ export default async function UserPage() {
       </List>
     </Box>
   )
-}
-
-export interface EditableUserDataProps {
-  userDataPromise: FetchUserData
 }

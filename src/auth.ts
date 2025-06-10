@@ -2,23 +2,23 @@ import { authConfig } from '@/auth.config'
 import bcrypt from 'bcrypt'
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import { fetchUserData } from './lib/services/queries/user'
-import { EmailAndPasswordSchema } from './lib/zod/schema/user'
+import { fetchUserAllData } from './lib/services/queries/user'
+import { validateAuthData } from './lib/zod/validate'
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
-        const parsedCredentials = EmailAndPasswordSchema.safeParse(credentials)
-
-        if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data
-
-          const { data } = await fetchUserData(email)
+        const validData = validateAuthData(credentials)
+        if (validData) {
+          const { data } = await fetchUserAllData(validData.email)
           if (!data) return null
 
-          const passwordsMatch = await bcrypt.compare(password, data.password)
+          const passwordsMatch = await bcrypt.compare(
+            validData.password,
+            data.password,
+          )
 
           if (passwordsMatch) return data
         }

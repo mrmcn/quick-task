@@ -23,9 +23,10 @@ export function TaskParamChip({
     filterValue,
     filteringParam,
   )
+
   const number =
-    isActive && filteringParam === ListSearchParameter.status
-      ? data?.[filterValue as keyof MonitoringStatesProps]
+    isActive && data && filteringParam === ListSearchParameter.status
+      ? data[filterValue as keyof MonitoringStatesProps]
       : ''
 
   return (

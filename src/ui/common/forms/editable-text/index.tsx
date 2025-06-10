@@ -2,11 +2,12 @@
 
 import Await from '@/lib/components/await'
 import { ListError } from '@/lib/constants/text-const'
+import { TaskListDto } from '@/lib/repositories/prisma/tasks'
 import { ActionProps, StateProps } from '@/lib/services/actions/user'
-import { TaskData } from '@/lib/services/queries/task'
-import { FetchUserData, UserData } from '@/lib/services/queries/user'
+import { FetchUniqueUserData, UserFieldType } from '@/lib/services/queries/user'
 import Skeleton from '@mui/material/Skeleton'
 import Typography, { TypographyProps } from '@mui/material/Typography'
+import { User } from '@prisma/client'
 import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
 import { RenderProps } from '../text-fields/my-text-field-props'
 import TextEditing from './text-editing'
@@ -45,7 +46,7 @@ export function EditableText({
 function getViewingText(
   data: Data, // The data to display.
   setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
-  renderViewText: (props: TypographyProps, data: ViewData) => JSX.Element, // Function to render the text for viewing.
+  renderViewText: RenderViewText, // Function to render the text for viewing.
 ): JSX.Element {
   const typographyProps = getTypographyProps(setIsEditing)
   const viewingText =
@@ -88,7 +89,7 @@ function getTypographyProps(
 }
 
 interface EditableTextProps extends BaseEditableTextProps {
-  renderViewText: (props: TypographyProps, data: ViewData) => JSX.Element
+  renderViewText: RenderViewText
 }
 
 export interface BaseEditableTextProps {
@@ -97,5 +98,10 @@ export interface BaseEditableTextProps {
   renderEditedText: (props: RenderProps) => React.ReactNode
 }
 
-type Data = FetchUserData | TaskData['details' | 'title']
-type ViewData = string | UserData
+type RenderViewText = (
+  props: TypographyProps,
+  viewData: TaskFieldType | UserFieldType<keyof User>,
+) => JSX.Element
+
+export type Data = TaskFieldType | FetchUniqueUserData<keyof User>
+export type TaskFieldType = TaskListDto['details' | 'title']

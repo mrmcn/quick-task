@@ -4,7 +4,7 @@ import {
 } from '@/lib/constants/text-const'
 import { z } from 'zod'
 
-export const UserSchema = z.object({
+const user = z.object({
   [TextFieldsNameAttributeList.name]: z
     .string({ message: '"This field is required."' })
     .min(3, { message: 'Must be more than three letters' }), //This field is required.
@@ -16,24 +16,24 @@ export const UserSchema = z.object({
     .min(6, { message: '"Must be more than six characters"' }),
 })
 
-export const NameSchema = UserSchema.pick({
+const name = user.pick({
   [TextFieldsNameAttributeList.name]: true,
 })
 
-export const PasswordSchema = UserSchema.pick({
+const password = user.pick({
   [TextFieldsNameAttributeList.password]: true,
 })
 
-export const EmailSchema = UserSchema.pick({
+const email = user.pick({
   [TextFieldsNameAttributeList.email]: true,
 })
 
-export const EmailAndPasswordSchema = UserSchema.pick({
+const emailAndPasswordInput = user.pick({
   [TextFieldsNameAttributeList.email]: true,
   [TextFieldsNameAttributeList.password]: true,
 })
 
-export const ChangePasswordSchema = z
+const changePassword = z
   .object({
     [TextFieldsNameAttributeList.currentPassword]: z
       .string({ message: '"This field is required."' })
@@ -49,3 +49,21 @@ export const ChangePasswordSchema = z
     message: 'New passwords do not match',
     path: [ListLabels.confirmNewPassword], // Indicates the field where the error occurred
   })
+
+export const userSchemes: UserSchemes = {
+  name,
+  changePassword,
+  password,
+  email,
+  emailAndPasswordInput,
+  user,
+}
+
+export interface UserSchemes {
+  name: typeof name
+  password: typeof password
+  email: typeof email
+  emailAndPasswordInput: typeof emailAndPasswordInput
+  user: typeof user
+  changePassword: typeof changePassword
+}

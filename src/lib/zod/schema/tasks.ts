@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const FormSchema = z.object({
+const form = z.object({
   id: z.string(),
   title: z.string({ message: '"This field is required."' }), //This field is required.
   details: z.string({ message: '"This field is required."' }), //This field is required.
@@ -10,27 +10,45 @@ export const FormSchema = z.object({
   authorId: z.string(),
 })
 
-export const UpdatePrioritySchema = FormSchema.pick({
+const updatePriority = form.pick({
   id: true,
   priority: true,
 })
 
-export const UpdateStatusSchema = FormSchema.pick({
+const updateStatus = form.pick({
   id: true,
   status: true,
 })
 
-export const UpdateTaskTitleSchema = FormSchema.pick({
+const updateTitle = form.pick({
   id: true,
   title: true,
 })
 
-export const UpdateTaskDetailsSchema = FormSchema.pick({
+const updateDetails = form.pick({
   id: true,
   details: true,
 })
 
-export const CreateTaskSchema = FormSchema.pick({
+const create = form.pick({
   title: true,
   details: true,
 })
+
+export const tasksSchemes: TasksSchemes = {
+  create,
+  updatePriority,
+  updateStatus,
+  updateTitle,
+  updateDetails,
+  form,
+}
+
+type TasksSchemes = {
+  updatePriority: typeof updatePriority
+  updateStatus: typeof updateStatus
+  updateTitle: typeof updateTitle
+  updateDetails: typeof updateDetails
+  create: typeof create
+  form: typeof form
+}

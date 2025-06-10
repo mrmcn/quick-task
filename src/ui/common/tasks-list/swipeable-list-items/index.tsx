@@ -1,8 +1,8 @@
 'use client'
 
 import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
+import { TaskListDto } from '@/lib/repositories/prisma/tasks'
 import { updateTaskDetails, updateTaskTitle } from '@/lib/services/actions/task'
-import { TaskData } from '@/lib/services/queries/task'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { useSwipeProps } from '@/lib/utils/hooks/use-get-swipe-props'
@@ -256,7 +256,7 @@ function EditedDetails({
   )
 }
 
-function getTaskStatus(task: TaskData, authenticated: boolean) {
+function getTaskStatus(task: TaskListDto, authenticated: boolean) {
   const renderTaskStatus = authenticated ? (
     <UpdateTaskStatus
       id={task.id}
@@ -299,7 +299,7 @@ function listItemSx(translateX: number) {
 }
 
 interface TaskItem {
-  task: TaskData
+  task: TaskListDto
   searchParamsObject?: Props
   authenticated: boolean
 }
@@ -315,12 +315,12 @@ interface HiddenComponentProps {
 }
 
 interface TaskEditableProps {
-  task: TaskData
+  task: TaskListDto
   searchParamsToGoBack: string
 }
 
 interface HiddenInputsProps {
-  taskId: TaskData['id']
+  taskId: TaskListDto['id']
   searchParamsToGoBack: string
 }
 

@@ -1,8 +1,10 @@
 'use client'
 
 import { ListBtnNames } from '@/lib/constants/text-const'
-import { HandleError } from '@/lib/utils/error-handling'
-import { useDisplayableContent } from '@/lib/utils/hooks/use-displayable-content'
+import {
+  Content,
+  useDisplayableContent,
+} from '@/lib/utils/hooks/use-displayable-content'
 import RenderErrors from '@/ui/common/forms/render-errors'
 import { CircularProgress, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -56,9 +58,8 @@ export default function TextEditing({
 function getTextFieldProps(
   isPending: boolean, // Whether the server action is currently pending.
   setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
-  content: string | HandleError, // The current content to display in the input field.
+  content: Content, // The current content to display in the input field.
 ): RenderProps {
-  const defaultValue = typeof content === 'string' ? content : content.message
   const endAdornment = isPending ? (
     <InputAdornment position='end'>
       <CircularProgress
@@ -73,7 +74,7 @@ function getTextFieldProps(
   const onBlurWithPending = !isPending ? handleBlur : undefined // Prevents exiting editing state while saving.
 
   return {
-    defaultValue: defaultValue,
+    defaultValue: content,
     disabled: isPending,
     autoFocus: true,
     onBlur: onBlurWithPending,

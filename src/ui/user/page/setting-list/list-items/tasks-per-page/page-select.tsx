@@ -7,10 +7,11 @@ import FormControl from '@mui/material/FormControl'
 import Input from '@mui/material/Input'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { PageValue } from '.'
 
 export default function PageSelect({ taskPerPage }: PageSelectProps) {
   const handleChange = (event: SelectChangeEvent) => {
-    updateTasksPerPageNumber(event.target.value as string)
+    updateTasksPerPageNumber(event.target.value)
   }
 
   return (
@@ -19,7 +20,7 @@ export default function PageSelect({ taskPerPage }: PageSelectProps) {
         <Select
           labelId='task-per-page-select-label'
           id='task-per-page-select'
-          value={taskPerPage}
+          value={String(taskPerPage)}
           onChange={handleChange}
           input={
             <Input
@@ -50,5 +51,5 @@ export default function PageSelect({ taskPerPage }: PageSelectProps) {
 }
 
 interface PageSelectProps {
-  taskPerPage: string
+  taskPerPage: PageValue
 }

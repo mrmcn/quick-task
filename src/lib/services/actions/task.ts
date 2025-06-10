@@ -1,35 +1,25 @@
 'use server'
 
-import { auth } from '@/auth'
 import {
   ListSearchParameter,
   ListSortingParameter,
 } from '@/lib/constants/text-const'
 import { DASHBOARD_URL } from '@/lib/constants/url'
-import prisma from '@/lib/prisma'
+import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import { getSessionData } from '@/lib/utils/get-session-data'
 import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
-import {
-  CreateTaskSchema,
-  UpdatePrioritySchema,
-  UpdateStatusSchema,
-  UpdateTaskDetailsSchema,
-  UpdateTaskTitleSchema,
-} from '@/lib/zod/schema/tasks'
+import { tasksSchemes } from '@/lib/zod/schema/tasks'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { ActionProps, StateProps } from './user'
 
 export const createTask: ActionProps<StateProps> = withFormHandling(
-  CreateTaskSchema,
+  tasksSchemes.create,
   async ({ title, details }) => {
     const { userId } = await getSessionData()
-    await prisma.task.create({
-      data: {
-        title,
-        details,
-        authorId: userId,
-      },
+    await taskRepository.createTask(userId, {
+      details,
+      title,
     })
   },
   async () => {
@@ -41,14 +31,9 @@ export const createTask: ActionProps<StateProps> = withFormHandling(
 )
 
 export const updateStatusTasks: ActionProps<StateProps> = withFormHandling(
-  UpdateStatusSchema,
+  tasksSchemes.updateStatus,
   async ({ id, status }) => {
-    await prisma.task.update({
-      where: { id: id },
-      data: {
-        status: status,
-      },
-    })
+    await taskRepository.updateTask({ id }, { status })
   },
   async () => {
     revalidatePath(DASHBOARD_URL)
@@ -56,17 +41,10 @@ export const updateStatusTasks: ActionProps<StateProps> = withFormHandling(
 )
 
 export const updatePriorityTasks: ActionProps<StateProps> = withFormHandling(
-  UpdatePrioritySchema,
+  tasksSchemes.updatePriority,
   async ({ id, priority }) => {
-    const session = await auth()
-
-    if (!session) return undefined
-    await prisma.task.update({
-      where: { id: id },
-      data: {
-        priority: priority,
-      },
-    })
+    getSessionData()
+    await taskRepository.updateTask({ id }, { priority })
   },
   async () => {
     revalidatePath(DASHBOARD_URL)
@@ -74,14 +52,9 @@ export const updatePriorityTasks: ActionProps<StateProps> = withFormHandling(
 )
 
 export const updateTaskTitle: ActionProps<StateProps> = withFormHandling(
-  UpdateTaskTitleSchema,
+  tasksSchemes.updateTitle,
   async ({ id, title }) => {
-    await prisma.task.update({
-      where: { id: id },
-      data: {
-        title: title,
-      },
-    })
+    await taskRepository.updateTask({ id }, { title })
   },
   async (formData) => {
     const searchParamsString = formData?.get('searchParams')
@@ -91,14 +64,9 @@ export const updateTaskTitle: ActionProps<StateProps> = withFormHandling(
 )
 
 export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
-  UpdateTaskDetailsSchema,
+  tasksSchemes.updateDetails,
   async ({ id, details }) => {
-    await prisma.task.update({
-      where: { id: id },
-      data: {
-        details: details,
-      },
-    })
+    await taskRepository.updateTask({ id }, { details })
   },
   async (formData) => {
     const searchParamsString = formData?.get('searchParams')
@@ -108,18 +76,16 @@ export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
 )
 
 export async function deleteTask(formData: FormData) {
-  const taskId = formData.get('id')
+  const id = formData.get('id')
   const searchParamsString = formData.get('searchParams')
 
-  if (typeof taskId !== 'string') {
-    console.error('Invalid task ID:', taskId)
+  if (typeof id !== 'string') {
+    console.error('Invalid task ID:', id)
     throw new Error('Invalid task ID')
   }
 
   try {
-    await prisma.task.delete({
-      where: { id: taskId },
-    })
+    await taskRepository.deleteTask({ id })
   } catch (error) {
     console.error('Error deleting task:', error)
     throw error

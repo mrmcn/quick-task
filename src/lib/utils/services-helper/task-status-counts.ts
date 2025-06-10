@@ -1,4 +1,5 @@
-import { Prisma, Status } from '@prisma/client'
+import { GroupInProgressProps } from '@/lib/repositories/interfaces/tasks'
+import { Status } from '@prisma/client'
 
 export function getTaskStatusCountsFromPrismaSchema(
   groupInProgress: GroupInProgressProps,
@@ -22,12 +23,3 @@ export function getTaskStatusCountsFromPrismaSchema(
 
   return data
 }
-
-type GroupInProgressProps = (Prisma.PickEnumerable<
-  Prisma.TaskGroupByOutputType,
-  'status'[]
-> & {
-  _count: {
-    status: number
-  }
-})[]

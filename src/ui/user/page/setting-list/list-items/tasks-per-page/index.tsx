@@ -1,12 +1,11 @@
 import { ListPhrases } from '@/lib/constants/text-const'
-import { fetchUserData } from '@/lib/services/queries/user'
-import { getSessionData } from '@/lib/utils/get-session-data'
-import PageSelect from '@/ui/user/page/setting-list/list-items/tasks-per-page/page-select'
+import { fetchUniqueUserData } from '@/lib/services/queries/user'
 import sxListItemIconProps from '@/ui/user/page/setting-list/styles/sx-list-item-icon-props'
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import PageSelect from './page-select'
 
 export default async function TasksPerPage() {
   const taskPerPage = await getTaskPerPage()
@@ -24,8 +23,15 @@ export default async function TasksPerPage() {
 }
 
 async function getTaskPerPage() {
-  const { userEmail } = await getSessionData()
-  const response = userEmail ? await fetchUserData(userEmail) : null
-  const taskPerPage = response?.data?.tasksPerPage.toString() || '3'
-  return taskPerPage
+  const { data } = await fetchUniqueUserData('tasksPerPage')
+  const taskPerPage = data || 3
+
+  if (PAGE_VALUE.includes(taskPerPage as PageValue)) {
+    return taskPerPage as PageValue
+  } else {
+    return 3
+  }
 }
+
+export const PAGE_VALUE = [3, 4, 5, 7, 10] as const
+export type PageValue = (typeof PAGE_VALUE)[number]

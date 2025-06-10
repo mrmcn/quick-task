@@ -5,10 +5,10 @@ import {
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { updateStatusTasks } from '@/lib/services/actions/task'
-import { TaskData } from '@/lib/services/queries/task'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
+import { Task } from '@prisma/client'
 import { useActionState } from 'react'
 
 export default function UpdateTaskStatus({
@@ -62,4 +62,4 @@ export default function UpdateTaskStatus({
   )
 }
 
-type EditStatusFormProps = Omit<TaskData, 'priority' | 'details'>
+type EditStatusFormProps = Pick<Task, 'id' | 'status' | 'title'>

@@ -1,12 +1,12 @@
 import prisma from '@/lib/prisma'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
-import { User } from '@prisma/client'
+import { Prisma, User } from '@prisma/client'
 import { FetchData } from './task'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 
-export async function fetchUserData(email: string): FetchData<User> {
+export async function fetchUserAllData(email: User['email']): FetchData<User> {
   try {
     const response = await prisma.user.findUniqueOrThrow({
       where: { email: email },
@@ -19,40 +19,26 @@ export async function fetchUserData(email: string): FetchData<User> {
   }
 }
 
-export async function fetchUserEmail(): FetchData<UserEmail> {
-  const { userId } = await getSessionData()
+export async function fetchUniqueUserData<K extends ScalarUserFields>(
+  param: K,
+): FetchUniqueUserData<K> {
+  const { userId: id } = await getSessionData()
+  const select = { [param]: true } as Prisma.UserSelect
 
   try {
-    const { email } = await prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: {
-        email: true,
-      },
+    const response = await prisma.user.findUniqueOrThrow({
+      where: { id },
+      select,
     })
 
-    return { data: email }
+    return { data: response[param] as UserFieldType<K> }
   } catch (error) {
     return { error: handleError(error as HandleErrorProps) }
   }
 }
 
-export async function fetchUserName(): FetchData<UserName> {
-  const { userId } = await getSessionData()
-
-  try {
-    const { name } = await prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: {
-        name: true,
-      },
-    })
-    return { data: name }
-  } catch (error) {
-    return { error: handleError(error as HandleErrorProps) }
-  }
-}
-
-type UserName = User['name']
-type UserEmail = User['email']
-export type UserData = UserName | UserEmail
-export type FetchUserData = FetchData<UserData>
+type ScalarUserFields = keyof User
+export type UserFieldType<K extends ScalarUserFields> = User[K]
+export type FetchUniqueUserData<K extends ScalarUserFields> = FetchData<
+  UserFieldType<K>
+>
