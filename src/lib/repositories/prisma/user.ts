@@ -4,7 +4,7 @@ import { VoidPromise } from '../interfaces/tasks'
 import { IUserRepository } from '../interfaces/user'
 
 const createUser = async (data: Prisma.UserCreateInput): VoidPromise => {
-  prisma.user.create({
+  await prisma.user.create({
     data,
   })
 }

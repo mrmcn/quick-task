@@ -21,6 +21,7 @@ export const createUser: ActionProps<StateProps> = withFormHandling(
   async ({ email, password }) => {
     const hashedPassword = await bcrypt.hash(password, 10)
     await userRepository.createUser({ email, password: hashedPassword })
+    console.log('createUser-createUser-createUser')
   },
   async () => {
     revalidatePath(DASHBOARD_URL)
