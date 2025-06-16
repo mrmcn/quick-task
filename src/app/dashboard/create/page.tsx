@@ -7,13 +7,13 @@ import {
   ListPlaceholder,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { createUser } from '@/lib/services/actions/user'
+import { createTask } from '@/lib/services/actions/task'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import TaskTextField from '@/ui/common/forms/text-fields/task-text-field'
 import { useActionState } from 'react'
 
 export default function CreateTaskPage() {
-  const [state, formAction, isPending] = useActionState(createUser, undefined)
+  const [state, formAction, isPending] = useActionState(createTask, undefined)
 
   return (
     <form action={formAction}>

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const form = z.object({
+const task = z.object({
   id: z.string(),
   title: z.string({ message: '"This field is required."' }), //This field is required.
   details: z.string({ message: '"This field is required."' }), //This field is required.
@@ -10,27 +10,27 @@ const form = z.object({
   authorId: z.string(),
 })
 
-const updatePriority = form.pick({
+const updatePriority = task.pick({
   id: true,
   priority: true,
 })
 
-const updateStatus = form.pick({
+const updateStatus = task.pick({
   id: true,
   status: true,
 })
 
-const updateTitle = form.pick({
+const updateTitle = task.pick({
   id: true,
   title: true,
 })
 
-const updateDetails = form.pick({
+const updateDetails = task.pick({
   id: true,
   details: true,
 })
 
-const create = form.pick({
+const create = task.pick({
   title: true,
   details: true,
 })
@@ -41,7 +41,7 @@ export const tasksSchemes: TasksSchemes = {
   updateStatus,
   updateTitle,
   updateDetails,
-  form,
+  form: task,
 }
 
 interface TasksSchemes {
@@ -50,5 +50,5 @@ interface TasksSchemes {
   updateTitle: typeof updateTitle
   updateDetails: typeof updateDetails
   create: typeof create
-  form: typeof form
+  form: typeof task
 }
