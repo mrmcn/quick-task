@@ -1,5 +1,5 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
-import { FetchData, UserTasksResult } from '@/lib/services/queries/task'
+import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
 import { use, useCallback } from 'react'
 import { paginationError } from '../error-handling'
 import { useUpdateUrlWithParams } from './common/use-update-url-with-params'

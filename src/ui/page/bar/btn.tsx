@@ -10,7 +10,7 @@ import {
   SIGNIN_URL,
   USER_URL,
 } from '@/lib/constants/url'
-import { fetchUniqueUserData } from '@/lib/services/queries/user'
+import { fetchUser } from '@/lib/services/queries/user'
 import PersonIcon from '@mui/icons-material/Person'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -33,7 +33,7 @@ export default async function BarBtn() {
       </>
     )
 
-  const { data } = await fetchUniqueUserData('name')
+  const { data } = await fetchUser.uniqueData('name')
   const userName = data ?? ListError.error
 
   return (

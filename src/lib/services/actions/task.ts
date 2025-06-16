@@ -11,7 +11,7 @@ import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
 import { tasksSchemes } from '@/lib/zod/schema/tasks'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { ActionProps, StateProps } from './user'
+import { ActionProps, StateProps } from './types'
 
 export const createTask: ActionProps<StateProps> = withFormHandling(
   tasksSchemes.create,
@@ -30,7 +30,7 @@ export const createTask: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-export const updateStatusTasks: ActionProps<StateProps> = withFormHandling(
+export const updateTaskStatus: ActionProps<StateProps> = withFormHandling(
   tasksSchemes.updateStatus,
   async ({ id, status }) => {
     await taskRepository.updateTask({ id }, { status })
@@ -40,7 +40,7 @@ export const updateStatusTasks: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-export const updatePriorityTasks: ActionProps<StateProps> = withFormHandling(
+export const updateTaskPriority: ActionProps<StateProps> = withFormHandling(
   tasksSchemes.updatePriority,
   async ({ id, priority }) => {
     getSessionData()
@@ -75,7 +75,7 @@ export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-export async function deleteTask(formData: FormData) {
+export const deleteTask = async (formData: FormData) => {
   const id = formData.get('id')
   const searchParamsString = formData.get('searchParams')
 

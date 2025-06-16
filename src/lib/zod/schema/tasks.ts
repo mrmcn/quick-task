@@ -44,7 +44,7 @@ export const tasksSchemes: TasksSchemes = {
   form,
 }
 
-type TasksSchemes = {
+interface TasksSchemes {
   updatePriority: typeof updatePriority
   updateStatus: typeof updateStatus
   updateTitle: typeof updateTitle

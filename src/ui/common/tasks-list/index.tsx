@@ -1,4 +1,4 @@
-import { fetchUserTasksData } from '@/lib/services/queries/task'
+import { fetchTask } from '@/lib/services/queries/task'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import TasksItems from '@/ui/common/tasks-list//tasks-items'
 import PaginationRow from '@/ui/dashboard/page/pagination'
@@ -13,7 +13,7 @@ import { Suspense } from 'react'
 export default async function TasksList({
   searchParamsObject,
 }: TasksListProps) {
-  const tasksDataPromise = fetchUserTasksData(searchParamsObject)
+  const tasksDataPromise = fetchTask.userTasksData(searchParamsObject)
 
   return (
     <Box

@@ -7,14 +7,13 @@ import {
   ListPlaceholder,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { createTask } from '@/lib/services/actions/task'
+import { createUser } from '@/lib/services/actions/user'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import DetailsTextField from '@/ui/common/forms/text-fields/task/details'
-import TitleTextField from '@/ui/common/forms/text-fields/task/title'
+import TaskTextField from '@/ui/common/forms/text-fields/task-text-field'
 import { useActionState } from 'react'
 
 export default function CreateTaskPage() {
-  const [state, formAction, isPending] = useActionState(createTask, undefined)
+  const [state, formAction, isPending] = useActionState(createUser, undefined)
 
   return (
     <form action={formAction}>
@@ -24,17 +23,21 @@ export default function CreateTaskPage() {
         disabled={isPending}
         state={state}
       >
-        <TitleTextField
+        <TaskTextField
           name={TextFieldsNameAttributeList.title}
+          id={TextFieldsNameAttributeList.title}
           label={ListLabels.title}
           placeholder={ListPlaceholder.createTitle}
           margin='normal'
         />
-        <DetailsTextField
+        <TaskTextField
           name={TextFieldsNameAttributeList.details}
+          id={TextFieldsNameAttributeList.details}
           label={ListLabels.details}
           placeholder={ListPlaceholder.createDetails}
           margin='normal'
+          multiline
+          rows={4}
         />
       </PageFormContainer>
     </form>

@@ -1,9 +1,12 @@
 'use client'
 
 import { ListBtnNames, ListPhrases } from '@/lib/constants/text-const'
-import { signout } from '@/lib/services/actions/user'
+import { signout } from '@/lib/services/actions/auth'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
+import SlideTransition from '@/ui/user/page/setting-list/list-items/slide-transition'
+import slotProps from '@/ui/user/page/setting-list/list-items/styles'
+import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -15,10 +18,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import sxListItemIconProps from '../../styles/sx-list-item-icon-props'
-import { MyDialogProps } from '../dialogs-props/my-dialog-props'
-import slotProps from '../dialogs-props/slot-props'
-import Transition from '../dialogs-props/slot-transition'
 
 export default function ListItemSignout() {
   const { open, openModal, closeModal } = useModal()
@@ -58,7 +57,7 @@ function SignoutDialog({ open, closeModal }: MyDialogProps) {
     <Dialog
       open={open}
       onClose={closeModal}
-      slots={{ transition: Transition }}
+      slots={{ transition: SlideTransition }}
       slotProps={slotProps()}
     >
       <DialogTitle>{ListPhrases.signoutTitle}</DialogTitle>
@@ -81,4 +80,9 @@ function SignoutDialog({ open, closeModal }: MyDialogProps) {
       </DialogActions>
     </Dialog>
   )
+}
+
+interface MyDialogProps {
+  open: boolean
+  closeModal: () => void
 }

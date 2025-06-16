@@ -6,7 +6,7 @@ import {
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { updatePriorityTasks } from '@/lib/services/actions/task'
+import { updateTaskPriority } from '@/lib/services/actions/task'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import LowPriorityIcon from '@mui/icons-material/LowPriority'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
@@ -14,13 +14,13 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { $Enums } from '@prisma/client'
 import { useActionState } from 'react'
+import HiddenInputs from './hidden-inputs'
 
 export function UpdateTaskPriority({ task }: Props) {
   const [state, formAction, isPending] = useActionState(
-    updatePriorityTasks,
+    updateTaskPriority,
     undefined,
   )
-  const { id, priority } = TextFieldsNameAttributeList
   const { icon, value } = getIconAndPriorityValue(task.priority)
   const errorMessage =
     state?.status === 'error' ? (
@@ -60,15 +60,12 @@ export function UpdateTaskPriority({ task }: Props) {
         </IconButton>
       </Box>
       {errorMessage}
-      <input
-        type='hidden'
-        name={priority}
-        value={value}
-      />
-      <input
-        type='hidden'
-        name={id}
-        value={task.id}
+      <HiddenInputs
+        dynamicField={{
+          name: TextFieldsNameAttributeList.priority,
+          value: value,
+        }}
+        taskId={task.id}
       />
     </form>
   )

@@ -7,11 +7,12 @@ import {
   ListPhrases,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { StateProps, updatePassword } from '@/lib/services/actions/user'
+import { StateProps } from '@/lib/services/actions/types'
+import { updateUserPassword } from '@/lib/services/actions/user'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
-import slotProps from '@/ui/user/page/setting-list/list-items/dialogs-props/slot-props'
+import PasswordTextField from '@/ui/common/forms/text-fields/password'
+import slotProps from '@/ui/user/page/setting-list/list-items/styles'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -22,7 +23,7 @@ import { useActionState } from 'react'
 
 export default function ResetPasswordPage() {
   const [state, formAction, isPending] = useActionState(
-    updatePassword,
+    updateUserPassword,
     undefined,
   )
 
@@ -37,18 +38,21 @@ export default function ResetPasswordPage() {
         <PasswordTextField
           label={ListLabels.currentPassword}
           name={TextFieldsNameAttributeList.currentPassword}
+          id={TextFieldsNameAttributeList.currentPassword}
           fullWidth
           margin='dense'
         />
         <PasswordTextField
           label={ListLabels.newPassword}
           name={TextFieldsNameAttributeList.newPassword}
+          id={TextFieldsNameAttributeList.newPassword}
           fullWidth
           margin='dense'
         />
         <PasswordTextField
           label={ListLabels.confirmNewPassword}
           name={TextFieldsNameAttributeList.confirmNewPassword}
+          id={TextFieldsNameAttributeList.confirmNewPassword}
           fullWidth
           margin='dense'
         />

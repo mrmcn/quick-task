@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { fetchUniqueUserData } from '@/lib/services/queries/user'
+import { fetchUser } from '@/lib/services/queries/user'
 import { getSearchParams, SearchParamsObject } from '../get-search-params'
 import { getSessionData } from '../get-session-data'
 
@@ -14,7 +14,7 @@ export default async function prepareTaskFetchParams(
 
   const { userEmail, userId } = await getSessionData() // or userTasksList
   if (!userEmail) return { error: new Error('User email is undefined') }
-  const { data, error } = await fetchUniqueUserData('tasksPerPage')
+  const { data, error } = await fetchUser.uniqueData('tasksPerPage')
   if (error) return { error }
 
   const { query, currentPage, sort, status, priority } =

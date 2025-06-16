@@ -36,7 +36,7 @@ const getUserTasksWithCount = async (
   return { tasks, count }
 }
 
-const getMonitoringStates = async (id: User['id']): GetMonitoringStates => {
+const getGroupByStatus = async (id: User['id']): GetMonitoringStates => {
   const groupInProgress = await prisma.task.groupBy({
     by: ['status'],
     where: { author: { id } },
@@ -72,7 +72,7 @@ const deleteTask = async (where: Prisma.TaskWhereUniqueInput): VoidPromise => {
 
 export const taskRepository: ITaskRepository = {
   getUserTasksWithCount,
-  getMonitoringStates,
+  getGroupByStatus,
   createTask,
   updateTask,
   deleteTask,

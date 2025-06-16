@@ -2,7 +2,7 @@ import {
   ListBtnNamesValue,
   ListFormNamesValue,
 } from '@/lib/constants/text-const'
-import { StateProps } from '@/lib/services/actions/user'
+import { StateProps } from '@/lib/services/actions/types'
 import MyButton from '@/ui/common/forms/form-container/my-button'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'

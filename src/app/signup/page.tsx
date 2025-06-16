@@ -9,7 +9,7 @@ import {
 } from '@/lib/constants/text-const'
 import { createUser } from '@/lib/services/actions/user'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
+import PasswordTextField from '@/ui/common/forms/text-fields/password'
 import TextField from '@mui/material/TextField'
 import { useActionState } from 'react'
 
@@ -36,6 +36,7 @@ export default function SignupPage() {
         <PasswordTextField
           label={ListLabels.password}
           name={TextFieldsNameAttributeList.password}
+          id={TextFieldsNameAttributeList.password}
           placeholder={ListPlaceholder.createPassword}
           margin='dense'
         />

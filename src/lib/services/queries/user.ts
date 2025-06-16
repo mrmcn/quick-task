@@ -2,11 +2,17 @@ import prisma from '@/lib/prisma'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
 import { Prisma, User } from '@prisma/client'
-import { FetchData } from './task'
+import {
+  FetchData,
+  FetchUniqueUserData,
+  FetchUser,
+  ScalarUserFields,
+  UserFieldType,
+} from './types'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 
-export async function fetchUserAllData(email: User['email']): FetchData<User> {
+async function allData(email: User['email']): FetchData<User> {
   try {
     const response = await prisma.user.findUniqueOrThrow({
       where: { email: email },
@@ -19,7 +25,7 @@ export async function fetchUserAllData(email: User['email']): FetchData<User> {
   }
 }
 
-export async function fetchUniqueUserData<K extends ScalarUserFields>(
+async function uniqueData<K extends ScalarUserFields>(
   param: K,
 ): FetchUniqueUserData<K> {
   const { userId: id } = await getSessionData()
@@ -37,8 +43,7 @@ export async function fetchUniqueUserData<K extends ScalarUserFields>(
   }
 }
 
-type ScalarUserFields = keyof User
-export type UserFieldType<K extends ScalarUserFields> = User[K]
-export type FetchUniqueUserData<K extends ScalarUserFields> = FetchData<
-  UserFieldType<K>
->
+export const fetchUser: FetchUser = {
+  allData,
+  uniqueData,
+}

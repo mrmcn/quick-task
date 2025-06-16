@@ -1,16 +1,17 @@
-import { TaskListDto, taskRepository } from '@/lib/repositories/prisma/tasks'
-import {
-  HandleError,
-  handleError,
-  HandleErrorProps,
-} from '@/lib/utils/error-handling'
+import { taskRepository } from '@/lib/repositories/prisma/tasks'
+import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { getSessionData } from '@/lib/utils/get-session-data'
 import prepareTaskFetchParams from '@/lib/utils/services-helper/prepare-task-fetch-params'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services-helper/task-status-counts'
-import { Status } from '@prisma/client'
+import {
+  FetchData,
+  FetchTask,
+  MonitoringStatesProps,
+  UserTasksResult,
+} from './types'
 
-export async function fetchUserTasksData(
+async function userTasksData(
   searchParamsObject?: SearchParamsObject,
 ): FetchData<UserTasksResult> {
   const { sampleData, error, data } = await prepareTaskFetchParams(
@@ -38,11 +39,11 @@ export async function fetchUserTasksData(
   }
 }
 
-export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> {
+async function statusCounts(): FetchData<MonitoringStatesProps> {
   const { userId } = await getSessionData()
   try {
-    const groupInProgress = await taskRepository.getMonitoringStates(userId)
-    const data = getTaskStatusCountsFromPrismaSchema(groupInProgress)
+    const groupedTasksByStatus = await taskRepository.getGroupByStatus(userId)
+    const data = getTaskStatusCountsFromPrismaSchema(groupedTasksByStatus)
 
     return { data }
   } catch (error) {
@@ -50,16 +51,7 @@ export async function fetchMonitoringStates(): FetchData<MonitoringStatesProps> 
   }
 }
 
-export type FetchData<T> = Promise<
-  { data: T; error?: undefined } | { error: HandleError; data?: undefined }
->
-
-export interface UserTasksResult {
-  tasks: TaskListDto[]
-  totalPages: number
-}
-
-export interface MonitoringStatesProps {
-  [Status.completed]: number
-  [Status.in_progress]: number
+export const fetchTask: FetchTask = {
+  statusCounts,
+  userTasksData,
 }

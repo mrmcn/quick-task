@@ -15,7 +15,7 @@ import { TextFieldProps } from '@mui/material'
  * - 'name': Set separately via `MyTextFieldProps` to ensure type safety of field names.
  * - 'placeholder': Set separately via `MyTextFieldProps` using defined constants.
  * - 'label': Set separately via `MyTextFieldProps` using defined constants.
- * - 'type', 'id', 'required': Fields are defined directly in the custom component (e.g., `TitleTextField` has `type='text'`).
+ * - 'type', 'id', 'required': Fields are defined directly in the custom component (e.g., `MyTextField` has `type='text'`).
  */
 export type RenderProps = Omit<
   TextFieldProps,
@@ -23,7 +23,7 @@ export type RenderProps = Omit<
 >
 /**
  * The `MyTextFieldProps` interface defines the structure of props expected by
- * custom TextField components (e.g., DetailsTextField, TitleTextField, etc.).
+ * custom TextField components (e.g.,  MyTextField, etc.).
  * It extends `RenderProps` to include additional props specific to the usage,
  * such as `name`, `placeholder`, and `label`, which are associated with the corresponding constants.
  */
@@ -34,6 +34,7 @@ export interface MyTextFieldProps extends RenderProps {
    * (e.g., 'email', 'password', 'name').
    */
   name: TextFieldsNameAttributeListValue
+  id: TextFieldsNameAttributeListValue
 
   /**
    * The optional placeholder for the text field. The expected value

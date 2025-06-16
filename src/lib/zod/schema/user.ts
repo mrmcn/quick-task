@@ -1,3 +1,4 @@
+import { PAGE_VALUE } from '@/lib/constants/pagination-constants'
 import {
   ListLabels,
   TextFieldsNameAttributeList,
@@ -14,6 +15,13 @@ const user = z.object({
   [TextFieldsNameAttributeList.password]: z
     .string({ message: '"This field is required."' })
     .min(6, { message: '"Must be more than six characters"' }),
+  perPageNumber: z.union(
+    PAGE_VALUE.map((val) => z.literal(val)) as [
+      z.ZodLiteral<(typeof PAGE_VALUE)[0]>,
+      z.ZodLiteral<(typeof PAGE_VALUE)[1]>,
+      ...Array<z.ZodLiteral<number>>,
+    ],
+  ),
 })
 
 const name = user.pick({
@@ -31,6 +39,10 @@ const email = user.pick({
 const emailAndPasswordInput = user.pick({
   [TextFieldsNameAttributeList.email]: true,
   [TextFieldsNameAttributeList.password]: true,
+})
+
+const perPageNumber = user.pick({
+  perPageNumber: true,
 })
 
 const changePassword = z
@@ -57,6 +69,7 @@ export const userSchemes: UserSchemes = {
   email,
   emailAndPasswordInput,
   user,
+  perPageNumber,
 }
 
 export interface UserSchemes {
@@ -66,4 +79,5 @@ export interface UserSchemes {
   emailAndPasswordInput: typeof emailAndPasswordInput
   user: typeof user
   changePassword: typeof changePassword
+  perPageNumber: typeof perPageNumber
 }

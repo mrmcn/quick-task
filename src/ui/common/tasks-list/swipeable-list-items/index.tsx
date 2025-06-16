@@ -1,16 +1,24 @@
 'use client'
 
-import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
+import { TextFieldsNameAttributeListValue } from '@/lib/constants/text-const'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
 import { updateTaskDetails, updateTaskTitle } from '@/lib/services/actions/task'
+import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import { formatSearchParams } from '@/lib/utils/format-search-params'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { useSwipeProps } from '@/lib/utils/hooks/use-get-swipe-props'
 import { EditableText } from '@/ui/common/forms/editable-text'
+import { RenderProps } from '@/ui/common/forms/text-fields/types'
 import sxEditableTextProps from '@/ui/common/styles/sx-editable-text-props'
 import { DeleteTaskBtn } from '@/ui/common/tasks-list/swipeable-list-items/delete-task-btn'
+import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
+import {
+  getHiddenComponentProps,
+  listItemSx,
+} from '@/ui/common/tasks-list/swipeable-list-items/styles'
 import { UpdateTaskPriority } from '@/ui/common/tasks-list/swipeable-list-items/update-priority'
 import UpdateTaskStatus from '@/ui/common/tasks-list/swipeable-list-items/update-status-form'
+import { TypographyVariant } from '@mui/material'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
@@ -18,9 +26,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { ReactNode } from 'react'
 import { useSwipeable } from 'react-swipeable'
-import { RenderProps } from '../../forms/text-fields/my-text-field-props'
-import DetailsTextField from '../../forms/text-fields/task/details'
-import TitleTextField from '../../forms/text-fields/task/title'
+import TaskTextField from '../../forms/text-fields/task-text-field'
 
 // Displays a task list item with swipe functionality to reveal "Update task priority" and "Delete task" actions.
 // It utilizes a custom hook useSwipeProps for handling swipe logic.
@@ -65,15 +71,25 @@ export default function TaskListItemSwipeable({
       >
         <ListItemText
           primary={
-            <TaskTitleEditable
+            <TaskFieldEditable
+              fieldName='title'
+              fontSize='1.4rem'
               searchParamsToGoBack={searchParamsToGoBack}
               task={task}
+              typographyVariant='h5'
+              action={updateTaskTitle}
             />
           }
           secondary={
-            <TaskDetailsEditable
+            <TaskFieldEditable
+              fieldName='details'
+              fontSize='1rem'
               searchParamsToGoBack={searchParamsToGoBack}
               task={task}
+              typographyVariant='body1'
+              action={updateTaskDetails}
+              multiline
+              rows={4}
             />
           }
           color='secondary'
@@ -138,119 +154,59 @@ function HiddenComponent({
 
 // Render Props Pattern: The EditableText component uses render props (renderTextField and renderTypography)
 //   to allow the parent component to define how the text field and typography are rendered based on the editing state
-function TaskTitleEditable({ task, searchParamsToGoBack }: TaskEditableProps) {
-  return (
-    <EditableText
-      renderEditedText={(props) => (
-        <EditedTitle
-          searchParamsToGoBack={searchParamsToGoBack}
-          task={task}
-          {...props}
-        />
-      )}
-      renderViewText={(props, data) => (
-        <Typography
-          variant='h5'
-          {...props}
-        >
-          {data}
-        </Typography>
-      )}
-      action={updateTaskTitle}
-      data={task.title}
-    />
-  )
-}
-
-function TaskDetailsEditable({
-  searchParamsToGoBack,
+function TaskFieldEditable({
   task,
+  searchParamsToGoBack,
+  fieldName,
+  fontSize,
+  typographyVariant,
+  action,
+  ...rest
 }: TaskEditableProps) {
   return (
     <EditableText
       renderEditedText={(props) => (
-        <EditedDetails
+        <Field
+          fieldName={fieldName}
+          fontSize={fontSize}
           searchParamsToGoBack={searchParamsToGoBack}
           task={task}
           {...props}
+          {...rest}
         />
       )}
       renderViewText={(props, data) => (
         <Typography
-          variant='body1'
+          variant={typographyVariant}
           {...props}
         >
           {data}
         </Typography>
       )}
-      action={updateTaskDetails}
-      data={task.details}
+      action={action}
+      data={task[fieldName]}
     />
   )
 }
 
-function HiddenInputs({ searchParamsToGoBack, taskId }: HiddenInputsProps) {
-  return (
-    <>
-      <input
-        type='hidden'
-        name={TextFieldsNameAttributeList.id}
-        value={taskId}
-      />
-      <input
-        type='hidden'
-        name='searchParams'
-        value={searchParamsToGoBack}
-      />
-    </>
-  )
-}
-
-function EditedTitle({
+function Field({
   searchParamsToGoBack,
   task,
+  fieldName,
+  fontSize,
   ...rest
 }: EditedComponentProps) {
   return (
     <>
-      <TitleTextField
-        name='title'
-        sx={sxEditableTextProps('1.4rem')}
+      <TaskTextField
+        name={fieldName}
+        id={fieldName}
+        sx={sxEditableTextProps(fontSize)}
         {...rest}
       />
       <HiddenInputs
-        searchParamsToGoBack={searchParamsToGoBack}
         taskId={task.id}
-      />
-    </>
-  )
-}
-
-function EditedDetails({
-  searchParamsToGoBack,
-  task,
-  ...rest
-}: EditedComponentProps) {
-  return (
-    <>
-      <DetailsTextField
-        name='details'
-        sx={{
-          '& .MuiInputBase-input': {
-            fontSize: '1rem',
-          },
-          '& .MuiInputBase-root': {
-            bgcolor: 'primary.light',
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-          },
-        }}
-        {...rest}
-      />
-      <HiddenInputs
-        searchParamsToGoBack={searchParamsToGoBack}
-        taskId={task.id}
+        dynamicField={{ name: 'searchParams', value: searchParamsToGoBack }}
       />
     </>
   )
@@ -272,39 +228,11 @@ function getTaskStatus(task: TaskListDto, authenticated: boolean) {
   return renderTaskStatus
 }
 
-function getHiddenComponentProps(
-  translateX: number,
-  width: number | string,
-  left?: number | string,
-  right?: number | string,
-) {
-  const positionStyle =
-    left !== undefined ? { left } : right !== undefined ? { right } : {}
-  const transform =
-    left !== undefined
-      ? `translateX(calc(-${width}px + ${Math.max(0, translateX)}px))`
-      : `translateX(calc(${width}px + ${Math.min(0, translateX)}px))`
-  return { positionStyle, transform }
-}
-
-function listItemSx(translateX: number) {
-  return {
-    pr: 0,
-    display: 'flex',
-    alignItems: 'stretch',
-    transition: 'transform 0.2s ease-out',
-    transform: `translateX(${translateX}px)`,
-    backgroundColor: 'primary.light',
-  }
-}
-
 interface TaskItem {
   task: TaskListDto
-  searchParamsObject?: Props
+  searchParamsObject?: SearchParamsObject
   authenticated: boolean
 }
-
-type Props = SearchParamsObject | undefined
 
 interface HiddenComponentProps {
   children: ReactNode
@@ -314,14 +242,16 @@ interface HiddenComponentProps {
   translateX: number
 }
 
-interface TaskEditableProps {
+interface TaskEditableProps extends RenderProps {
   task: TaskListDto
   searchParamsToGoBack: string
+  fieldName: Extract<TextFieldsNameAttributeListValue, 'title' | 'details'>
+  fontSize: string
+  typographyVariant: TypographyVariant
+  action: ActionProps<StateProps>
 }
 
-interface HiddenInputsProps {
-  taskId: TaskListDto['id']
-  searchParamsToGoBack: string
-}
-
-interface EditedComponentProps extends TaskEditableProps, RenderProps {}
+type EditedComponentProps = Omit<
+  TaskEditableProps,
+  'typographyVariant' | 'action'
+>

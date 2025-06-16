@@ -4,19 +4,20 @@ import {
   ListStatusField,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { updateStatusTasks } from '@/lib/services/actions/task'
+import { updateTaskStatus } from '@/lib/services/actions/task'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Task } from '@prisma/client'
 import { useActionState } from 'react'
+import HiddenInputs from './hidden-inputs'
 
 export default function UpdateTaskStatus({
   id,
   status,
   title,
 }: EditStatusFormProps) {
-  const [state, action, pending] = useActionState(updateStatusTasks, undefined)
+  const [state, action, pending] = useActionState(updateTaskStatus, undefined)
 
   if (pending)
     return (
@@ -48,15 +49,12 @@ export default function UpdateTaskStatus({
         sx={{ mr: 3 }}
         aria-labelledby={`task-${title}`}
       />
-      <input
-        type='hidden'
-        name={TextFieldsNameAttributeList.id}
-        value={id}
-      />
-      <input
-        type='hidden'
-        name={TextFieldsNameAttributeList.status}
-        value={value}
+      <HiddenInputs
+        dynamicField={{
+          name: TextFieldsNameAttributeList.status,
+          value: value,
+        }}
+        taskId={id}
       />
     </form>
   )

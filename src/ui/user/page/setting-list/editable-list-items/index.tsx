@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { JSX } from 'react'
-import sxListItemIconProps from '../styles/sx-list-item-icon-props'
+import sxListItemIconProps from '../styles'
 
 export default function EditableListItem({
   editableComponent,

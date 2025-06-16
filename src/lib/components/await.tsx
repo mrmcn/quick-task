@@ -1,5 +1,5 @@
-import { FetchData } from '@/lib/services/queries/task'
 import { use } from 'react'
+import { FetchData } from '../services/queries/types'
 
 // This component is used to enable the use of a fallback UI while awaiting a 'promise'.
 // The 'promise' is used to fetch data for pre-filling the form.

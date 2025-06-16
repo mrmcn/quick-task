@@ -1,22 +1,18 @@
 'use server'
 
-import { signIn, signOut } from '@/auth'
-import { TextFieldsNameAttributeListValue } from '@/lib/constants/text-const'
+import { signOut } from '@/auth'
 import { DASHBOARD_URL, HOME_URL, USER_URL } from '@/lib/constants/url'
 import { userRepository } from '@/lib/repositories/prisma/user'
-import {
-  handleError,
-  HandleError,
-  HandleErrorProps,
-} from '@/lib/utils/error-handling'
+import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { getSessionData } from '@/lib/utils/get-session-data'
-import verifyAndHashPassword from '@/lib/utils/services-helper/verify-and-hash-password'
+import { prepareHashedPassword } from '@/lib/utils/services-helper/prepare-hashed-password'
 import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
 import { userSchemes } from '@/lib/zod/schema/user'
-import { User } from '@prisma/client'
+import { validateData } from '@/lib/zod/validate'
 import bcrypt from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { ActionProps, StateProps } from './types'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 
@@ -56,21 +52,7 @@ export const updateUserEmail: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-const prepareHashedPassword = async (
-  currentPassword: User['password'],
-  newPassword: User['password'],
-  id: User['id'],
-) => {
-  const user = await userRepository.getUser({ id })
-  const hashedNewPassword = await verifyAndHashPassword(
-    currentPassword,
-    newPassword,
-    user,
-  )
-  return { password: hashedNewPassword }
-}
-
-export const updatePassword: ActionProps<StateProps> = withFormHandling(
+export const updateUserPassword: ActionProps<StateProps> = withFormHandling(
   userSchemes.changePassword,
   async ({ currentPassword, newPassword }) => {
     const { userId: id } = await getSessionData()
@@ -85,18 +67,26 @@ export const updatePassword: ActionProps<StateProps> = withFormHandling(
   },
 )
 
-export const updateTasksPerPageNumber = async (perPageNumber: string) => {
+export const updateTasksPerPageNumber = async (
+  perPageNumber: string,
+): Promise<StateProps> => {
   try {
+    const validationResult = validateData(
+      { perPageNumber },
+      userSchemes.perPageNumber,
+    )
     const { userId: id } = await getSessionData()
-    const tasksPerPage = Number(perPageNumber)
-    await userRepository.updateUser({ id }, { tasksPerPage })
+    await userRepository.updateUser(
+      { id },
+      { tasksPerPage: validationResult.perPageNumber },
+    )
   } catch (error) {
     return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
   revalidatePath(USER_URL)
 }
 
-export async function deleteUser(): Promise<StateProps> {
+export const deleteUser = async (): Promise<StateProps> => {
   const { userId: id } = await getSessionData()
   try {
     await userRepository.deleteUser({ id })
@@ -107,33 +97,3 @@ export async function deleteUser(): Promise<StateProps> {
   await signOut()
   redirect(HOME_URL)
 }
-
-export const authenticate: ActionProps<StateProps> = async (
-  state,
-  formData,
-) => {
-  try {
-    await signIn('credentials', formData)
-  } catch (error) {
-    return { status: 'error', error: handleError(error as HandleErrorProps) }
-  }
-}
-
-export async function signout() {
-  await signOut({ redirectTo: HOME_URL })
-}
-
-export type StateProps =
-  | { status: 'success' }
-  | { status: 'error'; error: HandleError }
-  | undefined // undefined is the type of initialState with useActionState '@/ui/common/form-wrapper/with-action'
-
-export type ActionProps<T> = (
-  state: Awaited<T>,
-  payload: FormData,
-) => T | Promise<T>
-
-export type FieldNameAttribute = Extract<
-  TextFieldsNameAttributeListValue,
-  'email' | 'name'
->

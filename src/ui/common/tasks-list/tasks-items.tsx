@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
-import { FetchData, UserTasksResult } from '@/lib/services/queries/task'
+import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
 import { HandleError } from '@/lib/utils/error-handling'
 import {
   getSearchParams,

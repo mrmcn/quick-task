@@ -1,4 +1,5 @@
-import { fetchUniqueUserData } from '@/lib/services/queries/user'
+import { updateUserEmail, updateUserName } from '@/lib/services/actions/user'
+import { fetchUser } from '@/lib/services/queries/user'
 import EditableListItem from '@/ui/user/page/setting-list/editable-list-items'
 import EditableUserData from '@/ui/user/page/setting-list/editable-list-items/editable-user-data'
 import ListItemDeletingAccount from '@/ui/user/page/setting-list/list-items/delete'
@@ -11,8 +12,8 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 
 export default async function UserPage() {
-  const userNamePromise = fetchUniqueUserData('name')
-  const userEmailPromise = fetchUniqueUserData('email')
+  const userNamePromise = fetchUser.uniqueData('name')
+  const userEmailPromise = fetchUser.uniqueData('email')
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -22,6 +23,7 @@ export default async function UserPage() {
             <EditableUserData
               userDataPromise={userNamePromise}
               fieldName='name'
+              action={updateUserName}
             />
           }
           firstIcon={<ModeEditIcon />}
@@ -31,6 +33,7 @@ export default async function UserPage() {
             <EditableUserData
               userDataPromise={userEmailPromise}
               fieldName='email'
+              action={updateUserEmail}
             />
           }
           firstIcon={<ModeEditIcon />}

@@ -1,6 +1,6 @@
 'use client'
 
-import { FetchData, UserTasksResult } from '@/lib/services/queries/task'
+import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
 import { usePagination } from '@/lib/utils/hooks/use-pagination'
 import Pagination from '@mui/material/Pagination'
 

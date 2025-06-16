@@ -10,7 +10,7 @@ import {
   SIGNIN_URL,
   USER_URL,
 } from '@/lib/constants/url'
-import { fetchUniqueUserData } from '@/lib/services/queries/user'
+import { fetchUser } from '@/lib/services/queries/user'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -52,7 +52,7 @@ async function getAppBarConfig() {
   const session = await auth()
 
   if (session) {
-    const { data } = await fetchUniqueUserData('name')
+    const { data } = await fetchUser.uniqueData('name')
     const userName = data ?? ListError.failed
 
     return {

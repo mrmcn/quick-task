@@ -5,7 +5,7 @@ import {
   ListSearchParameter,
   ListStatusField,
 } from '@/lib/constants/text-const'
-import { fetchMonitoringStates } from '@/lib/services/queries/task'
+import { fetchTask } from '@/lib/services/queries/task'
 import SortSelectorChip from '@/ui/dashboard/page/block-of-chips/task-sort'
 import { TaskParamChip } from '@/ui/dashboard/page/block-of-chips/task-status-chip'
 import Chip from '@mui/material/Chip'
@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack'
 import { Suspense } from 'react'
 
 export default function BlockOfChips() {
-  const monitoringStatesPromise = fetchMonitoringStates()
+  const monitoringStatesPromise = fetchTask.statusCounts()
   const {
     completed: nameCompleted,
     pending,

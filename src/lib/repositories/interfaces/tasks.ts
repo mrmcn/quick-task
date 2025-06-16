@@ -14,7 +14,7 @@ export interface GetUserTasksParams {
 // This interface defines the methods for interacting with tasks in the repository
 export interface ITaskRepository {
   getUserTasksWithCount: (params: GetUserTasksParams) => GetUserTasksWithCount
-  getMonitoringStates: (id: User['id']) => GetMonitoringStates
+  getGroupByStatus: (id: User['id']) => GetMonitoringStates
   createTask: (
     id: User['id'],
     taskData: Omit<Prisma.TaskCreateInput, 'author'>,

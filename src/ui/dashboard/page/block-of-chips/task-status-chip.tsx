@@ -5,7 +5,7 @@ import {
   ListSearchParameter,
   ListSearchParameterValue,
 } from '@/lib/constants/text-const'
-import { MonitoringStatesProps } from '@/lib/services/queries/task'
+import { MonitoringStatesProps } from '@/lib/services/queries/types'
 import { useFilterParams } from '@/lib/utils/hooks/use-filter-params'
 import DoneIcon from '@mui/icons-material/Done'
 import { Button, CircularProgress } from '@mui/material'

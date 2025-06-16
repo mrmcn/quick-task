@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { Dispatch, SetStateAction, useActionState } from 'react'
 import { BaseEditableTextProps } from '.'
-import { RenderProps } from '../text-fields/my-text-field-props'
+import { RenderProps } from '../text-fields/types'
 
 /**
  * The TextEditing component displays the form for editing the text.

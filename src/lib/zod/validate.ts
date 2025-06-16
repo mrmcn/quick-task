@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { userSchemes } from './schema/user'
 
 export function validateFormData<T extends z.ZodTypeAny>(
   schema: T,
@@ -21,13 +20,15 @@ export function validateFormData<T extends z.ZodTypeAny>(
   return { errors: null, data: validatedFields.data }
 }
 
-export function validateAuthData(data: Partial<Record<string, unknown>>) {
-  const parsedCredentials = userSchemes.emailAndPasswordInput.safeParse(data)
+export function validateData<T extends z.ZodSchema>(
+  inputData: InputData,
+  schema: T,
+): z.infer<T> {
+  const parsedResult = schema.safeParse(inputData)
 
-  if (parsedCredentials.success) {
-    const { email, password } = parsedCredentials.data
-    return { email, password }
-  }
+  if (parsedResult.success) return parsedResult.data
 
-  return null
+  throw parsedResult.error
 }
+
+type InputData = Partial<Record<string, unknown>> | { perPageNumber: number }

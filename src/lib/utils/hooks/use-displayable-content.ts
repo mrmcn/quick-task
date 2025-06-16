@@ -1,4 +1,4 @@
-import { UserFieldType } from '@/lib/services/queries/user'
+import { UserFieldType } from '@/lib/services/queries/types'
 import { Data, TaskFieldType } from '@/ui/common/forms/editable-text'
 import { User } from '@prisma/client'
 import { use } from 'react'

@@ -8,9 +8,9 @@ import {
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { SIGNUP_URL } from '@/lib/constants/url'
-import { authenticate } from '@/lib/services/actions/user'
+import { authenticate } from '@/lib/services/actions/auth'
 import PageFormContainer from '@/ui/common/forms/form-container'
-import PasswordTextField from '@/ui/common/forms/text-fields/user/password'
+import PasswordTextField from '@/ui/common/forms/text-fields/password'
 import { Button } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Link from 'next/link'
@@ -39,6 +39,7 @@ export default function SigninPage() {
         <PasswordTextField
           label={ListLabels.password}
           name={TextFieldsNameAttributeList.password}
+          id={TextFieldsNameAttributeList.password}
           placeholder={ListPlaceholder.enterEmail}
           margin='dense'
         />

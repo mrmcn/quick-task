@@ -1,10 +1,8 @@
 'use client'
 
-import {
-  ListBtnNames,
-  TextFieldsNameAttributeList,
-} from '@/lib/constants/text-const'
+import { ListBtnNames } from '@/lib/constants/text-const'
 import { deleteTask } from '@/lib/services/actions/task'
+import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
 import Button from '@mui/material/Button'
 import { useFormStatus } from 'react-dom'
 
@@ -17,15 +15,9 @@ export function DeleteTaskBtn({
     <form action={deleteTask}>
       {/* Component: BtnWithUseFormStatus - Separated to utilize the useFormStatus hook */}
       <BtnWithUseFormStatus />
-      <input
-        type='hidden'
-        name={TextFieldsNameAttributeList.id}
-        value={taskId} // The ID of the task to be deleted.
-      />
-      <input
-        type='hidden'
-        name='searchParams'
-        value={searchParamsToGoBack} // Search parameters to navigate back after deletion.
+      <HiddenInputs
+        taskId={taskId}
+        dynamicField={{ name: 'searchParams', value: searchParamsToGoBack }}
       />
     </form>
   )

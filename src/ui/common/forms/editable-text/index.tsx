@@ -3,13 +3,16 @@
 import Await from '@/lib/components/await'
 import { ListError } from '@/lib/constants/text-const'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { ActionProps, StateProps } from '@/lib/services/actions/user'
-import { FetchUniqueUserData, UserFieldType } from '@/lib/services/queries/user'
+import { ActionProps, StateProps } from '@/lib/services/actions/types'
+import {
+  FetchUniqueUserData,
+  UserFieldType,
+} from '@/lib/services/queries/types'
 import Skeleton from '@mui/material/Skeleton'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import { User } from '@prisma/client'
 import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
-import { RenderProps } from '../text-fields/my-text-field-props'
+import { RenderProps } from '../text-fields/types'
 import TextEditing from './text-editing'
 
 /**

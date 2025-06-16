@@ -1,18 +1,16 @@
 'use client'
 
-import { updateTasksPerPageNumber } from '@/lib/services/actions/user'
+import { PageValue } from '@/lib/constants/pagination-constants'
+import useSelectAction from '@/lib/utils/hooks/select-action'
 import Box from '@mui/material/Box'
 import { yellow } from '@mui/material/colors'
 import FormControl from '@mui/material/FormControl'
 import Input from '@mui/material/Input'
 import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { PageValue } from '.'
+import Select from '@mui/material/Select'
 
 export default function PageSelect({ taskPerPage }: PageSelectProps) {
-  const handleChange = (event: SelectChangeEvent) => {
-    updateTasksPerPageNumber(event.target.value)
-  }
+  const { errorText, handleChange } = useSelectAction()
 
   return (
     <Box>
@@ -45,6 +43,7 @@ export default function PageSelect({ taskPerPage }: PageSelectProps) {
           <MenuItem value={7}>7</MenuItem>
           <MenuItem value={10}>10</MenuItem>
         </Select>
+        {errorText}
       </FormControl>
     </Box>
   )
