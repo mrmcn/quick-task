@@ -1,4 +1,4 @@
-import { PageValue } from '@/lib/constants/data/pagination-config'
+import { PageValue } from '@/lib/constants/data/ui-config'
 
 export interface MyDialogProps {
   open: boolean

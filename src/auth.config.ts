@@ -1,6 +1,6 @@
 import type { DefaultSession, NextAuthConfig } from 'next-auth'
 import 'next-auth/jwt'
-import { PAGES } from './lib/constants/url'
+import { PAGES } from './lib/constants/routes'
 
 export const authConfig = {
   pages: {

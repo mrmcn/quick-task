@@ -1,6 +1,6 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
-import { paginationError } from '@/lib/error-handling'
 import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
+import { paginationError } from '@/lib/utils/helpers/pagination-error'
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { use, useCallback } from 'react'
 

@@ -1,8 +1,8 @@
-import { PAGES } from '@/lib/constants/url'
+import { rootStyles } from '@/app/styles'
+import { PAGES } from '@/lib/constants/routes'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
-import { rootStyles } from './styles'
 
 export default function NotFound() {
   return (

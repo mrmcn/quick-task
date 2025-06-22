@@ -1,10 +1,11 @@
 'use server'
 
 import { signOut } from '@/auth'
-import { PAGES } from '@/lib/constants/url'
-import { handleError, HandleErrorProps } from '@/lib/error-handling'
+import { PAGES } from '@/lib/constants/routes'
 import { userRepository } from '@/lib/repositories/prisma/user'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
+import { handleError } from '@/lib/utils/error-handling'
+import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import prepareHashedPassword from '@/lib/utils/helpers/prepare-hashed-password'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'

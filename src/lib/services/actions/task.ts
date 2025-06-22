@@ -1,10 +1,10 @@
 'use server'
 
+import { PAGES } from '@/lib/constants/routes'
 import {
   ListSearchParameter,
   ListSortingParameter,
 } from '@/lib/constants/text-const'
-import { PAGES } from '@/lib/constants/url'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'

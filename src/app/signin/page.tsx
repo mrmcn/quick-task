@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGES } from '@/lib/constants/routes'
 import {
   ListBtnNames,
   ListFormNames,
@@ -7,7 +8,6 @@ import {
   ListPlaceholder,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { PAGES } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/auth'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/password'

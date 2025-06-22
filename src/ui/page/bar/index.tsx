@@ -1,10 +1,10 @@
 import { auth } from '@/auth'
+import { PAGES } from '@/lib/constants/routes'
 import {
   ListBtnNames,
   ListError,
   ListPhrases,
 } from '@/lib/constants/text-const'
-import { PAGES } from '@/lib/constants/url'
 import { fetchUser } from '@/lib/services/queries/user'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'

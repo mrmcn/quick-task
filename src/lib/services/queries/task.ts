@@ -1,4 +1,3 @@
-import { handleError, HandleErrorProps } from '@/lib/error-handling'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import {
   FetchData,
@@ -6,6 +5,8 @@ import {
   MonitoringStatesProps,
   UserTasksResult,
 } from '@/lib/services/queries/types'
+import { handleError } from '@/lib/utils/error-handling'
+import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import prepareTaskFetchParams from '@/lib/utils/helpers/prepare-task-fetch-params'

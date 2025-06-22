@@ -1,13 +1,13 @@
 'use client'
 
 import Await from '@/lib/components/await'
-import { ListError } from '@/lib/constants/text-const'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import {
   FetchUniqueUserData,
   UserFieldType,
 } from '@/lib/services/queries/types'
+import { HandleError } from '@/lib/utils/error-handling/type'
 import Skeleton from '@mui/material/Skeleton'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import { User } from '@prisma/client'
@@ -57,7 +57,7 @@ function getViewingText(
       <Suspense fallback={<Skeleton width={40} />}>
         <Await
           promise={data}
-          errorElement={<ErrorElement />}
+          errorElement={errorElement}
         >
           {(res) => renderViewText(typographyProps, res)}
         </Await>
@@ -69,9 +69,9 @@ function getViewingText(
   return viewingText
 }
 
-function ErrorElement() {
-  return <Typography color='error'>{ListError.failed}</Typography>
-}
+const errorElement = (error: HandleError) => (
+  <Typography color='error'>{error.message}</Typography>
+)
 
 /**
  * Function to generate props for the Typography element that displays the text for viewing.

@@ -1,4 +1,4 @@
-import { PAGE_VALUE } from '@/lib/constants/data/pagination-config'
+import { PAGE_VALUE } from '@/lib/constants/data/ui-config'
 import {
   ListLabels,
   TextFieldsNameAttributeList,

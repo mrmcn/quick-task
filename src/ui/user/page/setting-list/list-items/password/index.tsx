@@ -1,5 +1,5 @@
+import { PAGES } from '@/lib/constants/routes'
 import { ListBtnNames } from '@/lib/constants/text-const'
-import { PAGES } from '@/lib/constants/url'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
 import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
 import LockResetIcon from '@mui/icons-material/LockReset'

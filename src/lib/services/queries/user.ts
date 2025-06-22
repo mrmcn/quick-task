@@ -1,5 +1,4 @@
-import { handleError, HandleErrorProps } from '@/lib/error-handling'
-import prisma from '@/lib/prisma'
+import prisma from '@/lib/db/prisma'
 import {
   FetchData,
   FetchUniqueUserData,
@@ -7,6 +6,8 @@ import {
   ScalarUserFields,
   UserFieldType,
 } from '@/lib/services/queries/types'
+import { handleError } from '@/lib/utils/error-handling'
+import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import { Prisma, User } from '@prisma/client'
 

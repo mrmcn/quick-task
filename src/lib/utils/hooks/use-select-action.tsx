@@ -1,5 +1,5 @@
-import { HandleError } from '@/lib/error-handling'
 import { updateTasksPerPageNumber } from '@/lib/services/actions/user'
+import { HandleError } from '@/lib/utils/error-handling/type'
 import { SelectChangeEvent } from '@mui/material/'
 import FormHelperText from '@mui/material/FormHelperText'
 import { useState } from 'react'

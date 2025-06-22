@@ -1,5 +1,6 @@
+import { FetchData } from '@/lib/services/queries/types'
 import { use } from 'react'
-import { FetchData } from '../services/queries/types'
+import { HandleError } from '../utils/error-handling/type'
 
 // This component is used to enable the use of a fallback UI while awaiting a 'promise'.
 // The 'promise' is used to fetch data for pre-filling the form.
@@ -17,13 +18,14 @@ export default function Await<T>({
 }: AwaitProps<T>) {
   const { data, error } = use(promise)
 
-  if (error) return errorElement
-
-  return children(data)
+  if (error && errorElement) return errorElement(error)
+  if (error) throw error
+  if (data) return children(data)
+  return undefined
 }
 
 interface AwaitProps<T> {
   promise: FetchData<T>
   children: (props: T) => React.ReactNode
-  errorElement?: React.ReactNode
+  errorElement?: (error: HandleError) => React.ReactNode
 }

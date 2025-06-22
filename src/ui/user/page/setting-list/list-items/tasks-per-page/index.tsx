@@ -1,4 +1,4 @@
-import { PAGE_VALUE, PageValue } from '@/lib/constants/data/pagination-config'
+import { PAGE_VALUE, PageValue } from '@/lib/constants/data/ui-config'
 import { ListPhrases } from '@/lib/constants/text-const'
 import { fetchUser } from '@/lib/services/queries/user'
 import PageSelect from '@/ui/user/page/setting-list/list-items/tasks-per-page/page-select'

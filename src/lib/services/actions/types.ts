@@ -1,5 +1,5 @@
 import { TextFieldsNameAttributeListValue } from '@/lib/constants/type'
-import { HandleError } from '@/lib/error-handling'
+import { HandleError } from '@/lib/utils/error-handling/type'
 
 export type StateProps =
   | { status: 'success' }

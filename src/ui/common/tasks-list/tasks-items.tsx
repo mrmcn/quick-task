@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
-import { HandleError } from '@/lib/error-handling'
 import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
+import { HandleError } from '@/lib/utils/error-handling/type'
 import {
   getSearchParams,
   SearchParamsObject,

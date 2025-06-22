@@ -1,8 +1,13 @@
-import { ListChipNames, ListSearchParameter } from '@/lib/constants/text-const'
+import {
+  ListBtnNames,
+  ListChipNames,
+  ListSearchParameter,
+  ListSortingParameter,
+} from '@/lib/constants/text-const'
 import { ChipsConfigProps } from '@/ui/dashboard/page/chips-block/types'
 import { Priority, Status } from '@prisma/client'
 
-const LIST_CHIPS_CONFIG: ChipsConfigProps[] = [
+export const LIST_CHIPS_CONFIG: ChipsConfigProps[] = [
   {
     chipName: ListChipNames.priorityHigh,
     filterValue: Priority.high,
@@ -29,4 +34,15 @@ const LIST_CHIPS_CONFIG: ChipsConfigProps[] = [
   },
 ]
 
-export default LIST_CHIPS_CONFIG
+export const sortOptionsConfig = [
+  { value: ListSortingParameter.titleAsc, content: ListBtnNames.titleAtoZ },
+  { value: ListSortingParameter.titleDesc, content: ListBtnNames.titleZtoA },
+  {
+    value: ListSortingParameter.dateDesc,
+    content: ListBtnNames.newestToOldest,
+  },
+  { value: ListSortingParameter.dateAsc, content: ListBtnNames.oldestToNewest },
+] as const
+
+export const PAGE_VALUE = [3, 4, 5, 7, 10] as const
+export type PageValue = (typeof PAGE_VALUE)[number]

@@ -1,6 +1,6 @@
 'use client'
 
-import { sortOptionsConfig } from '@/lib/constants/data/sort-options-config'
+import { sortOptionsConfig } from '@/lib/constants/data/ui-config'
 import { ListBtnNames } from '@/lib/constants/text-const'
 import { ListSortingParameterValue } from '@/lib/constants/type'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
