@@ -1,11 +1,11 @@
 import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
+import { HandleError } from '@/lib/error-handling'
 import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
-import { HandleError } from '@/lib/utils/error-handling'
 import {
   getSearchParams,
   SearchParamsObject,
-} from '@/lib/utils/get-search-params'
+} from '@/lib/utils/helpers/get-search-params'
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'

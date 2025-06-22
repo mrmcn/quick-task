@@ -1,4 +1,4 @@
-import { ListBtnNamesValue } from '@/lib/constants/text-const'
+import { ListBtnNamesValue } from '@/lib/constants/type'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'

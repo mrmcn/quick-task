@@ -2,8 +2,9 @@
 
 import { signOut } from '@/auth'
 import { PAGES } from '@/lib/constants/url'
+import { handleError, HandleErrorProps } from '@/lib/error-handling'
 import { userRepository } from '@/lib/repositories/prisma/user'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
+import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import prepareHashedPassword from '@/lib/utils/helpers/prepare-hashed-password'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'
@@ -12,7 +13,6 @@ import { validateData } from '@/lib/zod/validate'
 import bcrypt from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { ActionProps, StateProps } from './types'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 

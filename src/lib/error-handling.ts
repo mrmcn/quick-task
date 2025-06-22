@@ -1,7 +1,7 @@
+import { ValidationError } from '@/lib/errors/validation-error'
 import { Prisma } from '@prisma/client'
 import { AuthError } from 'next-auth'
 import { z } from 'zod'
-import { ValidationError } from '../errors/validation-error'
 
 export function handleError(error: HandleErrorProps): HandleError {
   switch (true) {

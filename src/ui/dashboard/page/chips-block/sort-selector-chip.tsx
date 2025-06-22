@@ -1,10 +1,8 @@
 'use client'
 
-import {
-  ListBtnNames,
-  ListSortingParameterValue,
-  sortOptionsConfig,
-} from '@/lib/constants/text-const'
+import { sortOptionsConfig } from '@/lib/constants/data/sort-options-config'
+import { ListBtnNames } from '@/lib/constants/text-const'
+import { ListSortingParameterValue } from '@/lib/constants/type'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import { chipsBlock } from '@/ui/dashboard/page/chips-block/styles'
 import Chip from '@mui/material/Chip'

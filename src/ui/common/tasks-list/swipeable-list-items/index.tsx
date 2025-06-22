@@ -1,11 +1,11 @@
 'use client'
 
-import { TextFieldsNameAttributeListValue } from '@/lib/constants/text-const'
+import { TextFieldsNameAttributeListValue } from '@/lib/constants/type'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
 import { updateTaskDetails, updateTaskTitle } from '@/lib/services/actions/task'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
-import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import { formatSearchParams } from '@/lib/utils/helpers/format-search-params'
+import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { useSwipeProps } from '@/lib/utils/hooks/use-get-swipe-props'
 import { EditableText } from '@/ui/common/forms/editable-text'
 import { RenderProps } from '@/ui/common/forms/text-fields/types'

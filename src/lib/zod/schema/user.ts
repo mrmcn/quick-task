@@ -1,4 +1,4 @@
-import { PAGE_VALUE } from '@/lib/constants/pagination-constants'
+import { PAGE_VALUE } from '@/lib/constants/data/pagination-config'
 import {
   ListLabels,
   TextFieldsNameAttributeList,

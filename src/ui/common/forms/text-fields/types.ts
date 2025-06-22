@@ -2,7 +2,7 @@ import {
   ListLabelsValue,
   ListPlaceholderValue,
   TextFieldsNameAttributeListValue,
-} from '@/lib/constants/text-const'
+} from '@/lib/constants/type'
 import { TextFieldProps } from '@mui/material'
 
 /**

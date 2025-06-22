@@ -1,7 +1,7 @@
 import {
   ListChipNamesValue,
   ListSearchParameterValue,
-} from '@/lib/constants/text-const'
+} from '@/lib/constants/type'
 import { FetchData, MonitoringStatesProps } from '@/lib/services/queries/types'
 import { Priority, Status } from '@prisma/client'
 

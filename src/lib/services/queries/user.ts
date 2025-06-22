@@ -1,14 +1,14 @@
+import { handleError, HandleErrorProps } from '@/lib/error-handling'
 import prisma from '@/lib/prisma'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { getSessionData } from '@/lib/utils/helpers/get-session-data'
-import { Prisma, User } from '@prisma/client'
 import {
   FetchData,
   FetchUniqueUserData,
   FetchUser,
   ScalarUserFields,
   UserFieldType,
-} from './types'
+} from '@/lib/services/queries/types'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import { Prisma, User } from '@prisma/client'
 
 // await new Promise((resolve) => setTimeout(resolve, 3000))
 

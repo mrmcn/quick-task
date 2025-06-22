@@ -2,8 +2,8 @@
 
 import { signIn, signOut } from '@/auth'
 import { PAGES } from '@/lib/constants/url'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { ActionProps, StateProps } from './types'
+import { handleError, HandleErrorProps } from '@/lib/error-handling'
+import { ActionProps, StateProps } from '@/lib/services/actions/types'
 
 export const authenticate: ActionProps<StateProps> = async (
   state,

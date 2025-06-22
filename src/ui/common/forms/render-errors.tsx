@@ -1,6 +1,6 @@
 import { ListError } from '@/lib/constants/text-const'
+import { HandleErrorProps, ZodErrors } from '@/lib/error-handling'
 import { StateProps } from '@/lib/services/actions/types'
-import { HandleErrorProps, ZodErrors } from '@/lib/utils/error-handling'
 import Typography from '@mui/material/Typography'
 import { nanoid } from 'nanoid'
 

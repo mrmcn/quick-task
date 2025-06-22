@@ -1,4 +1,4 @@
-import { Task, User } from '@prisma/client'
+import { TextFieldsNameAttributeKeys } from '@/lib/constants/type'
 
 export const ListBtnNames = {
   back: 'Go back',
@@ -17,7 +17,16 @@ export const ListBtnNames = {
   titleZtoA: 'Title Z to A',
 } as const
 
-export type ListBtnNamesValue = ValueOf<typeof ListBtnNames>
+// Each MenuItem has a "value" attribute consisting of two parts separated by a space:
+// 1. The first part is the field name of the 'Task' PrismaORM model (e.g., 'title', 'date').
+// 2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
+// Other "value" options are possible that correspond to PrismaORM sorting queries.
+export const ListSortingParameter = {
+  titleAsc: 'title asc',
+  titleDesc: 'title desc',
+  dateAsc: 'date asc',
+  dateDesc: 'date desc', 
+} as const
 
 export const ListFormNames = {
   createTask: 'Create task',
@@ -28,8 +37,6 @@ export const ListFormNames = {
   signup: 'Create account',
   updateTask: 'Edit task',
 } as const
-
-export type ListFormNamesValue = ValueOf<typeof ListFormNames>
 
 export const ListLabels = {
   confirmNewPassword: 'Confirm new password',
@@ -44,8 +51,6 @@ export const ListLabels = {
   sortBy: 'Sort by',
 } as const
 
-export type ListLabelsValue = ValueOf<typeof ListLabels>
-
 export const ListError = {
   dataError: 'Data retrieval error',
   errorInField: 'Error in field',
@@ -55,16 +60,12 @@ export const ListError = {
   failed: 'Failed',
 } as const
 
-export type ListErrorValue = ValueOf<typeof ListError>
-
 export const ListChipNames = {
   completed: 'Completed',
   pending: 'Pending',
   priorityHigh: 'Priority high',
   priorityLow: 'Priority low',
 } as const
-
-export type ListChipNamesValue = ValueOf<typeof ListChipNames>
 
 export const ListPlaceholder = {
   enterEmail: 'Enter your email address',
@@ -75,8 +76,6 @@ export const ListPlaceholder = {
   search: 'Search task...',
 } as const
 
-export type ListPlaceholderValue = ValueOf<typeof ListPlaceholder>
-
 export const ListPhrases = {
   createNewTask: 'This is empty for now. Create a new task.',
   deleteAccount: 'Delete account',
@@ -86,9 +85,6 @@ export const ListPhrases = {
   low: 'low',
   passwordChanged: 'Password changed successfully!',
   priority: 'Priority',
-  // resetPasswordTitle: 'Reset password',
-  // resetPasswordContent:
-  //   'For the security of your account, kindly enter the new password you would like to use. Please make sure that the password is secure (includes letters, numbers, and symbols) and differs from your previous passwords.',
   signoutTitle: 'Log out!',
   signoutContent: 'Do you really want to log out?',
   newTaskDialogText: 'Successfully created task!',
@@ -100,8 +96,6 @@ export const ListPhrases = {
     'Are you sure? This action cannot be undone. All user data will be lost forever.',
 } as const
 
-export type ListPhrasesValue = ValueOf<typeof ListPhrases>
-
 export const ListSearchParameter = {
   query: 'query',
   page: 'page',
@@ -109,8 +103,6 @@ export const ListSearchParameter = {
   status: 'status',
   priority: 'priority',
 } as const
-
-export type ListSearchParameterValue = ValueOf<typeof ListSearchParameter>
 
 export const ListDefaultSearchParameter = {
   defaultQuery: '',
@@ -120,43 +112,12 @@ export const ListDefaultSearchParameter = {
   defaultPriority: undefined,
 } as const
 
-export type ListDefaultSearchParameterValue = ValueOf<
-  typeof ListDefaultSearchParameter
->
-
-export const ListSortingParameter = {
-  titleAsc: 'title asc',
-  titleDesc: 'title desc',
-  dateAsc: 'date asc',
-  dateDesc: 'date desc',
-} as const
-
-export type ListSortingParameterValue = ValueOf<typeof ListSortingParameter>
-
-// Each MenuItem has a "value" attribute consisting of two parts separated by a space:
-// 1. The first part is the field name of the 'Task' PrismaORM model (e.g., 'title', 'date').
-// 2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
-// Other "value" options are possible that correspond to PrismaORM sorting queries.
-export const sortOptionsConfig = [
-  { value: ListSortingParameter.titleAsc, content: ListBtnNames.titleAtoZ },
-  { value: ListSortingParameter.titleDesc, content: ListBtnNames.titleZtoA },
-  {
-    value: ListSortingParameter.dateDesc,
-    content: ListBtnNames.newestToOldest,
-  },
-  { value: ListSortingParameter.dateAsc, content: ListBtnNames.oldestToNewest },
-] as const
-
 // Keys for the change password form fields. Used solely for type definitions.
 export const TextFieldChangePasswordList = {
   confirmNewPassword: 'confirmNewPassword',
   currentPassword: 'currentPassword',
   newPassword: 'newPassword',
 } as const
-type TextFieldsNameAttributeKeys =
-  | keyof typeof TextFieldChangePasswordList
-  | keyof Task
-  | keyof User
 
 export const TextFieldsNameAttributeList: {
   [key in TextFieldsNameAttributeKeys]: key
@@ -177,12 +138,6 @@ export const TextFieldsNameAttributeList: {
   newPassword: 'newPassword',
 } as const
 
-export type TextFieldsNameAttributeListValue = ValueOf<
-  typeof TextFieldsNameAttributeList
->
-
 export const RedirectName = {
   redirectTo: 'redirectTo',
 } as const
-
-type ValueOf<T> = T[keyof T]

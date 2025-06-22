@@ -1,3 +1,4 @@
+import { handleError, HandleErrorProps } from '@/lib/error-handling'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import {
   FetchData,
@@ -5,8 +6,7 @@ import {
   MonitoringStatesProps,
   UserTasksResult,
 } from '@/lib/services/queries/types'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { SearchParamsObject } from '@/lib/utils/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import prepareTaskFetchParams from '@/lib/utils/helpers/prepare-task-fetch-params'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/helpers/task-status-counts'
@@ -18,7 +18,7 @@ async function userTasksData(
     searchParamsObject,
   )
   if (sampleData) return { data: sampleData }
-  if (error) return { error: handleError(error as HandleErrorProps) }
+  if (!data) return { error: handleError(error as HandleErrorProps) }
 
   try {
     const { tasks, count } = await taskRepository.getUserTasksWithCount({

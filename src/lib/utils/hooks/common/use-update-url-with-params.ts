@@ -1,8 +1,8 @@
+import { ListSearchParameter } from '@/lib/constants/text-const'
 import {
-  ListSearchParameter,
   ListSearchParameterValue,
   ListSortingParameterValue,
-} from '@/lib/constants/text-const'
+} from '@/lib/constants/type'
 import { useNextNavigation } from '@/lib/utils/hooks/use-next-navigation'
 import { Priority, Status } from '@prisma/client'
 import { useCallback } from 'react'

@@ -1,6 +1,6 @@
 'use client'
 
-import { PageValue } from '@/lib/constants/pagination-constants'
+import { PageValue } from '@/lib/constants/data/pagination-config'
 import useSelectAction from '@/lib/utils/hooks/use-select-action'
 import Box from '@mui/material/Box'
 import { yellow } from '@mui/material/colors'

@@ -6,12 +6,12 @@ import {
 } from '@/lib/constants/text-const'
 import { PAGES } from '@/lib/constants/url'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
+import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'
 import { tasksSchemes } from '@/lib/zod/schema/tasks'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { ActionProps, StateProps } from './types'
 
 export const createTask: ActionProps<StateProps> = withFormHandling(
   tasksSchemes.create,

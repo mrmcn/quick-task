@@ -1,5 +1,5 @@
 import { fetchTask } from '@/lib/services/queries/task'
-import { SearchParamsObject } from '@/lib/utils/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import TasksItems from '@/ui/common/tasks-list//tasks-items'
 import PaginationRow from '@/ui/dashboard/page/pagination'
 import Box from '@mui/material/Box'

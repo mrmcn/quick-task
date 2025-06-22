@@ -1,6 +1,6 @@
+import { HandleError } from '@/lib/error-handling'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { HandleError } from '@/lib/utils/error-handling'
-import { SearchParamsObject } from '@/lib/utils/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { Status, User } from '@prisma/client'
 
 export type FetchData<T> = Promise<
