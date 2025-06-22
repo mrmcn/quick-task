@@ -2,7 +2,6 @@
 
 import {
   ListError,
-  ListPriorityField,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { TaskListDto } from '@/lib/repositories/prisma/tasks'
@@ -12,7 +11,7 @@ import LowPriorityIcon from '@mui/icons-material/LowPriority'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { $Enums } from '@prisma/client'
+import { $Enums, Priority } from '@prisma/client'
 import { useActionState } from 'react'
 import HiddenInputs from './hidden-inputs'
 
@@ -72,8 +71,7 @@ export function UpdateTaskPriority({ task }: Props) {
 }
 
 function getIconAndPriorityValue(priority: $Enums.Priority) {
-  const { high, low } = ListPriorityField
-  const highStatus = priority === high
+  const highStatus = priority === Priority.high
   const icon = highStatus ? (
     <LowPriorityIcon />
   ) : (
@@ -82,7 +80,7 @@ function getIconAndPriorityValue(priority: $Enums.Priority) {
       <PriorityHighIcon sx={{ marginLeft: '-8px' }} />
     </Box>
   )
-  const value = highStatus ? low : high
+  const value = highStatus ? Priority.low : Priority.high
   return { icon, value }
 }
 

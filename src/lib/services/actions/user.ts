@@ -1,12 +1,12 @@
 'use server'
 
 import { signOut } from '@/auth'
-import { DASHBOARD_URL, HOME_URL, USER_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { userRepository } from '@/lib/repositories/prisma/user'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { getSessionData } from '@/lib/utils/get-session-data'
-import { prepareHashedPassword } from '@/lib/utils/services-helper/prepare-hashed-password'
-import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import prepareHashedPassword from '@/lib/utils/helpers/prepare-hashed-password'
+import withFormHandling from '@/lib/utils/helpers/with-form-handling'
 import { userSchemes } from '@/lib/zod/schema/user'
 import { validateData } from '@/lib/zod/validate'
 import bcrypt from 'bcrypt'
@@ -23,8 +23,8 @@ export const createUser: ActionProps<StateProps> = withFormHandling(
     await userRepository.createUser({ email, password: hashedPassword })
   },
   async () => {
-    revalidatePath(DASHBOARD_URL)
-    redirect(DASHBOARD_URL)
+    revalidatePath(PAGES.DASHBOARD)
+    redirect(PAGES.DASHBOARD)
   },
 )
 
@@ -35,8 +35,8 @@ export const updateUserName: ActionProps<StateProps> = withFormHandling(
     await userRepository.updateUser({ id }, { name })
   },
   async () => {
-    revalidatePath(USER_URL)
-    redirect(USER_URL)
+    revalidatePath(PAGES.USER)
+    redirect(PAGES.USER)
   },
 )
 
@@ -47,8 +47,8 @@ export const updateUserEmail: ActionProps<StateProps> = withFormHandling(
     await userRepository.updateUser({ id }, { email })
   },
   async () => {
-    revalidatePath(USER_URL)
-    redirect(USER_URL)
+    revalidatePath(PAGES.USER)
+    redirect(PAGES.USER)
   },
 )
 
@@ -83,7 +83,7 @@ export const updateTasksPerPageNumber = async (
   } catch (error) {
     return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
-  revalidatePath(USER_URL)
+  revalidatePath(PAGES.USER)
 }
 
 export const deleteUser = async (): Promise<StateProps> => {
@@ -95,5 +95,5 @@ export const deleteUser = async (): Promise<StateProps> => {
   }
 
   await signOut()
-  redirect(HOME_URL)
+  redirect(PAGES.HOME)
 }

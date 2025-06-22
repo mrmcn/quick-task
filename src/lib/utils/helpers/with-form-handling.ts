@@ -1,5 +1,5 @@
+import { handleError, HandleErrorProps } from '@/lib/error-handling'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { validateFormData } from '@/lib/zod/validate'
 import { z, ZodSchema } from 'zod'
 

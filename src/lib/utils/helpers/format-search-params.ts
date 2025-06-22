@@ -1,4 +1,4 @@
-import { SearchParamsObject } from './get-search-params'
+import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 
 export function formatSearchParams(searchParamsObject: Props): string {
   const params = new URLSearchParams()

@@ -1,8 +1,8 @@
 import { userRepository } from '@/lib/repositories/prisma/user'
+import verifyAndHashPassword from '@/lib/utils/helpers/verify-and-hash-password'
 import { User } from '@prisma/client'
-import verifyAndHashPassword from './verify-and-hash-password'
 
-export const prepareHashedPassword = async (
+const prepareHashedPassword = async (
   currentPassword: User['password'],
   newPassword: User['password'],
   id: User['id'],
@@ -15,3 +15,5 @@ export const prepareHashedPassword = async (
   )
   return { password: hashedNewPassword }
 }
+
+export default prepareHashedPassword

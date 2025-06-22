@@ -1,8 +1,8 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
+import { paginationError } from '@/lib/error-handling'
 import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
+import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { use, useCallback } from 'react'
-import { paginationError } from '../error-handling'
-import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
 export function usePagination(tasksDataPromise: FetchData<UserTasksResult>) {
   const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(

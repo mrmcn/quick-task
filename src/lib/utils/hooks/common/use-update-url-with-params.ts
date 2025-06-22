@@ -1,15 +1,27 @@
 import {
   ListSearchParameter,
   ListSearchParameterValue,
+  ListSortingParameterValue,
 } from '@/lib/constants/text-const'
+import { useNextNavigation } from '@/lib/utils/hooks/use-next-navigation'
+import { Priority, Status } from '@prisma/client'
 import { useCallback } from 'react'
-import { useNextNavigation } from '../use-next-navigation'
 
-export function useUpdateUrlWithParams(
-  filteringParam: ListSearchParameterValue,
+type ParamValueMap = {
+  [ListSearchParameter.page]: string
+  [ListSearchParameter.priority]: Priority
+  [ListSearchParameter.query]: string
+  [ListSearchParameter.sorting]: ListSortingParameterValue
+  [ListSearchParameter.status]: Status
+}
+
+export function useUpdateUrlWithParams<P extends ListSearchParameterValue>(
+  filteringParam: P,
 ) {
   const { pathname, router, searchParams } = useNextNavigation()
-  const valueCurrentQueryParameter = searchParams.get(filteringParam)
+  const valueCurrentQueryParameter: ParamValueMap[P] | null = searchParams.get(
+    filteringParam,
+  ) as ParamValueMap[P] | null
 
   const updateUrl = useCallback(
     (page: number, updateCurrentParameter?: UpdateParamsProps) => {

@@ -5,7 +5,6 @@ import { signout } from '@/lib/services/actions/auth'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
 import SlideTransition from '@/ui/user/page/setting-list/list-items/slide-transition'
-import slotProps from '@/ui/user/page/setting-list/list-items/styles'
 import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Button from '@mui/material/Button'
@@ -18,6 +17,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import { dialogStyles } from '../styles'
 
 export default function ListItemSignout() {
   const { open, openModal, closeModal } = useModal()
@@ -58,7 +58,7 @@ function SignoutDialog({ open, closeModal }: MyDialogProps) {
       open={open}
       onClose={closeModal}
       slots={{ transition: SlideTransition }}
-      slotProps={slotProps()}
+      slotProps={dialogStyles.slotProps}
     >
       <DialogTitle>{ListPhrases.signoutTitle}</DialogTitle>
       <DialogContent>

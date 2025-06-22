@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import { ThemeProvider } from '@mui/material/styles'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
+import { rootStyles } from './styles'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -32,13 +33,7 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Box
-              sx={{
-                bgcolor: 'primary.light',
-                p: 2,
-                height: '100vh',
-              }}
-            >
+            <Box sx={rootStyles.layoutSx}>
               <Appbar />
               {children}
             </Box>

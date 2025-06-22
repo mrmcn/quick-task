@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { getSessionData } from '@/lib/utils/get-session-data'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import { Prisma, User } from '@prisma/client'
 import {
   FetchData,

@@ -1,14 +1,11 @@
 'use client'
 
-import {
-  ListStatusField,
-  TextFieldsNameAttributeList,
-} from '@/lib/constants/text-const'
+import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import { updateTaskStatus } from '@/lib/services/actions/task'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
-import { Task } from '@prisma/client'
+import { Status, Task } from '@prisma/client'
 import { useActionState } from 'react'
 import HiddenInputs from './hidden-inputs'
 
@@ -28,8 +25,8 @@ export default function UpdateTaskStatus({
     )
 
   if (state?.status === 'error') return <Box>{state.error.message}</Box>
-  const { completed, in_progress } = ListStatusField
-  const value = status === completed ? in_progress : completed
+  const value =
+    status === Status.completed ? Status.in_progress : Status.completed
 
   return (
     <form
@@ -45,7 +42,7 @@ export default function UpdateTaskStatus({
           e.currentTarget.form?.requestSubmit()
         }}
         edge='end'
-        checked={status.includes(completed)}
+        checked={status.includes(Status.completed)}
         sx={{ mr: 3 }}
         aria-labelledby={`task-${title}`}
       />

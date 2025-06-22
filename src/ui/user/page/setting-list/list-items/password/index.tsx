@@ -1,5 +1,5 @@
 import { ListBtnNames } from '@/lib/constants/text-const'
-import { USER_RESET_PASSWORD_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
 import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
 import LockResetIcon from '@mui/icons-material/LockReset'
@@ -17,7 +17,7 @@ export default function ListItemResetPassword() {
       </ListItemIcon>
       <ListItemButton
         component={Link}
-        href={USER_RESET_PASSWORD_URL}
+        href={PAGES.USER_RESET_PASSWORD}
         sx={{ pl: 0 }}
       >
         <ListItemText

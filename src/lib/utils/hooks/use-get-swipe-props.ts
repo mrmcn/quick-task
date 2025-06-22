@@ -1,6 +1,6 @@
+import { useMyMediaQuery } from '@/lib/utils/hooks/common/use-my-media-query'
 import { useState } from 'react'
 import { SwipeEventData } from 'react-swipeable'
-import { useMyMediaQuery } from './common/use-my-media-query'
 
 // A custom hook that encapsulates the logic related to swipe gestures for revealing hidden actions.
 export function useSwipeProps() {

@@ -1,19 +1,15 @@
-import { DASHBOARD_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
+import { rootStyles } from './styles'
 
 export default function NotFound() {
   return (
     <Container
       component='main'
       maxWidth='xs'
-      sx={{
-        mt: { xs: '10vh', sm: '15vh' },
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
+      sx={rootStyles.notFoundSx}
     >
       <Typography align='center'>404 Not Found</Typography>
       <Typography
@@ -22,7 +18,7 @@ export default function NotFound() {
       >
         Could not find the requested task.
       </Typography>
-      <Link href={DASHBOARD_URL}>Go home</Link>
+      <Link href={PAGES.DASHBOARD}>Go home</Link>
     </Container>
   )
 }

@@ -1,8 +1,8 @@
+import { HandleError } from '@/lib/error-handling'
 import { updateTasksPerPageNumber } from '@/lib/services/actions/user'
 import { SelectChangeEvent } from '@mui/material/'
 import FormHelperText from '@mui/material/FormHelperText'
 import { useState } from 'react'
-import { HandleError } from '../error-handling'
 
 export default function useSelectAction() {
   const [error, setError] = useState<HandleError | null>(null)

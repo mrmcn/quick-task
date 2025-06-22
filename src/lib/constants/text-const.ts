@@ -1,4 +1,4 @@
-import { Priority, Status, Task, User } from '@prisma/client'
+import { Task, User } from '@prisma/client'
 
 export const ListBtnNames = {
   back: 'Go back',
@@ -102,18 +102,6 @@ export const ListPhrases = {
 
 export type ListPhrasesValue = ValueOf<typeof ListPhrases>
 
-// export const ListLoadingIndicator = {
-//   loggingIn: 'Logging in...',
-//   logoutIn: 'Logout in progress',
-//   creating: 'Creating...',
-//   deleting: 'Deleting a task',
-//   updata: 'Task update',
-//   updataUser: 'Updating data',
-// } as const
-
-// export type ListLoadingIndicatorValue =
-//   (typeof ListLoadingIndicator)[keyof typeof ListLoadingIndicator]
-
 export const ListSearchParameter = {
   query: 'query',
   page: 'page',
@@ -145,14 +133,18 @@ export const ListSortingParameter = {
 
 export type ListSortingParameterValue = ValueOf<typeof ListSortingParameter>
 
-export const sortOptions = [
-  { value: ListSortingParameter.titleAsc, label: ListBtnNames.titleAtoZ },
-  { value: ListSortingParameter.titleDesc, label: ListBtnNames.titleZtoA },
+// Each MenuItem has a "value" attribute consisting of two parts separated by a space:
+// 1. The first part is the field name of the 'Task' PrismaORM model (e.g., 'title', 'date').
+// 2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
+// Other "value" options are possible that correspond to PrismaORM sorting queries.
+export const sortOptionsConfig = [
+  { value: ListSortingParameter.titleAsc, content: ListBtnNames.titleAtoZ },
+  { value: ListSortingParameter.titleDesc, content: ListBtnNames.titleZtoA },
   {
     value: ListSortingParameter.dateDesc,
-    label: ListBtnNames.newestToOldest,
+    content: ListBtnNames.newestToOldest,
   },
-  { value: ListSortingParameter.dateAsc, label: ListBtnNames.oldestToNewest },
+  { value: ListSortingParameter.dateAsc, content: ListBtnNames.oldestToNewest },
 ] as const
 
 // Keys for the change password form fields. Used solely for type definitions.
@@ -188,16 +180,6 @@ export const TextFieldsNameAttributeList: {
 export type TextFieldsNameAttributeListValue = ValueOf<
   typeof TextFieldsNameAttributeList
 >
-
-export const ListPriorityField: { [key in Priority]: key } = {
-  high: 'high',
-  low: 'low',
-}
-
-export const ListStatusField: { [key in Status]: key } = {
-  completed: 'completed',
-  in_progress: 'in_progress',
-}
 
 export const RedirectName = {
   redirectTo: 'redirectTo',

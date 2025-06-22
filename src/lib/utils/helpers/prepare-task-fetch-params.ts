@@ -1,21 +1,24 @@
 import { auth } from '@/auth'
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
+import TASK_DATA from '@/lib/constants/data/sample-task'
 import { fetchUser } from '@/lib/services/queries/user'
-import { getSearchParams, SearchParamsObject } from '../get-search-params'
-import { getSessionData } from '../get-session-data'
+import {
+  getSearchParams,
+  SearchParamsObject,
+} from '@/lib/utils/helpers/get-search-params'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 
 export default async function prepareTaskFetchParams(
   searchParamsObject?: SearchParamsObject,
 ) {
   const session = await auth()
   if (!session) {
-    return { sampleData: { tasks: getTasksDATA(), totalPages: 1 } } // for sampleTasksList
+    return { sampleData: { tasks: TASK_DATA, totalPages: 1 } } // for sampleTasksList
   }
 
   const { userEmail, userId } = await getSessionData() // or userTasksList
   if (!userEmail) return { error: new Error('User email is undefined') }
   const { data, error } = await fetchUser.uniqueData('tasksPerPage')
-  if (error) return { error }
+  if (!data) return { error }
 
   const { query, currentPage, sort, status, priority } =
     getSearchParams(searchParamsObject)
@@ -42,27 +45,3 @@ function getOrderBy(sortParams: string) {
     [field]: order,
   }
 }
-
-const getTasksDATA = (): TaskListDto[] => [
-  {
-    id: '1',
-    title: 'Sample 1',
-    details: 'Details task',
-    priority: 'high',
-    status: 'completed',
-  },
-  {
-    id: '2',
-    title: 'Sample 2',
-    details: 'Details task 2',
-    priority: 'high',
-    status: 'completed',
-  },
-  {
-    id: '3',
-    title: 'Sample 3',
-    details: 'Details task 3',
-    priority: 'high',
-    status: 'in_progress',
-  },
-] // for 'app/page'

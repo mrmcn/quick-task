@@ -56,5 +56,5 @@ function Fallback() {
 }
 
 interface TasksListProps {
-  searchParamsObject?: SearchParamsObject | undefined
+  searchParamsObject?: SearchParamsObject
 }

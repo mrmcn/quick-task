@@ -1,10 +1,10 @@
 import {
   ListSearchParameter,
-  ListSortingParameterValue,
+  ListSortingParameter,
 } from '@/lib/constants/text-const'
+import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { SelectChangeEvent } from '@mui/material'
 import { useCallback } from 'react'
-import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
 export function useSortParams() {
   const sortParameter = ListSearchParameter.sorting
@@ -23,8 +23,10 @@ export function useSortParams() {
     [updateUrl, sortParameter],
   )
 
+  const value = valueCurrentQueryParameter || ListSortingParameter.titleAsc
+
   return {
     handleSortChange,
-    selectValue: valueCurrentQueryParameter as ListSortingParameterValue,
+    value,
   }
 }

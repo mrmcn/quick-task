@@ -12,7 +12,7 @@ import { updateUserPassword } from '@/lib/services/actions/user'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/password'
-import slotProps from '@/ui/user/page/setting-list/list-items/styles'
+import { dialogStyles } from '@/ui/user/page/setting-list/list-items/styles'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -72,7 +72,7 @@ function FormDialog({ state }: FormDialogProps) {
     <Dialog
       open={open}
       onClose={closeModal}
-      slotProps={slotProps()}
+      slotProps={dialogStyles.slotProps}
     >
       <DialogContent>
         <DialogContentText>{ListPhrases.passwordChanged}</DialogContentText>
@@ -89,4 +89,6 @@ function FormDialog({ state }: FormDialogProps) {
   )
 }
 
-type FormDialogProps = { state: StateProps }
+interface FormDialogProps {
+  state: StateProps
+}

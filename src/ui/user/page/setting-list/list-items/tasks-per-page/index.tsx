@@ -8,7 +8,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
-export default async function TasksPerPage() {
+export default async function ListItemTasksPerPage() {
   const taskPerPage = await getTaskPerPage()
 
   return (

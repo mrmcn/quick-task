@@ -5,7 +5,7 @@ import { FetchData } from '../services/queries/types'
 // The 'promise' is used to fetch data for pre-filling the form.
 
 {
-  /* <Await />}>
+  /* <Await promise={promise} >
 {(props)=><MyComponent {...props} />}
 </Await> */
 }

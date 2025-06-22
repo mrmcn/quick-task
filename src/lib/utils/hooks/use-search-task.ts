@@ -1,7 +1,7 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
-import { debounce } from '@/lib/utils/debounce'
+import { debounce } from '@/lib/utils/helpers/debounce'
+import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { ChangeEvent, useCallback } from 'react'
-import { useUpdateUrlWithParams } from './common/use-update-url-with-params'
 
 export function useSearchTask() {
   const queryParameter = ListSearchParameter.query

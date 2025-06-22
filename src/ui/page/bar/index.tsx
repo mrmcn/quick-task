@@ -4,12 +4,7 @@ import {
   ListError,
   ListPhrases,
 } from '@/lib/constants/text-const'
-import {
-  DASHBOARD_URL,
-  HOME_URL,
-  SIGNIN_URL,
-  USER_URL,
-} from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { fetchUser } from '@/lib/services/queries/user'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
@@ -56,16 +51,16 @@ async function getAppBarConfig() {
     const userName = data ?? ListError.failed
 
     return {
-      homeUrl: DASHBOARD_URL,
-      userCabinetUrl: USER_URL,
+      homeUrl: PAGES.HOME,
+      userCabinetUrl: PAGES.USER,
       userButtonText: userName,
       userButtonAriaLabel: 'Go to user cabinet',
     }
   }
 
   return {
-    homeUrl: HOME_URL,
-    userCabinetUrl: SIGNIN_URL,
+    homeUrl: PAGES.HOME,
+    userCabinetUrl: PAGES.SIGNIN,
     userButtonText: ListBtnNames.signin,
     userButtonAriaLabel: 'Go to sign in',
   }

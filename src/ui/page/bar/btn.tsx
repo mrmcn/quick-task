@@ -4,12 +4,7 @@ import {
   ListError,
   ListPhrases,
 } from '@/lib/constants/text-const'
-import {
-  DASHBOARD_URL,
-  HOME_URL,
-  SIGNIN_URL,
-  USER_URL,
-} from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { fetchUser } from '@/lib/services/queries/user'
 import PersonIcon from '@mui/icons-material/Person'
 import Button from '@mui/material/Button'
@@ -21,10 +16,10 @@ export default async function BarBtn() {
   if (!session)
     return (
       <>
-        <HomeBtn href={HOME_URL} />
+        <HomeBtn href={PAGES.HOME} />
         <Button // signin btn
           component={Link}
-          href={SIGNIN_URL}
+          href={PAGES.SIGNIN}
           color='inherit'
           aria-label='Go to signup'
         >
@@ -38,10 +33,10 @@ export default async function BarBtn() {
 
   return (
     <>
-      <HomeBtn href={DASHBOARD_URL} />
+      <HomeBtn href={PAGES.DASHBOARD} />
       <Button // user cabinet
         component={Link}
-        href={USER_URL}
+        href={PAGES.USER}
         color='inherit'
         startIcon={<PersonIcon />}
         aria-label='user setting'

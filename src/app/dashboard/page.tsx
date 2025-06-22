@@ -1,8 +1,9 @@
+import { dashboardStyles } from '@/app/dashboard/styles'
 import { ListPlaceholder } from '@/lib/constants/text-const'
-import { DASHBOARD_CREATE_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { SearchParamsObject } from '@/lib/utils/get-search-params'
 import TasksList from '@/ui/common/tasks-list'
-import BlockOfChips from '@/ui/dashboard/page/block-of-chips'
+import ChipsBlock from '@/ui/dashboard/page/chips-block'
 import Search from '@/ui/dashboard/page/task-search'
 import AddIcon from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
@@ -20,32 +21,12 @@ export default async function DashboardPage({
       <TasksList searchParamsObject={searchParamsObject} />
       <Box
         component='nav'
-        sx={{
-          '@media (min-width: 0px)': {
-            bgcolor: 'primary.light',
-            opacity: 0.8,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            width: '90%',
-            position: 'fixed',
-            top: '70%',
-            left: '5%',
-            zIndex: 10,
-          },
-          '@media (min-width: 900px)': {
-            display: 'block',
-            width: 'auto',
-            position: 'static',
-            top: 'auto',
-            left: 'auto',
-          },
-        }}
+        sx={dashboardStyles.navSx}
       >
         <Suspense>
           <Search placeholder={ListPlaceholder.search} />
         </Suspense>
-        <BlockOfChips />
+        <ChipsBlock />
       </Box>
       <CreateTaskFab />
     </Box>
@@ -54,18 +35,10 @@ export default async function DashboardPage({
 
 function CreateTaskFab() {
   return (
-    <Box
-      sx={{
-        '& > :not(style)': {
-          position: 'fixed',
-          top: '85%',
-          left: '70%',
-        },
-      }}
-    >
+    <Box sx={dashboardStyles.fabSx}>
       <Fab
         component={Link}
-        href={DASHBOARD_CREATE_URL}
+        href={PAGES.DASHBOARD_CREATE}
         color='primary'
         aria-label='create new task'
       >

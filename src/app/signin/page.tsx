@@ -7,7 +7,7 @@ import {
   ListPlaceholder,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { SIGNUP_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { authenticate } from '@/lib/services/actions/auth'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/password'
@@ -45,7 +45,7 @@ export default function SigninPage() {
         />
         <Button
           component={Link}
-          href={SIGNUP_URL}
+          href={PAGES.SIGNUP}
           color='secondary'
         >
           {ListBtnNames.signup}

@@ -1,15 +1,15 @@
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
-import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
-import { SearchParamsObject } from '@/lib/utils/get-search-params'
-import { getSessionData } from '@/lib/utils/get-session-data'
-import prepareTaskFetchParams from '@/lib/utils/services-helper/prepare-task-fetch-params'
-import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/services-helper/task-status-counts'
 import {
   FetchData,
   FetchTask,
   MonitoringStatesProps,
   UserTasksResult,
-} from './types'
+} from '@/lib/services/queries/types'
+import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
+import { SearchParamsObject } from '@/lib/utils/get-search-params'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import prepareTaskFetchParams from '@/lib/utils/helpers/prepare-task-fetch-params'
+import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/helpers/task-status-counts'
 
 async function userTasksData(
   searchParamsObject?: SearchParamsObject,

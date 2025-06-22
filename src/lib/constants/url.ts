@@ -1,7 +1,9 @@
-export const HOME_URL = '/'
-export const SIGNUP_URL = '/signup'
-export const SIGNIN_URL = '/signin'
-export const USER_URL = '/user'
-export const USER_RESET_PASSWORD_URL = '/user/reset-password'
-export const DASHBOARD_URL = '/dashboard'
-export const DASHBOARD_CREATE_URL = '/dashboard/create'
+export const PAGES = {
+  HOME: '/',
+  SIGNUP: '/signup',
+  SIGNIN: '/signin',
+  USER: '/user',
+  USER_RESET_PASSWORD: '/user/reset-password',
+  DASHBOARD: '/dashboard',
+  DASHBOARD_CREATE: '/dashboard/create',
+}

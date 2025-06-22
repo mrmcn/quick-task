@@ -1,7 +1,7 @@
 'use server'
 
 import { signIn, signOut } from '@/auth'
-import { HOME_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { handleError, HandleErrorProps } from '@/lib/utils/error-handling'
 import { ActionProps, StateProps } from './types'
 
@@ -17,5 +17,5 @@ export const authenticate: ActionProps<StateProps> = async (
 }
 
 export async function signout() {
-  await signOut({ redirectTo: HOME_URL })
+  await signOut({ redirectTo: PAGES.HOME })
 }

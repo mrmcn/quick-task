@@ -1,11 +1,11 @@
-import { Priority, Status } from '@prisma/client'
 import {
   ListDefaultSearchParameter,
   ListSearchParameter,
-} from '../constants/text-const'
+} from '@/lib/constants/text-const'
+import { Priority, Status } from '@prisma/client'
 
 export const getSearchParams = (
-  searchParamsObject: OptionalSearchParamsObject,
+  searchParamsObject: SearchParamsObject | undefined,
 ) => {
   const { status, page, query, sorting, priority } = ListSearchParameter
   const {
@@ -26,11 +26,5 @@ export const getSearchParams = (
 }
 
 export type SearchParamsObject = {
-  [key: string]: string | string[] | undefined
+  [key: string]: string | string[]
 }
-
-export interface SearchParamsObjectProps {
-  searchParamsObject?: OptionalSearchParamsObject
-}
-
-export type OptionalSearchParamsObject = SearchParamsObject | undefined

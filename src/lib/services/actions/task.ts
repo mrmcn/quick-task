@@ -4,10 +4,10 @@ import {
   ListSearchParameter,
   ListSortingParameter,
 } from '@/lib/constants/text-const'
-import { DASHBOARD_URL } from '@/lib/constants/url'
+import { PAGES } from '@/lib/constants/url'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
-import { getSessionData } from '@/lib/utils/get-session-data'
-import withFormHandling from '@/lib/utils/services-helper/with-form-handling'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import withFormHandling from '@/lib/utils/helpers/with-form-handling'
 import { tasksSchemes } from '@/lib/zod/schema/tasks'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -23,9 +23,9 @@ export const createTask: ActionProps<StateProps> = withFormHandling(
     })
   },
   async () => {
-    revalidatePath(DASHBOARD_URL)
+    revalidatePath(PAGES.DASHBOARD)
     redirect(
-      `${DASHBOARD_URL}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
+      `${PAGES.DASHBOARD}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
     )
   },
 )
@@ -36,7 +36,7 @@ export const updateTaskStatus: ActionProps<StateProps> = withFormHandling(
     await taskRepository.updateTask({ id }, { status })
   },
   async () => {
-    revalidatePath(DASHBOARD_URL)
+    revalidatePath(PAGES.DASHBOARD)
   },
 )
 
@@ -47,7 +47,7 @@ export const updateTaskPriority: ActionProps<StateProps> = withFormHandling(
     await taskRepository.updateTask({ id }, { priority })
   },
   async () => {
-    revalidatePath(DASHBOARD_URL)
+    revalidatePath(PAGES.DASHBOARD)
   },
 )
 
@@ -58,8 +58,8 @@ export const updateTaskTitle: ActionProps<StateProps> = withFormHandling(
   },
   async (formData) => {
     const searchParamsString = formData?.get('searchParams')
-    revalidatePath(DASHBOARD_URL)
-    redirect(`${DASHBOARD_URL}${searchParamsString}`)
+    revalidatePath(PAGES.DASHBOARD)
+    redirect(`${PAGES.DASHBOARD}${searchParamsString}`)
   },
 )
 
@@ -70,8 +70,8 @@ export const updateTaskDetails: ActionProps<StateProps> = withFormHandling(
   },
   async (formData) => {
     const searchParamsString = formData?.get('searchParams')
-    revalidatePath(DASHBOARD_URL)
-    redirect(`${DASHBOARD_URL}${searchParamsString}`)
+    revalidatePath(PAGES.DASHBOARD)
+    redirect(`${PAGES.DASHBOARD}${searchParamsString}`)
   },
 )
 
@@ -90,6 +90,6 @@ export const deleteTask = async (formData: FormData) => {
     console.error('Error deleting task:', error)
     throw error
   }
-  revalidatePath(DASHBOARD_URL)
-  redirect(`${DASHBOARD_URL}${searchParamsString}`)
+  revalidatePath(PAGES.DASHBOARD)
+  redirect(`${PAGES.DASHBOARD}${searchParamsString}`)
 }

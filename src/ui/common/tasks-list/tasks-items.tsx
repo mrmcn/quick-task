@@ -4,7 +4,7 @@ import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
 import { HandleError } from '@/lib/utils/error-handling'
 import {
   getSearchParams,
-  OptionalSearchParamsObject,
+  SearchParamsObject,
 } from '@/lib/utils/get-search-params'
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
 import Box from '@mui/material/Box'
@@ -61,12 +61,12 @@ function EmptyState({ searchParamsObject, data, error }: EmptyStateProps) {
 }
 
 interface EmptyStateProps {
-  searchParamsObject: OptionalSearchParamsObject
+  searchParamsObject?: SearchParamsObject
   data: UserTasksResult | undefined
   error: HandleError | undefined
 }
 
 interface TaskListContentProps {
-  searchParamsObject: OptionalSearchParamsObject
+  searchParamsObject?: SearchParamsObject
   tasksDataPromise: FetchData<UserTasksResult>
 }
