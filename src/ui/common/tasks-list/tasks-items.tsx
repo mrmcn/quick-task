@@ -1,32 +1,28 @@
 import { auth } from '@/auth'
 import { ListPhrases } from '@/lib/constants/text-const'
-import { FetchData, UserTasksResult } from '@/lib/services/queries/types'
-import { HandleError } from '@/lib/utils/error-handling/type'
-import {
-  getSearchParams,
-  SearchParamsObject,
-} from '@/lib/utils/helpers/get-search-params'
+import { getSearchParams } from '@/lib/utils/helpers/get-search-params'
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
+import { EmptyStateProps, TasksItemsProps } from '@/ui/common/tasks-list/types'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 export default async function TasksItems({
   searchParamsObject,
   tasksDataPromise,
-}: TaskListContentProps) {
-  const { data, error } = await tasksDataPromise
+}: TasksItemsProps) {
+  const response = await tasksDataPromise
 
-  if (!data?.tasks || data?.tasks.length === 0)
+  if (response.error || response.data?.tasks.length === 0) {
     return (
       <EmptyState
-        data={data}
-        error={error}
+        {...response}
         searchParamsObject={searchParamsObject}
       />
     )
+  }
 
   const session = await auth()
-  const taskItem = data.tasks.map((task) => (
+  const taskItem = response.data.tasks.map((task) => (
     <TaskListItemSwipeable
       key={task.id}
       task={task}
@@ -58,15 +54,4 @@ function EmptyState({ searchParamsObject, data, error }: EmptyStateProps) {
       </Typography>
     </Box>
   )
-}
-
-interface EmptyStateProps {
-  searchParamsObject?: SearchParamsObject
-  data: UserTasksResult | undefined
-  error: HandleError | undefined
-}
-
-interface TaskListContentProps {
-  searchParamsObject?: SearchParamsObject
-  tasksDataPromise: FetchData<UserTasksResult>
 }

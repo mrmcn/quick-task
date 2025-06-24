@@ -1,3 +1,8 @@
+import {
+  SWIPE_HIDDEN_WIDTH_DESKTOP,
+  SWIPE_HIDDEN_WIDTH_MOBILE,
+  SWIPE_THRESHOLD_PERCENTAGE,
+} from '@/lib/constants/data/ui-config'
 import { useMyMediaQuery } from '@/lib/utils/hooks/common/use-my-media-query'
 import { useState } from 'react'
 import { SwipeEventData } from 'react-swipeable'
@@ -10,16 +15,21 @@ export function useSwipeProps() {
   )
   const { isMobile } = useMyMediaQuery() // Custom hook to determine if the device is mobile based on media queries.
 
-  const leftHiddenWidth = isMobile ? 60 : 100 // Width of the left hidden area, adjusted for mobile.
-  const rightHiddenWidth = isMobile ? 60 : 100 // Width of the right hidden area, adjusted for mobile.
-  const SWIPE_THRESHOLD = 0.3 // Threshold (as a percentage of the hidden area width) to trigger a full swipe action.
+  const hiddenWidth = isMobile
+    ? SWIPE_HIDDEN_WIDTH_MOBILE
+    : SWIPE_HIDDEN_WIDTH_DESKTOP
+  const leftHiddenWidth = hiddenWidth // Width of the left hidden area, adjusted for mobile.
+  const rightHiddenWidth = hiddenWidth // Width of the right hidden area, adjusted for mobile.
 
   // Handler for swipe left gestures.
   const onSwipedLeft = (eventData: SwipeEventData) => {
     if (swipeState === 'right') {
       setTranslateX(0) // If already swiped right, go back to the initial position.
       setSwipeState('none')
-    } else if (Math.abs(eventData.deltaX) > leftHiddenWidth * SWIPE_THRESHOLD) {
+    } else if (
+      Math.abs(eventData.deltaX) >
+      leftHiddenWidth * SWIPE_THRESHOLD_PERCENTAGE
+    ) {
       setTranslateX(-rightHiddenWidth) // If swiped left beyond the threshold, reveal the right hidden area.
       setSwipeState('left')
     } else {
@@ -33,7 +43,10 @@ export function useSwipeProps() {
     if (swipeState === 'left') {
       setTranslateX(0) // If already swiped left, go back to the initial position.
       setSwipeState('none')
-    } else if (Math.abs(eventData.deltaX) > leftHiddenWidth * SWIPE_THRESHOLD) {
+    } else if (
+      Math.abs(eventData.deltaX) >
+      leftHiddenWidth * SWIPE_THRESHOLD_PERCENTAGE
+    ) {
       setTranslateX(leftHiddenWidth) // If swiped right beyond the threshold, reveal the left hidden area.
       setSwipeState('right')
     } else {

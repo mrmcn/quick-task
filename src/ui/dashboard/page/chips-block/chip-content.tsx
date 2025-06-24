@@ -11,10 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useFormStatus } from 'react-dom'
 
 export default function ChipContent({ data, chipConfig }: ChipContentProps) {
-  const { handleChange, isActive } = useFilterParams(
-    chipConfig.filterValue,
-    chipConfig.filteringParam,
-  )
+  const { handleChange, isActive } = useFilterParams(chipConfig)
   const label = getLabel(isActive, chipConfig, data)
 
   return (

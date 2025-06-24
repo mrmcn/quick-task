@@ -2,12 +2,13 @@
 
 import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import { updateTaskStatus } from '@/lib/services/actions/task'
+import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
+import { EditStatusFormProps } from '@/ui/common/tasks-list/types'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
-import { Status, Task } from '@prisma/client'
+import { Status } from '@prisma/client'
 import { useActionState } from 'react'
-import HiddenInputs from './hidden-inputs'
 
 export default function UpdateTaskStatus({
   id,
@@ -47,14 +48,12 @@ export default function UpdateTaskStatus({
         aria-labelledby={`task-${title}`}
       />
       <HiddenInputs
+        taskId={id}
         dynamicField={{
           name: TextFieldsNameAttributeList.status,
           value: value,
         }}
-        taskId={id}
       />
     </form>
   )
 }
-
-type EditStatusFormProps = Pick<Task, 'id' | 'status' | 'title'>

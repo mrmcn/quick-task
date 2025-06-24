@@ -26,3 +26,8 @@ export type FilteringParam = Extract<
   ListSearchParameterValue,
   'status' | 'priority'
 >
+
+export type FilterParamsProps = Pick<
+  ChipsConfigProps,
+  'filterValue' | 'filteringParam'
+>

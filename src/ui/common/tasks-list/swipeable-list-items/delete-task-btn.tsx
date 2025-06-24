@@ -3,14 +3,12 @@
 import { ListBtnNames } from '@/lib/constants/text-const'
 import { deleteTask } from '@/lib/services/actions/task'
 import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
+import { DeleteTaskProps } from '@/ui/common/tasks-list/types'
 import Button from '@mui/material/Button'
 import { useFormStatus } from 'react-dom'
 
 // A button component responsible for deleting a task. It wraps a form to perform the delete action.
-export function DeleteTaskBtn({
-  taskId,
-  searchParamsToGoBack,
-}: DeleteTaskBtnProps) {
+export function DeleteTask({ taskId, searchParamsToGoBack }: DeleteTaskProps) {
   return (
     <form action={deleteTask}>
       {/* Component: BtnWithUseFormStatus - Separated to utilize the useFormStatus hook */}
@@ -39,9 +37,4 @@ function BtnWithUseFormStatus() {
       {ListBtnNames.deleteTask} {/* The text for the delete button. */}
     </Button>
   )
-}
-
-interface DeleteTaskBtnProps {
-  taskId: string
-  searchParamsToGoBack: string
 }

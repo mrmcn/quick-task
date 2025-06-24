@@ -3,9 +3,11 @@ import { HandleError } from '@/lib/utils/error-handling/type'
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { Status, User } from '@prisma/client'
 
-export type FetchData<T> = Promise<
-  { data: T; error?: undefined } | { error: HandleError; data?: undefined }
->
+export type FetchData<T> = Promise<ResponseObject<T>>
+
+export type ResponseObject<T> =
+  | { data: T; error?: undefined }
+  | { error: HandleError; data?: undefined }
 
 export interface UserTasksResult {
   tasks: TaskListDto[]

@@ -46,3 +46,6 @@ export const sortOptionsConfig = [
 
 export const PAGE_VALUE = [3, 4, 5, 7, 10] as const
 export type PageValue = (typeof PAGE_VALUE)[number]
+export const SWIPE_HIDDEN_WIDTH_MOBILE = 60
+export const SWIPE_HIDDEN_WIDTH_DESKTOP = 100
+export const SWIPE_THRESHOLD_PERCENTAGE = 0.3

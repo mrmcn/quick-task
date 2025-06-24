@@ -1,6 +1,6 @@
 import { fetchTask } from '@/lib/services/queries/task'
-import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import TasksItems from '@/ui/common/tasks-list//tasks-items'
+import { TasksListProps } from '@/ui/common/tasks-list/types'
 import PaginationRow from '@/ui/dashboard/page/pagination'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -53,8 +53,4 @@ function Fallback() {
       </ListItemButton>
     </ListItem>
   )
-}
-
-interface TasksListProps {
-  searchParamsObject?: SearchParamsObject
 }

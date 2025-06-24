@@ -1,6 +1,8 @@
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 
-export function formatSearchParams(searchParamsObject: Props): string {
+export function formatSearchParams(
+  searchParamsObject?: SearchParamsObject,
+): string {
   const params = new URLSearchParams()
   for (const key in searchParamsObject) {
     const value = searchParamsObject[key]
@@ -13,5 +15,3 @@ export function formatSearchParams(searchParamsObject: Props): string {
 
   return `?${params.toString()}`
 }
-
-type Props = SearchParamsObject | undefined

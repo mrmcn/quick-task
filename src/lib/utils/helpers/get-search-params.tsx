@@ -4,18 +4,16 @@ import {
 } from '@/lib/constants/text-const'
 import { Priority, Status } from '@prisma/client'
 
-export const getSearchParams = (
-  searchParamsObject: SearchParamsObject | undefined,
-) => {
-  const { status, page, query, sorting, priority } = ListSearchParameter
-  const {
-    defaultStatus,
-    defaultPage,
-    defaultQuery,
-    defaultSort,
-    defaultPriority,
-  } = ListDefaultSearchParameter
+const { status, page, query, sorting, priority } = ListSearchParameter
+const {
+  defaultStatus,
+  defaultPage,
+  defaultQuery,
+  defaultSort,
+  defaultPriority,
+} = ListDefaultSearchParameter
 
+export const getSearchParams = (searchParamsObject?: SearchParamsObject) => {
   return {
     query: (searchParamsObject?.[query] as string) || defaultQuery,
     currentPage: Number(searchParamsObject?.[page] || defaultPage),

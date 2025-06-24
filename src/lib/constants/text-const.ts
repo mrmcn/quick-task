@@ -25,7 +25,7 @@ export const ListSortingParameter = {
   titleAsc: 'title asc',
   titleDesc: 'title desc',
   dateAsc: 'date asc',
-  dateDesc: 'date desc', 
+  dateDesc: 'date desc',
 } as const
 
 export const ListFormNames = {

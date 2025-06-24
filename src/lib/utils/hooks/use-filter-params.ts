@@ -1,12 +1,11 @@
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
-import { FilteringParam } from '@/ui/dashboard/page/chips-block/types'
-import { Priority, Status } from '@prisma/client'
+import { FilterParamsProps } from '@/ui/dashboard/page/chips-block/types'
 import { useCallback } from 'react'
 
-export function useFilterParams(
-  filterValue: Status | Priority,
-  filteringParam: FilteringParam,
-) {
+export function useFilterParams({
+  filteringParam,
+  filterValue,
+}: FilterParamsProps) {
   const { updateUrl, valueCurrentQueryParameter: currentFilterValue } =
     useUpdateUrlWithParams(filteringParam)
   const isActive = currentFilterValue === filterValue
