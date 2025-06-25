@@ -15,13 +15,8 @@ export const listItemSx = (translateX: number) => {
 export const hiddenComponentSx = (
   translateX: number,
   width: number | string,
-  left?: number | string,
-  right?: number | string,
+  side: { left: 0 } | { right: 0 },
 ) => {
-  const transform =
-    left !== undefined
-      ? `translateX(calc(-${width}px + ${Math.max(0, translateX)}px))`
-      : `translateX(calc(${width}px + ${Math.min(0, translateX)}px))`
   const styles: SxProps<Theme> = {
     position: 'absolute',
     top: 0,
@@ -32,12 +27,19 @@ export const hiddenComponentSx = (
     justifyContent: 'center',
     overflow: 'hidden',
     transition: 'transform 0.2s ease-out',
-    transform: transform,
   }
-  if (left !== undefined) {
-    styles.left = left
-  } else if (right !== undefined) {
-    styles.right = right
+  if ('left' in side) {
+    styles.transform = `translateX(calc(-${width}px + ${Math.max(
+      0,
+      translateX,
+    )}px))`
+    styles.left = side.left
+  } else {
+    styles.transform = `translateX(calc(${width}px + ${Math.min(
+      0,
+      translateX,
+    )}px))`
+    styles.right = side.right
   }
 
   return styles

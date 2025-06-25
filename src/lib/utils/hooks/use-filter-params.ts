@@ -12,8 +12,11 @@ export function useFilterParams({
 
   const handleChangeFilter = useCallback(() => {
     const searchParamsWithNewFilter = (params: URLSearchParams) => {
-      if (isActive) params.delete(filteringParam)
-      params.set(filteringParam, filterValue)
+      if (isActive) {
+        params.delete(filteringParam)
+      } else {
+        params.set(filteringParam, filterValue)
+      }
     }
     updateUrl(1, searchParamsWithNewFilter)
   }, [updateUrl, isActive, filterValue, filteringParam])

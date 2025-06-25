@@ -94,7 +94,7 @@ export default function TaskListItemSwipeable({
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden' }}>
       {/* Wrapper for the left hidden action (Update Priority) */}
-      <Box sx={hiddenComponentSx(translateX, leftHiddenWidth, 0)}>
+      <Box sx={hiddenComponentSx(translateX, leftHiddenWidth, { left: 0 })}>
         <UpdateTaskPriority task={task} />
       </Box>
       <ListItem
@@ -110,7 +110,7 @@ export default function TaskListItemSwipeable({
         {renderTaskStatus}
       </ListItem>
       {/*  Wrapper for the right hidden actions (Delete) */}
-      <Box sx={hiddenComponentSx(translateX, rightHiddenWidth, 0)}>
+      <Box sx={hiddenComponentSx(translateX, rightHiddenWidth, { right: 0 })}>
         <DeleteTask
           taskId={task.id}
           searchParamsToGoBack={searchParamsToGoBack}
