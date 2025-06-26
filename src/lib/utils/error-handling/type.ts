@@ -1,3 +1,4 @@
+import { DeleteTaskError } from '@/lib/errors/delete-task-error'
 import { ValidationError } from '@/lib/errors/validation-error'
 import { Prisma } from '@prisma/client'
 import { AuthError } from 'next-auth'
@@ -8,6 +9,7 @@ export type HandleErrorProps =
   | AuthError
   | z.ZodError
   | ValidationError
+  | DeleteTaskError
   | Error
 
 export type ZodErrors = Record<string, string[]>
@@ -31,6 +33,11 @@ export type HandleError =
       type: 'unknown'
       message: string
       details: string
+    }
+  | {
+      type: 'delete task'
+      message: string
+      details: undefined
     }
   | HandleZodError
   | ValidationError

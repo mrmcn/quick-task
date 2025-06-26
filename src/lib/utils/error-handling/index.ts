@@ -5,11 +5,13 @@ import { handleValidationError } from '@/lib/utils/error-handling/handlers/valid
 import { handleZodError } from '@/lib/utils/error-handling/handlers/zod'
 import {
   isAuthError,
+  isDeleteTaskError,
   isError,
   isPrismaClientError,
   isValidateError,
   isZodError,
 } from '@/lib/utils/error-handling/type-guards'
+import { handleDeleteTaskError } from './handlers/delete-task'
 import { HandleError, HandleErrorProps } from './type'
 
 export function handleError(error: HandleErrorProps): HandleError {
@@ -22,6 +24,8 @@ export function handleError(error: HandleErrorProps): HandleError {
       return handleZodError(error)
     case isValidateError(error):
       return handleValidationError(error)
+    case isDeleteTaskError(error):
+      return handleDeleteTaskError(error)
     case isError(error):
       return handleLastError(error)
     default:

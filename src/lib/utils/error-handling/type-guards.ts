@@ -1,3 +1,4 @@
+import { DeleteTaskError } from '@/lib/errors/delete-task-error'
 import { ValidationError } from '@/lib/errors/validation-error'
 import {
   HandleErrorProps,
@@ -30,6 +31,12 @@ export function isValidateError(
   error: HandleErrorProps,
 ): error is ValidationError {
   return error instanceof ValidationError
+}
+
+export function isDeleteTaskError(
+  error: HandleErrorProps,
+): error is DeleteTaskError {
+  return error instanceof DeleteTaskError
 }
 
 export function isError(error: HandleErrorProps): error is Error {

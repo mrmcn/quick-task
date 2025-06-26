@@ -1,10 +1,12 @@
 'use server'
 
+import { auth } from '@/auth'
 import { PAGES } from '@/lib/constants/routes'
 import {
   ListSearchParameter,
   ListSortingParameter,
 } from '@/lib/constants/text-const'
+import { DeleteTaskError } from '@/lib/errors/delete-task-error'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import { ActionProps, StateProps } from '@/lib/services/actions/types'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
@@ -79,9 +81,11 @@ export const deleteTask = async (formData: FormData) => {
   const id = formData.get('id')
   const searchParamsString = formData.get('searchParams')
 
+  if (!(await auth())) return
+
   if (typeof id !== 'string') {
     console.error('Invalid task ID:', id)
-    throw new Error('Invalid task ID')
+    throw new DeleteTaskError('Invalid task ID')
   }
 
   try {
