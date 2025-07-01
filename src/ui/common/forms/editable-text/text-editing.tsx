@@ -1,17 +1,17 @@
 'use client'
 
 import { ListBtnNames } from '@/lib/constants/text-const'
+import { useDisplayableContent } from '@/lib/utils/hooks/use-displayable-content'
 import {
   Content,
-  useDisplayableContent,
-} from '@/lib/utils/hooks/use-displayable-content'
+  TextEditingProps,
+} from '@/ui/common/forms/editable-text/types'
 import RenderErrors from '@/ui/common/forms/render-errors'
+import { RenderProps } from '@/ui/common/forms/text-fields/types'
 import { CircularProgress, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { Dispatch, SetStateAction, useActionState } from 'react'
-import { BaseEditableTextProps } from '.'
-import { RenderProps } from '../text-fields/types'
 
 /**
  * The TextEditing component displays the form for editing the text.
@@ -86,8 +86,4 @@ function getTextFieldProps(
       },
     },
   }
-}
-
-interface TextEditingProps extends BaseEditableTextProps {
-  setIsEditing: Dispatch<SetStateAction<boolean>>
 }

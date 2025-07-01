@@ -1,7 +1,7 @@
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
+import { AuthListDto, TaskListDto } from '@/lib/db/selects'
 import { HandleError } from '@/lib/utils/error-handling/type'
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
-import { Status, User } from '@prisma/client'
+import { Prisma, Status, User } from '@prisma/client'
 
 export type FetchData<T> = Promise<ResponseObject<T>>
 
@@ -19,12 +19,6 @@ export interface MonitoringStatesProps {
   [Status.in_progress]: number
 }
 
-export type ScalarUserFields = keyof User
-export type UserFieldType<K extends ScalarUserFields> = User[K]
-export type FetchUniqueUserData<K extends ScalarUserFields> = FetchData<
-  UserFieldType<K>
->
-
 export interface FetchTask {
   statusCounts(): FetchData<MonitoringStatesProps>
   userTasksData(
@@ -33,6 +27,22 @@ export interface FetchTask {
 }
 
 export interface FetchUser {
-  allData(email: User['email']): FetchData<User>
-  uniqueData<K extends ScalarUserFields>(param: K): FetchUniqueUserData<K>
+  authData(email: User['email']): FetchData<AuthListDto>
+  uniqueData<K extends Prisma.UserSelect>(
+    select: K,
+  ): FetchData<
+    Prisma.UserGetPayload<{
+      select: K
+    }>
+  >
 }
+
+export type StateProps =
+  | { status: 'success' }
+  | { status: 'error'; error: HandleError }
+  | undefined // undefined is the type of initialState with useActionState '@/ui/common/form-wrapper/with-action'
+
+export type ActionProps<T> = (
+  state: Awaited<T>,
+  payload: FormData,
+) => T | Promise<T>

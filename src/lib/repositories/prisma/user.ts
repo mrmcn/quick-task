@@ -25,7 +25,17 @@ const getUser = async (where: Prisma.UserWhereUniqueInput): Promise<User> => {
   })
 }
 
-const deleteUser = async (where: Prisma.UserWhereUniqueInput) => {
+const getSelectUser = async <T extends Prisma.UserSelect>(
+  where: Prisma.UserWhereUniqueInput,
+  select: T,
+): Promise<Prisma.UserGetPayload<{ select: T }>> => {
+  return await prisma.user.findUniqueOrThrow({
+    where,
+    select,
+  })
+}
+
+const deleteUser = async (where: Prisma.UserWhereUniqueInput): VoidPromise => {
   const deleteTasks = prisma.task.deleteMany({ where: { authorId: where.id } })
   const deleteUser = prisma.user.delete({ where })
   await prisma.$transaction([deleteTasks, deleteUser])
@@ -36,4 +46,5 @@ export const userRepository: IUserRepository = {
   getUser,
   createUser,
   deleteUser,
+  getSelectUser,
 }

@@ -1,7 +1,11 @@
 import { TextFieldsNameAttributeListValue } from '@/lib/constants/type'
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { ActionProps, StateProps } from '@/lib/services/actions/types'
-import { ResponseObject, UserTasksResult } from '@/lib/services/queries/types'
+import { TaskListDto } from '@/lib/db/selects'
+import {
+  ActionProps,
+  ResponseObject,
+  StateProps,
+  UserTasksResult,
+} from '@/lib/services/types'
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { RenderProps } from '@/ui/common/forms/text-fields/types'
 import { TasksDataPromise } from '@/ui/types'

@@ -28,8 +28,8 @@ export default async function BarBtn() {
       </>
     )
 
-  const { data } = await fetchUser.uniqueData('name')
-  const userName = data ?? ListError.error
+  const { data } = await fetchUser.uniqueData({ name: true })
+  const userName = data?.name ?? ListError.error
 
   return (
     <>

@@ -7,11 +7,14 @@ const prepareHashedPassword = async (
   newPassword: User['password'],
   id: User['id'],
 ) => {
-  const user = await userRepository.getUser({ id })
+  const { password } = await userRepository.getSelectUser(
+    { id },
+    { password: true },
+  )
   const hashedNewPassword = await verifyAndHashPassword(
     currentPassword,
     newPassword,
-    user,
+    password,
   )
   return { password: hashedNewPassword }
 }

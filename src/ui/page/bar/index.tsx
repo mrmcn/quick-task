@@ -47,8 +47,8 @@ async function getAppBarConfig() {
   const session = await auth()
 
   if (session) {
-    const { data } = await fetchUser.uniqueData('name')
-    const userName = data ?? ListError.failed
+    const { data } = await fetchUser.uniqueData({ name: true })
+    const userName = data?.name ?? ListError.failed
 
     return {
       homeUrl: PAGES.HOME,

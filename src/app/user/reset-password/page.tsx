@@ -7,8 +7,8 @@ import {
   ListPhrases,
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
-import { StateProps } from '@/lib/services/actions/types'
 import { updateUserPassword } from '@/lib/services/actions/user'
+import { StateProps } from '@/lib/services/types'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/password'

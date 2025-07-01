@@ -1,3 +1,4 @@
+import { USER_DATA_SELECT } from '@/lib/db/selects'
 import { updateUserEmail, updateUserName } from '@/lib/services/actions/user'
 import { fetchUser } from '@/lib/services/queries/user'
 import EditableListItem from '@/ui/user/page/setting-list/editable-list-items'
@@ -12,8 +13,7 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 
 export default async function UserPage() {
-  const userNamePromise = fetchUser.uniqueData('name')
-  const userEmailPromise = fetchUser.uniqueData('email')
+  const userDataPromise = fetchUser.uniqueData(USER_DATA_SELECT)
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -21,7 +21,7 @@ export default async function UserPage() {
         <EditableListItem
           editableComponent={
             <EditableUserData
-              userDataPromise={userNamePromise}
+              userDataPromise={userDataPromise}
               fieldName='name'
               action={updateUserName}
             />
@@ -31,7 +31,7 @@ export default async function UserPage() {
         <EditableListItem
           editableComponent={
             <EditableUserData
-              userDataPromise={userEmailPromise}
+              userDataPromise={userDataPromise}
               fieldName='email'
               action={updateUserEmail}
             />

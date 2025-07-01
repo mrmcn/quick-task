@@ -16,7 +16,7 @@ export const { auth, signIn, signOut } = NextAuth({
           userSchemes.emailAndPasswordInput,
         )
         if (validData) {
-          const { data } = await fetchUser.allData(validData.email)
+          const { data } = await fetchUser.authData(validData.email)
           if (!data) return null
 
           const passwordsMatch = await bcrypt.compare(

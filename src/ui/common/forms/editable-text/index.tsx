@@ -1,19 +1,16 @@
 'use client'
 
 import Await from '@/lib/components/await'
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { ActionProps, StateProps } from '@/lib/services/actions/types'
-import {
-  FetchUniqueUserData,
-  UserFieldType,
-} from '@/lib/services/queries/types'
 import { HandleError } from '@/lib/utils/error-handling/type'
+import TextEditing from '@/ui/common/forms/editable-text/text-editing'
+import {
+  Data,
+  EditableTextProps,
+  RenderViewText,
+} from '@/ui/common/forms/editable-text/types'
 import Skeleton from '@mui/material/Skeleton'
 import Typography, { TypographyProps } from '@mui/material/Typography'
-import { User } from '@prisma/client'
 import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
-import { RenderProps } from '../text-fields/types'
-import TextEditing from './text-editing'
 
 /**
  * The EditableText component provides inline text editing functionality.
@@ -47,7 +44,7 @@ export function EditableText({
  * Handles both synchronous strings and asynchronous promises.
  */
 function getViewingText(
-  data: Data, // The data to display.
+  data: Data, // The data to display. Can be a string or a FetchData promise.
   setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
   renderViewText: RenderViewText, // Function to render the text for viewing.
 ): JSX.Element {
@@ -56,10 +53,10 @@ function getViewingText(
     typeof data !== 'string' ? (
       <Suspense fallback={<Skeleton width={40} />}>
         <Await
-          promise={data}
+          promise={data.promise}
           errorElement={errorElement}
         >
-          {(res) => renderViewText(typographyProps, res)}
+          {(res) => renderViewText(typographyProps, res[data.key])}
         </Await>
       </Suspense>
     ) : (
@@ -90,21 +87,3 @@ function getTypographyProps(
   }
   return typographyProps
 }
-
-interface EditableTextProps extends BaseEditableTextProps {
-  renderViewText: RenderViewText
-}
-
-export interface BaseEditableTextProps {
-  data: Data
-  action: ActionProps<StateProps>
-  renderEditedText: (props: RenderProps) => React.ReactNode
-}
-
-type RenderViewText = (
-  props: TypographyProps,
-  viewData: TaskFieldType | UserFieldType<keyof User>,
-) => JSX.Element
-
-export type Data = TaskFieldType | FetchUniqueUserData<keyof User>
-export type TaskFieldType = TaskListDto['details' | 'title']

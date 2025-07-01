@@ -6,6 +6,7 @@ import {
   SearchParamsObject,
 } from '@/lib/utils/helpers/get-search-params'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import { Prisma } from '@prisma/client'
 
 export default async function prepareTaskFetchParams(
   searchParamsObject?: SearchParamsObject,
@@ -17,12 +18,12 @@ export default async function prepareTaskFetchParams(
 
   const { userEmail, userId } = await getSessionData() // or userTasksList
   if (!userEmail) return { error: new Error('User email is undefined') }
-  const { data, error } = await fetchUser.uniqueData('tasksPerPage')
+  const { data, error } = await fetchUser.uniqueData({ tasksPerPage: true })
   if (!data) return { error }
 
   const { query, currentPage, sort, status, priority } =
     getSearchParams(searchParamsObject)
-  const offset = (currentPage - 1) * data
+  const offset = (currentPage - 1) * data.tasksPerPage
   const orderBy = getOrderBy(sort)
 
   return {
@@ -33,12 +34,12 @@ export default async function prepareTaskFetchParams(
       query,
       status,
       priority,
-      tasksPerPage: data,
+      tasksPerPage: data.tasksPerPage,
     },
   }
 }
 
-function getOrderBy(sortParams: string) {
+function getOrderBy(sortParams: string): Prisma.TaskOrderByWithRelationInput {
   const [field, order] = sortParams.split(' ')
 
   return {

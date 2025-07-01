@@ -1,4 +1,4 @@
-import { ActionProps, StateProps } from '@/lib/services/actions/types'
+import { ActionProps, StateProps } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
 import { validateFormData } from '@/lib/zod/validate'
 import { z, ZodSchema } from 'zod'

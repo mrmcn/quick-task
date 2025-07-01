@@ -4,7 +4,7 @@ import {
   FetchTask,
   MonitoringStatesProps,
   UserTasksResult,
-} from '@/lib/services/queries/types'
+} from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
 import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
@@ -23,13 +23,11 @@ async function userTasksData(
 
   try {
     const { tasks, count } = await taskRepository.getUserTasksWithCount({
-      id: data.userId,
-      offset: data.offset,
+      initialWhere: { author: { id: data.userId } },
       orderBy: data.orderBy,
+      skip: data.offset,
+      take: data.tasksPerPage,
       query: data.query,
-      status: data.status,
-      priority: data.priority,
-      tasksPerPage: data.tasksPerPage,
     })
 
     const totalPages = Math.ceil(count / data.tasksPerPage)

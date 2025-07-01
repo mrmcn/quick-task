@@ -1,4 +1,4 @@
-import { FetchData } from '@/lib/services/queries/types'
+import { FetchData } from '@/lib/services/types'
 import { use } from 'react'
 import { HandleError } from '../utils/error-handling/type'
 

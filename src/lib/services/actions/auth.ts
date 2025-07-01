@@ -2,7 +2,7 @@
 
 import { signIn, signOut } from '@/auth'
 import { PAGES } from '@/lib/constants/routes'
-import { ActionProps, StateProps } from '@/lib/services/actions/types'
+import { ActionProps, StateProps } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
 import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 

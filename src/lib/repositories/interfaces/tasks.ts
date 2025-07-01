@@ -1,14 +1,12 @@
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
-import { $Enums, Prisma, User } from '@prisma/client'
+import { TaskListDto } from '@/lib/db/selects'
+import { Prisma, User } from '@prisma/client'
 
 export interface GetUserTasksParams {
-  id: User['id']
-  offset: number
-  tasksPerPage: User['tasksPerPage']
+  initialWhere: Prisma.TaskWhereInput
+  skip: number
   orderBy: Prisma.TaskOrderByWithRelationInput
+  take: number
   query: string
-  status?: $Enums.Status
-  priority?: $Enums.Priority
 }
 
 // This interface defines the methods for interacting with tasks in the repository
@@ -17,7 +15,7 @@ export interface ITaskRepository {
   getGroupByStatus: (id: User['id']) => GetMonitoringStates
   createTask: (
     id: User['id'],
-    taskData: Omit<Prisma.TaskCreateInput, 'author'>,
+    taskData: Pick<Prisma.TaskCreateInput, 'title' | 'details'>,
   ) => VoidPromise
   updateTask: (
     where: Prisma.TaskWhereUniqueInput,

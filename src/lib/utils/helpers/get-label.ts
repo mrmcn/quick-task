@@ -1,5 +1,5 @@
 import { ListSearchParameter } from '@/lib/constants/text-const'
-import { MonitoringStatesProps } from '@/lib/services/queries/types'
+import { MonitoringStatesProps } from '@/lib/services/types'
 import { ChipsConfigProps } from '@/ui/dashboard/page/chips-block/types'
 
 const getLabel = (

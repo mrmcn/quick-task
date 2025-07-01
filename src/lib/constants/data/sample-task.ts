@@ -1,4 +1,4 @@
-import { TaskListDto } from '@/lib/repositories/prisma/tasks'
+import { TaskListDto } from '@/lib/db/selects'
 
 const TASK_DATA: TaskListDto[] = [
   {

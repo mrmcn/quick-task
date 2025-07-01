@@ -8,7 +8,7 @@ import {
 } from '@/lib/constants/text-const'
 import { DeleteTaskError } from '@/lib/errors/delete-task-error'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
-import { ActionProps, StateProps } from '@/lib/services/actions/types'
+import { ActionProps, StateProps } from '@/lib/services/types'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'
 import { tasksSchemes } from '@/lib/zod/schema/tasks'
@@ -19,10 +19,7 @@ export const createTask: ActionProps<StateProps> = withFormHandling(
   tasksSchemes.create,
   async ({ title, details }) => {
     const { userId } = await getSessionData()
-    await taskRepository.createTask(userId, {
-      details,
-      title,
-    })
+    await taskRepository.createTask(userId, { title, details })
   },
   async () => {
     revalidatePath(PAGES.DASHBOARD)
