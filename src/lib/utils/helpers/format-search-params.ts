@@ -1,4 +1,4 @@
-import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/types'
 
 /**
  * @function formatSearchParams

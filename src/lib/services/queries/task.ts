@@ -1,3 +1,5 @@
+import { auth } from '@/auth'
+import TASK_DATA from '@/lib/constants/data/sample-task'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import {
   FetchData,
@@ -7,10 +9,10 @@ import {
 } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
 import { HandleErrorProps } from '@/lib/utils/error-handling/type'
-import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
-import prepareTaskFetchParams from '@/lib/utils/helpers/prepare-task-fetch-params'
+import { prepareTaskFetchParams } from '@/lib/utils/helpers/prepare-task-fetch-params'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/helpers/task-status-counts'
+import { SearchParamsObject } from '@/lib/utils/types'
 
 /**
  * This file contains Server Actions (though the functions aren't directly exported as Server Actions,
@@ -33,23 +35,21 @@ import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/helpers/task-st
 async function userTasksData(
   searchParamsObject?: SearchParamsObject,
 ): FetchData<UserTasksResult> {
+  // Retrieve the current authentication session.
+  const session = await auth()
+
+  // 1. If prepareTaskFetchParams returns sample data, return it.
+  if (!session) {
+    return { data: { tasks: TASK_DATA, totalPages: 1 } } // for sample
+  }
+
   // This step processes session data, search parameters, and returns prepared data for the query, or sample data
   // for unauthenticated users.
-  const { sampleData, data } = await prepareTaskFetchParams(searchParamsObject)
-
-  // 2. If prepareTaskFetchParams returns sample data, return it.
-  if (sampleData) return { data: sampleData }
+  const data = await prepareTaskFetchParams(session, searchParamsObject)
 
   // 3. Execute the query to the task repository.
   try {
-    const { tasks, count } = await taskRepository.getUserTasksWithCount({
-      initialWhere: { author: { id: data.userId } }, // Filter by author ID
-      orderBy: data.orderBy, // Sorting parameters
-      skip: data.skip, // Offset for pagination
-      take: data.take, // Number of tasks per page
-      query: data.query, // Search query string
-    })
-
+    const { tasks, count } = await taskRepository.getUserTasksWithCount(data)
     // 4. Calculate the total number of pages based on the total task count and tasks per page.
     const totalPages = Math.ceil(count / data.take)
 

@@ -60,3 +60,11 @@ type PaginationErrorResult = {
 export type PreparationPaginationParams =
   | PaginationErrorResult
   | PaginationSuccessResult
+
+/**
+ * @description A type representing the structure of a search parameters object.
+ * Keys can be any string, and values are single strings.
+ */
+export type SearchParamsObject = {
+  [key: string]: string
+}

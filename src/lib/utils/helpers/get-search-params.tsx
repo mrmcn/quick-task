@@ -2,6 +2,7 @@ import {
   ListDefaultSearchParameter,
   ListSearchParameter,
 } from '@/lib/constants/text-const'
+import { SearchParamsObject } from '@/lib/utils/types'
 import { Priority, Status } from '@prisma/client'
 
 // Destructure constants for better readability.
@@ -48,13 +49,4 @@ export const getSearchParams = (searchParamsObject?: SearchParamsObject) => {
     // `as Priority` is used for type assertion, as a specific Prisma enum is expected.
     priority: (searchParamsObject?.[priority] as Priority) || defaultPriority,
   }
-}
-
-/**
- * @description A type representing the structure of a search parameters object.
- * Keys can be any string, and values can be either a single string or an array of strings.
- * This allows for handling both single and multiple values for a single URL parameter.
- */
-export type SearchParamsObject = {
-  [key: string]: string | string[]
 }

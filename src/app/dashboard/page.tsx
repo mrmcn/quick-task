@@ -1,7 +1,7 @@
 import { dashboardStyles } from '@/app/dashboard/styles'
 import { PAGES } from '@/lib/constants/routes'
 import { ListPlaceholder } from '@/lib/constants/text-const'
-import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/types'
 import TasksList from '@/ui/common/tasks-list'
 import ChipsBlock from '@/ui/dashboard/page/chips-block'
 import Search from '@/ui/dashboard/page/task-search'

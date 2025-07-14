@@ -7,7 +7,7 @@ import {
   UserTasksPromise,
   UserTasksResult,
 } from '@/lib/services/types'
-import { SearchParamsObject } from '@/lib/utils/helpers/get-search-params'
+import { SearchParamsObject } from '@/lib/utils/types'
 import { RenderProps } from '@/ui/common/forms/text-fields/types'
 import { TypographyVariant } from '@mui/material'
 

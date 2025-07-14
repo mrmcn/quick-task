@@ -1,4 +1,3 @@
-import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
 import prisma from '@/lib/db/prisma'
 import { TASK_DATA_SELECT } from '@/lib/db/selects'
 import {
@@ -20,46 +19,20 @@ import { Prisma, User } from '@prisma/client'
  */
 
 /**
- * Helper function to create a `Prisma.StringFilter` object for
- * case-insensitive `contains` search.
- * Used to implement "fuzzy" text search.
- *
- * @param query The search query string.
- * @returns A Prisma filter object.
- */
-const INSENSITIVE_CONTAINS = (query: string) =>
-  ({
-    contains: query,
-    mode: 'insensitive',
-  } as const)
-
-/**
  * Retrieves a list of user tasks along with the total count of tasks
  * matching the filtering criteria.
- * Uses a Prisma Transaction to simultaneously execute queries for fetching
+ * It uses a Prisma Transaction to simultaneously execute queries for fetching
  * tasks and counting them, ensuring atomicity and efficiency.
  *
- * @param params The `GetUserTasksParams` object, containing filtering, sorting,
- * pagination (skip, take), and search query criteria.
- * @returns  A Promise that resolves with an object containing
+ * @param params The `GetUserTasksParams` object, containing filtering (`where`),
+ * sorting (`orderBy`), and pagination parameters (`skip`, `take`).
+ * @returns A Promise that resolves with an object containing
  * an array of tasks (`tasks`) and their total count (`count`).
  */
 const getUserTasksWithCount = async (
   params: GetUserTasksParams,
 ): GetUserTasksWithCount => {
-  const { initialWhere, orderBy, query, skip, take } = params
-  // Copy initial filtering conditions
-  const where: Prisma.TaskWhereInput = { ...initialWhere }
-
-  // Add search conditions for title and details if query is not empty
-  if (query !== '') {
-    where.OR = [
-      ...(where.OR || []), // Preserve existing OR conditions
-      { [TextFieldsNameAttributeList.title]: INSENSITIVE_CONTAINS(query) }, // Search by title
-      { [TextFieldsNameAttributeList.details]: INSENSITIVE_CONTAINS(query) }, // Search by details
-    ]
-  }
-
+  const { where, orderBy, skip, take } = params
   // Query to fetch tasks
   const tasksQuery = prisma.task.findMany({
     where,

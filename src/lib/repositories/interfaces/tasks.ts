@@ -7,15 +7,16 @@ import { Prisma, User } from '@prisma/client'
 
 /**
  * The `GetUserTasksParams` interface defines the structure of parameters
- * required for retrieving a list of user tasks with pagination,
- * filtering, and sorting.
+ * required for retrieving a list of user tasks with pagination, filtering,
+ * and sorting.
  */
 export interface GetUserTasksParams {
   /**
-   * Initial Prisma task filtering conditions (`WHERE` clause)
-   * that can be extended within the repository logic.
+   * Prisma task filtering conditions (`WHERE` clause).
+   * These conditions are constructed in the parameter preparation logic
+   * and passed to the repository.
    */
-  initialWhere: Prisma.TaskWhereInput
+  where: Prisma.TaskWhereInput
   /**
    * The number of records to skip (for pagination).
    */
@@ -28,11 +29,6 @@ export interface GetUserTasksParams {
    * The maximum number of records to take (for pagination).
    */
   take: number
-  /**
-   * The search query string used for filtering tasks
-   * by title or details (if applicable).
-   */
-  query: string
 }
 
 /**
