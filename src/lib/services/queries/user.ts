@@ -1,34 +1,32 @@
-import { AUTH_DATA_SELECT, AuthListDto } from '@/lib/db/selects'
 import { userRepository } from '@/lib/repositories/prisma/user'
 import { FetchData, FetchUser } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
 import { HandleErrorProps } from '@/lib/utils/error-handling/type'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data'
-import { Prisma, User } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
-// await new Promise((resolve) => setTimeout(resolve, 3000))
-
-async function authData(email: User['email']): FetchData<AuthListDto> {
-  try {
-    const response = await userRepository.getSelectUser(
-      { email },
-      AUTH_DATA_SELECT,
-    )
-
-    return { data: response }
-  } catch (error) {
-    console.error('Failed to fetch user:', error)
-    return { error: handleError(error as HandleErrorProps) }
-  }
-}
-
+/**
+ * Retrieves unique user data from the database.
+ * By default, it uses the user ID from the current session
+ * if `where` is not explicitly provided.
+ *
+ * @param select A Prisma select object specifying the fields to be returned.
+ * @param where An optional Prisma UserWhereUniqueInput condition for finding a unique user.
+ * If not provided, the user ID from the current session will be used.
+ */
 async function uniqueData<K extends Prisma.UserSelect>(
   select: K,
+  where?: Prisma.UserWhereUniqueInput,
 ): FetchData<Prisma.UserGetPayload<{ select: K }>> {
-  const { userId: id } = await getSessionData()
+  // If no specific search condition is provided,
+  // we default to using the user ID from the current session.
+  if (!where) {
+    const { userId: id } = await getSessionData()
+    where = { id }
+  }
 
   try {
-    const response = await userRepository.getSelectUser({ id }, select)
+    const response = await userRepository.getSelectUser(where, select)
 
     return { data: response }
   } catch (error) {
@@ -36,22 +34,10 @@ async function uniqueData<K extends Prisma.UserSelect>(
   }
 }
 
-// async function uniqueData<K extends ScalarUserFields>(
-//   param: K,
-// ): FetchUniqueUserData<K> {
-//   const { userId: id } = await getSessionData()
-//   const select = { [param]: true } as Prisma.UserSelect
-
-//   try {
-//     const response = await userRepository.getSelectUser({ id }, select)
-
-//     return { data: response[param] as UserFieldType<K> }
-//   } catch (error) {
-//     return { error: handleError(error as HandleErrorProps) }
-//   }
-// }
-
+/**
+ * An object that aggregates functions for fetching user data.
+ * Currently includes `uniqueData` for retrieving unique user records.
+ */
 export const fetchUser: FetchUser = {
-  authData,
   uniqueData,
 }

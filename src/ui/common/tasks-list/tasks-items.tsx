@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography'
 
 export default async function TasksItems({
   searchParamsObject,
-  tasksDataPromise,
+  userTasksPromise,
 }: TasksItemsProps) {
-  const response = await tasksDataPromise
+  const response = await userTasksPromise
 
   if (response.error || response.data?.tasks.length === 0) {
     return (

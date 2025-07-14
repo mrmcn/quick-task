@@ -1,5 +1,12 @@
 import { TaskListDto } from '@/lib/db/selects'
 
+/**
+ * This `TASK_DATA` array contains sample (stock) task entries.
+ * It's used for demonstrating application functionality,
+ * for displaying a page with stock data for unauthorized users.
+ * The `TaskListDto[]` type ensures that the data structure conforms
+ * to the fields expected for displaying a task list.
+ */
 const TASK_DATA: TaskListDto[] = [
   {
     id: '1',
@@ -22,6 +29,6 @@ const TASK_DATA: TaskListDto[] = [
     priority: 'high',
     status: 'in_progress',
   },
-] // for 'app/page'
+]
 
 export default TASK_DATA

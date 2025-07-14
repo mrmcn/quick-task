@@ -1,10 +1,10 @@
 import { ListError } from '@/lib/constants/text-const'
-import { StateProps } from '@/lib/services/types'
+import { ActionResult } from '@/lib/services/types'
 import { HandleErrorProps, ZodErrors } from '@/lib/utils/error-handling/type'
 import Typography from '@mui/material/Typography'
 import { nanoid } from 'nanoid'
 
-export default function RenderErrors({ state }: { state: StateProps }) {
+export default function RenderErrors({ state }: { state: ActionResult }) {
   if (state?.status === 'error') {
     if (state.error.type === 'zodValidation') {
       return renderZodErrors(state.error.details)

@@ -1,19 +1,18 @@
 'use client'
 
+import { UserTasksPromise } from '@/lib/services/types'
 import { usePagination } from '@/lib/utils/hooks/use-pagination'
-import { TasksDataPromise } from '@/ui/types'
 import Pagination from '@mui/material/Pagination'
 
-export default function PaginationRow({ tasksDataPromise }: TasksDataPromise) {
-  const { currentPage, handlePageChange, error, count } = usePagination({
-    tasksDataPromise,
-  })
+export default function PaginationRow({ userTasksPromise }: UserTasksPromise) {
+  const { resolve, handlePageChange } = usePagination(userTasksPromise)
 
-  if (error === null) return null
+  if (resolve === 'error') return null
+
   return (
     <Pagination
-      count={count}
-      page={currentPage}
+      count={resolve.countPages}
+      page={resolve.currentPage}
       onChange={handlePageChange}
       sx={{
         display: 'flex',

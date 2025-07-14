@@ -25,7 +25,7 @@ export default async function ListItemTasksPerPage() {
 
 async function getTaskPerPage() {
   const { data } = await fetchUser.uniqueData({ tasksPerPage: true })
-  const taskPerPage = data?.tasksPerPage || 3
+  const taskPerPage = data?.tasksPerPage
 
   if (PAGE_VALUE.includes(taskPerPage as PageValue)) {
     return taskPerPage as PageValue

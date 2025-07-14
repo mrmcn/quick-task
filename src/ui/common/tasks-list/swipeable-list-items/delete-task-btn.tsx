@@ -8,11 +8,15 @@ import Button from '@mui/material/Button'
 import { useFormStatus } from 'react-dom'
 
 // A button component responsible for deleting a task. It wraps a form to perform the delete action.
-export function DeleteTask({ taskId, searchParamsToGoBack }: DeleteTaskProps) {
+export function DeleteTask({
+  taskId,
+  searchParamsToGoBack,
+  authenticated,
+}: DeleteTaskProps) {
   return (
     <form action={deleteTask}>
       {/* Component: BtnWithUseFormStatus - Separated to utilize the useFormStatus hook */}
-      <BtnWithUseFormStatus />
+      <BtnWithUseFormStatus authenticated={authenticated} />
       <HiddenInputs
         taskId={taskId}
         dynamicField={{ name: 'searchParams', value: searchParamsToGoBack }}
@@ -23,18 +27,21 @@ export function DeleteTask({ taskId, searchParamsToGoBack }: DeleteTaskProps) {
 
 // Component: BtnWithUseFormStatus
 // Separated to utilize the useFormStatus hook for tracking form submission state.
-function BtnWithUseFormStatus() {
+function BtnWithUseFormStatus({ authenticated }: { authenticated: boolean }) {
   const { pending } = useFormStatus() // Hook to get the pending state of the form submission.
+  const btnContent = authenticated
+    ? ListBtnNames.deleteTask
+    : ListBtnNames.signIntoDelete
 
   return (
     <Button
       type='submit'
       color='warning'
-      disabled={pending} // Disable the button during submission.
+      disabled={pending || !authenticated} // Disable the button during submission or if not authenticated.
       loading={pending} // Show a loading indicator during submission.
       loadingPosition='end'
     >
-      {ListBtnNames.deleteTask} {/* The text for the delete button. */}
+      {btnContent} {/* The text for the delete button. */}
     </Button>
   )
 }

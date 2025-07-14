@@ -10,59 +10,117 @@ import {
 } from '@/lib/repositories/interfaces/tasks'
 import { Prisma, User } from '@prisma/client'
 
+/**
+ * This `task.ts` module implements `ITaskRepository`, providing methods
+ * for interacting with the `Task` table in the database using Prisma.
+ *
+ * It encapsulates task data access logic, separating it from business logic
+ * and UI components, ensuring a clean and maintainable approach to
+ * managing task data.
+ */
+
+/**
+ * Helper function to create a `Prisma.StringFilter` object for
+ * case-insensitive `contains` search.
+ * Used to implement "fuzzy" text search.
+ *
+ * @param query The search query string.
+ * @returns A Prisma filter object.
+ */
 const INSENSITIVE_CONTAINS = (query: string) =>
   ({
     contains: query,
     mode: 'insensitive',
   } as const)
 
+/**
+ * Retrieves a list of user tasks along with the total count of tasks
+ * matching the filtering criteria.
+ * Uses a Prisma Transaction to simultaneously execute queries for fetching
+ * tasks and counting them, ensuring atomicity and efficiency.
+ *
+ * @param params The `GetUserTasksParams` object, containing filtering, sorting,
+ * pagination (skip, take), and search query criteria.
+ * @returns  A Promise that resolves with an object containing
+ * an array of tasks (`tasks`) and their total count (`count`).
+ */
 const getUserTasksWithCount = async (
   params: GetUserTasksParams,
 ): GetUserTasksWithCount => {
   const { initialWhere, orderBy, query, skip, take } = params
+  // Copy initial filtering conditions
   const where: Prisma.TaskWhereInput = { ...initialWhere }
 
+  // Add search conditions for title and details if query is not empty
   if (query !== '') {
     where.OR = [
-      ...(where.OR || []),
-      { [TextFieldsNameAttributeList.title]: INSENSITIVE_CONTAINS(query) },
-      { [TextFieldsNameAttributeList.details]: INSENSITIVE_CONTAINS(query) },
+      ...(where.OR || []), // Preserve existing OR conditions
+      { [TextFieldsNameAttributeList.title]: INSENSITIVE_CONTAINS(query) }, // Search by title
+      { [TextFieldsNameAttributeList.details]: INSENSITIVE_CONTAINS(query) }, // Search by details
     ]
   }
 
+  // Query to fetch tasks
   const tasksQuery = prisma.task.findMany({
     where,
-    select: TASK_DATA_SELECT,
+    select: TASK_DATA_SELECT, // Select specific fields
     orderBy,
     skip,
     take,
   })
+  // Query to count the total number of tasks
   const countQuery = prisma.task.count({
     where,
   })
+  // Execute both queries in a single transaction
   const [tasks, count] = await prisma.$transaction([tasksQuery, countQuery])
 
   return { tasks, count }
 }
 
+/**
+ * Groups tasks by their status for a specific user and counts
+ * the number of tasks in each group. Used for displaying
+ * monitoring states or statistics (e.g., "Completed (5)", "In Progress (3)").
+ *
+ * @param id The ID of the user for whom to retrieve statistics.
+ * @returns  A Promise that resolves with an array of objects,
+ * containing the status and the count of tasks for that status.
+ */
 const getGroupByStatus = async (id: User['id']): GetMonitoringStates => {
   const groupInProgress = await prisma.task.groupBy({
-    by: ['status'],
-    where: { author: { id } },
-    _count: { status: true },
+    by: ['status'], // Group by the 'status' field
+    where: { author: { id } }, // Filter by task author
+    _count: { status: true }, // Count the number of tasks for each status
   })
 
   return groupInProgress
 }
 
+/**
+ * Creates a new task for the specified user.
+ *
+ * @param id The ID of the user who is the author of the task.
+ * @param taskData An object containing the task's title and details.
+ * @returns  A Promise that resolves with no value upon successful creation.
+ */
 const createTask = async (
   id: User['id'],
   taskData: Pick<Prisma.TaskCreateInput, 'title' | 'details'>,
 ): VoidPromise => {
+  // Connect the task to its author
   const data = { ...taskData, author: { connect: { id } } }
   await prisma.task.create({ data })
 }
 
+/**
+ * Updates an existing task.
+ *
+ * @param where An object defining the unique criteria to find the task to update.
+ * For example, `{ id: 'someTaskId' }`.
+ * @param data An object containing the data to update the task, conforming to Prisma.TaskUpdateInput.
+ * @returns  A Promise that resolves with no value upon successful update.
+ */
 const updateTask = async (
   where: Prisma.TaskWhereUniqueInput,
   data: Prisma.TaskUpdateInput,
@@ -73,12 +131,24 @@ const updateTask = async (
   })
 }
 
+/**
+ * Deletes a task from the database.
+ *
+ * @param where An object defining the unique criteria to find the task to delete.
+ * For example, `{ id: 'someTaskId' }`.
+ * @returns  A Promise that resolves with no value upon successful deletion.
+ */
 const deleteTask = async (where: Prisma.TaskWhereUniqueInput): VoidPromise => {
   await prisma.task.delete({
     where,
   })
 }
 
+/**
+ * The `taskRepository` object, which exports the implementation of the `ITaskRepository` interface.
+ * It contains all CRUD operations and additional queries related to tasks,
+ * ready for use in services or other application layers.
+ */
 export const taskRepository: ITaskRepository = {
   getUserTasksWithCount,
   getGroupByStatus,

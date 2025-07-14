@@ -8,7 +8,7 @@ import {
   TextFieldsNameAttributeList,
 } from '@/lib/constants/text-const'
 import { updateUserPassword } from '@/lib/services/actions/user'
-import { StateProps } from '@/lib/services/types'
+import { ActionResult } from '@/lib/services/types'
 import useModal from '@/lib/utils/hooks/common/use-modal'
 import PageFormContainer from '@/ui/common/forms/form-container'
 import PasswordTextField from '@/ui/common/forms/text-fields/password'
@@ -66,7 +66,7 @@ function FormDialog({ state }: FormDialogProps) {
   const { open, openModal, closeModal } = useModal()
   const router = useRouter()
 
-  if (state?.status === 'success' && open === false) openModal()
+  if (state?.status === 'showModal' && open === false) openModal()
 
   return (
     <Dialog
@@ -90,5 +90,5 @@ function FormDialog({ state }: FormDialogProps) {
 }
 
 interface FormDialogProps {
-  state: StateProps
+  state: ActionResult
 }

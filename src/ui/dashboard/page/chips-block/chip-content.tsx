@@ -1,6 +1,6 @@
 'use client'
 
-import getLabel from '@/lib/utils/helpers/get-label'
+import { getLabel } from '@/lib/utils/helpers/get-label'
 import { useFilterParams } from '@/lib/utils/hooks/use-filter-params'
 import { chipsBlock } from '@/ui/dashboard/page/chips-block/styles'
 import { ChipContentProps } from '@/ui/dashboard/page/chips-block/types'

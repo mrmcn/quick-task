@@ -114,6 +114,7 @@ export default function TaskListItemSwipeable({
         <DeleteTask
           taskId={task.id}
           searchParamsToGoBack={searchParamsToGoBack}
+          authenticated={authenticated}
         />
       </Box>
     </Box>

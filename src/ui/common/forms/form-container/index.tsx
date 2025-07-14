@@ -1,5 +1,5 @@
 import { ListBtnNamesValue, ListFormNamesValue } from '@/lib/constants/type'
-import { StateProps } from '@/lib/services/types'
+import { ActionResult } from '@/lib/services/types'
 import BackButton from '@/ui/common/back-btn'
 import MyButton from '@/ui/common/forms/form-container/my-button'
 import RenderErrors from '@/ui/common/forms/render-errors'
@@ -49,5 +49,5 @@ interface PageFormProps {
   btnName: ListBtnNamesValue
   formName: ListFormNamesValue
   disabled: boolean
-  state: StateProps
+  state: ActionResult
 }

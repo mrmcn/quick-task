@@ -1,9 +1,10 @@
 'use client'
 
-import { PageValue } from '@/lib/constants/data/ui-config'
+import { PAGE_VALUE } from '@/lib/constants/data/ui-config'
 import useSelectAction from '@/lib/utils/hooks/use-select-action'
+import { sxSelectMenuListProps } from '@/ui/user/page/setting-list/list-items/styles'
+import { PageSelectProps } from '@/ui/user/page/setting-list/list-items/types'
 import Box from '@mui/material/Box'
-import { yellow } from '@mui/material/colors'
 import FormControl from '@mui/material/FormControl'
 import Input from '@mui/material/Input'
 import MenuItem from '@mui/material/MenuItem'
@@ -11,6 +12,14 @@ import Select from '@mui/material/Select'
 
 export default function PageSelect({ taskPerPage }: PageSelectProps) {
   const { errorText, handleChange } = useSelectAction()
+  const menu = PAGE_VALUE.map((value) => (
+    <MenuItem
+      key={value}
+      value={value}
+    >
+      {value}
+    </MenuItem>
+  ))
 
   return (
     <Box>
@@ -27,28 +36,13 @@ export default function PageSelect({ taskPerPage }: PageSelectProps) {
             />
           }
           MenuProps={{
-            MenuListProps: {
-              sx: {
-                '& .MuiMenuItem-root': {
-                  backgroundColor: yellow[100],
-                },
-                padding: 0,
-              },
-            },
+            MenuListProps: sxSelectMenuListProps,
           }}
         >
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
+          {menu}
         </Select>
         {errorText}
       </FormControl>
     </Box>
   )
-}
-
-interface PageSelectProps {
-  taskPerPage: PageValue
 }

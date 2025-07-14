@@ -13,7 +13,7 @@ import { Suspense } from 'react'
 export default async function TasksList({
   searchParamsObject,
 }: TasksListProps) {
-  const tasksDataPromise = fetchTask.userTasksData(searchParamsObject)
+  const userTasksPromise = fetchTask.userTasksData(searchParamsObject)
 
   return (
     <Box
@@ -25,14 +25,14 @@ export default async function TasksList({
         <List>
           <Suspense fallback={<Fallback />}>
             <TasksItems
-              tasksDataPromise={tasksDataPromise}
+              userTasksPromise={userTasksPromise}
               searchParamsObject={searchParamsObject}
             />
           </Suspense>
         </List>
       </Box>
       <Suspense>
-        <PaginationRow tasksDataPromise={tasksDataPromise} />
+        <PaginationRow userTasksPromise={userTasksPromise} />
       </Suspense>
     </Box>
   )

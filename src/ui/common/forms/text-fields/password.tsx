@@ -1,8 +1,8 @@
 'use client'
 
 import { usePasswordVisibility } from '@/lib/utils/hooks/use-password-visibility'
+import { MyTextFieldProps } from '@/ui/common/forms/text-fields/types'
 import { TextField } from '@mui/material'
-import { MyTextFieldProps } from './types'
 
 export default function PasswordTextField(props: MyTextFieldProps) {
   const { visibilityToggle, type } = usePasswordVisibility()

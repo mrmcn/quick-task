@@ -7,7 +7,22 @@ import { useMyMediaQuery } from '@/lib/utils/hooks/common/use-my-media-query'
 import { useState } from 'react'
 import { SwipeEventData } from 'react-swipeable'
 
-// A custom hook that encapsulates the logic related to swipe gestures for revealing hidden actions.
+/**
+ * @function useSwipeProps
+ * @description A custom hook that encapsulates the logic related to swipe gestures for revealing hidden actions.
+ * It manages the horizontal translation of a swipable element and tracks the swipe direction.
+ * The hook adjusts the hidden area width based on whether the device is mobile or desktop.
+ *
+ * @returns  - An object containing:
+ * - `rightHiddenWidth`: The calculated width of the right hidden area.
+ * - `leftHiddenWidth`: The calculated width of the left hidden area.
+ * - `translateX`: The current horizontal translation value of the swipable element.
+ * - `onSwiping`: Event handler for ongoing swipe gestures; updates the horizontal translation.
+ * - `onSwipedLeft`: Event handler for swipe left gestures; reveals the right hidden area or resets position.
+ * - `onSwipedRight`: Event handler for swipe right gestures; reveals the left hidden area or resets position.
+ * - `delta`: The minimum distance (in pixels) for a swipe to be recognized.
+ * - `trackMouse`: A boolean indicating whether to track mouse events for swipe gestures (for desktop support).
+ */
 export function useSwipeProps() {
   const [translateX, setTranslateX] = useState(0) // State to control the horizontal translation of the swipable element.
   const [swipeState, setSwipeState] = useState<'none' | 'left' | 'right'>(
@@ -18,8 +33,8 @@ export function useSwipeProps() {
   const hiddenWidth = isMobile
     ? SWIPE_HIDDEN_WIDTH_MOBILE
     : SWIPE_HIDDEN_WIDTH_DESKTOP
-  const leftHiddenWidth = hiddenWidth // Width of the left hidden area, adjusted for mobile.
-  const rightHiddenWidth = hiddenWidth // Width of the right hidden area, adjusted for mobile.
+  const leftHiddenWidth = hiddenWidth // Width of the left hidden area, adjusted considering device width.
+  const rightHiddenWidth = hiddenWidth // Width of the right hidden area, adjusted considering device width.
 
   // Handler for swipe left gestures.
   const onSwipedLeft = (eventData: SwipeEventData) => {

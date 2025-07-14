@@ -1,6 +1,6 @@
 import { TextFieldsNameAttributeListValue } from '@/lib/constants/type'
 import { TaskListDto, UserListDto } from '@/lib/db/selects'
-import { ActionProps, FetchData, StateProps } from '@/lib/services/types'
+import { ActionHandler, ActionResult, FetchData } from '@/lib/services/types'
 import { RenderProps } from '@/ui/common/forms/text-fields/types'
 import { TypographyProps } from '@mui/material'
 import { Dispatch, SetStateAction } from 'react'
@@ -10,7 +10,7 @@ export interface EditableTextProps extends BaseEditableTextProps {
 }
 interface BaseEditableTextProps {
   data: Data
-  action: ActionProps<StateProps>
+  action: ActionHandler<ActionResult>
   renderEditedText: (props: RenderProps) => React.ReactNode
 }
 
@@ -30,7 +30,7 @@ type TaskDataType = TaskListDto['details' | 'title']
 export interface EditableUserDataProps {
   userDataPromise: FetchData<UserListDto>
   fieldName: FieldNameAttribute
-  action: ActionProps<StateProps>
+  action: ActionHandler<ActionResult>
 }
 
 export interface TextEditingProps extends BaseEditableTextProps {
