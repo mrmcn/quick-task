@@ -1,6 +1,6 @@
 import { FetchData } from '@/lib/services/types'
+import { HandleError } from '@/lib/utils/error-handling/type'
 import { use } from 'react'
-import { HandleError } from '../utils/error-handling/type'
 
 /**
  * The `Await` component (a Higher-Order Component) for handling asynchronous data.

@@ -1,10 +1,10 @@
 import {
-  ListBtnNames,
-  ListChipNames,
-  ListSearchParameter,
-  ListSortingParameter,
+  BtnNamesList,
+  ChipNamesList,
+  SearchParameterList,
+  SortingParameterList,
 } from '@/lib/constants/text-const'
-import { ChipsConfigProps } from '@/ui/dashboard/page/chips-block/types'
+import { ChipsConfigProps } from '@/ui/dashboard/page/types'
 import { Priority, Status } from '@prisma/client'
 
 /**
@@ -19,27 +19,27 @@ import { Priority, Status } from '@prisma/client'
  */
 export const LIST_CHIPS_CONFIG: ChipsConfigProps[] = [
   {
-    chipName: ListChipNames.priorityHigh,
+    chipName: ChipNamesList.priorityHigh,
     filterValue: Priority.high,
-    filteringParam: ListSearchParameter.priority,
+    filteringParam: SearchParameterList.priority,
     asyncChip: false, // Does not require asynchronous data
   },
   {
-    chipName: ListChipNames.priorityLow,
+    chipName: ChipNamesList.priorityLow,
     filterValue: Priority.low,
-    filteringParam: ListSearchParameter.priority,
+    filteringParam: SearchParameterList.priority,
     asyncChip: false, // Does not require asynchronous data
   },
   {
-    chipName: ListChipNames.completed,
+    chipName: ChipNamesList.completed,
     filterValue: Status.completed,
-    filteringParam: ListSearchParameter.status,
+    filteringParam: SearchParameterList.status,
     asyncChip: true, // Requires asynchronous data (e.g., count of completed tasks)
   },
   {
-    chipName: ListChipNames.pending,
+    chipName: ChipNamesList.pending,
     filterValue: Status.in_progress,
-    filteringParam: ListSearchParameter.status,
+    filteringParam: SearchParameterList.status,
     asyncChip: true, // Requires asynchronous data (e.g., count of in-progress tasks)
   },
 ]
@@ -52,13 +52,13 @@ export const LIST_CHIPS_CONFIG: ChipsConfigProps[] = [
  * `as const` ensures read-only properties and accurate type inference.
  */
 export const sortOptionsConfig = [
-  { value: ListSortingParameter.titleAsc, content: ListBtnNames.titleAtoZ },
-  { value: ListSortingParameter.titleDesc, content: ListBtnNames.titleZtoA },
+  { value: SortingParameterList.titleAsc, content: BtnNamesList.titleAtoZ },
+  { value: SortingParameterList.titleDesc, content: BtnNamesList.titleZtoA },
   {
-    value: ListSortingParameter.dateDesc,
-    content: ListBtnNames.newestToOldest,
+    value: SortingParameterList.dateDesc,
+    content: BtnNamesList.newestToOldest,
   },
-  { value: ListSortingParameter.dateAsc, content: ListBtnNames.oldestToNewest },
+  { value: SortingParameterList.dateAsc, content: BtnNamesList.oldestToNewest },
 ] as const
 
 /**

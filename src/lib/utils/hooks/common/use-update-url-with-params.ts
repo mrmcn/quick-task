@@ -1,4 +1,4 @@
-import { ListSearchParameter } from '@/lib/constants/text-const'
+import { SearchParameterList } from '@/lib/constants/text-const'
 import { ListSearchParameterValue } from '@/lib/constants/type'
 import { useNextNavigation } from '@/lib/utils/hooks/use-next-navigation'
 import { ParamValueMap, UpdateParamsProps } from '@/lib/utils/types'
@@ -47,7 +47,7 @@ export function useUpdateUrlWithParams<P extends ListSearchParameterValue>(
       // Create a copy of the current search parameters to avoid modifying the original object.
       const params = new URLSearchParams(searchParams)
       // Set the page parameter.
-      params.set(ListSearchParameter.page, page.toString())
+      params.set(SearchParameterList.page, page.toString())
       // If an `updateCurrentParameter` function is provided, call it for additional parameter modification.
       if (updateCurrentParameter) updateCurrentParameter(params)
       // Navigate to the new URL with the updated parameters.

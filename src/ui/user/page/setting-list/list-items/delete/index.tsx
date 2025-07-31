@@ -1,17 +1,13 @@
 'use client'
 
-import { ListBtnNames, ListPhrases } from '@/lib/constants/text-const'
+import { BtnNamesList, PhrasesList } from '@/lib/constants/text-const'
 import { deleteUser } from '@/lib/services/actions/user'
-import useModal from '@/lib/utils/hooks/common/use-modal'
+import { useConfirmDialog } from '@/lib/utils/hooks/common/use-confirm-dialog'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
-import SlideTransition from '@/ui/user/page/setting-list/list-items/slide-transition'
-import { dialogStyles } from '@/ui/user/page/setting-list/list-items/styles'
-import { MyDialogProps } from '@/ui/user/page/setting-list/list-items/types'
-import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
+import { DialogContainer } from '@/ui/user/page/setting-list/list-items/dialog-container'
+import { sxUser } from '@/ui/user/styles'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from '@mui/material/Button'
-import { deepOrange } from '@mui/material/colors'
-import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
@@ -21,65 +17,61 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
+/**
+ * @function ListItemDeletingAccount
+ * @description A client component that represents a list item for deleting a user account.
+ * Clicking it opens a confirmation dialog.
+ * All dialog management logic and action execution are encapsulated within the `useConfirmDialog` hook.
+ *
+ * @returns A list item with a delete icon, text, and a modal confirmation dialog.
+ */
 export default function ListItemDeletingAccount() {
-  const { open, openModal, closeModal } = useModal()
+  // Use the custom useConfirmDialog hook, passing it the deleteUser server action.
+  // This hook provides the modal's state (open), functions to open/close it (openModal, closeModal),
+  // and a handler for the confirmation button (handleConfirm) that will execute deleteUser.
+  const { closeModal, handleConfirm, open, openModal } =
+    useConfirmDialog(deleteUser)
 
   return (
     <>
       <ListItem>
-        <ListItemIcon sx={sxListItemIconProps()}>
+        <ListItemIcon sx={sxUser.listItemIcon}>
           <DeleteIcon />
         </ListItemIcon>
         <ListItemButton
           onClick={openModal}
-          sx={{ pl: 0 }}
+          sx={sxUser.listItemButton}
         >
           <ListItemText
-            primary={ListBtnNames.deleteAccount}
-            sx={{ color: deepOrange[800] }}
+            primary={BtnNamesList.deleteAccount}
+            sx={sxUser.listItemText}
           />
         </ListItemButton>
         <ChevronIcon />
       </ListItem>
-      <DelAccDialog
-        open={open}
+      <DialogContainer
         closeModal={closeModal}
-      />
+        open={open}
+      >
+        <DialogTitle>{PhrasesList.userDeleteTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{PhrasesList.userDeleteContent}</DialogContentText>{' '}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color='success'
+            onClick={closeModal}
+          >
+            {BtnNamesList.cancel}
+          </Button>
+          <Button
+            color='warning'
+            onClick={handleConfirm}
+          >
+            {BtnNamesList.deleteAccount}
+          </Button>
+        </DialogActions>
+      </DialogContainer>
     </>
-  )
-}
-
-function DelAccDialog({ open, closeModal }: MyDialogProps) {
-  const handleDeleteAccount = () => {
-    closeModal()
-    deleteUser()
-  }
-
-  return (
-    <Dialog
-      open={open}
-      onClose={closeModal}
-      slots={{ transition: SlideTransition }}
-      slotProps={dialogStyles.slotProps}
-    >
-      <DialogTitle>{ListPhrases.userDeleteTitle}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{ListPhrases.userDeleteContent}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color='success'
-          onClick={closeModal}
-        >
-          {ListBtnNames.cancel}
-        </Button>
-        <Button
-          color='warning'
-          onClick={handleDeleteAccount}
-        >
-          {ListBtnNames.deleteAccount}
-        </Button>
-      </DialogActions>
-    </Dialog>
   )
 }

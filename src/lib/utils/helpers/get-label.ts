@@ -1,6 +1,6 @@
-import { ListSearchParameter } from '@/lib/constants/text-const'
+import { SearchParameterList } from '@/lib/constants/text-const'
 import { MonitoringStatesProps } from '@/lib/services/types'
-import { ChipsConfigProps } from '@/ui/dashboard/page/chips-block/types'
+import { ChipsConfigProps } from '@/ui/dashboard/page/types'
 
 /**
  * @description Generates the text label for a Chip component, combining its name
@@ -27,7 +27,7 @@ export const getLabel = (
     // 2. `data` is provided (meaning it's a chip that can potentially display counts).
     // 3. The chip's filtering parameter (`chipConfig.filteringParam`) matches the status parameter
     //    (`ListSearchParameter.status`).
-    isActive && data && chipConfig.filteringParam === ListSearchParameter.status
+    isActive && data && chipConfig.filteringParam === SearchParameterList.status
       ? // If all conditions are true, retrieve the count from the `data` object
         // using `filterValue` as the key.
         data[chipConfig.filterValue as keyof MonitoringStatesProps]

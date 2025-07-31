@@ -1,11 +1,29 @@
 'use client'
 
+import { MyTextFieldProps } from '@/ui/common/forms/types'
 import TextField from '@mui/material/TextField'
 import { useFormStatus } from 'react-dom'
-import { MyTextFieldProps } from './types'
 
+/**
+ * The TaskTextField component represents a text input field
+ * optimized for use within forms utilizing server actions.
+ *
+ * It automatically disables itself during a form's pending state
+ * using the `useFormStatus` hook from React DOM.
+ * It also conditionally controls the `onBlur` event behavior during pending states.
+ *
+ * @param props - Properties passed to the underlying MUI TextField component,
+ * including `MyTextFieldProps` for specific extensions.
+ * @returns A TextField component adapted for forms with server actions.
+ */
 export default function TaskTextField(props: MyTextFieldProps) {
+  // Retrieves the "pending" status from the nearest parent form
+  // that is using server actions.
   const { pending } = useFormStatus()
+
+  // Conditionally assigns the onBlur handler.
+  // It will only be active when the form is NOT in a pending state
+  // to prevent unintended behavior during form submission.
   const onBlurWithPending = !pending ? props.onBlur : undefined
 
   return (

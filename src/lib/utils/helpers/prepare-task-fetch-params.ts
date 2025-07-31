@@ -1,4 +1,4 @@
-import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
+import { NameAttributeList } from '@/lib/constants/text-const'
 import { GetUserTasksParams } from '@/lib/repositories/interfaces/tasks'
 import { fetchUser } from '@/lib/services/queries/user'
 import { getSearchParams } from '@/lib/utils/helpers/get-search-params'
@@ -100,10 +100,10 @@ async function buildTaskWhereInput(
     where.OR = [
       ...(where.OR || []), // Preserve existing OR conditions
       {
-        [TextFieldsNameAttributeList.title]: INSENSITIVE_CONTAINS(query),
+        [NameAttributeList.title]: INSENSITIVE_CONTAINS(query),
       }, // Search by title
       {
-        [TextFieldsNameAttributeList.details]: INSENSITIVE_CONTAINS(query),
+        [NameAttributeList.details]: INSENSITIVE_CONTAINS(query),
       }, // Search by details
     ]
   }

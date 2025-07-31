@@ -1,4 +1,4 @@
-import { ListSearchParameter } from '@/lib/constants/text-const'
+import { SearchParameterList } from '@/lib/constants/text-const'
 import { debounce } from '@/lib/utils/helpers/debounce'
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { ChangeEvent, useCallback } from 'react'
@@ -16,7 +16,7 @@ import { ChangeEvent, useCallback } from 'react'
  */
 export function useSearchTask() {
   // Define the field name for the search query, using a constant.
-  const queryFieldName = ListSearchParameter.query
+  const queryFieldName = SearchParameterList.query
   // Get the `updateUrl` function and the current value of the query parameter from the URL,
   // using the `useUpdateUrlWithParams` hook.
   const { valueCurrentQueryParameter, updateUrl } =

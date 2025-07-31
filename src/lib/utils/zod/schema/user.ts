@@ -1,8 +1,5 @@
 import { PAGE_VALUE } from '@/lib/constants/data/ui-config'
-import {
-  ListLabels,
-  TextFieldsNameAttributeList,
-} from '@/lib/constants/text-const'
+import { LabelsList, NameAttributeList } from '@/lib/constants/text-const'
 import { z } from 'zod'
 
 /**
@@ -11,15 +8,15 @@ import { z } from 'zod'
  */
 const user = z.object({
   // User's name field. Required, with a minimum length of 3 characters.
-  [TextFieldsNameAttributeList.name]: z
+  [NameAttributeList.name]: z
     .string({ message: '"This field is required."' })
     .min(3, { message: 'Must be more than three letters' }),
   // User's email field. Required, and must be a valid email format.
-  [TextFieldsNameAttributeList.email]: z
+  [NameAttributeList.email]: z
     .string({ message: '"This field is required."' })
     .email(),
   // User's password field. Required, with a minimum length of 6 characters.
-  [TextFieldsNameAttributeList.password]: z
+  [NameAttributeList.password]: z
     .string({ message: '"This field is required."' })
     .min(6, { message: '"Must be more than six characters"' }),
   // Field for the number of items to display per page.
@@ -38,7 +35,7 @@ const user = z.object({
  * Uses `user.pick` to select the `name` field from the main `user` schema.
  */
 const name = user.pick({
-  [TextFieldsNameAttributeList.name]: true,
+  [NameAttributeList.name]: true,
 })
 
 /**
@@ -46,7 +43,7 @@ const name = user.pick({
  * Uses `user.pick` to select the `password` field from the main `user` schema.
  */
 const password = user.pick({
-  [TextFieldsNameAttributeList.password]: true,
+  [NameAttributeList.password]: true,
 })
 
 /**
@@ -54,7 +51,7 @@ const password = user.pick({
  * Uses `user.pick` to select the `email` field from the main `user` schema.
  */
 const email = user.pick({
-  [TextFieldsNameAttributeList.email]: true,
+  [NameAttributeList.email]: true,
 })
 
 /**
@@ -62,8 +59,8 @@ const email = user.pick({
  * Uses `user.pick` to select both `email` and `password` fields from the main `user` schema.
  */
 const emailAndPasswordInput = user.pick({
-  [TextFieldsNameAttributeList.email]: true,
-  [TextFieldsNameAttributeList.password]: true,
+  [NameAttributeList.email]: true,
+  [NameAttributeList.password]: true,
 })
 
 /**
@@ -82,22 +79,22 @@ const perPageNumber = user.pick({
 const changePassword = z
   .object({
     // Field for the current password. Required, with a minimum length of 6 characters.
-    [TextFieldsNameAttributeList.currentPassword]: z
+    [NameAttributeList.currentPassword]: z
       .string({ message: '"This field is required."' })
       .min(6, { message: '"Must be more than six characters"' }),
     // Field for the new password. Required, with a minimum length of 6 characters.
-    [TextFieldsNameAttributeList.newPassword]: z
+    [NameAttributeList.newPassword]: z
       .string({ message: '"This field is required."' })
       .min(6, { message: '"Must be more than six characters"' }),
     // Field for confirming the new password. Required.
-    [TextFieldsNameAttributeList.confirmNewPassword]: z.string({
+    [NameAttributeList.confirmNewPassword]: z.string({
       message: '"This field is required."',
     }),
   })
   // Refinement validation: Checks if the new password and its confirmation match.
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: 'New passwords do not match',
-    path: [ListLabels.confirmNewPassword], // Indicates the field where the error occurred
+    path: [LabelsList.confirmNewPassword], // Indicates the field where the error occurred
   })
 
 /**

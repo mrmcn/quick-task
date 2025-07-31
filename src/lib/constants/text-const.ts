@@ -5,7 +5,7 @@
 import { TextFieldsNameAttributeKeys } from '@/lib/constants/type' // Assumed to be imported for type definitions
 
 /**
- * The `ListBtnNames` object contains textual names for buttons used throughout the application.
+ * The `BtnNamesList` object contains textual names for buttons used throughout the application.
  *
  * These constants serve multiple purposes, including:
  * - **Displaying consistent button text:** Ensures unified and clear labels across the UI.
@@ -13,7 +13,7 @@ import { TextFieldsNameAttributeKeys } from '@/lib/constants/type' // Assumed to
  * - **Improving accessibility:** Can be utilized for `aria-label` attributes.
  * - **Facilitating localization:** Centralizes texts for easier translation.
  */
-export const ListBtnNames = {
+export const BtnNamesList = {
   /** Text for a "Go back" button. */
   back: 'Go back',
   /** Text for a "Delete account" button. */
@@ -47,36 +47,14 @@ export const ListBtnNames = {
 } as const
 
 /**
- * The `ListSortingParameter` object contains textual values for task sorting parameters.
- *
- * Each value corresponds to a sorting option and consists of two parts separated by a space:
- * 1. The first part is the field name of the 'Task' PrismaORM model (e.g., 'title', 'date').
- * 2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
- *
- * These constants are used for:
- * 1.  **Forming URL sorting parameters:** Values are used in the URL to define the sorting order.
- * 2.  **Displaying sorting options:** The constant's text can be displayed to the user in the interface (e.g., in sorting dropdowns).
- */
-export const ListSortingParameter = {
-  /** Sorting by title in ascending alphabetical order. */
-  titleAsc: 'title asc',
-  /** Sorting by title in descending alphabetical order. */
-  titleDesc: 'title desc',
-  /** Sorting by creation date in ascending order (oldest to newest). */
-  dateAsc: 'date asc',
-  /** Sorting by creation date in descending order (newest to oldest). */
-  dateDesc: 'date desc',
-} as const
-
-/**
- * The `ListFormNames` object contains textual names/titles for various forms in the application.
+ * The `FormNamesList` object contains textual names/titles for various forms in the application.
  *
  * These constants are used for:
  * 1.  **Displaying form titles:** Provides unified titles for each form on respective pages.
  * 2.  **Identifying forms:** Helps distinguish forms in logic or for analytics.
  * 3.  **Typing props:** Ensures that form components only accept allowed form names.
  */
-export const ListFormNames = {
+export const FormNamesList = {
   /** Name for the form to create a new task. */
   createTask: 'Create task',
   /** Name for the form to edit the user's name. */
@@ -94,7 +72,7 @@ export const ListFormNames = {
 } as const
 
 /**
- * The `ListLabels` object contains textual labels for input fields (TextFields)
+ * The `LabelsList` object contains textual labels for input fields (TextFields)
  * and other control elements in the UI.
  *
  * These constants are used for:
@@ -102,7 +80,7 @@ export const ListFormNames = {
  * 2.  **Validation and error handling:** Can be used in validation schemas (e.g., Zod) to link errors to specific fields.
  * 3.  **Typing props:** Ensures that field components only accept allowed labels.
  */
-export const ListLabels = {
+export const LabelsList = {
   /** Label for the confirm new password field. */
   confirmNewPassword: 'Confirm new password',
   /** Label for the current password field. */
@@ -126,14 +104,14 @@ export const ListLabels = {
 } as const
 
 /**
- * The `ListError` object contains standardized error messages and failure statuses.
+ * The `ErrorList` object contains standardized error messages and failure statuses.
  *
  * These constants are used for:
  * 1.  **Displaying error messages to the user:** Provides unified and clear messages when issues arise.
  * 2.  **Fallback values:** Can be used as default values if data could not be retrieved.
  * 3.  **Identifying error types:** Helps distinguish error types for appropriate handling.
  */
-export const ListError = {
+export const ErrorList = {
   /** Generic error message indicating a problem with data retrieval or processing. */
   dataError: 'Data retrieval error',
   /** Phrase indicating an error in a specific form field. */
@@ -149,13 +127,13 @@ export const ListError = {
 } as const
 
 /**
- * The `ListChipNames` object contains textual names for "chip" components.
+ * The `ChipNamesList` object contains textual names for "chip" components.
  *
  * These constants are used for:
  * 1.  **Displaying text on chips:** Provides unified and clear names for chips used for filtering or displaying status/priority.
  * 2.  **Typing props:** Ensures that chip components only accept allowed names.
  */
-export const ListChipNames = {
+export const ChipNamesList = {
   /** Text for a chip indicating a "Completed" task status. */
   completed: 'Completed',
   /** Text for a chip indicating a "Pending" task status. */
@@ -167,13 +145,13 @@ export const ListChipNames = {
 } as const
 
 /**
- * The `ListPlaceholder` object contains textual placeholders for input fields (TextFields).
+ * The `PlaceholderList` object contains textual placeholders for input fields (TextFields).
  *
  * These constants are used for:
  * 1.  **Providing hints in fields:** Displays text inside empty fields, suggesting to the user what is expected.
  * 2.  **Typing props:** Ensures that field components only accept allowed placeholders.
  */
-export const ListPlaceholder = {
+export const PlaceholderList = {
   /** Placeholder for the email input field. */
   enterEmail: 'Enter your email address',
   /** Placeholder for the password input field. */
@@ -189,7 +167,7 @@ export const ListPlaceholder = {
 } as const
 
 /**
- * The `ListPhrases` object contains general textual phrases, messages, and titles.
+ * The `PhrasesList` object contains general textual phrases, messages, and titles.
  *
  * These constants are used for:
  * 1.  **Titles and dialog content:** Provides unified titles and messages for modal windows.
@@ -197,7 +175,7 @@ export const ListPlaceholder = {
  * 3.  **Empty state messages:** Provides text displayed when data is absent or not found.
  * 4.  **Settings list items:** Defines text for menu items or user settings.
  */
-export const ListPhrases = {
+export const PhrasesList = {
   /** Message encouraging the user to create a new task when the list is empty. */
   createNewTask: 'This is empty for now. Create a new task.',
   /** Text for a button or dialog heading related to deleting an account. */
@@ -234,7 +212,29 @@ export const ListPhrases = {
 } as const
 
 /**
- * The `ListSearchParameter` object contains constants for **URL query parameter keys**.
+ * The `SortingParameterList` object contains textual values for task sorting parameters.
+ *
+ * Each value corresponds to a sorting option and consists of two parts separated by a space:
+ * 1. The first part is the field name of the 'Task' PrismaORM model (e.g., 'title', 'date').
+ * 2. The second part is the PrismaORM sorting argument (e.g., 'asc', 'desc').
+ *
+ * These constants are used for:
+ * 1.  **Forming URL sorting parameters:** Values are used in the URL to define the sorting order.
+ * 2.  **Displaying sorting options:** The constant's text can be displayed to the user in the interface (e.g., in sorting dropdowns).
+ */
+export const SortingParameterList = {
+  /** Sorting by title in ascending alphabetical order. */
+  titleAsc: 'title asc',
+  /** Sorting by title in descending alphabetical order. */
+  titleDesc: 'title desc',
+  /** Sorting by creation date in ascending order (oldest to newest). */
+  dateAsc: 'date asc',
+  /** Sorting by creation date in descending order (newest to oldest). */
+  dateDesc: 'date desc',
+} as const
+
+/**
+ * The `SearchParameterList` object contains constants for **URL query parameter keys**.
  *
  * These constants are used for:
  * 1.  **Building and parsing URLs:** Allow consistent work with URL query parameters
@@ -246,7 +246,7 @@ export const ListPhrases = {
  *
  * Using these constants ensures consistency and prevents "magic strings" when working with URLs.
  */
-export const ListSearchParameter = {
+export const SearchParameterList = {
   /** URL parameter key for the search query. */
   query: 'query',
   /** URL parameter key for the current pagination page. */
@@ -260,14 +260,14 @@ export const ListSearchParameter = {
 } as const
 
 /**
- * The `ListDefaultSearchParameter` object contains constants that define
+ * The `DefaultSearchParameter` object contains constants that define
  * **default values for URL search parameters**.
  *
  * These values are used when a specific search parameter is absent
  * from the URL query string, providing a consistent and predictable initial state
  * for data filtering, sorting, and pagination.
  */
-export const ListDefaultSearchParameter = {
+export const DefaultSearchParameterList = {
   /** Default value for the 'query' URL parameter, representing an empty search query. */
   defaultQuery: '',
   /** Default value for the 'sorting' URL parameter. It's an empty object literal, implying no specific sort order by default or a custom handling. */
@@ -281,14 +281,14 @@ export const ListDefaultSearchParameter = {
 } as const
 
 /**
- * The `TextFieldChangePasswordList` object contains **keys for the change password form fields**.
+ * The `ChangePasswordList` object contains **keys for the change password form fields**.
  *
  * These constants are used primarily for **type definitions**,
  * specifically for unionizing with other keys in `TextFieldsNameAttributeKeys`.
  * They ensure strict typing and consistency of these field names,
  * allowing for easy referencing in validation schemas or other type definitions.
  */
-export const TextFieldChangePasswordList = {
+export const ChangePasswordList = {
   /** Key for the "Confirm new password" field. */
   confirmNewPassword: 'confirmNewPassword',
   /** Key for the "Current password" field. */
@@ -298,7 +298,7 @@ export const TextFieldChangePasswordList = {
 } as const
 
 /**
- * The `TextFieldsNameAttributeList` object contains **all possible values for the `name` attribute**
+ * The `NameAttributeList` object contains **all possible values for the `name` attribute**
  * of input fields (TextFields) in the application.
  *
  * This list provides:
@@ -310,7 +310,7 @@ export const TextFieldChangePasswordList = {
  *
  * Each key of the object is also its value, simplifying usage.
  */
-export const TextFieldsNameAttributeList: {
+export const NameAttributeList: {
   [key in TextFieldsNameAttributeKeys]: key
 } = {
   /** Unique identifier. */

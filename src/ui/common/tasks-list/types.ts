@@ -8,8 +8,25 @@ import {
   UserTasksResult,
 } from '@/lib/services/types'
 import { SearchParamsObject } from '@/lib/utils/types'
-import { RenderProps } from '@/ui/common/forms/text-fields/types'
+import { RenderProps } from '@/ui/common/forms/types'
 import { TypographyVariant } from '@mui/material'
+
+interface SearchParamsToGoBack {
+  searchParamsToGoBack: string
+}
+interface Authenticated {
+  authenticated: boolean
+}
+
+export interface WithTaskProps {
+  task: TaskListDto
+}
+
+export interface AuthAndTask extends Authenticated, WithTaskProps {}
+
+export interface ListItemContentProps
+  extends SearchParamsToGoBack,
+    AuthAndTask {}
 
 export interface TasksListProps {
   searchParamsObject?: SearchParamsObject
@@ -19,16 +36,12 @@ export interface TasksItemsProps extends TasksListProps, UserTasksPromise {}
 
 export type EmptyStateProps = TasksListProps & ResponseObject<UserTasksResult>
 
-export interface WithTaskProps {
-  task: TaskListDto
-}
+export interface TaskItem extends TasksListProps, AuthAndTask {}
 
-export interface TaskItem extends TasksListProps, WithTaskProps {
-  authenticated: boolean
-}
-
-export interface TaskEditableProps extends RenderProps, WithTaskProps {
-  searchParamsToGoBack: string
+export interface TaskEditableProps
+  extends RenderProps,
+    WithTaskProps,
+    SearchParamsToGoBack {
   fieldName: Extract<TextFieldsNameAttributeListValue, 'title' | 'details'>
   fontSize: string
   typographyVariant: TypographyVariant
@@ -39,18 +52,15 @@ export interface WithTaskIdProps {
   taskId: TaskListDto['id']
 }
 
-export interface DeleteTaskProps extends WithTaskIdProps {
-  searchParamsToGoBack: string
-  authenticated: boolean
-}
+export interface DeleteTaskProps
+  extends WithTaskIdProps,
+    SearchParamsToGoBack,
+    Authenticated {}
 
 export interface HiddenInputsProps extends WithTaskIdProps {
   dynamicField: { name: string; value: string }
 }
 
-export type EditStatusFormProps = Pick<TaskListDto, 'id' | 'status' | 'title'>
-
-export type EditedComponentProps = Omit<
-  TaskEditableProps,
-  'typographyVariant' | 'action'
->
+export type EditStatusFormProps = Pick<TaskListDto, 'id' | 'status'> & {
+  ariaLabelledById: string
+}

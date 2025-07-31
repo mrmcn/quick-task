@@ -1,6 +1,6 @@
 import { yellow } from '@mui/material/colors'
 
-const stackSx = {
+const stack = {
   mt: 1,
   alignItems: { xs: 'center', md: 'normal' },
   justifyContent: 'flex-end',
@@ -8,7 +8,7 @@ const stackSx = {
   rowGap: 1.3,
 }
 
-const chipSx = {
+const chip = {
   width: { md: 125 },
   '& .MuiChip-label': {
     textTransform: 'none', // This overrides the automatic text transformation (e.g., uppercase) that might be applied by the Button component's styles.
@@ -17,18 +17,39 @@ const chipSx = {
 }
 
 const selectMenuProps = {
-  MenuListProps: {
-    sx: {
-      '& .MuiMenuItem-root': {
-        backgroundColor: yellow[100],
-      },
-      padding: 0,
-    },
+  '& .MuiMenuItem-root': {
+    backgroundColor: yellow[100],
   },
+  padding: 0,
 }
 
-export const chipsBlock = {
-  stackSx,
-  chipSx,
+const iconChip = { ml: 1 }
+
+const chipFallback = { width: { md: 125 } }
+
+const formControl = { width: 150 }
+
+const selectedChip = { width: 140 }
+
+const pagination = {
+  display: 'flex',
+  justifyContent: 'center',
+  mt: 2,
+}
+
+const iconBtn = { color: 'action.active' }
+
+const textField = { bgcolor: 'primary.light', mb: 1 }
+
+export const sxDashboardPage = {
+  stack,
+  chip,
   selectMenuProps,
+  iconChip,
+  chipFallback,
+  formControl,
+  selectedChip,
+  pagination,
+  iconBtn,
+  textField,
 }

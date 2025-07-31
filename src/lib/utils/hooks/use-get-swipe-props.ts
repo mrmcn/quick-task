@@ -5,7 +5,7 @@ import {
 } from '@/lib/constants/data/ui-config'
 import { useMyMediaQuery } from '@/lib/utils/hooks/common/use-my-media-query'
 import { useState } from 'react'
-import { SwipeEventData } from 'react-swipeable'
+import { SwipeEventData, useSwipeable } from 'react-swipeable'
 
 /**
  * @function useSwipeProps
@@ -75,14 +75,19 @@ export function useSwipeProps() {
     setTranslateX(eventData.deltaX)
   }
 
+  // Initialize swipe handlers using the useSwipeable hook.
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft,
+    onSwipedRight,
+    onSwiping,
+    delta: 20, // Minimum distance (in pixels) for a swipe to be recognized.
+    trackMouse: true, // Whether to track mouse events for swipe gestures.
+  })
+
   return {
     rightHiddenWidth, // The calculated width of the right hidden area.
     leftHiddenWidth, // The calculated width of the left hidden area.
     translateX, // The current horizontal translation value.
-    onSwiping, // The swipe in progress event handler.
-    onSwipedLeft, // The swipe left event handler.
-    onSwipedRight, // The swipe right event handler.
-    delta: 20, // The minimum distance (in pixels) for a swipe to be recognized.
-    trackMouse: true, // Whether to track mouse events for swipe gestures.
+    swipeHandlers,
   }
 }

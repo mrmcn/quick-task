@@ -1,9 +1,55 @@
 import {
+  ListBtnNamesValue,
+  ListFormNamesValue,
   ListLabelsValue,
   ListPlaceholderValue,
   TextFieldsNameAttributeListValue,
 } from '@/lib/constants/type'
+import { ActionHandler, ActionResult } from '@/lib/services/types'
 import { TextFieldProps } from '@mui/material'
+
+interface UIContent {
+  btnName: ListBtnNamesValue
+  formName: ListFormNamesValue
+}
+
+/**
+ * Interface for the AuthForm component's properties.
+ * Defines the expected props to ensure type safety and clarity.
+ */
+export interface AuthFormProps extends UIContent {
+  action: ActionHandler<ActionResult>
+  emailPlaceholder: ListPlaceholderValue
+  passwordPlaceholder: ListPlaceholderValue
+}
+
+/**
+ * Interface for the PageFormContainer component's properties.
+ * Defines the expected props to ensure type safety.
+ */
+export interface PageFormProps extends UIContent {
+  children: React.ReactNode
+  disabled: boolean
+  state: ActionResult
+}
+
+/**
+ * Interface for the MyButton component's properties.
+ * It extends `Pick<UIContent, 'btnName'>`.
+ * Defines the expected props to ensure type safety and clarity.
+ */
+export interface MyButtonProps extends Pick<UIContent, 'btnName'> {
+  disabled?: boolean // Optional prop, indicates whether the button should be disabled.
+}
+
+/**
+ * Interface for the ValidationErrorMessage component's properties.
+ * Defines the expected props to ensure type safety.
+ */
+export interface ErrorMessageProps {
+  nameField: string
+  value: string[]
+}
 
 /**
  * `RenderProps` defines a set of props that are passed to the `renderEditedText` function

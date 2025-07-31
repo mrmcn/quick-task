@@ -1,66 +1,32 @@
-import { ListError } from '@/lib/constants/text-const'
 import { ActionResult } from '@/lib/services/types'
-import { HandleErrorProps, ZodErrors } from '@/lib/utils/error-handling/type'
-import Typography from '@mui/material/Typography'
-import { nanoid } from 'nanoid'
+import {
+  renderValidationErrors,
+  renderZodErrors,
+} from '@/lib/utils/helpers/renderErrors'
 
+/**
+ * The **RenderErrors** component is responsible for conditionally displaying error messages
+ * for a form, based on the `ActionResult` state after a server action is performed.
+ * It differentiates between various error types (Zod validation, general validation errors)
+ * and renders them accordingly.
+ *
+ * @param  state - The state object containing the result of the last server action.
+ * It is checked for an 'error' status to display messages.
+ *
+ * @returns A JSX element with error messages, or `null` if no errors are present.
+ */
 export default function RenderErrors({ state }: { state: ActionResult }) {
+  // Check if the state indicates an error
   if (state?.status === 'error') {
+    // If the error type is Zod validation, render detailed field-specific errors
     if (state.error.type === 'zodValidation') {
       return renderZodErrors(state.error.details)
     }
-    if (state.error.type === 'validation')
+    // If the error type is general validation, render a general message
+    if (state.error.type === 'validation') {
       return renderValidationErrors(state.error.message)
+    }
   }
+  // If no errors are present or the state is not an error, render nothing
   return null
-}
-
-function renderZodErrors(details: ZodErrors) {
-  const listErrors = Object.entries(details).map(([key, value]) => (
-    <ValidationErrorMessage
-      key={nanoid()}
-      nameField={key}
-      value={value}
-    />
-  ))
-  return <>{listErrors}</>
-}
-
-function renderValidationErrors(message: HandleErrorProps['message']) {
-  return (
-    <Typography
-      align='center'
-      color='error'
-      aria-live='polite'
-      aria-atomic='true'
-    >
-      {message}
-    </Typography>
-  )
-}
-
-function ValidationErrorMessage({ nameField, value }: ErrorMessageProps) {
-  return (
-    <Typography
-      component='p'
-      align='center'
-      color='error'
-      aria-live='polite'
-      aria-atomic='true'
-    >
-      {ListError.errorInField}
-      <Typography
-        component='span'
-        variant='subtitle1'
-      >
-        {` "${nameField}" `}:{' '}
-      </Typography>
-      {value.join(', ')}
-    </Typography>
-  )
-}
-
-interface ErrorMessageProps {
-  nameField: string
-  value: string[]
 }

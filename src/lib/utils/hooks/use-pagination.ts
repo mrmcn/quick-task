@@ -1,4 +1,4 @@
-import { ListSearchParameter } from '@/lib/constants/text-const'
+import { SearchParameterList } from '@/lib/constants/text-const'
 import { FetchData, UserTasksResult } from '@/lib/services/types'
 import { usePreparationPaginationParams } from '@/lib/utils/helpers/check-pagination-params'
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
@@ -20,7 +20,7 @@ export function usePagination(userTasksPromise: FetchData<UserTasksResult>) {
   // Use `useUpdateUrlWithParams` to get the URL update function
   // and the current value of the 'page' parameter from the URL.
   const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(
-    ListSearchParameter.page,
+    SearchParameterList.page,
   )
 
   // Use `usePreparationPaginationParams` to prepare and validate

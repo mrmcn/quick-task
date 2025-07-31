@@ -1,7 +1,7 @@
 import { TextFieldsNameAttributeListValue } from '@/lib/constants/type'
 import { TaskListDto, UserListDto } from '@/lib/db/selects'
 import { ActionHandler, ActionResult, FetchData } from '@/lib/services/types'
-import { RenderProps } from '@/ui/common/forms/text-fields/types'
+import { RenderProps } from '@/ui/common/forms/types'
 import { TypographyProps } from '@mui/material'
 import { Dispatch, SetStateAction } from 'react'
 

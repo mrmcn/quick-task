@@ -1,6 +1,6 @@
 import {
-  ListSearchParameter,
-  ListSortingParameter,
+  SearchParameterList,
+  SortingParameterList,
 } from '@/lib/constants/text-const'
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
 import { SelectChangeEvent } from '@mui/material'
@@ -20,7 +20,7 @@ import { useCallback } from 'react'
  */
 export function useSortParams() {
   // Define the field name for the sorting parameter in the URL.
-  const sortFieldName = ListSearchParameter.sorting
+  const sortFieldName = SearchParameterList.sorting
   // Use the `useUpdateUrlWithParams` hook to manage URL parameters:
   // `updateUrl` - function to update the URL.
   // `valueCurrentQueryParameter` - the current value of the sorting parameter from the URL.
@@ -59,7 +59,7 @@ export function useSortParams() {
 
   // Determine the current sort value:
   // if the sort parameter is absent from the URL, use the default value.
-  const value = valueCurrentQueryParameter || ListSortingParameter.titleAsc
+  const value = valueCurrentQueryParameter || SortingParameterList.titleAsc
 
   return {
     handleSortChange, // Function to handle sort changes.

@@ -1,5 +1,5 @@
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
-import { FilterParamsProps } from '@/ui/dashboard/page/chips-block/types'
+import { FilterParamsProps } from '@/ui/dashboard/page/types'
 import { useCallback } from 'react'
 
 /**

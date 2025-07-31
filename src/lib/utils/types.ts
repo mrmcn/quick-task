@@ -1,5 +1,5 @@
 import { Priority, Status, User } from '@prisma/client'
-import { ListSearchParameter } from '../constants/text-const'
+import { SearchParameterList } from '../constants/text-const'
 import { ListSortingParameterValue } from '../constants/type'
 
 /**
@@ -20,11 +20,11 @@ export interface CurrentAndNewPassword {
  * This ensures type safety when working with URL parameters.
  */
 export interface ParamValueMap {
-  [ListSearchParameter.page]: string // Page is always a string
-  [ListSearchParameter.priority]: Priority // Priority from Prisma enum
-  [ListSearchParameter.query]: string // Search query string
-  [ListSearchParameter.sorting]: ListSortingParameterValue // Sorting parameters
-  [ListSearchParameter.status]: Status // Status from Prisma enum
+  [SearchParameterList.page]: string // Page is always a string
+  [SearchParameterList.priority]: Priority // Priority from Prisma enum
+  [SearchParameterList.query]: string // Search query string
+  [SearchParameterList.sorting]: ListSortingParameterValue // Sorting parameters
+  [SearchParameterList.status]: Status // Status from Prisma enum
 }
 
 /**

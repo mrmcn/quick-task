@@ -1,13 +1,13 @@
 import {
-  ListDefaultSearchParameter,
-  ListSearchParameter,
+  DefaultSearchParameterList,
+  SearchParameterList,
 } from '@/lib/constants/text-const'
 import { SearchParamsObject } from '@/lib/utils/types'
 import { Priority, Status } from '@prisma/client'
 
 // Destructure constants for better readability.
 // These variables represent the keys of search parameters expected in the URL.
-const { status, page, query, sorting, priority } = ListSearchParameter
+const { status, page, query, sorting, priority } = SearchParameterList
 // Destructure constants for default values.
 // These values are used if the corresponding search parameter is missing from the URL.
 const {
@@ -16,7 +16,7 @@ const {
   defaultQuery,
   defaultSort,
   defaultPriority,
-} = ListDefaultSearchParameter
+} = DefaultSearchParameterList
 
 /**
  * @description Processes and normalizes a search parameters object received from the URL.

@@ -5,6 +5,10 @@ import {
 import { FetchData, MonitoringStatesProps } from '@/lib/services/types'
 import { Priority, Status } from '@prisma/client'
 
+interface ChipConfig {
+  chipConfig: ChipsConfigProps
+}
+
 export interface ChipsConfigProps {
   chipName: ListChipNamesValue
   filterValue: Priority | Status
@@ -12,13 +16,11 @@ export interface ChipsConfigProps {
   asyncChip: boolean
 }
 
-export interface ChipContentProps {
+export interface ChipContentProps extends ChipConfig {
   data?: MonitoringStatesProps
-  chipConfig: ChipsConfigProps
 }
 
-export interface AsyncChipContentProps {
-  chipConfig: ChipsConfigProps
+export interface AsyncChipContentProps extends ChipConfig {
   statusStatePromise: FetchData<MonitoringStatesProps>
 }
 
@@ -31,3 +33,7 @@ export type FilterParamsProps = Pick<
   ChipsConfigProps,
   'filterValue' | 'filteringParam'
 >
+
+export interface SearchProps {
+  placeholder: string
+}

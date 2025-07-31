@@ -2,8 +2,8 @@
 
 import { PAGES } from '@/lib/constants/routes'
 import {
-  ListSearchParameter,
-  ListSortingParameter,
+  SearchParameterList,
+  SortingParameterList,
 } from '@/lib/constants/text-const'
 import { taskRepository } from '@/lib/repositories/prisma/tasks'
 import { ActionHandler, ActionResult } from '@/lib/services/types'
@@ -55,7 +55,7 @@ export const createTask: ActionHandler<ActionResult> = withFormHandling({
   updateAndRedirect: async () => {
     revalidatePath(PAGES.DASHBOARD)
     redirect(
-      `${PAGES.DASHBOARD}?${ListSearchParameter.sorting}=${ListSortingParameter.dateDesc}`,
+      `${PAGES.DASHBOARD}?${SearchParameterList.sorting}=${SortingParameterList.dateDesc}`,
     )
   },
 })

@@ -2,88 +2,70 @@
 
 import Await from '@/lib/components/await'
 import { HandleError } from '@/lib/utils/error-handling/type'
+import { useEditableTextLogic } from '@/lib/utils/hooks/use-editable-text-logic'
 import TextEditing from '@/ui/common/forms/editable-text/text-editing'
-import {
-  Data,
-  EditableTextProps,
-  RenderViewText,
-} from '@/ui/common/forms/editable-text/types'
+import { EditableTextProps } from '@/ui/common/forms/editable-text/types'
 import Skeleton from '@mui/material/Skeleton'
-import Typography, { TypographyProps } from '@mui/material/Typography'
-import { Dispatch, JSX, SetStateAction, Suspense, useState } from 'react'
+import Typography from '@mui/material/Typography'
+import { Suspense } from 'react'
 
 /**
- * The EditableText component provides inline text editing functionality.
- * It toggles between a viewing and an editing state.
+ * @const ErrorElement
+ * @description A component that displays an error message when asynchronous data fails to load.
+ * @param error - The error object containing the message.
+ * @returns A Typography component with the error message.
  */
-export function EditableText({
-  renderEditedText, // Function to render the input field for editing. Receives TextFieldProps.
-  renderViewText, // Function to render the text for viewing. Receives TypographyProps and data.
-  action, // Next.js Server Action to save the edited text.
-  data, // The data to display. Can be a string or a FetchData promise.
-}: EditableTextProps) {
-  const [isEditing, setIsEditing] = useState(false)
-
-  const viewingText = getViewingText(data, setIsEditing, renderViewText)
-
-  if (isEditing)
-    return (
-      <TextEditing
-        action={action}
-        renderEditedText={renderEditedText}
-        setIsEditing={setIsEditing}
-        data={data}
-      />
-    )
-
-  return <>{viewingText}</>
-}
-
-/**
- * Function to get the JSX element that displays the text in the viewing state.
- * Handles both synchronous strings and asynchronous promises.
- */
-function getViewingText(
-  data: Data, // The data to display. Can be a string or a FetchData promise.
-  setIsEditing: Dispatch<SetStateAction<boolean>>, // Function to set the editing state.
-  renderViewText: RenderViewText, // Function to render the text for viewing.
-): JSX.Element {
-  const typographyProps = getTypographyProps(setIsEditing)
-  const viewingText =
-    typeof data !== 'string' ? (
-      <Suspense fallback={<Skeleton width={40} />}>
-        <Await
-          promise={data.promise}
-          errorElement={errorElement}
-        >
-          {(res) => renderViewText(typographyProps, res[data.key])}
-        </Await>
-      </Suspense>
-    ) : (
-      renderViewText(typographyProps, data)
-    )
-
-  return viewingText
-}
-
-const errorElement = (error: HandleError) => (
+const ErrorElement = (error: HandleError) => (
   <Typography color='error'>{error.message}</Typography>
 )
 
 /**
- * Function to generate props for the Typography element that displays the text for viewing.
- * Includes a click handler to enter the editing state.
+ * @component EditableText
+ * @description The `EditableText` component provides inline text editing functionality.
+ * It toggles between a viewing state (displaying text) and an editing state (displaying an input field).
+ *
+ * @param renderEditedText - Function to render the input field for the editing state.
+ * @param renderViewText - Function to render the text for the viewing state.
+ * @param action - Next.js Server Action to save the edited text to the database.
+ * @param data - The data to display. Can be a string or a promise-like object for asynchronous loading.
+ *
+ * @returnsA component that toggles between displaying and editing text.
  */
-function getTypographyProps(
-  setIsEditing: Dispatch<SetStateAction<boolean>>,
-): TypographyProps {
-  const handleClick = () => {
-    setIsEditing(true) // Enter editing state on click.
-  }
-  const typographyProps: TypographyProps = {
-    color: 'secondary',
-    onClick: handleClick,
-    style: { cursor: 'pointer', display: 'inline-block' }, // Indicates that the element is clickable and restricts its width to the content.
-  }
-  return typographyProps
+export function EditableText({
+  renderEditedText,
+  renderViewText,
+  action,
+  data,
+}: EditableTextProps) {
+  // Call the custom hook to encapsulate state logic and get Typography props.
+  const { typographyProps, isEditing, setIsEditing } = useEditableTextLogic()
+
+  // If the component is in editing mode, render the TextEditing component.
+  if (isEditing)
+    return (
+      <TextEditing
+        action={action} // The Server Action for saving data.
+        renderEditedText={renderEditedText} // Function for rendering the input field.
+        setIsEditing={setIsEditing} // Function to exit editing mode.
+        data={data} // The current data.
+      />
+    )
+
+  // If the data is asynchronous (an object with a promise), use Suspense and Await.
+  if (typeof data !== 'string')
+    return (
+      <Suspense fallback={<Skeleton width={40} />}>
+        {/* The Await component waits for the promise to resolve and passes the result to its children. */}
+        <Await
+          promise={data.promise} // The promise to be resolved.
+          errorElement={ErrorElement} // Component to display if the promise rejects.
+        >
+          {/* A callback that renders the text after the data is fetched. */}
+          {(res) => renderViewText(typographyProps, res[data.key])}
+        </Await>
+      </Suspense>
+    )
+
+  // If the data is synchronous (a string), simply render the text.
+  return renderViewText(typographyProps, data)
 }

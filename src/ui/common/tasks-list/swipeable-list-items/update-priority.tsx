@@ -1,85 +1,52 @@
 'use client'
 
-import {
-  ListError,
-  TextFieldsNameAttributeList,
-} from '@/lib/constants/text-const'
-import { updateTaskPriority } from '@/lib/services/actions/task'
+import { useTaskPriorityLogic } from '@/lib/utils/hooks/use-task-priority-logic'
+import { StyledForm } from '@/ui/common/tasks-list/styled-form'
+import { sxTasksList } from '@/ui/common/tasks-list/styles'
 import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
 import { WithTaskProps } from '@/ui/common/tasks-list/types'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import LowPriorityIcon from '@mui/icons-material/LowPriority'
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
-import { IconButton, Typography } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
-import { $Enums, Priority } from '@prisma/client'
-import { useActionState } from 'react'
 
+/**
+ * @component UpdateTaskPriority
+ * @description The `UpdateTaskPriority` component provides an interface for changing a task's priority.
+ * It displays an icon representing the task's current priority,
+ * and allows the user to toggle it between high and low priority.
+ * The component uses Server Actions to asynchronously update the priority in the database.
+ *
+ * @param task - The task object, containing its current priority and ID.
+ *
+ * @returns A form with an icon button to change priority and an error message display.
+ */
 export function UpdateTaskPriority({ task }: WithTaskProps) {
-  const [state, formAction, isPending] = useActionState(
-    updateTaskPriority,
-    undefined,
-  )
-  const { icon, value } = getIconAndPriorityValue(task.priority)
-  const errorMessage =
-    state?.status === 'error' ? (
-      <Typography
-        variant='caption'
-        color='error'
-      >
-        {ListError.failed}
-      </Typography>
-    ) : null
+  // Call the custom hook to encapsulate all logic related to task priority.
+  // It returns the icon, hidden field data, form action function, pending state, and error message.
+  const { icon, dynamicField, formAction, isPending, errorMessage } =
+    useTaskPriorityLogic(task.priority)
 
   return (
-    <form
+    // Use StyledForm, which renders an HTML <form> and supports the sx prop.
+    <StyledForm
       action={formAction}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+      sx={sxTasksList.priorityForm}
     >
-      <Box
-        sx={{
-          width: 48,
-          bgcolor: 'primary.light',
-        }}
-      >
+      <Box sx={sxTasksList.priorityBoxForm}>
         <IconButton
           type='submit'
           disabled={isPending}
-          sx={{
-            color: 'secondary.main',
-            justifyContent: 'center',
-            height: '100%',
-          }}
+          sx={sxTasksList.priorityIconBtn}
         >
           {icon}
         </IconButton>
       </Box>
       {errorMessage}
+      {/* Hidden input fields to pass the task ID and the new priority value
+          to the server action when the form is submitted. */}
       <HiddenInputs
         taskId={task.id}
-        dynamicField={{
-          name: TextFieldsNameAttributeList.priority,
-          value: value,
-        }}
+        dynamicField={dynamicField} // Memoized object containing the field name ('priority') and its new value.
       />
-    </form>
+    </StyledForm>
   )
-}
-
-function getIconAndPriorityValue(priority: $Enums.Priority) {
-  const highStatus = priority === Priority.high
-  const icon = highStatus ? (
-    <LowPriorityIcon />
-  ) : (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <ArrowUpwardIcon sx={{ fontSize: 'small' }} />
-      <PriorityHighIcon sx={{ marginLeft: '-8px' }} />
-    </Box>
-  )
-  const value = highStatus ? Priority.low : Priority.high
-  return { icon, value }
 }

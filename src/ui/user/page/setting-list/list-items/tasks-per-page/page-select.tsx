@@ -2,16 +2,26 @@
 
 import { PAGE_VALUE } from '@/lib/constants/data/ui-config'
 import useSelectAction from '@/lib/utils/hooks/use-select-action'
-import { sxSelectMenuListProps } from '@/ui/user/page/setting-list/list-items/styles'
-import { PageSelectProps } from '@/ui/user/page/setting-list/list-items/types'
+import { sxUser } from '@/ui/user/styles'
+import { PageSelectProps } from '@/ui/user/types'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Input from '@mui/material/Input'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 
+/**
+ * @function PageSelect
+ * @description A client component that renders a dropdown (Select)
+ * for choosing the number of tasks per page.
+ * It manages the selection state and handles user actions using `useSelectAction`.
+ *
+ * @param taskPerPage - The current number of tasks per page.
+ * @returns A Material-UI Select component.
+ */
 export default function PageSelect({ taskPerPage }: PageSelectProps) {
   const { errorText, handleChange } = useSelectAction()
+
   const menu = PAGE_VALUE.map((value) => (
     <MenuItem
       key={value}
@@ -36,7 +46,7 @@ export default function PageSelect({ taskPerPage }: PageSelectProps) {
             />
           }
           MenuProps={{
-            MenuListProps: sxSelectMenuListProps,
+            MenuListProps: sxUser.selectMenuListProps,
           }}
         >
           {menu}

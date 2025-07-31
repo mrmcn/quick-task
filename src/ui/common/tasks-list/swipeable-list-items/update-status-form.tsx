@@ -1,59 +1,68 @@
 'use client'
 
-import { TextFieldsNameAttributeList } from '@/lib/constants/text-const'
-import { updateTaskStatus } from '@/lib/services/actions/task'
+import { useTaskStatusLogic } from '@/lib/utils/hooks/use-task-status-logic'
+import { StyledForm } from '@/ui/common/tasks-list/styled-form'
+import { sxTasksList } from '@/ui/common/tasks-list/styles'
 import HiddenInputs from '@/ui/common/tasks-list/swipeable-list-items/hidden-inputs'
 import { EditStatusFormProps } from '@/ui/common/tasks-list/types'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import CircularProgress from '@mui/material/CircularProgress'
-import { Status } from '@prisma/client'
-import { useActionState } from 'react'
 
+/**
+ * @component UpdateTaskStatus
+ * @description The `UpdateTaskStatus` component allows the user to change the status of a task
+ * (e.g., between "completed" and "in progress") using a checkbox.
+ * It integrates with the `updateTaskStatus` server action for asynchronous database updates.
+ * Displays a loading indicator while the action is pending and an error message if an error occurs.
+ *
+ * @param id - The unique identifier of the task whose status needs to be updated.
+ * @param status - The current status of the task from the Prisma enum.
+ * @param ariaLabelledById - The ID of the element that serves as a label for the checkbox for accessibility.
+ *
+ * @returns A form with a checkbox to change status, or a loading indicator/error message.
+ */
 export default function UpdateTaskStatus({
   id,
   status,
-  title,
+  ariaLabelledById,
 }: EditStatusFormProps) {
-  const [state, action, pending] = useActionState(updateTaskStatus, undefined)
+  // Call the custom hook to encapsulate all logic related to task status.
+  // It returns handlers, values, Server Action state, and memoized data.
+  const { checked, handleChange, dynamicField, action, pending, state } =
+    useTaskStatusLogic(status)
 
+  // If the server action is pending, display a loading indicator.
   if (pending)
     return (
       <CircularProgress
         size={15}
-        sx={{ mr: 5, mt: 3, color: 'primary.dark' }}
+        sx={sxTasksList.statusProgress}
       />
     )
 
+  // If the server action completed with an error, display the error message.
   if (state?.status === 'error') return <Box>{state.error.message}</Box>
-  const value =
-    status === Status.completed ? Status.in_progress : Status.completed
 
   return (
-    <form
+    // Use StyledForm, which renders an HTML <form> and supports the sx prop.
+    <StyledForm
       action={action}
-      style={{
-        display: 'flex',
-        alignItems: 'stretch',
-      }}
+      sx={sxTasksList.statusForm}
     >
       <Checkbox
-        onChange={(e) => {
-          e.preventDefault()
-          e.currentTarget.form?.requestSubmit()
-        }}
+        onChange={handleChange}
         edge='end'
-        checked={status.includes(Status.completed)}
-        sx={{ mr: 3 }}
-        aria-labelledby={`task-${title}`}
+        checked={checked}
+        sx={sxTasksList.statusCheckbox}
+        aria-labelledby={ariaLabelledById}
       />
+      {/* Hidden input fields to pass the task ID and the new status value
+          to the server action. */}
       <HiddenInputs
         taskId={id}
-        dynamicField={{
-          name: TextFieldsNameAttributeList.status,
-          value: value,
-        }}
+        dynamicField={dynamicField} // Memoized object containing the field name ('status') and its new value.
       />
-    </form>
+    </StyledForm>
   )
 }

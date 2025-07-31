@@ -1,7 +1,7 @@
 import { PAGES } from '@/lib/constants/routes'
-import { ListBtnNames } from '@/lib/constants/text-const'
+import { BtnNamesList } from '@/lib/constants/text-const'
 import ChevronIcon from '@/ui/user/page/setting-list/chevron-icon'
-import sxListItemIconProps from '@/ui/user/page/setting-list/styles'
+import { sxUser } from '@/ui/user/styles'
 import LockResetIcon from '@mui/icons-material/LockReset'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -9,20 +9,28 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 
+/**
+ * @function ListItemResetPassword
+ * @description A component that renders a list item allowing the user
+ * to navigate to the password reset page. It uses Material-UI components for structure
+ * and Next.js Link for client-side navigation.
+ *
+ * @returns A list item with a password reset icon, text, and a chevron.
+ */
 export default function ListItemResetPassword() {
   return (
     <ListItem>
-      <ListItemIcon sx={sxListItemIconProps()}>
+      <ListItemIcon sx={sxUser.listItemIcon}>
         <LockResetIcon />
       </ListItemIcon>
       <ListItemButton
         component={Link}
         href={PAGES.USER_RESET_PASSWORD}
-        sx={{ pl: 0 }}
+        sx={sxUser.listItemButton}
       >
         <ListItemText
-          primary={ListBtnNames.resetPassword}
-          slotProps={{ primary: { color: 'secondary' } }}
+          primary={BtnNamesList.resetPassword}
+          slotProps={sxUser.primaryColorSecondary}
         />
       </ListItemButton>
       <ChevronIcon />

@@ -1,36 +1,40 @@
-import { auth } from '@/auth'
-import { PAGES } from '@/lib/constants/routes'
-import {
-  ListBtnNames,
-  ListError,
-  ListPhrases,
-} from '@/lib/constants/text-const'
-import { fetchUser } from '@/lib/services/queries/user'
+import { PhrasesList } from '@/lib/constants/text-const'
+import { getAppBarConfig } from '@/lib/utils/helpers/get-appbar-config'
+import { sxRootPage } from '@/ui/page/styles'
 import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 
+/**
+ * @function Appbar
+ * @description A Server Component that renders the application's navigation bar (appbar).
+ * It dynamically changes the user button's link and text based on whether the user is authenticated,
+ * and fetches the user's name if logged in.
+ *
+ * @returns The appbar with buttons for navigation.
+ */
 export default async function Appbar() {
+  // Asynchronously get the appbar configuration, which depends on the user's session state.
   const { homeUrl, userButtonAriaLabel, userButtonText, userCabinetUrl } =
     await getAppBarConfig()
 
   return (
     <Box
       component='nav'
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
+      sx={sxRootPage.appbarBox}
     >
+      {/* Button to navigate to the home page. */}
       <Button
         component={Link}
         href={homeUrl}
         color='inherit'
         aria-label='Go to home'
       >
-        <Typography>{ListPhrases.quickTask}</Typography>
+        <Typography>{PhrasesList.quickTask}</Typography>
       </Button>
+
+      {/* Button to navigate to the user's cabinet or sign-in page. */}
       <Button
         component={Link}
         href={userCabinetUrl}
@@ -41,27 +45,4 @@ export default async function Appbar() {
       </Button>
     </Box>
   )
-}
-
-async function getAppBarConfig() {
-  const session = await auth()
-
-  if (session) {
-    const { data } = await fetchUser.uniqueData({ name: true })
-    const userName = data?.name ?? ListError.failed
-
-    return {
-      homeUrl: PAGES.HOME,
-      userCabinetUrl: PAGES.USER,
-      userButtonText: userName,
-      userButtonAriaLabel: 'Go to user cabinet',
-    }
-  }
-
-  return {
-    homeUrl: PAGES.HOME,
-    userCabinetUrl: PAGES.SIGNIN,
-    userButtonText: ListBtnNames.signin,
-    userButtonAriaLabel: 'Go to sign in',
-  }
 }
