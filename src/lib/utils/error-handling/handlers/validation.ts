@@ -1,4 +1,4 @@
-import { HandleError } from '@/lib/utils/error-handling/type'
+import { HandleError } from '@/lib/utils/error-handling/types'
 import { ValidationError } from '@/lib/utils/errors/validation-error'
 
 /**

@@ -1,10 +1,10 @@
-import { auth } from '@/auth'
 import { PhrasesList } from '@/lib/constants/text-const'
-import { getSearchParams } from '@/lib/utils/helpers/get-search-params'
+import { getSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
 import { EmptyStateProps, TasksItemsProps } from '@/ui/common/tasks-list/types'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { auth } from '../../../auth'
 import { sxTasksList } from './styles'
 
 /**

@@ -107,7 +107,7 @@ function TaskFieldEditable({
   ...rest
 }: TaskEditableProps) {
   const dynamicField = useMemo(() => {
-    return { name: 'searchParams', value: searchParamsToGoBack }
+    return { name: NameAttributeList.searchParams, value: searchParamsToGoBack }
   }, [searchParamsToGoBack])
 
   return (

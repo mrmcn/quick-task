@@ -252,7 +252,7 @@ export const SearchParameterList = {
   /** URL parameter key for the current pagination page. */
   page: 'page',
   /** URL parameter key for task sorting. */
-  sorting: 'sorting',
+  sort: 'sort',
   /** URL parameter key for filtering by task status. */
   status: 'status',
   /** URL parameter key for filtering by task priority. */
@@ -271,9 +271,9 @@ export const DefaultSearchParameterList = {
   /** Default value for the 'query' URL parameter, representing an empty search query. */
   defaultQuery: '',
   /** Default value for the 'sorting' URL parameter. It's an empty object literal, implying no specific sort order by default or a custom handling. */
-  defaultSort: '{}',
+  defaultSort: SortingParameterList.dateAsc,
   /** Default value for the 'page' URL parameter, representing the initial page number. */
-  defaultPage: '1',
+  defaultPage: 1,
   /** Default value for the 'status' URL parameter. `undefined` suggests no default status filter is applied. */
   defaultStatus: undefined,
   /** Default value for the 'priority' URL parameter. `undefined` suggests no default priority filter is applied. */
@@ -341,6 +341,10 @@ export const NameAttributeList: {
   currentPassword: 'currentPassword',
   /** New password (for the change password form). */
   newPassword: 'newPassword',
+  /** Key for the hidden field used to pass URL search
+   * parameters between pages during Server Actions.
+   */
+  searchParams: 'searchParams',
 } as const
 
 /**

@@ -20,7 +20,7 @@ import { useCallback } from 'react'
  */
 export function useSortParams() {
   // Define the field name for the sorting parameter in the URL.
-  const sortFieldName = SearchParameterList.sorting
+  const sortFieldName = SearchParameterList.sort
   // Use the `useUpdateUrlWithParams` hook to manage URL parameters:
   // `updateUrl` - function to update the URL.
   // `valueCurrentQueryParameter` - the current value of the sorting parameter from the URL.

@@ -1,7 +1,7 @@
 'use client'
 
 import Await from '@/lib/components/await'
-import { HandleError } from '@/lib/utils/error-handling/type'
+import { HandleError } from '@/lib/utils/error-handling/types'
 import { useEditableTextLogic } from '@/lib/utils/hooks/use-editable-text-logic'
 import TextEditing from '@/ui/common/forms/editable-text/text-editing'
 import { EditableTextProps } from '@/ui/common/forms/editable-text/types'

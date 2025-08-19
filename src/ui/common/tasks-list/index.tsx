@@ -1,4 +1,4 @@
-import { fetchTask } from '@/lib/services/queries/task'
+import { fetchTask } from '@/lib/services/queries/task/task'
 import TasksItems from '@/ui/common/tasks-list//tasks-items'
 import { sxTasksList } from '@/ui/common/tasks-list/styles'
 import { TasksListProps } from '@/ui/common/tasks-list/types'

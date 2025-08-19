@@ -20,6 +20,7 @@ import {
 } from '@/lib/constants/text-const'
 
 // Import of Prisma models used to extend field types
+import { PAGE_VALUE } from '@/lib/constants/data/ui-config'
 import { Task, User } from '@prisma/client'
 
 /**
@@ -93,12 +94,14 @@ export type ListDefaultSearchParameterValue = ValueOf<
  * - Keys of fields specific to the password change form (`TextFieldChangePasswordList`).
  * - Keys of `Task` model properties (if they are used as field names).
  * - Keys of `User` model properties (if they are used as field names).
+ * - The special-purpose `searchParams` key used for URL state management.
  * This ensures comprehensive typing for all field names in the application.
  */
 export type TextFieldsNameAttributeKeys =
   | keyof typeof ChangePasswordList
   | keyof Task
   | keyof User
+  | 'searchParams'
 
 /**
  * Type representing possible values for the `name` attributes of input fields.
@@ -113,3 +116,9 @@ export type TextFieldsNameAttributeListValue = ValueOf<typeof NameAttributeList>
  * Generated from `ListSortingParameter` in the constants file.
  */
 export type ListSortingParameterValue = ValueOf<typeof SortingParameterList>
+
+/**
+ * The `PageValue` type is inferred from the `PAGE_VALUE` constant, ensuring that variables of this type
+ * can only take values defined within `PAGE_VALUE`.
+ */
+export type PageValue = (typeof PAGE_VALUE)[number]

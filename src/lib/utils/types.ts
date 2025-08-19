@@ -1,6 +1,10 @@
-import { Priority, Status, User } from '@prisma/client'
-import { SearchParameterList } from '../constants/text-const'
-import { ListSortingParameterValue } from '../constants/type'
+import { SearchParameterList } from '@/lib/constants/text-const'
+import {
+  ListDefaultSearchParameterValue,
+  ListSortingParameterValue,
+} from '@/lib/constants/type'
+import { ResponseObject } from '@/lib/services/types'
+import { $Enums, User } from '@prisma/client'
 
 /**
  * @interface CurrentAndNewPassword
@@ -12,19 +16,6 @@ import { ListSortingParameterValue } from '../constants/type'
 export interface CurrentAndNewPassword {
   currentPassword: User['password']
   newPassword: User['password']
-}
-
-/**
- * @interface ParamValueMap
- * @description Interface for mapping `ListSearchParameter` to their corresponding value types.
- * This ensures type safety when working with URL parameters.
- */
-export interface ParamValueMap {
-  [SearchParameterList.page]: string // Page is always a string
-  [SearchParameterList.priority]: Priority // Priority from Prisma enum
-  [SearchParameterList.query]: string // Search query string
-  [SearchParameterList.sorting]: ListSortingParameterValue // Sorting parameters
-  [SearchParameterList.status]: Status // Status from Prisma enum
 }
 
 /**
@@ -63,8 +54,49 @@ export type PreparationPaginationParams =
 
 /**
  * @description A type representing the structure of a search parameters object.
- * Keys can be any string, and values are single strings.
+ * Keys can be any string, and values are single strings or number.
  */
 export type SearchParamsObject = {
-  [key: string]: string
+  [key: string]: string | number
 }
+
+/**
+ * @description Interface for search parameters used to filter and sort a list of items.
+ */
+export interface ParamValueMap {
+  /**
+   * The search query string to filter items by name or other relevant fields.
+   */
+  [SearchParameterList.query]: string
+  /**
+   * The current page number for pagination.
+   */
+  [SearchParameterList.page]: number
+  /**
+   * The field name by which to sort the results.
+   * Can be 'createdAt', 'updatedAt', etc.
+   */
+  [SearchParameterList.sort]:
+    | ListSortingParameterValue
+    | Extract<ListDefaultSearchParameterValue, '{}'>
+  /**
+   * The status enum value to filter items.
+   * Based on the available statuses in the system.
+   */
+  [SearchParameterList.status]: $Enums.Status | undefined
+  /**
+   * The priority enum value to filter or sort items.
+   * Based on the defined priorities.
+   */
+  [SearchParameterList.priority]: $Enums.Priority | undefined
+}
+
+export type PartialParamValueMap = Partial<ParamValueMap>
+
+export interface AuthData {
+  userId: string
+  userEmail: string | null | undefined
+}
+
+// Using a type alias to improve readability for complex mock data
+export type MockResponse = Partial<ResponseObject<Partial<User>>>

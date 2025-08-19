@@ -5,10 +5,10 @@ import {
   SearchParameterList,
   SortingParameterList,
 } from '@/lib/constants/text-const'
-import { taskRepository } from '@/lib/repositories/prisma/tasks'
+import { taskRepository } from '@/lib/repositories/prisma/tasks/taskRepository'
 import { ActionHandler, ActionResult } from '@/lib/services/types'
 import { DeleteTaskError } from '@/lib/utils/errors/delete-task-error'
-import { getSessionData } from '@/lib/utils/helpers/get-session-data'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data/session'
 import { updateTaskFunctions } from '@/lib/utils/helpers/update-task-functions'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'
 import { tasksSchemes } from '@/lib/utils/zod/schema/tasks'
@@ -55,7 +55,7 @@ export const createTask: ActionHandler<ActionResult> = withFormHandling({
   updateAndRedirect: async () => {
     revalidatePath(PAGES.DASHBOARD)
     redirect(
-      `${PAGES.DASHBOARD}?${SearchParameterList.sorting}=${SortingParameterList.dateDesc}`,
+      `${PAGES.DASHBOARD}?${SearchParameterList.sort}=${SortingParameterList.dateDesc}`,
     )
   },
 })

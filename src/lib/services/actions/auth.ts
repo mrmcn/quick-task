@@ -1,9 +1,9 @@
 'use server'
 
-import { signIn, signOut } from '@/auth'
 import { ActionHandler, ActionResult } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
-import { HandleErrorProps } from '@/lib/utils/error-handling/type'
+import { HandleErrorProps } from '@/lib/utils/error-handling/types'
+import { signIn, signOut } from '../../../auth'
 
 /**
  * This file contains Server Actions responsible for user authentication.

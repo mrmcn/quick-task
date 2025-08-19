@@ -1,5 +1,5 @@
 import { TaskListDto } from '@/lib/db/selects'
-import { HandleError } from '@/lib/utils/error-handling/type'
+import { HandleError } from '@/lib/utils/error-handling/types'
 import { SearchParamsObject } from '@/lib/utils/types'
 import { Prisma, Status } from '@prisma/client'
 import { z, ZodSchema } from 'zod'

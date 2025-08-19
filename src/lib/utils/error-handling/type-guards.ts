@@ -1,7 +1,7 @@
 import {
   HandleErrorProps,
   PrismaClientError,
-} from '@/lib/utils/error-handling/type'
+} from '@/lib/utils/error-handling/types'
 import { DeleteTaskError } from '@/lib/utils/errors/delete-task-error'
 import { ValidationError } from '@/lib/utils/errors/validation-error'
 import { Prisma } from '@prisma/client'

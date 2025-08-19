@@ -1,4 +1,7 @@
-import { HandleError, PrismaClientError } from '@/lib/utils/error-handling/type'
+import {
+  HandleError,
+  PrismaClientError,
+} from '@/lib/utils/error-handling/types'
 import { Prisma } from '@prisma/client'
 
 /**

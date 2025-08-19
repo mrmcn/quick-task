@@ -1,3 +1,4 @@
+import { PAGES } from '@/lib/constants/routes'
 import { PhrasesList } from '@/lib/constants/text-const'
 import { getAppBarConfig } from '@/lib/utils/helpers/get-appbar-config'
 import { sxRootPage } from '@/ui/page/styles'
@@ -16,7 +17,7 @@ import Link from 'next/link'
  */
 export default async function Appbar() {
   // Asynchronously get the appbar configuration, which depends on the user's session state.
-  const { homeUrl, userButtonAriaLabel, userButtonText, userCabinetUrl } =
+  const { secondBtnAriaLabel, secondBtnText, secondBtnUrl } =
     await getAppBarConfig()
 
   return (
@@ -27,7 +28,7 @@ export default async function Appbar() {
       {/* Button to navigate to the home page. */}
       <Button
         component={Link}
-        href={homeUrl}
+        href={PAGES.HOME}
         color='inherit'
         aria-label='Go to home'
       >
@@ -37,11 +38,11 @@ export default async function Appbar() {
       {/* Button to navigate to the user's cabinet or sign-in page. */}
       <Button
         component={Link}
-        href={userCabinetUrl}
+        href={secondBtnUrl}
         color='inherit'
-        aria-label={userButtonAriaLabel}
+        aria-label={secondBtnAriaLabel}
       >
-        <Typography>{userButtonText}</Typography>
+        <Typography>{secondBtnText}</Typography>
       </Button>
     </Box>
   )

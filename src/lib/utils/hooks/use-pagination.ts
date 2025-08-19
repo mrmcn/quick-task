@@ -1,7 +1,7 @@
 import { SearchParameterList } from '@/lib/constants/text-const'
 import { FetchData, UserTasksResult } from '@/lib/services/types'
-import { usePreparationPaginationParams } from '@/lib/utils/helpers/check-pagination-params'
 import { useUpdateUrlWithParams } from '@/lib/utils/hooks/common/use-update-url-with-params'
+import { usePreparationPaginationParams } from '@/lib/utils/hooks/use-preparation-pagination-params'
 import { useCallback } from 'react'
 
 /**

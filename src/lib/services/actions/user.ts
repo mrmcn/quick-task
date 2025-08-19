@@ -1,12 +1,11 @@
 'use server'
 
-import { signOut } from '@/auth'
 import { PAGES } from '@/lib/constants/routes'
-import { userRepository } from '@/lib/repositories/prisma/user'
+import { userRepository } from '@/lib/repositories/prisma/user/user'
 import { ActionHandler, ActionResult } from '@/lib/services/types'
 import { handleError } from '@/lib/utils/error-handling'
-import { HandleErrorProps } from '@/lib/utils/error-handling/type'
-import { getSessionData } from '@/lib/utils/helpers/get-session-data' // This function redirects to '/signin' if there's no session
+import { HandleErrorProps } from '@/lib/utils/error-handling/types'
+import { getSessionData } from '@/lib/utils/helpers/get-session-data/session' // This function redirects to '/signin' if there's no session
 import { prepareHashedPassword } from '@/lib/utils/helpers/prepare-hashed-password'
 import { updateUserFunction } from '@/lib/utils/helpers/update-user-function'
 import withFormHandling from '@/lib/utils/helpers/with-form-handling'
@@ -15,6 +14,7 @@ import { validateData } from '@/lib/utils/zod/validate'
 import bcrypt from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { signOut } from '../../../auth'
 
 /**
  * This file contains Server Actions that perform CRUD (Create, Read, Update, Delete)

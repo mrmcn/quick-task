@@ -1,4 +1,4 @@
-import { HandleError } from '@/lib/utils/error-handling/type'
+import { HandleError } from '@/lib/utils/error-handling/types'
 import { DeleteTaskError } from '@/lib/utils/errors/delete-task-error'
 
 /**

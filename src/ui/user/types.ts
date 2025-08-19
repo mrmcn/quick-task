@@ -1,4 +1,4 @@
-import { PageValue } from '@/lib/constants/data/ui-config'
+import { PageValue } from '@/lib/constants/type'
 import { JSX } from 'react'
 
 export interface MyDialogProps {

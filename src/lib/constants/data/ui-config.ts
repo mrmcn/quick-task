@@ -4,6 +4,7 @@ import {
   SearchParameterList,
   SortingParameterList,
 } from '@/lib/constants/text-const'
+import { PageValue } from '@/lib/constants/type'
 import { ChipsConfigProps } from '@/ui/dashboard/page/types'
 import { Priority, Status } from '@prisma/client'
 
@@ -91,8 +92,4 @@ export const SWIPE_HIDDEN_WIDTH_DESKTOP = 100
  */
 export const SWIPE_THRESHOLD_PERCENTAGE = 0.3
 
-/**
- * The `PageValue` type is inferred from the `PAGE_VALUE` constant, ensuring that variables of this type
- * can only take values defined within `PAGE_VALUE`.
- */
-export type PageValue = (typeof PAGE_VALUE)[number]
+export const defaultTaskPerPage: PageValue = 3

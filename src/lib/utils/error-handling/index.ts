@@ -4,7 +4,6 @@ import { handleLastError } from '@/lib/utils/error-handling/handlers/last'
 import { handlePrismaError } from '@/lib/utils/error-handling/handlers/prisma'
 import { handleValidationError } from '@/lib/utils/error-handling/handlers/validation'
 import { handleZodError } from '@/lib/utils/error-handling/handlers/zod'
-import { HandleError, HandleErrorProps } from '@/lib/utils/error-handling/type'
 import {
   isAuthError,
   isDeleteTaskError,
@@ -13,6 +12,7 @@ import {
   isValidateError,
   isZodError,
 } from '@/lib/utils/error-handling/type-guards'
+import { HandleError, HandleErrorProps } from '@/lib/utils/error-handling/types'
 
 /**
  * @function handleError

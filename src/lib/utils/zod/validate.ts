@@ -25,6 +25,8 @@ export function validateFormData<T extends z.ZodTypeAny>(
 
   if (!validatedFields.success) throw validatedFields.error
 
+  console.log('validatedFields.data', validatedFields.data)
+
   return validatedFields.data
 }
 

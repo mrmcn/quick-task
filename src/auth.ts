@@ -1,6 +1,6 @@
 import { authConfig } from '@/auth.config'
 import { AUTH_DATA_SELECT } from '@/lib/db/selects'
-import { fetchUser } from '@/lib/services/queries/user'
+import { fetchUser } from '@/lib/services/queries/user/fetchUser'
 import { userSchemes } from '@/lib/utils/zod/schema/user'
 import { validateData } from '@/lib/utils/zod/validate'
 import bcrypt from 'bcrypt'

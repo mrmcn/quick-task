@@ -1,7 +1,7 @@
 import { sxUserPage } from '@/app/user/styles'
 import { USER_DATA_SELECT } from '@/lib/db/selects'
 import { updateUserEmail, updateUserName } from '@/lib/services/actions/user'
-import { fetchUser } from '@/lib/services/queries/user'
+import { fetchUser } from '@/lib/services/queries/user/fetchUser'
 import EditableListItem from '@/ui/user/page/setting-list/editable-list-items'
 import EditableUserData from '@/ui/user/page/setting-list/editable-list-items/editable-user-data'
 import ListItemDeletingAccount from '@/ui/user/page/setting-list/list-items/delete'

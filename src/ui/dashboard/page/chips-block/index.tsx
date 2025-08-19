@@ -1,5 +1,5 @@
 import { LIST_CHIPS_CONFIG } from '@/lib/constants/data/ui-config'
-import { fetchTask } from '@/lib/services/queries/task'
+import { fetchTask } from '@/lib/services/queries/task/task'
 import { AsyncChipContent } from '@/ui/dashboard/page/chips-block/async-chip-content'
 import ChipContent from '@/ui/dashboard/page/chips-block/chip-content'
 import SortSelectorChip from '@/ui/dashboard/page/chips-block/sort-selector-chip'

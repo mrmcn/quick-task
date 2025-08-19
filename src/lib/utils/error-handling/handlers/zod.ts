@@ -1,4 +1,4 @@
-import { HandleError, ZodErrors } from '@/lib/utils/error-handling/type'
+import { HandleError, ZodErrors } from '@/lib/utils/error-handling/types'
 import { z } from 'zod'
 
 /**
