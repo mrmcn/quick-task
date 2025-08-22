@@ -1,7 +1,7 @@
 import { SearchParameterList } from '@/lib/constants/text-const'
 import { ListSearchParameterValue } from '@/lib/constants/type'
 import { useNextNavigation } from '@/lib/utils/hooks/use-next-navigation'
-import { ParamValueMap, UpdateParamsProps } from '@/lib/utils/types'
+import { UpdateParamsProps, ValidateParamValueMap } from '@/lib/utils/types'
 import { useCallback } from 'react'
 
 /**
@@ -28,9 +28,8 @@ export function useUpdateUrlWithParams<P extends ListSearchParameterValue>(
 
   // Get the current value of the specified `filteringParam` from the URL search parameters.
   // Type assertion is used to match `ParamValueMap`.
-  const valueCurrentQueryParameter: ParamValueMap[P] | null = searchParams.get(
-    filteringParam,
-  ) as ParamValueMap[P] | null
+  const valueCurrentQueryParameter: ValidateParamValueMap[P] | null =
+    searchParams.get(filteringParam) as ValidateParamValueMap[P] | null
 
   /**
    * @callback updateUrl

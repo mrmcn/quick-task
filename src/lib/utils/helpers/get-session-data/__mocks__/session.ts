@@ -1,7 +1,8 @@
-import { testEmail, testId } from '@/lib/constants/test-const'
+import { testEmail, testUserId } from '@/lib/constants/test-const'
+import { AuthData } from '@/lib/utils/types'
 
-export const expectedAuthData = {
-  userId: testId,
+export const expectedAuthData: AuthData = {
+  userId: testUserId,
   userEmail: testEmail,
 }
 

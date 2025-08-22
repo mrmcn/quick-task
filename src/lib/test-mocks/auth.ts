@@ -1,4 +1,4 @@
 import { auth } from '@/auth'
-import { Session } from 'next-auth'
+import { MockAuth } from '@/lib/utils/types'
 
-export const mockedNotAuth = jest.mocked<() => Promise<Session | null>>(auth)
+export const mockedAuth = jest.mocked<MockAuth>(auth)

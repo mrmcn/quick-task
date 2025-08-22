@@ -5,6 +5,7 @@ import {
 } from '@/lib/constants/type'
 import { ResponseObject } from '@/lib/services/types'
 import { $Enums, User } from '@prisma/client'
+import { Session } from 'next-auth'
 
 /**
  * @interface CurrentAndNewPassword
@@ -57,13 +58,21 @@ export type PreparationPaginationParams =
  * Keys can be any string, and values are single strings or number.
  */
 export type SearchParamsObject = {
-  [key: string]: string | number
+  [key: string]: string
+}
+
+export interface RawSearchParams {
+  [SearchParameterList.query]: string | undefined
+  [SearchParameterList.page]: string | undefined
+  [SearchParameterList.sort]: string | undefined
+  [SearchParameterList.status]: string | undefined
+  [SearchParameterList.priority]: string | undefined
 }
 
 /**
  * @description Interface for search parameters used to filter and sort a list of items.
  */
-export interface ParamValueMap {
+export interface ValidateParamValueMap {
   /**
    * The search query string to filter items by name or other relevant fields.
    */
@@ -91,8 +100,6 @@ export interface ParamValueMap {
   [SearchParameterList.priority]: $Enums.Priority | undefined
 }
 
-export type PartialParamValueMap = Partial<ParamValueMap>
-
 export interface AuthData {
   userId: string
   userEmail: string | null | undefined
@@ -100,3 +107,7 @@ export interface AuthData {
 
 // Using a type alias to improve readability for complex mock data
 export type MockResponse = Partial<ResponseObject<Partial<User>>>
+
+export type MockCompare = (data: string, encrypted: string) => Promise<boolean>
+export type MockHash = (data: string, salt: number) => Promise<string>
+export type MockAuth = () => Promise<Session | null>

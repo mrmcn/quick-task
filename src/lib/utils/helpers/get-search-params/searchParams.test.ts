@@ -1,13 +1,19 @@
 import {
-  testParamPage,
-  testParamPriority,
-  testParamQuery,
-  testParamSort,
-  testParamStatus,
+  searchParamsEmptyObject,
+  testSearchParamsObjectWithPage,
+  testSearchParamsObjectWithPriority,
+  testSearchParamsObjectWithQuery,
+  testSearchParamsObjectWithSort,
+  testSearchParamsObjectWithStatus,
+  testValidParamPage,
+  testValidParamPriority,
+  testValidParamQuery,
+  testValidParamSort,
+  testValidParamStatus,
 } from '@/lib/constants/test-const'
 import { DefaultSearchParameterList } from '@/lib/constants/text-const'
-import { getSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
-import { ParamValueMap } from '@/lib/utils/types'
+import { getValidateSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
+import { ValidateParamValueMap } from '@/lib/utils/types'
 
 // Destructure constants for default values.
 // These values are used if the corresponding search parameter is missing from the URL.
@@ -18,50 +24,49 @@ const {
   defaultSort,
   defaultPriority,
 } = DefaultSearchParameterList
-const expectedSearchParamsAllDefault: ParamValueMap = {
-  page: defaultPage,
+const expectedSearchParamsAllDefault: ValidateParamValueMap = {
+  page: Number(defaultPage),
   priority: defaultPriority,
   query: defaultQuery,
   sort: defaultSort,
   status: defaultStatus,
 }
 const getExpectedSearchParams = (
-  overrides: Partial<ParamValueMap> = {},
-): ParamValueMap => ({
+  overrides: Partial<ValidateParamValueMap> = {},
+): ValidateParamValueMap => ({
   ...expectedSearchParamsAllDefault,
   ...overrides,
 })
-const searchParamsAllDefault = {}
 
 describe('getSearchParams', () => {
   test('returns default cases for each parameter because they are absent in searchParamsObject', () => {
-    expect(getSearchParams(searchParamsAllDefault)).toEqual(
+    expect(getValidateSearchParams(searchParamsEmptyObject)).toEqual(
       getExpectedSearchParams(),
     )
   })
   test('returns page, the rest are defaults because they are absent', () => {
-    expect(getSearchParams(testParamPage)).toEqual(
-      getExpectedSearchParams(testParamPage),
+    expect(getValidateSearchParams(testSearchParamsObjectWithPage)).toEqual(
+      getExpectedSearchParams(testValidParamPage),
     )
   })
   test('returns priority, the rest are defaults because they are absent', () => {
-    expect(getSearchParams(testParamPriority)).toEqual(
-      getExpectedSearchParams(testParamPriority),
+    expect(getValidateSearchParams(testSearchParamsObjectWithPriority)).toEqual(
+      getExpectedSearchParams(testValidParamPriority),
     )
   })
   test('returns query, the rest are defaults because they are absent', () => {
-    expect(getSearchParams(testParamQuery)).toEqual(
-      getExpectedSearchParams(testParamQuery),
+    expect(getValidateSearchParams(testSearchParamsObjectWithQuery)).toEqual(
+      getExpectedSearchParams(testValidParamQuery),
     )
   })
   test('returns sort, the rest are defaults because they are absent', () => {
-    expect(getSearchParams(testParamSort)).toEqual(
-      getExpectedSearchParams(testParamSort),
+    expect(getValidateSearchParams(testSearchParamsObjectWithSort)).toEqual(
+      getExpectedSearchParams(testValidParamSort),
     )
   })
   test('returns status, the rest are defaults because they are absent', () => {
-    expect(getSearchParams(testParamStatus)).toEqual(
-      getExpectedSearchParams(testParamStatus),
+    expect(getValidateSearchParams(testSearchParamsObjectWithStatus)).toEqual(
+      getExpectedSearchParams(testValidParamStatus),
     )
   })
 })

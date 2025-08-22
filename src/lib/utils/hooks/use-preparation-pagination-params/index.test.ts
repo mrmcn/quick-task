@@ -1,6 +1,5 @@
 import { FetchData, UserTasksResult } from '@/lib/services/types'
 
-// Мокаємо (імітуємо) hook use().
 jest.mock('react', () => {
   return {
     ...jest.requireActual('react'),

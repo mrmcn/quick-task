@@ -1,9 +1,9 @@
-import { testEmail, testId } from '@/lib/constants/test-const'
+import { testEmail, testUserId } from '@/lib/constants/test-const'
 import { Session } from 'next-auth'
 
 export const testSession: Session = {
   user: {
-    id: testId,
+    id: testUserId,
     email: testEmail,
   },
   expires: '1',

@@ -1,7 +1,7 @@
-import { ValidationError } from '@/lib/utils/errors/validation-error'
 import { CurrentAndNewPassword } from '@/lib/utils/types'
 import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import { ValidationError } from '../../errors/validation-error'
 
 /**
  * @function verifyAndHashPassword
@@ -28,11 +28,12 @@ export async function verifyAndHashPassword(
   )
 
   // If the `currentPassword` does not match, throw a validation error.
-  if (!isCurrentPasswordValid)
+  if (isCurrentPasswordValid) {
+    // Hash the `newPassword` using bcrypt with a salt round of 10.
+    const hashedPassword = await bcrypt.hash(passwords.newPassword, 10)
+    // Return the hashed new password.
+    return hashedPassword
+  } else {
     throw new ValidationError('The current password entered is incorrect.')
-
-  // Hash the `newPassword` using bcrypt with a salt round of 10.
-  const hashedPassword = await bcrypt.hash(passwords.newPassword, 10)
-  // Return the hashed new password.
-  return hashedPassword
+  }
 }

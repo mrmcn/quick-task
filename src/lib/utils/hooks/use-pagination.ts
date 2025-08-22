@@ -22,11 +22,10 @@ export function usePagination(userTasksPromise: FetchData<UserTasksResult>) {
   const { updateUrl, valueCurrentQueryParameter } = useUpdateUrlWithParams(
     SearchParameterList.page,
   )
-
   // Use `usePreparationPaginationParams` to prepare and validate
   // the pagination parameters based on the URL value and asynchronous data.
   const { resolve } = usePreparationPaginationParams(
-    valueCurrentQueryParameter,
+    Number(valueCurrentQueryParameter),
     userTasksPromise,
   )
 

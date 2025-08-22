@@ -1,15 +1,12 @@
+import {
+  searchParamsEmptyObject,
+  testSearchParamsObjectWithQuery,
+} from '@/lib/constants/test-const'
 import { formatSearchParams } from '@/lib/utils/helpers/format-search-params/index'
-import { SearchParamsObject } from '@/lib/utils/types'
 
 const expectedEmptyString = '?'
 // Expected output: a query string with a single parameter.
-const expectedString = '?query=test'
-// Input: an empty object.
-const searchParamsEmptyObject: SearchParamsObject = {}
-// Input: an object with one key-value pair.
-const searchParamsObject: SearchParamsObject = {
-  query: 'test',
-}
+const expectedString = '?query=Test+query'
 
 // Describes a test suite for the formatSearchParams function.
 // This groups all related tests under a single logical block.
@@ -18,7 +15,9 @@ describe('formatSearchParams', () => {
   // It's a "sanity" test that confirms the function works in the simplest case.
   test('should correctly format an object with a single parameter', () => {
     // We assert that the function's return value matches the expected string.
-    expect(formatSearchParams(searchParamsObject)).toBe(expectedString)
+    expect(formatSearchParams(testSearchParamsObjectWithQuery)).toBe(
+      expectedString,
+    )
   })
 
   // This test checks a crucial edge case: an empty object.

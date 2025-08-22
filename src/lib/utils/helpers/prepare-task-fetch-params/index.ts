@@ -2,7 +2,7 @@ import { NameAttributeList } from '@/lib/constants/text-const'
 import { ListSortingParameterValue } from '@/lib/constants/type'
 import { GetUserTasksParams } from '@/lib/repositories/interfaces/tasks'
 import { fetchUser } from '@/lib/services/queries/user/fetchUser'
-import { getSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
+import { getValidateSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
 import { SearchParamsObject } from '@/lib/utils/types'
 import { $Enums, Prisma } from '@prisma/client'
 
@@ -57,7 +57,7 @@ export async function prepareTaskFetchParams(
     sort,
     status,
     priority,
-  } = getSearchParams(searchParamsObject)
+  } = getValidateSearchParams(searchParamsObject)
 
   const take = data.tasksPerPage
   // Calculate the number of records to skip (for pagination).

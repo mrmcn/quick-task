@@ -273,7 +273,7 @@ export const DefaultSearchParameterList = {
   /** Default value for the 'sorting' URL parameter. It's an empty object literal, implying no specific sort order by default or a custom handling. */
   defaultSort: SortingParameterList.dateAsc,
   /** Default value for the 'page' URL parameter, representing the initial page number. */
-  defaultPage: 1,
+  defaultPage: '1',
   /** Default value for the 'status' URL parameter. `undefined` suggests no default status filter is applied. */
   defaultStatus: undefined,
   /** Default value for the 'priority' URL parameter. `undefined` suggests no default priority filter is applied. */

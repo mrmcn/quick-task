@@ -23,14 +23,17 @@ export const prepareHashedPassword = async (
 ) => {
   // Retrieve the user's current hashed password from the database using their ID.
   const { data, error } = await fetchUser.uniqueData({ password: true }, { id })
-  if (error) throw error
-  // Verify the `currentPassword` against the retrieved hashed password
-  // and hash the `newPassword`. The `verifyAndHashPassword` function handles all the logic.
-  const hashedNewPassword = await verifyAndHashPassword(
-    passwords,
-    data.password,
-  )
+  if (error) {
+    throw error
+  } else {
+    // Verify the `currentPassword` against the retrieved hashed password
+    // and hash the `newPassword`. The `verifyAndHashPassword` function handles all the logic.
+    const hashedNewPassword = await verifyAndHashPassword(
+      passwords,
+      data.password,
+    )
 
-  // Return the new hashed password (string).
-  return hashedNewPassword
+    // Return the new hashed password (string).
+    return hashedNewPassword
+  }
 }

@@ -1,8 +1,10 @@
 import { PAGES } from '@/lib/constants/routes'
 import { testUser } from '@/lib/constants/test-const'
 import { BtnNamesList } from '@/lib/constants/text-const'
-import { mockedNotAuth } from '@/lib/test-mocks/auth'
+import { fetchUser } from '@/lib/services/queries/user/fetchUser'
+import { mockedAuth } from '@/lib/test-mocks/auth'
 import { getAppBarConfig } from '@/lib/utils/helpers/get-appbar-config'
+import { Prisma } from '@prisma/client'
 
 jest.mock('@/lib/services/queries/user/fetchUser')
 
@@ -16,15 +18,16 @@ const testUnauthenticatedConfig = {
   secondBtnText: BtnNamesList.signin, // Button text: "Sign In".
   secondBtnAriaLabel: 'Go to sign in', // Accessibility attribute.
 }
+const select: Prisma.UserSelect = { name: true }
 
 describe('getAppBarConfig', () => {
   test('when the user is authenticated', async () => {
     await expect(getAppBarConfig()).resolves.toEqual(testAuthenticatedConfig)
+    expect(fetchUser.uniqueData).toHaveBeenCalledWith(select)
   })
 
   test('when the user is not authenticated', async () => {
-    mockedNotAuth.mockResolvedValueOnce(null)
-
+    mockedAuth.mockResolvedValueOnce(null)
     await expect(getAppBarConfig()).resolves.toEqual(testUnauthenticatedConfig)
   })
 })

@@ -1,7 +1,7 @@
+import { auth } from '@/auth'
 import { PAGES } from '@/lib/constants/routes'
 import { BtnNamesList, ErrorList } from '@/lib/constants/text-const'
 import { fetchUser } from '@/lib/services/queries/user/fetchUser'
-import { auth } from '../../../../auth'
 
 export const unauthenticatedConfig = {
   secondBtnUrl: PAGES.SIGNIN, // URL for the sign-in page.

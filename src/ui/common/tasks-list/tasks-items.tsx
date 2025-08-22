@@ -1,5 +1,5 @@
 import { PhrasesList } from '@/lib/constants/text-const'
-import { getSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
+import { getValidateSearchParams } from '@/lib/utils/helpers/get-search-params/searchParams'
 import TaskListItemSwipeable from '@/ui/common/tasks-list/swipeable-list-items'
 import { EmptyStateProps, TasksItemsProps } from '@/ui/common/tasks-list/types'
 import Box from '@mui/material/Box'
@@ -68,7 +68,7 @@ export default async function TasksItems({
  */
 function EmptyState({ searchParamsObject, data, error }: EmptyStateProps) {
   // Get the current search query from the URL parameters.
-  const { query } = getSearchParams(searchParamsObject)
+  const { query } = getValidateSearchParams(searchParamsObject)
 
   // Determine the content of the message based on the state.
   const content =

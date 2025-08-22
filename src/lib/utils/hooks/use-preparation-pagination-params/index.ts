@@ -16,7 +16,7 @@ import { use } from 'react'
  * (`{ resolve: { currentPage, countPages } }`) or an error (`{ resolve: 'error' }`).
  */
 export function usePreparationPaginationParams(
-  valueCurrentQueryParameter: number | null,
+  valueCurrentQueryParameter: number,
   userTasksPromise: FetchData<UserTasksResult>,
 ): PreparationPaginationParams {
   // Convert the "page" parameter value from the URL to a number; defaults to 1 if not specified.
@@ -32,10 +32,10 @@ export function usePreparationPaginationParams(
   // - Is `countPages` a number?
   // If any of these conditions are true, it's considered a pagination data error.
   if (!countPages || countPages < 1 || typeof countPages !== 'number') {
-    // console.log(
-    //   'Pagination data error: totalPages is invalid or less than 1',
-    // countPages,
-    // ) // Log the error for debugging.
+    console.log(
+      'Pagination data error: totalPages is invalid or less than 1',
+      countPages,
+    ) // Log the error for debugging.
     return { resolve: 'error' } // Return an error state.
   }
 
