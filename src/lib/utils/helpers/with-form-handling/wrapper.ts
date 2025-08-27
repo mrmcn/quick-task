@@ -47,7 +47,7 @@ export default function withFormHandling<T extends z.ZodTypeAny>(
       // If `actionResult` explicitly has a `'showModal'` status, it means the UI (e.g., a modal window)
       // should react to this specific "success" outcome.
       if (actionResult?.status === 'showModal') {
-        return { status: 'showModal' } // This is the ONLY place where a UI-specific status is returned.
+        return actionResult // This is the ONLY place where a UI-specific status is returned.
       }
 
       // 4. If `actionResult` did not explicitly return `{ status: 'showModal' }` (i.e., it returned `void`),

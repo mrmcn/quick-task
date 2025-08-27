@@ -1,8 +1,12 @@
-import { testPassword, testPasswords } from '@/lib/constants/test-const'
+import {
+  testPassword,
+  testPasswords,
+  testValidateError,
+} from '@/lib/constants/test-const'
+import { mockedBcryptCompare, mockedBcryptHash } from '@/lib/test-mocks/bcrypt'
 import { ValidationError } from '@/lib/utils/errors/validation-error'
 import { testHashedPassword } from '@/lib/utils/helpers/verify-and-hash-password/__mocks__/makePassword'
 import { verifyAndHashPassword } from '@/lib/utils/helpers/verify-and-hash-password/makePassword'
-import { MockCompare, MockHash } from '@/lib/utils/types'
 import bcrypt from 'bcrypt'
 
 jest.mock('bcrypt', () => ({
@@ -10,19 +14,14 @@ jest.mock('bcrypt', () => ({
   hash: jest.fn(),
 }))
 
-const testValidateError: ValidationError = {
-  message: 'The current password entered is incorrect.',
-  type: 'validation',
-}
-
 describe('verifyAndHashPassword', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   test('should return a new hashed password when the current password is valid', async () => {
-    jest.mocked<MockCompare>(bcrypt.compare).mockResolvedValue(true)
-    jest.mocked<MockHash>(bcrypt.hash).mockResolvedValue(testHashedPassword)
+    mockedBcryptCompare.mockResolvedValue(true)
+    mockedBcryptHash.mockResolvedValue(testHashedPassword)
 
     await expect(
       verifyAndHashPassword(testPasswords, testPassword),
@@ -35,7 +34,7 @@ describe('verifyAndHashPassword', () => {
   })
 
   test('should throw a ValidationError when the current password is invalid', async () => {
-    jest.mocked<MockCompare>(bcrypt.compare).mockResolvedValue(false)
+    mockedBcryptCompare.mockResolvedValue(false)
 
     await expect(
       verifyAndHashPassword(testPasswords, testPassword),

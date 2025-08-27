@@ -1,24 +1,27 @@
+import { NameAttributeList } from '@/lib/constants/text-const'
 import { z } from 'zod'
 
+const { id, title, details, date, priority, status, authorId } =
+  NameAttributeList
 /**
  * The main Zod schema for a "task" object.
  * Defines the complete set of fields and their validation rules.
  */
 const task = z.object({
   // Unique identifier for the task.
-  id: z.string(),
+  [id]: z.string(),
   // The title of the task. This is a required field.
-  title: z.string({ message: '"This field is required."' }),
+  [title]: z.string({ message: '"This field is required."' }),
   // Detailed description of the task. This is a required field.
-  details: z.string({ message: '"This field is required."' }),
+  [details]: z.string({ message: '"This field is required."' }),
   // The creation date of the task.
-  date: z.date(),
+  [date]: z.date(),
   // The priority of the task. Allowed values are 'high' or 'low'.
-  priority: z.enum(['high', 'low']),
+  [priority]: z.enum(['high', 'low']),
   // The completion status of the task. Allowed values are 'completed' or 'in_progress'.
-  status: z.enum(['completed', 'in_progress']),
+  [status]: z.enum(['completed', 'in_progress']),
   // The ID of the user who authored the task.
-  authorId: z.string(),
+  [authorId]: z.string(),
 })
 
 /**
@@ -26,8 +29,8 @@ const task = z.object({
  * Includes only the task's `id` and its `priority`.
  */
 const updatePriority = task.pick({
-  id: true,
-  priority: true,
+  [id]: true,
+  [priority]: true,
 })
 
 /**
@@ -35,8 +38,8 @@ const updatePriority = task.pick({
  * Includes only the task's `id` and its `status`.
  */
 const updateStatus = task.pick({
-  id: true,
-  status: true,
+  [id]: true,
+  [status]: true,
 })
 
 /**
@@ -44,8 +47,8 @@ const updateStatus = task.pick({
  * Includes only the task's `id` and its `title`.
  */
 const updateTitle = task.pick({
-  id: true,
-  title: true,
+  [id]: true,
+  [title]: true,
 })
 
 /**
@@ -53,8 +56,8 @@ const updateTitle = task.pick({
  * Includes only the task's `id` and its `details`.
  */
 const updateDetails = task.pick({
-  id: true,
-  details: true,
+  [id]: true,
+  [details]: true,
 })
 
 /**
@@ -63,8 +66,8 @@ const updateDetails = task.pick({
  * are typically generated or set by default on the server.
  */
 const create = task.pick({
-  title: true,
-  details: true,
+  [title]: true,
+  [details]: true,
 })
 
 /**

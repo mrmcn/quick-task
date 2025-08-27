@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import TASK_DATA from '@/lib/constants/data/sample-task'
 import { taskRepository } from '@/lib/repositories/prisma/tasks/taskRepository'
 import {
@@ -12,7 +13,6 @@ import { getSessionData } from '@/lib/utils/helpers/get-session-data/session'
 import { prepareTaskFetchParams } from '@/lib/utils/helpers/prepare-task-fetch-params'
 import { getTaskStatusCountsFromPrismaSchema } from '@/lib/utils/helpers/task-status-counts'
 import { SearchParamsObject } from '@/lib/utils/types'
-import { auth } from '../../../../auth'
 
 /**
  * This file contains Server Actions (though the functions aren't directly exported as Server Actions,

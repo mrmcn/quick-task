@@ -46,11 +46,7 @@ type DetailsUnknownError = string
  * to the client (API) or for internal logging.
  */
 export type HandleError =
-  | {
-      type: 'database' // Error type related to the database (e.g., Prisma).
-      message: string
-      details: DetailsPrismaError | DetailsUnknownError
-    }
+  | HandleDBError
   | {
       type: 'authenticate' // Error type related to authentication (e.g., invalid credentials).
       message: string
@@ -69,12 +65,18 @@ export type HandleError =
   | HandleZodError // Includes the detailed structure for Zod validation errors.
   | ValidationError // Includes the detailed structure for general validation errors.
 
+export interface HandleDBError {
+  type: 'database' // Error type related to the database (e.g., Prisma).
+  message: string
+  details: DetailsPrismaError | DetailsUnknownError
+}
+
 /**
  * @description An interface defining the specific structure for handled Zod validation errors.
  * It indicates that a Zod validation error has a clear type (`'zodValidation'`),
  * a standard message, and a `details` object with errors for each field.
  */
-interface HandleZodError {
+export interface HandleZodError {
   type: 'zodValidation'
   message: 'Validation error.'
   details: ZodErrors
