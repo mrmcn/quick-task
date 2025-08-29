@@ -43,7 +43,7 @@ export default async function DashboardPage({
         sx={dashboardStyles.navSx}
       >
         <Suspense>
-          <Search placeholder={PlaceholderList.search} />{' '}
+          <Search placeholder={PlaceholderList.search} />
         </Suspense>
         <ChipsBlock />
       </Box>

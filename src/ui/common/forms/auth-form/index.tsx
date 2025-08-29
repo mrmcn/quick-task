@@ -34,29 +34,25 @@ export default function AuthForm({
   emailPlaceholder,
   passwordPlaceholder,
 }: AuthFormProps) {
-  // `useActionState` manages the state of the form's server action and its pending status.
   const [state, formAction, isPending] = useActionState(action, undefined)
 
   return (
     <form action={formAction}>
-      {/* PageFormContainer provides the overall form structure, title, button, and error display. */}
       <PageFormContainer
-        disabled={isPending} // Disable the form if a server action is pending
-        state={state} // Pass the current state to display messages
+        disabled={isPending}
+        state={state}
         btnName={btnName}
         formName={formName}
       >
-        {/* Email input field, 'email' type provides basic format validation */}
         <TextField
           type='email'
           id={emailName}
-          required // Field is mandatory
-          name={emailName} // Name for sending form data to the server
+          required
+          name={emailName}
           label={emailLabel}
           placeholder={emailPlaceholder}
-          margin='dense' // Reduces vertical spacing of the field
+          margin='dense'
         />
-        {/* Custom password input field, `PasswordTextField` already includes show/hide password functionality */}
         <PasswordTextField
           label={passwordLabel}
           name={passwordName}

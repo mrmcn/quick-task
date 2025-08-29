@@ -49,8 +49,8 @@ import { redirect } from 'next/navigation'
 export const createTask: ActionHandler<ActionResult> = withFormHandling({
   schema: tasksSchemes.create,
   action: async (validatedData) => {
-    const { userId } = await getSessionData()
-    await taskRepository.createTask(userId, validatedData)
+    const { id } = await getSessionData()
+    await taskRepository.createTask(id, validatedData)
   },
   updateAndRedirect: async () => {
     revalidatePath(PAGES.DASHBOARD)
@@ -116,22 +116,16 @@ export const updateTaskDetails: ActionHandler<ActionResult> = withFormHandling({
  * @throws  Any other error that occurs during the deletion operation.
  */
 export const deleteTask = async (formData: FormData) => {
-  // 1. Authentication Check:
-  // We await getSessionData(). If the user isn't authenticated,
-  // getSessionData() itself will call redirect('/signin'), and this action
-  // will stop execution here. If it successfully returns, the user is authenticated.
   await getSessionData()
 
   const id = formData.get('id')
   const searchParamsString = formData.get('searchParams')
 
-  // 2. Input Type Check: Ensure the ID is a string.
   if (typeof id !== 'string') {
     console.error('Invalid task ID:', id)
     throw new DeleteTaskError('Invalid task ID')
   }
 
-  // 3. Execute Task Deletion and Error Handling.
   try {
     await taskRepository.deleteTask({ id })
   } catch (error) {
@@ -139,7 +133,6 @@ export const deleteTask = async (formData: FormData) => {
     throw error
   }
 
-  // 4. Revalidation and Redirection.
   revalidatePath(PAGES.DASHBOARD)
   redirect(`${PAGES.DASHBOARD}${searchParamsString}`)
 }

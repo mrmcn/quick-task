@@ -11,11 +11,7 @@ import {
 } from '@/lib/utils/types'
 import { Priority, Status } from '@prisma/client'
 
-// Destructure constants for better readability.
-// These variables represent the keys of search parameters expected in the URL.
 const { status, page, query, sort, priority } = SearchParameterList
-// Destructure constants for default values.
-// These values are used if the corresponding search parameter is missing from the URL.
 const {
   defaultStatus,
   defaultPage,

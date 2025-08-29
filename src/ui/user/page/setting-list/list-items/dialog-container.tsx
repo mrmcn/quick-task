@@ -24,8 +24,8 @@ const SlideTransition = forwardRef(function Transition(
 ) {
   return (
     <Slide
-      direction='up' // Specifies the animation direction: slides in from the bottom.
-      ref={ref} // Forwards the ref for proper Material-UI functionality.
+      direction='up'
+      ref={ref}
       {...props} // Spreads all other props (e.g., `in`, `timeout`).
     />
   )
@@ -49,7 +49,7 @@ export function DialogContainer({ open, closeModal, children }: MyDialogProps) {
       onClose={closeModal}
       slots={{ transition: SlideTransition }}
       slotProps={{
-        paper: { sx: sxUser.dialogPaper }, // Apply styles to the dialog's paper container.
+        paper: { sx: sxUser.dialogPaper },
       }}
     >
       {children}

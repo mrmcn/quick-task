@@ -23,29 +23,24 @@ export default async function TasksItems({
   searchParamsObject,
   userTasksPromise,
 }: TasksItemsProps) {
-  // Await the promise to get the response containing data or an error.
   const response = await userTasksPromise
 
-  // Check if there's an error or if the task list is empty.
   if (response.error || response.data?.tasks.length === 0)
-    // If so, render the EmptyState component with the relevant data.
     return (
       <EmptyState
-        {...response} // Pass the entire response object (with data and/or error).
+        {...response}
         searchParamsObject={searchParamsObject}
       />
     )
 
-  // Get the current authentication session to determine if the user is authenticated.
   const session = await auth()
 
-  // Map the array of tasks to an array of React TaskListItemSwipeable components.
   const taskItem = response.data.tasks.map((task) => (
     <TaskListItemSwipeable
       key={task.id}
       task={task}
       searchParamsObject={searchParamsObject}
-      authenticated={!!session} // Pass the authentication status (true/false).
+      authenticated={!!session}
     />
   ))
 
@@ -67,16 +62,14 @@ export default async function TasksItems({
  * @returns A React component displaying a text message.
  */
 function EmptyState({ searchParamsObject, data, error }: EmptyStateProps) {
-  // Get the current search query from the URL parameters.
   const { query } = getValidateSearchParams(searchParamsObject)
 
-  // Determine the content of the message based on the state.
   const content =
     data?.tasks === undefined
-      ? error?.message // If data.tasks is undefined, it indicates an error.
+      ? error?.message
       : data.tasks.length === 0 && query !== ''
-      ? PhrasesList.taskNoFound // If no tasks and there's a search query.
-      : PhrasesList.createNewTask // If no tasks at all, prompt to create.
+      ? PhrasesList.taskNoFound
+      : PhrasesList.createNewTask
 
   return (
     <Box sx={sxTasksList.emptyBox}>

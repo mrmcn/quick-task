@@ -44,13 +44,10 @@ export async function prepareTaskFetchParams(
   userId: string,
   searchParamsObject?: SearchParamsObject,
 ): Promise<GetUserTasksParams> {
-  // Fetch user settings, specifically `tasksPerPage` (number of tasks to display per page).
-  // This is crucial for pagination.
   const { data, error } = await fetchUser.uniqueData({ tasksPerPage: true })
-  // If user data cannot be fetched, throw an error.
+
   if (error) throw error
 
-  // Parse search parameters from the URL using the `getSearchParams` helper function.
   const {
     query,
     page: currentPage,
@@ -61,20 +58,17 @@ export async function prepareTaskFetchParams(
 
   const take = data.tasksPerPage
   // Calculate the number of records to skip (for pagination).
-  // Formula: (current page - 1) * tasks_per_page.
   const skip = (currentPage - 1) * take
 
-  // Convert the sort string into an object understandable by Prisma for `orderBy`.
   const orderBy = getOrderBy(sort)
 
   const where = await buildTaskWhereInput(query, userId, status, priority)
 
-  // Return an object with all prepared parameters for the Prisma query.
   return {
     where,
-    skip, // Number of records to skip (for pagination)
-    orderBy, // Sorting parameters
-    take, // Number of records to take (items per page)
+    skip,
+    orderBy,
+    take,
   }
 }
 
@@ -125,10 +119,8 @@ async function buildTaskWhereInput(
 function getOrderBy(
   sortParams: ListSortingParameterValue,
 ): Prisma.TaskOrderByWithRelationInput {
-  // Split the string into the field and order.
   const [field, order] = sortParams.split(' ')
-  // Return an object that Prisma can use for sorting.
-  // Uses computed property `[field]`
+
   return {
     [field]: order, // { 'title': 'asc' | 'desc' or 'data': 'asc' | 'desc' }
   }

@@ -17,20 +17,10 @@ import TextField from '@mui/material/TextField'
  * @returns An `IconButton` with a search icon or a `TextField` (input field).
  */
 export default function Search({ placeholder }: SearchProps) {
-  // Get the handleSearch function and the current query from the useSearchTask hook.
-  // handleSearch - input handler for the text field with debouncing.
-  // query - current search query value from the URL.
   const { handleSearch, query } = useSearchTask()
-
-  // Get functions to manage input field visibility
-  // and the current visibility state from the useVisibility hook.
-  // handleOnBlur - blur event handler, hides the field if it's empty.
-  // handleSearchIconClick - click handler for the search icon, makes the field visible.
-  // isInputVisible - boolean value indicating whether the input field is visible.
   const { handleOnBlur, handleSearchIconClick, isInputVisible } =
     useVisibility()
 
-  // If the input field is not visible, render only the search icon button.
   if (!isInputVisible)
     return (
       <IconButton
@@ -41,7 +31,6 @@ export default function Search({ placeholder }: SearchProps) {
       </IconButton>
     )
 
-  // If the input field is visible, render the TextField component.
   return (
     <TextField
       variant='standard'

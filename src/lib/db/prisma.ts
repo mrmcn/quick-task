@@ -25,9 +25,4 @@ if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
 }
 
-/**
- * Exports the initialized PrismaClient instance.
- * This allows other parts of the application to import and use
- * this single, optimized PrismaClient instance for database interactions.
- */
 export default prisma

@@ -5,7 +5,7 @@ import {
   testTasksRequestParams,
 } from '@/lib/constants/test-const'
 import { fetchUser } from '@/lib/services/queries/user/fetchUser'
-import { mockedFetchUserUniqueData } from '@/lib/test-mocks/fetch-user-unique-data'
+import { mockedFetchUserUniqueData } from '@/lib/test-mocked-function/fetch-user-unique-data'
 import { prepareTaskFetchParams } from '@/lib/utils/helpers/prepare-task-fetch-params/index'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { testSession } from '../../../../../__mocks__/next-auth'

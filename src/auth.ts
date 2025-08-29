@@ -16,30 +16,23 @@ export const { auth, signIn, signOut } = NextAuth({
     Credentials({
       // The `authorize` function is executed when a user attempts to sign in.
       async authorize(credentials) {
-        // 1. Validate the input credentials (email and password) using a Zod schema.
         const validData = validateData(
-          credentials, // The object containing username/email and password.
-          userSchemes.emailAndPasswordInput, // The schema for validation.
+          credentials,
+          userSchemes.emailAndPasswordInput,
         )
 
-        // If the data is valid, proceed.
         if (validData) {
-          // 2. Fetch user data from the database by email.
-          // Use `AUTH_DATA_SELECT` to retrieve only the necessary fields (specifically the hashed password).
           const { data } = await fetchUser.uniqueData(AUTH_DATA_SELECT, {
             email: validData.email,
           })
 
-          // If no user is found with the given email, return `null`.
           if (!data) return null
 
-          // 3. Compare the provided password with the hashed password from the database.
           const passwordsMatch = await bcrypt.compare(
-            validData.password, // Password provided by the user.
-            data.password, // Hashed password from the database.
+            validData.password,
+            data.password,
           )
 
-          // 4. If passwords match, return the user data (the object that will be saved in the session).
           if (passwordsMatch) return data
         }
 

@@ -33,19 +33,18 @@ const getUserTasksWithCount = async (
   params: GetUserTasksParams,
 ): GetUserTasksWithCount => {
   const { where, orderBy, skip, take } = params
-  // Query to fetch tasks
+
   const tasksQuery = prisma.task.findMany({
     where,
-    select: TASK_DATA_SELECT, // Select specific fields
+    select: TASK_DATA_SELECT,
     orderBy,
     skip,
     take,
   })
-  // Query to count the total number of tasks
   const countQuery = prisma.task.count({
     where,
   })
-  // Execute both queries in a single transaction
+
   const [tasks, count] = await prisma.$transaction([tasksQuery, countQuery])
 
   return { tasks, count }
@@ -128,5 +127,4 @@ export const taskRepository: ITaskRepository = {
   createTask,
   updateTask,
   deleteTask,
-  // ... other methods can be added here
 }

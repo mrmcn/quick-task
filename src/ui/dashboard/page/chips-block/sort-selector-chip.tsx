@@ -2,7 +2,6 @@
 
 import { sortOptionsConfig } from '@/lib/constants/data/ui-config'
 import { BtnNamesList } from '@/lib/constants/text-const'
-import { ListSortingParameterValue } from '@/lib/constants/type'
 import { useSortParams } from '@/lib/utils/hooks/use-sort-params'
 import { sxDashboardPage } from '@/ui/dashboard/page/styles'
 import Chip from '@mui/material/Chip'
@@ -19,11 +18,7 @@ import Select from '@mui/material/Select'
  * @returns A FormControl wrapper containing the Select component with sorting options.
  */
 export default function SortSelectorChip() {
-  // Use a custom hook to get the sort change handler function
-  // and the current sorting parameter value from the URL.
   const { handleSortChange, value } = useSortParams()
-
-  // Generate a list of MenuItem components based on the sorting options configuration.
   const listMenuItem = sortOptionsConfig.map((option) => (
     <MenuItem
       key={option.value}
@@ -59,7 +54,7 @@ export default function SortSelectorChip() {
           },
         }} // Custom styles for the menu items.
       >
-        {listMenuItem} {/* Insert the generated menu items. */}
+        {listMenuItem}
       </Select>
     </FormControl>
   )
@@ -73,18 +68,16 @@ export default function SortSelectorChip() {
  * @param selected - The current selected value of the sorting parameter.
  * @returns A Material-UI Chip component with a label displaying the selected parameter.
  */
-const selectedChip = (selected: ListSortingParameterValue) => {
-  // Find the corresponding sorting option from the configuration.
+const selectedChip = (selected: string) => {
   const selectedOption = sortOptionsConfig.find(
     (option) => option.value === selected,
   )
-  // Determine the label: use the content of the found option or a default value.
   const label = selectedOption?.content || BtnNamesList.titleAtoZ
 
   return (
     <Chip
       variant='outlined'
-      label={label} // Text label of the chip.
+      label={label}
       sx={sxDashboardPage.selectedChip}
     />
   )

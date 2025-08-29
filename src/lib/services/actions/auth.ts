@@ -31,12 +31,8 @@ export const authenticate: ActionHandler<ActionResult> = async (
   formData,
 ) => {
   try {
-    // Calls the NextAuth.js signIn function with the 'credentials' provider.
-    // The credential validation logic (e.g., database lookup, password comparison)
-    // is defined in the 'authorize' callback within auth.config.ts (or auth.ts).
     await signIn('credentials', formData)
   } catch (error) {
-    // Catches errors that occur during authentication.
     return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
 }
@@ -51,8 +47,5 @@ export const authenticate: ActionHandler<ActionResult> = async (
  * @param url The path to which the user will be redirected after a successful logout.
  */
 export async function signout(url: string) {
-  // Calls the NextAuth.js signOut function.
-  // The `redirectTo` option ensures the user is redirected to the provided URL
-  // after the logout operation completes on the server.
   await signOut({ redirectTo: url })
 }

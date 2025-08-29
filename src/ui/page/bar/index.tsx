@@ -16,7 +16,6 @@ import Link from 'next/link'
  * @returns The appbar with buttons for navigation.
  */
 export default async function Appbar() {
-  // Asynchronously get the appbar configuration, which depends on the user's session state.
   const { secondBtnAriaLabel, secondBtnText, secondBtnUrl } =
     await getAppBarConfig()
 
@@ -25,7 +24,6 @@ export default async function Appbar() {
       component='nav'
       sx={sxRootPage.appbarBox}
     >
-      {/* Button to navigate to the home page. */}
       <Button
         component={Link}
         href={PAGES.HOME}
@@ -35,7 +33,6 @@ export default async function Appbar() {
         <Typography>{PhrasesList.quickTask}</Typography>
       </Button>
 
-      {/* Button to navigate to the user's cabinet or sign-in page. */}
       <Button
         component={Link}
         href={secondBtnUrl}

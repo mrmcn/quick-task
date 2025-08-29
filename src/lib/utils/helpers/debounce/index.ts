@@ -12,20 +12,13 @@
  * and manages the calls to the original `func`.
  */
 export const debounce = (func: { (value: string): void }, timeout = 1000) => {
-  // The `timer` variable stores the timeout ID, allowing it to be cleared.
-  // It's declared outside the returned function to maintain its state across debounce calls.
   let timer: NodeJS.Timeout | undefined
 
-  // Returns a new function that will actually be called instead of the original `func`.
   return (value: string) => {
-    // Each time the debounced function is called, we clear any existing previous timer.
-    // This "resets" the countdown.
     clearTimeout(timer)
 
-    // Sets a new timer. The original `func` will only be called after `timeout` has elapsed
-    // and if no new calls to the debounced function occurred during that period.
     timer = setTimeout(() => {
-      func(value) // Invokes the original function with the latest provided value.
+      func(value)
     }, timeout)
   }
 }

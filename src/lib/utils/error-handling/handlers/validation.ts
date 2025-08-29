@@ -14,8 +14,8 @@ import { ValidationError } from '@/lib/utils/errors/validation-error'
  */
 export function handleValidationError(error: ValidationError): HandleError {
   return {
-    type: error.type, // The type of validation error
-    message: error.message, // A user-friendly message describing the validation failure
-    details: error.details, // Specific details about the validation error (e.g., which fields failed)
+    type: error.type,
+    message: error.message,
+    details: error.details,
   }
 }

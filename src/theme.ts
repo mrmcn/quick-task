@@ -18,19 +18,17 @@ const theme = createTheme({
   },
   // Color palette settings.
   palette: {
-    // Primary color palette.
     primary: {
-      light: yellow[100], // Light shade of yellow.
-      main: yellow[500], // Main shade of yellow.
-      dark: yellow[800], // Dark shade of yellow.
-      contrastText: grey[800], // Text color that contrasts well with the main yellow.
+      light: yellow[100],
+      main: yellow[500],
+      dark: yellow[800],
+      contrastText: grey[800],
     },
-    // Secondary color palette.
     secondary: {
-      light: blue[100], // Light shade of blue.
-      main: blue[500], // Main shade of blue.
-      dark: blue[900], // Dark shade of blue.
-      contrastText: grey[800], // Text color that contrasts well with the main blue.
+      light: blue[100],
+      main: blue[500],
+      dark: blue[900],
+      contrastText: grey[800],
     },
   },
   // Style overrides for specific Material-UI components.

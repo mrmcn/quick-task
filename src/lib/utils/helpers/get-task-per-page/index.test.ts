@@ -7,7 +7,7 @@ import {
   testTasksPerPage,
 } from '@/lib/constants/test-const'
 import { fetchUser } from '@/lib/services/queries/user/fetchUser'
-import { mockedFetchUserUniqueData } from '@/lib/test-mocks/fetch-user-unique-data'
+import { mockedFetchUserUniqueData } from '@/lib/test-mocked-function/fetch-user-unique-data'
 import { getTaskPerPage } from '@/lib/utils/helpers/get-task-per-page'
 
 jest.mock('@/lib/services/queries/user/fetchUser')

@@ -13,8 +13,8 @@ import { Roboto } from 'next/font/google'
  * This allows easy application of the font in CSS (e.g., `font-family: var(--font-roboto)`).
  */
 export const roboto = Roboto({
-  weight: ['300', '400', '500', '700'], // Specify the desired weights for the Roboto font.
-  subsets: ['latin'], // Load the Latin character subset.
-  display: 'swap', // Use the 'swap' font-display strategy for better UX.
-  variable: '--font-roboto', // Define a CSS variable for easy font usage.
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto',
 })

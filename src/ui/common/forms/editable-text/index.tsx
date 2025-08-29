@@ -37,35 +37,29 @@ export function EditableText({
   action,
   data,
 }: EditableTextProps) {
-  // Call the custom hook to encapsulate state logic and get Typography props.
   const { typographyProps, isEditing, setIsEditing } = useEditableTextLogic()
 
-  // If the component is in editing mode, render the TextEditing component.
   if (isEditing)
     return (
       <TextEditing
-        action={action} // The Server Action for saving data.
-        renderEditedText={renderEditedText} // Function for rendering the input field.
-        setIsEditing={setIsEditing} // Function to exit editing mode.
-        data={data} // The current data.
+        action={action}
+        renderEditedText={renderEditedText}
+        setIsEditing={setIsEditing}
+        data={data}
       />
     )
 
-  // If the data is asynchronous (an object with a promise), use Suspense and Await.
   if (typeof data !== 'string')
     return (
       <Suspense fallback={<Skeleton width={40} />}>
-        {/* The Await component waits for the promise to resolve and passes the result to its children. */}
         <Await
-          promise={data.promise} // The promise to be resolved.
-          errorElement={ErrorElement} // Component to display if the promise rejects.
+          promise={data.promise}
+          errorElement={ErrorElement}
         >
-          {/* A callback that renders the text after the data is fetched. */}
           {(res) => renderViewText(typographyProps, res[data.key])}
         </Await>
       </Suspense>
     )
 
-  // If the data is synchronous (a string), simply render the text.
   return renderViewText(typographyProps, data)
 }

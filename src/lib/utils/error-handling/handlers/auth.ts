@@ -11,22 +11,18 @@ import { AuthError } from 'next-auth'
  * @returns  - A standardized error object including `type`, `message`, and `details`.
  */
 export function handleAuthError(error: AuthError): HandleError {
-  // Uses a `switch` statement to handle different types of `AuthError`.
-  // Each `case` corresponds to a specific error type defined by NextAuth.js.
   switch (error.type) {
-    // Handles the error that occurs when provided credentials (e.g., username/password) are invalid.
     case 'CredentialsSignin':
       return {
-        type: 'authenticate', // Error category: authentication
-        message: 'Invalid credentials.', // Message for the user
-        details: undefined, // No additional details provided in this case
+        type: 'authenticate',
+        message: 'Invalid credentials.',
+        details: undefined,
       }
-    // Handles all other unrecognized or general `AuthError` types.
     default:
       return {
-        type: 'authenticate', // Error category: authentication
-        message: 'Something went wrong.', // Generic error message
-        details: undefined, // No additional details provided
+        type: 'authenticate',
+        message: 'Something went wrong.',
+        details: undefined,
       }
   }
 }

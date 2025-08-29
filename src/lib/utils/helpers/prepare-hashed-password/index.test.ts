@@ -3,7 +3,7 @@ import {
   testResponseFetchErrorDB,
   testUserId,
 } from '@/lib/constants/test-const'
-import { mockedFetchUserUniqueData } from '@/lib/test-mocks/fetch-user-unique-data'
+import { mockedFetchUserUniqueData } from '@/lib/test-mocked-function/fetch-user-unique-data'
 import { prepareHashedPassword } from '@/lib/utils/helpers/prepare-hashed-password'
 import { testHashedPassword } from '@/lib/utils/helpers/verify-and-hash-password/__mocks__/makePassword'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'

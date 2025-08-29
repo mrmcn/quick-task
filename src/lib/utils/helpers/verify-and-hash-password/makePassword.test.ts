@@ -3,7 +3,10 @@ import {
   testPasswords,
   testValidateError,
 } from '@/lib/constants/test-const'
-import { mockedBcryptCompare, mockedBcryptHash } from '@/lib/test-mocks/bcrypt'
+import {
+  mockedBcryptCompare,
+  mockedBcryptHash,
+} from '@/lib/test-mocked-function/bcrypt'
 import { ValidationError } from '@/lib/utils/errors/validation-error'
 import { testHashedPassword } from '@/lib/utils/helpers/verify-and-hash-password/__mocks__/makePassword'
 import { verifyAndHashPassword } from '@/lib/utils/helpers/verify-and-hash-password/makePassword'

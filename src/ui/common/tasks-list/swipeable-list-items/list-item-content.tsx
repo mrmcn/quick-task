@@ -25,7 +25,6 @@ const slotProps = {
   secondary: { component: 'div' },
 } as const
 
-// Destructuring attribute names for task title and details.
 const { title, details } = NameAttributeList
 
 export function ListItemContent({
@@ -38,26 +37,26 @@ export function ListItemContent({
       <ListItemText
         primary={
           <TaskFieldEditable
-            fieldName={title} // Field name for update.
+            fieldName={title}
             fontSize='1.4rem'
             searchParamsToGoBack={searchParamsToGoBack}
             task={task}
             typographyVariant='h5'
-            action={updateTaskTitle} // Action to perform when updating the title.
+            action={updateTaskTitle}
           />
-        } // Primary content (editable title).
+        }
         secondary={
           <TaskFieldEditable
-            fieldName={details} // Field name for update.
+            fieldName={details}
             fontSize='1rem'
             searchParamsToGoBack={searchParamsToGoBack}
             task={task}
             typographyVariant='body1'
-            action={updateTaskDetails} // Action to perform when updating details.
-            multiline // Allows multiline input.
-            rows={4} // Default number of rows for multiline field.
+            action={updateTaskDetails}
+            multiline
+            rows={4}
           />
-        } // Secondary content (editable details).
+        }
         color='secondary'
         slotProps={slotProps}
       />
@@ -72,7 +71,7 @@ export function ListItemContent({
 function RenderTaskStatus({ task, authenticated }: AuthAndTask) {
   if (authenticated)
     return (
-      <UpdateTaskStatus // Component for authenticated users.
+      <UpdateTaskStatus
         id={task.id}
         ariaLabelledById={`task-title-${task.id}`}
         status={task.status}
@@ -116,7 +115,7 @@ function TaskFieldEditable({
       renderEditedText={(props) => (
         <>
           <TaskTextField
-            name={fieldName} // Field name for the form (e.g., 'title' or 'details').
+            name={fieldName}
             id={fieldName}
             sx={sxEditableTextProps(fontSize)}
             {...props} // Pass remaining props (e.g., multiline, rows).
@@ -124,7 +123,7 @@ function TaskFieldEditable({
           />
           <HiddenInputs
             taskId={task.id}
-            dynamicField={dynamicField} // Search parameters as a dynamic hidden field.
+            dynamicField={dynamicField}
           />
         </>
       )}
@@ -138,7 +137,7 @@ function TaskFieldEditable({
           {data}
         </Typography>
       )}
-      action={action} // Server action to perform when saving edited data.
+      action={action}
       data={task[fieldName]} // Current data of the field (title or details).
     />
   )

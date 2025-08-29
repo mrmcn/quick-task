@@ -18,13 +18,12 @@ import { ErrorMessageProps } from './types'
 export default function RenderErrors({ state }: { state: ActionResult }) {
   if (state?.status === 'error') {
     if (state.error.type === 'zodValidation') {
-      // Convert the errors object into an array of ValidationErrorMessage components
       const listErrors = Object.entries(state.error.details).map(
         ([key, value]) => (
           <ValidationErrorMessage
-            key={nanoid()} // Generate a unique key for each list item
-            nameField={key} // The name of the field where the error occurred
-            value={value} // The array of error messages for this field
+            key={nanoid()}
+            nameField={key}
+            value={value}
           />
         ),
       )
@@ -36,14 +35,14 @@ export default function RenderErrors({ state }: { state: ActionResult }) {
           align='center'
           color='error'
           aria-live='polite'
-          aria-atomic='true' // Ensures the entire content is announced
+          aria-atomic='true'
         >
-          {state.error.message} {/* The error message text */}
+          {state.error.message}
         </Typography>
       )
     }
   }
-  // If no errors are present or the state is not an error, render nothing
+
   return null
 }
 

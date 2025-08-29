@@ -17,9 +17,7 @@ import { z, ZodSchema } from 'zod'
  * (e.g., database issue, task not found).
  */
 const action = async <T extends ZodSchema>(validatedData: z.infer<T>) => {
-  // Destructure the task's `id` and the rest of the data to be updated.
   const { id, ...dataToUpdate } = validatedData
-  // Call the repository to update the task.
   await taskRepository.updateTask({ id }, dataToUpdate)
 }
 
@@ -36,16 +34,12 @@ const action = async <T extends ZodSchema>(validatedData: z.infer<T>) => {
  * as `redirect` terminates the request execution.
  */
 const updateAndRedirect = async (formData: FormData) => {
-  // Retrieve the search parameters string from FormData.
   const searchParamsString = formData.get('searchParams')
 
-  // If a search parameters string exists, revalidate the dashboard and redirect
-  // to the dashboard with the preserved search parameters.
   if (searchParamsString) {
     revalidatePath(PAGES.DASHBOARD)
     redirect(`${PAGES.DASHBOARD}${searchParamsString}`)
   } else {
-    // If no search parameters are present, simply revalidate the dashboard.
     revalidatePath(PAGES.DASHBOARD)
   }
 }
@@ -57,6 +51,6 @@ const updateAndRedirect = async (formData: FormData) => {
  * This promotes code reuse and consistent behavior across different task updates.
  */
 export const updateTaskFunctions = {
-  action, // Function to execute the task update logic
-  updateAndRedirect, // Function for revalidation and redirection after update
+  action,
+  updateAndRedirect,
 }

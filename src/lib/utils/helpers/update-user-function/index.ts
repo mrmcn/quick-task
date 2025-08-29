@@ -18,9 +18,7 @@ import { z, ZodSchema } from 'zod'
  * (e.g., database issue, user not found).
  */
 const action = async <T extends ZodSchema>(validatedData: z.infer<T>) => {
-  // Retrieve the user ID from the current session.
-  const { userId: id } = await getSessionData()
-  // Call the repository to update user data by their ID.
+  const { id } = await getSessionData()
   await userRepository.updateUser({ id }, validatedData)
 }
 
@@ -33,9 +31,7 @@ const action = async <T extends ZodSchema>(validatedData: z.infer<T>) => {
  * as `redirect` terminates the request execution.
  */
 const updateAndRedirect = async () => {
-  // Revalidate the user page path.
   revalidatePath(PAGES.USER)
-  // Redirect to the user page.
   redirect(PAGES.USER)
 }
 
@@ -46,6 +42,6 @@ const updateAndRedirect = async () => {
  * This promotes code reuse and consistent behavior across different user updates.
  */
 export const updateUserFunction = {
-  action, // Function to execute the user data update logic
-  updateAndRedirect, // Function for revalidation and redirection after update
+  action,
+  updateAndRedirect,
 }

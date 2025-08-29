@@ -25,8 +25,7 @@ export const authConfig = {
      * or `Response.redirect` to redirect authenticated users.
      */
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user // Check if the user is logged in.
-      // Check if the **request is targeting** the protected dashboard or user pages.
+      const isLoggedIn = !!auth?.user
       const isOnDashboard = nextUrl.pathname.startsWith(PAGES.DASHBOARD)
       const isOnUser = nextUrl.pathname.startsWith(PAGES.USER)
 
@@ -55,9 +54,9 @@ export const authConfig = {
      */
     jwt({ token, user }) {
       if (user) {
-        token.id = user.id // Add the user's ID to the token.
+        token.id = user.id
       }
-      return token // Return the updated token.
+      return token
     },
 
     /**
@@ -71,10 +70,10 @@ export const authConfig = {
      */
     session({ session, token }) {
       return {
-        ...session, // Spread existing session properties.
+        ...session,
         user: {
-          ...session.user, // Spread existing properties of the user object within the session.
-          id: token.id, // Add the user's ID from the token to the user object in the session.
+          ...session.user,
+          id: token.id,
         },
       }
     },
@@ -82,7 +81,7 @@ export const authConfig = {
   // Authentication providers (e.g., Google, GitHub, Credentials).
   // These will be defined in auth.ts, which imports this auth.config.
   providers: [],
-} satisfies NextAuthConfig // Use `satisfies` to check the type without changing the object.
+} satisfies NextAuthConfig
 
 // Type extensions for NextAuth.
 // This informs TypeScript about the additional properties we're adding to the Session and JWT objects.

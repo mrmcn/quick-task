@@ -17,12 +17,10 @@ export function handleLastError(error: Error): HandleError {
   if (error.message === 'NEXT_REDIRECT') {
     throw error
   } else {
-    // For all other general errors that are not redirects,
-    // we create a standardized HandleError object.
     return {
-      type: 'unknown', // The error type is set to "unknown"
-      message: error.message, // The message from the original error
-      details: error.name, // The name of the original error
+      type: 'unknown',
+      message: error.message,
+      details: error.name,
     }
   }
 }

@@ -1,7 +1,10 @@
 import { SearchParameterList } from '@/lib/constants/text-const'
 import { ListSearchParameterValue } from '@/lib/constants/type'
 import { useNextNavigation } from '@/lib/utils/hooks/use-next-navigation'
-import { UpdateParamsProps, ValidateParamValueMap } from '@/lib/utils/types'
+import {
+  UpdateParamsProps,
+  ValueCurrentQueryParameter,
+} from '@/lib/utils/types'
 import { useCallback } from 'react'
 
 /**
@@ -23,13 +26,10 @@ import { useCallback } from 'react'
 export function useUpdateUrlWithParams<P extends ListSearchParameterValue>(
   filteringParam: P,
 ) {
-  // Obtain Next.js navigation objects (pathname, router, searchParams) using a custom hook.
   const { pathname, router, searchParams } = useNextNavigation()
 
-  // Get the current value of the specified `filteringParam` from the URL search parameters.
-  // Type assertion is used to match `ParamValueMap`.
-  const valueCurrentQueryParameter: ValidateParamValueMap[P] | null =
-    searchParams.get(filteringParam) as ValidateParamValueMap[P] | null
+  const valueCurrentQueryParameter: ValueCurrentQueryParameter =
+    searchParams.get(filteringParam)
 
   /**
    * @callback updateUrl
@@ -43,19 +43,15 @@ export function useUpdateUrlWithParams<P extends ListSearchParameterValue>(
    */
   const updateUrl = useCallback(
     (page: number, updateCurrentParameter?: UpdateParamsProps) => {
-      // Create a copy of the current search parameters to avoid modifying the original object.
       const params = new URLSearchParams(searchParams)
-      // Set the page parameter.
       params.set(SearchParameterList.page, page.toString())
-      // If an `updateCurrentParameter` function is provided, call it for additional parameter modification.
+
       if (updateCurrentParameter) updateCurrentParameter(params)
-      // Navigate to the new URL with the updated parameters.
       router.push(`${pathname}?${params}`)
     },
-    [searchParams, pathname, router], // useCallback dependencies
+    [searchParams, pathname, router],
   )
 
-  // Return the URL update function and the current value of the filtering parameter.
   return {
     updateUrl,
     valueCurrentQueryParameter,

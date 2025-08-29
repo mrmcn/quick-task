@@ -24,15 +24,12 @@ export function AsyncChipContent({
   statusStatePromise,
 }: AsyncChipContentProps) {
   return (
-    // Wrap the asynchronous content in Suspense to display the Fallback while the promise resolves.
     <Suspense fallback={<Fallback />}>
-      {/* The Await component unwraps the promise, and its result (res) is passed to ChipContent. */}
       <Await promise={statusStatePromise}>
         {(res) => (
-          // Render ChipContent with the received asynchronous data and chip configuration.
           <ChipContent
-            data={res} // Data received from the resolved promise.
-            chipConfig={chipConfig} // Chip configuration.
+            data={res}
+            chipConfig={chipConfig}
           />
         )}
       </Await>

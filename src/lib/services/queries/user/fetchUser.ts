@@ -18,10 +18,8 @@ async function uniqueData<K extends Prisma.UserSelect>(
   select: K,
   where?: Prisma.UserWhereUniqueInput,
 ): FetchData<Prisma.UserGetPayload<{ select: K }>> {
-  // If no specific search condition is provided,
-  // we default to using the user ID from the current session.
   if (!where) {
-    const { userId: id } = await getSessionData()
+    const { id } = await getSessionData()
     where = { id }
   }
 

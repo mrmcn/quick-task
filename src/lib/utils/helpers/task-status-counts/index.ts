@@ -17,8 +17,6 @@ import { Status } from '@prisma/client'
 export function getTaskStatusCountsFromPrismaSchema(
   groupInProgress: GroupInProgressProps,
 ): MonitoringStatesProps {
-  // Retrieves an array of keys (values) from the Status enum defined in the Prisma schema.
-  // This ensures automatic updates if the Status enum changes in Prisma.
   const statusKeys = Object.keys(Status) as (keyof typeof Status)[]
 
   // Creates an initial accumulator object to count the number of tasks for each status.
@@ -38,7 +36,7 @@ export function getTaskStatusCountsFromPrismaSchema(
     // Uses spread to keep the `initialAccumulator` as the base object.
     acc[curr.status] = curr._count.status
     return acc
-  }, initialAccumulator) // Start with `initialAccumulator` to ensure all statuses are present with 0 if not in `groupInProgress`.
+  }, initialAccumulator)
 
-  return data // Return the aggregated data.
+  return data
 }

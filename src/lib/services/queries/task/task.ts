@@ -35,28 +35,20 @@ import { SearchParamsObject } from '@/lib/utils/types'
 async function userTasksData(
   searchParamsObject?: SearchParamsObject,
 ): FetchData<UserTasksResult> {
-  // Retrieve the current authentication session.
   const session = await auth()
 
-  // 1. If prepareTaskFetchParams returns sample data, return it.
   if (!session) {
     return { data: { tasks: TASK_DATA, totalPages: 1 } } // for sample
   }
 
-  // This step processes session data, search parameters, and returns prepared data for the query, or sample data
-  // for unauthenticated users.
   const data = await prepareTaskFetchParams(session.user.id, searchParamsObject)
 
-  // 3. Execute the query to the task repository.
   try {
     const { tasks, count } = await taskRepository.getUserTasksWithCount(data)
-    // 4. Calculate the total number of pages based on the total task count and tasks per page.
     const totalPages = Math.ceil(count / data.take)
 
-    // 5. Return the successful data.
     return { data: { tasks, totalPages } }
   } catch (error) {
-    // 6. Handle errors during data fetching.
     return { error: handleError(error as HandleErrorProps) }
   }
 }
@@ -68,20 +60,13 @@ async function userTasksData(
  * or error information.
  */
 async function statusCounts(): FetchData<MonitoringStatesProps> {
-  // 1. Retrieve the user ID from the session.
-  // This function might redirect to the sign-in page if the session is missing.
-  const { userId } = await getSessionData()
+  const { id } = await getSessionData()
   try {
-    // 2. Fetch grouped tasks by status from the repository.
-    const groupedTasksByStatus = await taskRepository.getGroupByStatus(userId)
-
-    // 3. Transform the retrieved Prisma data into the desired format.
+    const groupedTasksByStatus = await taskRepository.getGroupByStatus(id)
     const data = getTaskStatusCountsFromPrismaSchema(groupedTasksByStatus)
 
-    // 4. Return the successful aggregated data.
     return { data }
   } catch (error) {
-    // 5. Handle errors during aggregated data retrieval.
     return { error: handleError(error as HandleErrorProps) }
   }
 }
@@ -92,6 +77,6 @@ async function statusCounts(): FetchData<MonitoringStatesProps> {
  * or other server-side contexts.
  */
 export const fetchTask: FetchTask = {
-  statusCounts, // Function for getting task counts by status.
-  userTasksData, // Function for getting the user's task list with pagination and filtering.
+  statusCounts,
+  userTasksData,
 }

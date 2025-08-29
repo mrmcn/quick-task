@@ -27,12 +27,9 @@ export default function UpdateTaskStatus({
   status,
   ariaLabelledById,
 }: EditStatusFormProps) {
-  // Call the custom hook to encapsulate all logic related to task status.
-  // It returns handlers, values, Server Action state, and memoized data.
   const { checked, handleChange, dynamicField, action, pending, state } =
     useTaskStatusLogic(status)
 
-  // If the server action is pending, display a loading indicator.
   if (pending)
     return (
       <CircularProgress
@@ -41,11 +38,9 @@ export default function UpdateTaskStatus({
       />
     )
 
-  // If the server action completed with an error, display the error message.
   if (state?.status === 'error') return <Box>{state.error.message}</Box>
 
   return (
-    // Use StyledForm, which renders an HTML <form> and supports the sx prop.
     <StyledForm
       action={action}
       sx={sxTasksList.statusForm}
@@ -57,11 +52,9 @@ export default function UpdateTaskStatus({
         sx={sxTasksList.statusCheckbox}
         aria-labelledby={ariaLabelledById}
       />
-      {/* Hidden input fields to pass the task ID and the new status value
-          to the server action. */}
       <HiddenInputs
         taskId={id}
-        dynamicField={dynamicField} // Memoized object containing the field name ('status') and its new value.
+        dynamicField={dynamicField}
       />
     </StyledForm>
   )

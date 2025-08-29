@@ -29,13 +29,11 @@ export default function PageFormContainer({
 }: PageFormProps) {
   return (
     <>
-      {/* BackButton for navigation. It appears above the form container. */}
       <BackButton />
       <Container
         maxWidth='xs'
         sx={sxForms.container}
       >
-        {/* Form title, whose text is determined by the `formName` prop */}
         <Typography
           component='h1'
           variant='h4'
@@ -44,11 +42,8 @@ export default function PageFormContainer({
         >
           {formName}
         </Typography>
-        {/* Slot for embedding form input fields or other elements */}
         {children}
-        {/* Component for displaying validation errors (Zod or general), based on the `state` */}
         <RenderErrors state={state} />
-        {/* Form submission button, which displays `btnName` and can be disabled via `disabled` */}
         <MyButton
           btnName={btnName}
           disabled={disabled}

@@ -31,7 +31,6 @@ export function DeleteTask({
 
   return (
     <form action={deleteTask}>
-      {/* Component: BtnWithUseFormStatus - Separated to utilize the useFormStatus hook */}
       <BtnWithUseFormStatus authenticated={authenticated} />
       <HiddenInputs
         taskId={taskId}
@@ -51,7 +50,7 @@ export function DeleteTask({
  * @returns A Material-UI Button JSX element.
  */
 function BtnWithUseFormStatus({ authenticated }: { authenticated: boolean }) {
-  const { pending } = useFormStatus() // Hook to get the pending state of the form submission.
+  const { pending } = useFormStatus()
   const btnContent = authenticated
     ? BtnNamesList.deleteTask
     : BtnNamesList.signIntoDelete
@@ -60,8 +59,8 @@ function BtnWithUseFormStatus({ authenticated }: { authenticated: boolean }) {
     <Button
       type='submit'
       color='warning'
-      disabled={pending || !authenticated} // Disable the button during submission or if not authenticated.
-      loading={pending} // Show a loading indicator during submission.
+      disabled={pending || !authenticated}
+      loading={pending}
       loadingPosition='end'
     >
       {btnContent}

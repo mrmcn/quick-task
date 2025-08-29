@@ -26,9 +26,9 @@ export default function MyButton({ btnName, disabled }: MyButtonProps) {
         color='primary'
         aria-label='add'
         sx={sxForms.fab}
-        loading={disabled} // Enables loading indicator if `disabled` is true
+        loading={disabled}
         loadingPosition='end'
-        disabled={disabled} // Disables the button when `disabled` is true
+        disabled={disabled}
       >
         {btnName}
       </Fab>

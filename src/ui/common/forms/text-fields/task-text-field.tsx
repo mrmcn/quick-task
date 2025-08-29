@@ -17,13 +17,8 @@ import { useFormStatus } from 'react-dom'
  * @returns A TextField component adapted for forms with server actions.
  */
 export default function TaskTextField(props: MyTextFieldProps) {
-  // Retrieves the "pending" status from the nearest parent form
-  // that is using server actions.
   const { pending } = useFormStatus()
 
-  // Conditionally assigns the onBlur handler.
-  // It will only be active when the form is NOT in a pending state
-  // to prevent unintended behavior during form submission.
   const onBlurWithPending = !pending ? props.onBlur : undefined
 
   return (

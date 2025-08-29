@@ -20,11 +20,7 @@ import { useFormStatus } from 'react-dom'
  * @param chipConfig - Configuration for the specific chip (name, filtering parameter, value).
  */
 export default function ChipContent({ data, chipConfig }: ChipContentProps) {
-  // Use a custom hook to get the filter change function
-  // and check if the current chip is active.
   const { handleChange, isActive } = useFilterParams(chipConfig)
-
-  // Generate the text label for the chip, which may include counters.
   const label = getLabel(isActive, chipConfig, data)
 
   return (
@@ -52,21 +48,17 @@ export default function ChipContent({ data, chipConfig }: ChipContentProps) {
  * @returns The corresponding icon or `undefined`.
  */
 function GetIcon({ isActive }: { isActive: boolean }) {
-  // Use useFormStatus to track the form submission state.
   const { pending } = useFormStatus()
 
-  // Determine which icon to display.
   const icon = pending ? (
-    // If the form is submitting, show a circular progress indicator.
     <CircularProgress
       size={20}
       color='inherit'
       sx={sxDashboardPage.iconChip}
     />
   ) : isActive ? (
-    // If the chip is active and the form is not submitting, show a checkmark.
     <DoneIcon sx={sxDashboardPage.iconChip} />
-  ) : // Otherwise, display nothing.
-  undefined
+  ) : undefined
+
   return icon
 }

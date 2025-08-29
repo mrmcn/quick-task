@@ -96,7 +96,7 @@ export const updateUserPassword: ActionHandler<ActionResult> = withFormHandling(
   {
     schema: userSchemes.changePassword,
     action: async (validatedData) => {
-      const { userId: id } = await getSessionData()
+      const { id } = await getSessionData()
       const password = await prepareHashedPassword(validatedData, id)
       await userRepository.updateUser({ id }, { password })
 
@@ -127,7 +127,7 @@ export const updateTasksPerPageNumber = async (
       { perPageNumber },
       userSchemes.perPageNumber,
     )
-    const { userId: id } = await getSessionData()
+    const { id } = await getSessionData()
     await userRepository.updateUser(
       { id },
       { tasksPerPage: validationResult.perPageNumber },
@@ -151,13 +151,12 @@ export const updateTasksPerPageNumber = async (
  * @returns  An action result object indicating success or error.
  */
 export const deleteUser = async (): Promise<ActionResult> => {
-  const { userId: id } = await getSessionData()
+  const { id } = await getSessionData()
   try {
     await userRepository.deleteUser({ id })
   } catch (error) {
     return { status: 'error', error: handleError(error as HandleErrorProps) }
   }
 
-  // After successful user deletion, sign out and redirect to the home page.
   await signOut({ redirectTo: PAGES.HOME })
 }

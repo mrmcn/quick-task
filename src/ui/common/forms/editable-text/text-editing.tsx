@@ -23,9 +23,6 @@ import Button from '@mui/material/Button'
  * @returns A form with a text editing field and a "Save" button.
  */
 export default function TextEditing(props: TextEditingProps) {
-  // Call the custom hook `useEditingLogic` to encapsulate all logic
-  // related to the editing mode: Server Action state, content preparation,
-  // input field prop generation, and the function for rendering the input field.
   const { editedText, formAction, isPending, state } = useEditingLogic(props)
 
   return (

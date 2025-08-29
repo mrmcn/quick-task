@@ -25,19 +25,14 @@ export const authenticatedConfig = (userName: string) => {
  * @returns A configuration object with URLs and text/aria labels for the appbar buttons.
  */
 export async function getAppBarConfig() {
-  // Get the current authentication session.
   const session = await auth()
 
-  // If the user is authenticated, fetch their name and set up buttons for the user cabinet.
   if (session) {
-    // Fetch unique user data (name).
     const { data } = await fetchUser.uniqueData({ name: true })
-    // Use the user's name or an error message if the name couldn't be fetched.
     const userName = data?.name ?? ErrorList.failed
 
     return authenticatedConfig(userName)
   }
 
-  // If the user is not authenticated, set up buttons for the sign-in page.
   return unauthenticatedConfig
 }

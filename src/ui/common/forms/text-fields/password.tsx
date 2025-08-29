@@ -16,9 +16,6 @@ import { TextField } from '@mui/material'
  * @returns A TextField component with integrated password visibility features.
  */
 export default function PasswordTextField(props: MyTextFieldProps) {
-  // Destructures values returned by the usePasswordVisibility hook:
-  // - visibilityToggle: The component that toggles visibility (e.g., an "eye" icon).
-  // - type: The dynamic type of the input field ('password' or 'text').
   const { visibilityToggle, type } = usePasswordVisibility()
 
   return (

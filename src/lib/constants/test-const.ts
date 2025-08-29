@@ -8,17 +8,24 @@ import {
   GetUserTasksParams,
   GroupInProgressProps,
 } from '@/lib/repositories/interfaces/tasks'
-import { MonitoringStatesProps } from '@/lib/services/types'
+import {
+  MonitoringStatesProps,
+  ResponseObject,
+  UserTasksResult,
+} from '@/lib/services/types'
 import { HandleDBError, HandleZodError } from '@/lib/utils/error-handling/types'
 import { ValidationError } from '@/lib/utils/errors/validation-error'
 import {
   CurrentAndNewPassword,
+  PaginationErrorResult,
+  PaginationSuccessResult,
   SearchParamsObject,
   ValidateParamValueMap,
 } from '@/lib/utils/types'
 import { Priority, Prisma, Status, Task, User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { z } from 'zod'
+import { TaskListDto } from '../db/selects'
 
 // Prisma test User
 export const testEmail: User['email'] = 'Test email'
@@ -39,7 +46,7 @@ export const testStatus: Task['status'] = Status.completed
 const { page, priority, query, sort, status } = SearchParameterList
 export const testWithSearchParams = '?query=Test+query'
 export const testEmptySearchParams = '?'
-const testParamPage = '2'
+export const testParamPage = '2'
 export const testParamQuery = 'Test query'
 const testParamSort = SortingParameterList.dateAsc
 export const testValidPage = Number(testParamPage)
@@ -169,3 +176,62 @@ export const testSchemaUpdateTitle = z.object({
   [id]: z.string(),
   [title]: z.string({ message: '"This field is required."' }),
 })
+
+// DB test data
+const testTasks: TaskListDto[] = [
+  {
+    id: testTaskId,
+    title: testTitle,
+    details: testDetails,
+    priority: testPriority,
+    status: testStatus,
+  },
+]
+
+// Service test data
+const testTotalPage: number = 4
+export const testUserTasksResult: UserTasksResult = {
+  tasks: testTasks,
+  totalPages: testTotalPage,
+}
+
+// Pagination test data
+export const testPaginationParams = {
+  currentPage: Number(testParamPage),
+  countPages: testUserTasksResult.totalPages,
+}
+export const testErrorPaginationParams: PaginationErrorResult = {
+  resolve: 'error',
+}
+export const testResponseWithValidData: ResponseObject<UserTasksResult> = {
+  data: testUserTasksResult,
+}
+export const testResponseWithError: ResponseObject<UserTasksResult> = {
+  error: testDBError,
+}
+export const testInvalidTotalPagesResponses: Record<
+  string,
+  ResponseObject<UserTasksResult>
+> = {
+  lessOne: {
+    data: { ...testUserTasksResult, totalPages: 0 },
+  },
+  invalidType: {
+    data: {
+      ...testUserTasksResult,
+      totalPages: 'invalid' as unknown as number,
+    },
+  },
+  undefined: {
+    data: {
+      ...testUserTasksResult,
+      totalPages: undefined as unknown as number,
+    },
+  },
+}
+export const testSuccessPaginationParams: PaginationSuccessResult = {
+  resolve: testPaginationParams,
+}
+export const testPaginationParamsWithCurrentPage1: PaginationSuccessResult = {
+  resolve: { ...testPaginationParams, currentPage: 1 },
+}

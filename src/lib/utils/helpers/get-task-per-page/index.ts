@@ -11,14 +11,13 @@ import { fetchUser } from '@/lib/services/queries/user/fetchUser'
  * @returns The fetched or default `tasksPerPage` value.
  */
 export async function getTaskPerPage() {
-  // Execute a database query to get only the tasksPerPage field.
   const { data } = await fetchUser.uniqueData({ tasksPerPage: true })
-  const taskPerPage = data?.tasksPerPage // Get the value.
+  const taskPerPage = data?.tasksPerPage
 
   // Check if the retrieved value is included in the list of allowed values.
   if (PAGE_VALUE.includes(taskPerPage as PageValue)) {
-    return taskPerPage as PageValue // Return the retrieved value if it's valid.
+    return taskPerPage as PageValue
   } else {
-    return defaultTaskPerPage // Return the default value if invalid or missing.
+    return defaultTaskPerPage
   }
 }

@@ -17,11 +17,6 @@ import { SwipeEventData, useSwipeable } from 'react-swipeable'
  * - `rightHiddenWidth`: The calculated width of the right hidden area.
  * - `leftHiddenWidth`: The calculated width of the left hidden area.
  * - `translateX`: The current horizontal translation value of the swipable element.
- * - `onSwiping`: Event handler for ongoing swipe gestures; updates the horizontal translation.
- * - `onSwipedLeft`: Event handler for swipe left gestures; reveals the right hidden area or resets position.
- * - `onSwipedRight`: Event handler for swipe right gestures; reveals the left hidden area or resets position.
- * - `delta`: The minimum distance (in pixels) for a swipe to be recognized.
- * - `trackMouse`: A boolean indicating whether to track mouse events for swipe gestures (for desktop support).
  */
 export function useSwipeProps() {
   const [translateX, setTranslateX] = useState(0) // State to control the horizontal translation of the swipable element.

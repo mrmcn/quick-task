@@ -30,7 +30,7 @@ export type UpdateParamsProps = (params: URLSearchParams) => void
  * @property  currentPage - The current page number, validated and ready for use.
  * @property  countPages - The total number of pages, validated and guaranteed to be a number.
  */
-type PaginationSuccessResult = {
+export type PaginationSuccessResult = {
   resolve: {
     currentPage: number
     countPages: number
@@ -40,7 +40,7 @@ type PaginationSuccessResult = {
 /**
  * @property  resolve - Indicates that an error occurred during pagination parameter preparation.
  */
-type PaginationErrorResult = {
+export type PaginationErrorResult = {
   resolve: 'error'
 }
 
@@ -100,9 +100,31 @@ export interface ValidateParamValueMap {
   [SearchParameterList.priority]: $Enums.Priority | undefined
 }
 
+/**
+ * Represents the possible value of a URL search parameter retrieved via `URLSearchParams.get()`.
+ * This type ensures a single source of truth for all query parameter values, which are inherently `string`
+ * if present in the URL or `null` if absent.
+ *
+ * This **centralized typing** is crucial for preventing common errors, such as:
+ * - Incorrectly assuming a value is a `number` (e.g., for `page`), which would lead to runtime errors when performing mathematical operations.
+ * - Missing a `null` check during server-side rendering or before hydration, which would cause unexpected behavior.
+ *
+ * By explicitly typing the value as `string | null`, we enforce rigorous checks
+ * and ensure that functions using `valueCurrentQueryParameter` correctly handle both
+ * the presence and absence of a value, promoting code reliability and consistency.
+ */
+export type ValueCurrentQueryParameter = string | null
+
+/**
+ * @interface AuthData
+ * @description Represents the core authentication data returned by the `getSessionData` function.
+ * This interface explicitly defines the required user properties, ensuring a consistent
+ * and predictable data structure for all components and functions that depend on
+ * user authentication status.
+ */
 export interface AuthData {
-  userId: string
-  userEmail: string | null | undefined
+  id: string
+  email: string | null | undefined
 }
 
 // Using a type alias to improve readability for complex mock data

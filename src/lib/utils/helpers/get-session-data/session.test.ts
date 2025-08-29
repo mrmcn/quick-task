@@ -1,4 +1,4 @@
-import { mockedAuth } from '@/lib/test-mocks/auth'
+import { mockedAuth } from '@/lib/test-mocked-function/auth'
 import { expectedAuthData } from '@/lib/utils/helpers/get-session-data/__mocks__/session'
 import { getSessionData } from '@/lib/utils/helpers/get-session-data/session'
 import { redirect } from 'next/navigation'

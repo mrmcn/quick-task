@@ -11,13 +11,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
  * - `router`: The Next.js Router instance, allowing for programmatic navigation.
  */
 export function useNextNavigation() {
-  // Get the current search parameters from the URL.
   const searchParams = useSearchParams()
-  // Get the current pathname from the URL.
   const pathname = usePathname()
-  // Get the Next.js router instance.
   const router = useRouter()
 
-  // Return an object containing all obtained navigation data.
   return { searchParams, pathname, router }
 }

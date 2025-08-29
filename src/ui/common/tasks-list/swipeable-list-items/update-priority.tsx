@@ -20,13 +20,10 @@ import Box from '@mui/material/Box'
  * @returns A form with an icon button to change priority and an error message display.
  */
 export function UpdateTaskPriority({ task }: WithTaskProps) {
-  // Call the custom hook to encapsulate all logic related to task priority.
-  // It returns the icon, hidden field data, form action function, pending state, and error message.
   const { icon, dynamicField, formAction, isPending, errorMessage } =
     useTaskPriorityLogic(task.priority)
 
   return (
-    // Use StyledForm, which renders an HTML <form> and supports the sx prop.
     <StyledForm
       action={formAction}
       sx={sxTasksList.priorityForm}
@@ -41,11 +38,9 @@ export function UpdateTaskPriority({ task }: WithTaskProps) {
         </IconButton>
       </Box>
       {errorMessage}
-      {/* Hidden input fields to pass the task ID and the new priority value
-          to the server action when the form is submitted. */}
       <HiddenInputs
         taskId={task.id}
-        dynamicField={dynamicField} // Memoized object containing the field name ('priority') and its new value.
+        dynamicField={dynamicField}
       />
     </StyledForm>
   )

@@ -16,23 +16,17 @@ import { Prisma } from '@prisma/client'
  * `message` (detailed or generic message), and `details` (Prisma error metadata or its message).
  */
 export function handlePrismaError(error: PrismaClientError): HandleError {
-  // Checks if the error is a known Prisma request error type (e.g., a unique constraint violation).
-  // This `Prisma.PrismaClientKnownRequestError` type includes a `code` field and `meta`
-  // with specific information about the database error.
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     return {
-      type: 'database', // Error category: database
-      message: `${error.message}. Code: ${error.code}.`, // Detailed message including the Prisma error code
-      details: error.meta, // Prisma error metadata, containing additional context (e.g., the field causing the error).
+      type: 'database',
+      message: `${error.message}. Code: ${error.code}.`,
+      details: error.meta,
     }
   } else {
-    // Handles all other types of Prisma Client errors (e.g., unknown errors, initialization errors,
-    // Rust panic errors, Prisma validation errors).
-    // For these types, a more general error message is provided.
     return {
-      type: 'database', // Error category: database
-      message: 'Database error.', // Generic database error message
-      details: error.message, // The original message from the Prisma error as details
+      type: 'database',
+      message: 'Database error.',
+      details: error.message,
     }
   }
 }

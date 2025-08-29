@@ -24,7 +24,6 @@ export default function EditableUserData({
   fieldName,
   action,
 }: EditableUserDataProps) {
-  // Determine the input field type (text or email) based on fieldName.
   const type = fieldName === 'name' ? 'text' : 'email'
 
   // Memoize the data object that will be passed to EditableText.
@@ -51,7 +50,7 @@ export default function EditableUserData({
       renderViewText={(props, data) => (
         <Typography {...props}>{data}</Typography>
       )}
-      action={action} // Pass the server action to handle saving.
+      action={action}
       data={data} // Pass the memoized data (field key and Promise).
     />
   )

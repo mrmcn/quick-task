@@ -2,7 +2,7 @@ import { PAGES } from '@/lib/constants/routes'
 import { testPrismaSelectName, testUser } from '@/lib/constants/test-const'
 import { BtnNamesList } from '@/lib/constants/text-const'
 import { fetchUser } from '@/lib/services/queries/user/fetchUser'
-import { mockedAuth } from '@/lib/test-mocks/auth'
+import { mockedAuth } from '@/lib/test-mocked-function/auth'
 import { getAppBarConfig } from '@/lib/utils/helpers/get-appbar-config'
 
 jest.mock('@/lib/services/queries/user/fetchUser')

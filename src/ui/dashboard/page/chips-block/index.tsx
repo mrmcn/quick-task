@@ -16,10 +16,7 @@ import { Suspense } from 'react'
  */
 export default function ChipsBlock() {
   const statusStatePromise = fetchTask.statusCounts()
-
-  // Iterate through the chip configurations to generate the corresponding components.
   const listTask = LIST_CHIPS_CONFIG.map((chipConfig) => {
-    // If the chip is marked as asynchronous, use AsyncChipContent.
     if (chipConfig.asyncChip)
       return (
         <AsyncChipContent
@@ -28,7 +25,7 @@ export default function ChipsBlock() {
           statusStatePromise={statusStatePromise}
         />
       )
-    // If the chip is not asynchronous, use the standard ChipContent.
+
     return (
       <ChipContent
         key={chipConfig.chipName}

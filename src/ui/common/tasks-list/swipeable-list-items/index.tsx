@@ -29,15 +29,9 @@ export default function TaskListItemSwipeable({
   searchParamsObject,
   authenticated,
 }: TaskItem) {
-  // Get properties and handlers for swipe functionality from the useSwipeProps hook.
-  const {
-    translateX, // Current horizontal translation of the element.
-    leftHiddenWidth, // Width of the left hidden area.
-    rightHiddenWidth, // Width of the right hidden area.
-    swipeHandlers,
-  } = useSwipeProps()
+  const { translateX, leftHiddenWidth, rightHiddenWidth, swipeHandlers } =
+    useSwipeProps()
 
-  // Format search parameters to return to the previous state after an action.
   const searchParamsToGoBack = useMemo(
     () => formatSearchParams(searchParamsObject),
     [searchParamsObject],

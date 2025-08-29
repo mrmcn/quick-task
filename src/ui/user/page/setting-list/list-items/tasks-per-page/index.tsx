@@ -17,7 +17,6 @@ import ListItemText from '@mui/material/ListItemText'
  * @returns A list item with an icon, text, and a select component.
  */
 export default async function ListItemTasksPerPage() {
-  // Asynchronously fetch the current number of tasks per page for the user.
   const taskPerPage = await getTaskPerPage()
 
   return (

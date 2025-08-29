@@ -22,8 +22,6 @@ import List from '@mui/material/List'
  * @returns A JSX element representing the user settings page.
  */
 export default async function UserPage() {
-  // Asynchronously fetches unique user data using a defined select object.
-  // This promise is passed to child components, allowing them to render with React Suspense.
   const userDataPromise = fetchUser.uniqueData(USER_DATA_SELECT)
 
   return (
@@ -34,34 +32,30 @@ export default async function UserPage() {
           editableComponent={
             // The embedded component for editing user data.
             <EditableUserData
-              userDataPromise={userDataPromise} // The promise containing user data to be loaded.
-              fieldName='name' // The specific data field to be edited (name).
-              action={updateUserName} // The server action to be invoked for updating the name.
+              userDataPromise={userDataPromise}
+              fieldName='name'
+              action={updateUserName}
             />
           }
-          firstIcon={<ModeEditIcon />} // The icon to display next to the editable field.
+          firstIcon={<ModeEditIcon />}
         />
         {/* An editable list item for the user's email. */}
         <EditableListItem
           editableComponent={
             // The embedded component for editing user data.
             <EditableUserData
-              userDataPromise={userDataPromise} // The promise containing user data to be loaded.
-              fieldName='email' // The specific data field to be edited (email).
-              action={updateUserEmail} // The server action to be invoked for updating the email.
+              userDataPromise={userDataPromise}
+              fieldName='email'
+              action={updateUserEmail}
             />
           }
-          firstIcon={<ModeEditIcon />} // The icon to display next to the editable field.
+          firstIcon={<ModeEditIcon />}
         />
-        {/* List item for resetting the password. */}
         <ListItemResetPassword />
-        {/* List item for setting the number of tasks per page. */}
         <ListItemTasksPerPage />
         <Divider variant='middle' />
-        {/* List item for signing out of the account. */}
         <ListItemSignout />
         <Divider variant='middle' />
-        {/* List item for deleting the account. */}
         <ListItemDeletingAccount />
         <Divider variant='middle' />
       </List>

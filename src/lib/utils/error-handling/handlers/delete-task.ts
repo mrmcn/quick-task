@@ -14,8 +14,8 @@ import { DeleteTaskError } from '@/lib/utils/errors/delete-task-error'
  */
 export function handleDeleteTaskError(error: DeleteTaskError): HandleError {
   return {
-    type: error.type, // The type of error, as defined in DeleteTaskError
-    message: error.message, // The error message
-    details: error.details, // The error details
+    type: error.type,
+    message: error.message,
+    details: error.details,
   }
 }

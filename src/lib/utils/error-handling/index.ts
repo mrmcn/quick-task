@@ -34,23 +34,14 @@ export function handleError(error: HandleErrorProps): HandleError {
   // This approach allows checking the error against various "type guards" (`is...Error`)
   // and executing the first `case` block that returns `true`.
   switch (true) {
-    // Checks for a Prisma Client error (related to database operations).
     case isPrismaClientError(error):
       return handlePrismaError(error)
-
-    // Checks for an authentication error, specifically those originating from **Auth.js (NextAuth.js)**.
     case isAuthError(error):
       return handleAuthError(error)
-
-    // Checks for a Zod validation error (occurs when data doesn't conform to a Zod schema).
     case isZodError(error):
       return handleZodError(error)
-
-    // Checks for a general validation error (not Zod-specific, but related to invalid input data).
     case isValidateError(error):
       return handleValidationError(error)
-
-    // Checks for an error during task deletion (specific to task deletion operations).
     case isDeleteTaskError(error):
       return handleDeleteTaskError(error)
 

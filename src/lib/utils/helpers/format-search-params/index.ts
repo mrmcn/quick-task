@@ -16,7 +16,6 @@ import { SearchParamsObject } from '@/lib/utils/types'
 export function formatSearchParams(
   searchParamsObject?: SearchParamsObject,
 ): string {
-  // Create a new URLSearchParams instance, which helps in working with URL parameters.
   const params = new URLSearchParams()
 
   if (searchParamsObject) {
@@ -38,7 +37,5 @@ export function formatSearchParams(
     }
   }
 
-  // Convert the URLSearchParams object to a string and prepend a question mark.
-  // If there are no parameters, `params.toString()` returns an empty string, resulting in just `?`.
   return `?${params.toString()}`
 }

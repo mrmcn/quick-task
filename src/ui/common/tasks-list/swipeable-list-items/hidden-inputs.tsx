@@ -19,9 +19,6 @@ export default function HiddenInputs({
   taskId,
   dynamicField,
 }: HiddenInputsProps) {
-  // Dynamically create a hidden input field if `dynamicField` is provided.
-  // If `dynamicField` is missing or `undefined`, the variable remains `undefined`,
-  // and the corresponding field is not rendered.
   const dynamicInput = dynamicField ? (
     <input
       type='hidden'

@@ -24,16 +24,12 @@ import { Suspense } from 'react'
 export default async function TasksList({
   searchParamsObject,
 }: TasksListProps) {
-  // Asynchronously fetch user task data using the provided search parameters.
-  // This "promise" will be passed down to child components.
   const userTasksPromise = fetchTask.userTasksData(searchParamsObject)
 
   return (
     <Box sx={sxTasksList.indexBox}>
       <Box component='main'>
         <List>
-          {/* Suspense for the TasksItems component, which renders the list of tasks.
-              The fallback is shown until the data is loaded. */}
           <Suspense fallback={<Fallback />}>
             <TasksItems
               userTasksPromise={userTasksPromise}

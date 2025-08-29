@@ -53,9 +53,6 @@ export default function Await<T>({
   errorElement,
   children,
 }: AwaitProps<T>) {
-  // The `use` hook unwraps the Promise. If the Promise is not yet resolved,
-  // it triggers the nearest Suspense Boundary.
-  // If the Promise is rejected, it throws the error, which will be caught by an Error Boundary.
   const { data, error } = use(promise)
 
   // If the Promise was rejected and an `errorElement` is provided, render the custom error UI.
