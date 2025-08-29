@@ -2,7 +2,7 @@
 
 import { ErrorList } from '@/lib/constants/text-const'
 import { UserTasksPromise } from '@/lib/services/types'
-import { usePagination } from '@/lib/utils/hooks/use-pagination'
+import { usePagination } from '@/lib/utils/hooks/use-pagination/pagination'
 import { sxDashboardPage } from '@/ui/dashboard/page/styles'
 import Alert from '@mui/material/Alert'
 import Pagination from '@mui/material/Pagination'
