@@ -4,6 +4,8 @@ import {
   ValueCurrentQueryParameter,
 } from '@/lib/utils/types'
 
+const firstPage = 1
+
 /**
  * @function preparationPaginationParams
  * @description A function responsible for preparing and validating
@@ -21,22 +23,20 @@ export function preparationPaginationParams(
   valueCurrentQueryParameter: ValueCurrentQueryParameter,
   userTasksResult: ResponseObject<UserTasksResult>,
 ): PreparationPaginationParams {
-  if (userTasksResult.error) {
-    console.log('User tasks result is undefined or null', userTasksResult)
-    return { resolve: 'error' }
-  }
+  if (userTasksResult.error) return { resolve: 'error' }
+
   const countPages = userTasksResult.data.totalPages
   const currentPage = valueCurrentQueryParameter
     ? Number(valueCurrentQueryParameter)
-    : 1
+    : firstPage
 
-  if (!countPages || countPages < 1 || typeof countPages !== 'number')
+  if (!countPages || countPages < firstPage || typeof countPages !== 'number')
     return { resolve: 'error' }
 
   if (
-    currentPage < 1 ||
+    currentPage < firstPage ||
     !Number.isInteger(currentPage) ||
-    currentPage >= countPages
+    currentPage > countPages
   )
     return { resolve: 'error' }
 

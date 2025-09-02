@@ -5,6 +5,7 @@ import { UserTasksPromise } from '@/lib/services/types'
 import { usePagination } from '@/lib/utils/hooks/use-pagination/pagination'
 import { sxDashboardPage } from '@/ui/dashboard/page/styles'
 import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 import { use } from 'react'
 
@@ -22,12 +23,15 @@ export default function PaginationRow({ userTasksPromise }: UserTasksPromise) {
 
   if (resolve === 'error')
     return (
-      <Alert
-        variant='outlined'
-        severity='error'
-      >
-        {ErrorList.paginationError}
-      </Alert>
+      <Box sx={sxDashboardPage.paginationRowBox}>
+        <Alert
+          variant='outlined'
+          severity='error'
+          sx={sxDashboardPage.alert}
+        >
+          {ErrorList.paginationError}
+        </Alert>
+      </Box>
     )
 
   return (

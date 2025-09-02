@@ -37,9 +37,13 @@ const pagination = {
   mt: 2,
 }
 
+const paginationRowBox = { display: 'flex', justifyContent: 'center' }
+
 const iconBtn = { color: 'action.active' }
 
 const textField = { bgcolor: 'primary.light', mb: 1 }
+
+const alert = { width: '30%' }
 
 export const sxDashboardPage = {
   stack,
@@ -52,4 +56,6 @@ export const sxDashboardPage = {
   pagination,
   iconBtn,
   textField,
+  paginationRowBox,
+  alert,
 }

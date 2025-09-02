@@ -21,6 +21,7 @@ import {
   PaginationSuccessResult,
   SearchParamsObject,
   ValidateParamValueMap,
+  ValueCurrentQueryParameter,
 } from '@/lib/utils/types'
 import { Priority, Prisma, Status, Task, User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
@@ -189,13 +190,16 @@ const testTasks: TaskListDto[] = [
 ]
 
 // Service test data
-const testTotalPage: number = 4
+export const testParamOnePage: ValueCurrentQueryParameter = '1'
+export const testParamABCPage: ValueCurrentQueryParameter = 'abc'
+const testTotalPage: number = 2
 export const testUserTasksResult: UserTasksResult = {
   tasks: testTasks,
   totalPages: testTotalPage,
 }
 
 // Pagination test data
+const testOnePage = 1
 export const testPaginationParams = {
   currentPage: Number(testParamPage),
   countPages: testUserTasksResult.totalPages,
@@ -203,8 +207,14 @@ export const testPaginationParams = {
 export const testErrorPaginationParams: PaginationErrorResult = {
   resolve: 'error',
 }
-export const testResponseWithValidData: ResponseObject<UserTasksResult> = {
-  data: testUserTasksResult,
+export const testResponseWithValidData: Record<
+  string,
+  ResponseObject<UserTasksResult>
+> = {
+  totalTwoPages: { data: testUserTasksResult },
+  totalOnePage: {
+    data: { ...testUserTasksResult, totalPages: testOnePage },
+  },
 }
 export const testResponseWithError: ResponseObject<UserTasksResult> = {
   error: testDBError,
@@ -233,5 +243,10 @@ export const testSuccessPaginationParams: PaginationSuccessResult = {
   resolve: testPaginationParams,
 }
 export const testPaginationParamsWithCurrentPage1: PaginationSuccessResult = {
-  resolve: { ...testPaginationParams, currentPage: 1 },
+  resolve: { ...testPaginationParams, currentPage: testOnePage },
+}
+export const testSuccessfulLimitParams = {
+  totalOnePage: {
+    resolve: { currentPage: testOnePage, countPages: testOnePage },
+  },
 }

@@ -1,3 +1,3 @@
-describe('', () => {
+describe('usePagination', () => {
   test('', () => {})
 })
